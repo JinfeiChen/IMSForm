@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'IMSForm'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of IMSForm.'
+  s.summary          = 'IMSForm 为开发者准备的APP端表单组件库.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,25 +18,33 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+用于快速根据配置文件构建APP表单页面，减少低价值的硬编码工作，提高开发效率。
                        DESC
 
-  s.homepage         = 'https://github.com/jinfei_chen@icloud.com/IMSForm'
+  s.homepage         = 'https://github.com/JinfeiChen/IMSForm'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'jinfei_chen@icloud.com' => 'jinfei_chen@icloud.com' }
-  s.source           = { :git => 'https://github.com/jinfei_chen@icloud.com/IMSForm.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/JinfeiChen/IMSForm.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'IMSForm/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'IMSForm' => ['IMSForm/Assets/*.png']
-  # }
+  s.resource_bundles = {
+    'IMSForm' => ['IMSForm/Assets/*.*']
+  }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'Masonry' # 如果需要多个依赖库依次往下写即可
+  s.dependency 'YYModel'
+  s.dependency 'YYText'
+  s.dependency 'YYWebImage'
+  s.dependency 'TZImagePickerController'
+  s.dependency 'TZImagePreviewController'
+  s.dependency 'IQKeyboardManager'
+  
 end
