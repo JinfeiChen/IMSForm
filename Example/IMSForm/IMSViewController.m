@@ -8,7 +8,7 @@
 
 #import "IMSViewController.h"
 
-#import <IMSForm/IMSFormType.h>
+#import <IMSForm/IMSForm.h>
 
 @interface IMSViewController ()
 

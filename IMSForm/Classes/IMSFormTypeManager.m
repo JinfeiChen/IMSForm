@@ -15,6 +15,19 @@
 
 @implementation IMSFormTypeManager
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        [self defaultRegist];
+    }
+    return self;
+}
+
+- (void)defaultRegist
+{
+    [self registCellClass:NSClassFromString(@"IMSFormTextFieldCell") forKey:IMSFormType_TextField];
+}
+
 #pragma mark - Public Methods
 
 - (void)registCellClass:(Class)cls forKey:(IMSFormType)key

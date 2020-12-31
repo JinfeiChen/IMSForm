@@ -15,7 +15,8 @@ typedef NS_ENUM(NSUInteger, IMSFormTextType) {
     IMSFormTextType_Email,
     IMSFormTextType_IDCard,
     IMSFormTextType_Number,
-    IMSFormTextType_Password
+    IMSFormTextType_Password,
+    IMSFormTextType_Money
 };
 
 NS_ASSUME_NONNULL_BEGIN

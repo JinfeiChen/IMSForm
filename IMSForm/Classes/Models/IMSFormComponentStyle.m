@@ -9,4 +9,17 @@
 
 @implementation IMSFormComponentStyle
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _layout = IMSFormComponentLayout_Vertical;
+    }
+    return self;
+}
+
++ (instancetype)defaultStyle
+{
+    return [[IMSFormComponentStyle alloc] init];
+}
+
 @end

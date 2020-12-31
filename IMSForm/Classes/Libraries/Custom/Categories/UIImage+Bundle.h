@@ -1,8 +1,8 @@
 //
 //  UIImage+Bundle.h
-//  LMForm
+//  IMSForm
 //
-//  Created by Zhang on 2019/5/23.
+//  Created by cjf on 2019/5/23.
 //
 
 #import <UIKit/UIKit.h>

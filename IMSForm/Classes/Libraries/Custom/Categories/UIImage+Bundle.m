@@ -1,8 +1,8 @@
 //
 //  UIImage+Bundle.m
-//  LMForm
+//  IMSForm
 //
-//  Created by Zhang on 2019/5/23.
+//  Created by cjf on 2019/5/23.
 //
 
 #import "UIImage+Bundle.h"
@@ -11,7 +11,7 @@
 
 + (UIImage *)bundleImageWithNamed:(NSString *)imageName
 {
-    NSBundle *resouceBundle = [self bundleWithResourceName:@"LMForm"];
+    NSBundle *resouceBundle = [self bundleWithResourceName:@"IMSForm"];
     
     return [UIImage imageNamed:imageName inBundle:resouceBundle compatibleWithTraitCollection:nil];
 }

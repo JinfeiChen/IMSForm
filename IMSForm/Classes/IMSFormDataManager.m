@@ -9,4 +9,13 @@
 
 @implementation IMSFormDataManager
 
++ (NSArray<IMSFormModel *> *)formDataArrayWithJson:(NSString *)jsonDataString
+{
+    if (!jsonDataString) { return nil; }
+    
+    NSMutableArray *resultArray = [NSMutableArray array];
+    
+    return resultArray;
+}
+
 @end

@@ -7,7 +7,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import <Masonry/Masonry.h>
+
+#import <IMSForm/IMSFormMacros.h>
 #import <IMSForm/IMSFormModel.h>
+
+#define kIMSFormDefaultHeight 40.0
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) UILabel *titleLabel; /**< <#property#> */
 @property (strong, nonatomic) UILabel *infoLabel; /**< <#property#> */
+
+@property (strong, nonatomic) UIView *bodyView; /**< <#property#> */
 
 @end
 
