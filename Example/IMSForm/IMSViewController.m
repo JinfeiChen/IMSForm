@@ -8,6 +8,8 @@
 
 #import "IMSViewController.h"
 
+#import <IMSForm/IMSFormType.h>
+
 @interface IMSViewController ()
 
 @end
@@ -18,6 +20,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    NSLog(@"%@", IMSFormType_TextField);
 }
 
 - (void)didReceiveMemoryWarning
