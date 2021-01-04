@@ -7,30 +7,28 @@
 
 #import <IMSForm/IMSFormObject.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#import <IMSForm/IMSFormMacros.h>
+#import <IMSForm/IMSFormMessageType.h>
 
-typedef NS_ENUM(NSUInteger, IMSFormMessageType) {
-    IMSFormMessageType_Info,
-    IMSFormMessageType_Warning,
-    IMSFormMessageType_Success,
-    IMSFormMessageType_Error
-};
+NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormMessageStyle : IMSFormObject
 
++ (instancetype)defaultStyle;
+
 @property (assign, nonatomic) CGFloat titleFontSize; /**< <#property#> */
 @property (assign, nonatomic) CGFloat titleFontWeight; /**< <#property#> */
-@property (copy, nonatomic) NSString *titleFontHexColor; /**< <#property#> */
+@property (assign, nonatomic) int titleFontHexColor; /**< <#property#> */
 
 @property (assign, nonatomic) CGFloat messageFontSize; /**< <#property#> */
 @property (assign, nonatomic) CGFloat messageFontWeight; /**< <#property#> */
-@property (copy, nonatomic) NSString *messageFontHexColor; /**< <#property#> */
+@property (assign, nonatomic) int messageFontHexColor; /**< <#property#> */
 
 @property (assign, nonatomic) CGFloat borderWidth; /**< <#property#> */
-@property (copy, nonatomic) NSString *borderHexColor; /**< <#property#> */
+@property (assign, nonatomic) int borderHexColor; /**< <#property#> */
 
 @property (copy, nonatomic) NSString *backgroundImageName; /**< <#property#> */
-@property (copy, nonatomic) NSString *backgroundHexColor; /**< <#property#> */
+@property (assign, nonatomic) int backgroundHexColor; /**< <#property#> */
 
 @property (copy, nonatomic) NSString *iconName; /**< <#property#> */
 
@@ -38,7 +36,7 @@ typedef NS_ENUM(NSUInteger, IMSFormMessageType) {
 
 @interface IMSFormMessage : IMSFormObject
 
-@property (assign, nonatomic) IMSFormMessageType type; /**< <#property#> */
+@property (copy, nonatomic) IMSFormMessageType type; /**< <#property#> */
 @property (strong, nonatomic) IMSFormMessageStyle *style; /**< <#property#> */
 
 @property (copy, nonatomic) NSString *title; /**< <#property#> */

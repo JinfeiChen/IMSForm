@@ -7,6 +7,9 @@
 
 #import "IMSFormValidateManager.h"
 
+#import <objc/message.h>
+#import <objc/runtime.h>
+
 @implementation IMSFormValidateManager
 
 + (BOOL)validate:(NSString *)value withRegex:(NSString *)regex
@@ -36,13 +39,25 @@
     return NO;
 }
 
-+ (BOOL)validateFormDataArray:(NSArray<IMSFormModel *> *)dataArray
++ (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray validator:(id)validator
 {
-    for (IMSFormModel * _Nonnull obj in dataArray) {
-        if (obj.cpnRule) {
-            for (IMSFormModelValidateBlock block in obj.cpnRule.validators) {
-                if (!block(obj)) {
-                    return NO;
+    validator = validator ? : self;
+    for (IMSFormModel * _Nonnull model in dataArray) {
+        if (model.isRequired && model.isEditable && model.isVisible) {
+            if (model.cpnRule) {
+                for (NSString *funcName in model.cpnRule.validators) {
+                    NSString *str = [NSMutableString stringWithFormat:@"%@:", funcName];
+                    SEL sel = NSSelectorFromString(str);
+                    if ([validator respondsToSelector:sel]) {
+                        BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(validator, sel, model);
+                        if (!result) {
+                            NSLog(@"%@ 未通过 %@ 校验, value = %@", model.title, funcName, model.value);
+                            return NO;
+                        }
+                    } else {
+                        NSLog(@"未实现的校验方法");
+                        return NO;
+                    }
                 }
             }
         }

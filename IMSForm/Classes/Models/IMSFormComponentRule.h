@@ -12,14 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class IMSFormModel;
-typedef BOOL(^IMSFormModelValidateBlock)(IMSFormModel * _Nullable model); 
-
 @interface IMSFormComponentRule : IMSFormObject
 
 @property (strong, nonatomic) IMSFormMessage *message; /**< 校验结果提示 */
 
-@property (strong, nonatomic) NSArray <IMSFormModelValidateBlock> *validators; /**< 校验器列表 */
+@property (strong, nonatomic) NSArray <NSString *> * _Nullable validators; /**< 校验方法名列表 */
 
 @property (copy, nonatomic) IMSFormTrigger trigger; /**< 触发方式 */
 

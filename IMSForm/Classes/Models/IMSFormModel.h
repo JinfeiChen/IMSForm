@@ -10,12 +10,13 @@
 #import <IMSForm/IMSFormType.h>
 #import <IMSForm/IMSFormComponentConfig.h>
 #import <IMSForm/IMSFormComponentRule.h>
+#import <IMSForm/IMSFormComponentStyle.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormModel : IMSFormObject
 
-@property (assign, nonatomic) IMSFormType type; /**< <#property#> */
+@property (copy, nonatomic) IMSFormType type; /**< 组件类型（字符串枚举） */
 
 @property (copy, nonatomic) NSString *title; /**< 组件显示的标题 */
 @property (copy, nonatomic) NSString *value; /**< 组件显示的值 */
@@ -30,8 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *field; /**< 对应服务器字段 */
 @property (copy, nonatomic) NSString *param; /**< 对应服务器字段的值 */
 
-@property (strong, nonatomic) IMSFormComponentConfig *cpnConfig; /**< <#property#> */
-@property (strong, nonatomic) IMSFormComponentRule *cpnRule; /**< <#property#> */
+@property (copy, nonatomic) NSString *defaultSelectorString; /**< 默认组件点击事件的方法名 */
+@property (copy, nonatomic) NSString *customSelectorString; /**< 自定义组件响应事件的方法名 */
+
+@property (strong, nonatomic) IMSFormComponentConfig *cpnConfig; /**< 组件配置, default: */
+@property (strong, nonatomic) IMSFormComponentStyle *cpnStyle; /**< 组件样式, default: */
+@property (strong, nonatomic) IMSFormComponentRule *cpnRule; /**< 组件检验, default: */
 
 @end
 

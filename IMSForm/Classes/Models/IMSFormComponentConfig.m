@@ -9,4 +9,16 @@
 
 @implementation IMSFormComponentConfig
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _textType = IMSFormTextType_Default;
+        _lengthLimit = 100;
+        _precision = 2;
+        _prefixUnit = @"";
+        _suffixUnit = @"";
+    }
+    return self;
+}
+
 @end

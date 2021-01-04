@@ -1,5 +1,36 @@
 [
-    {
-        "title":"asdf"
-    }
+    {
+        "type" : "IMSFormType_TextField",
+        
+        "title" : "TextField",
+        "value" : "default text",
+        "placeholder" : "Please input",
+        "info" : "Max length limit 6",
+        
+        "visible" : "1",
+        "editable" : "1",
+        "required" : "1",
+        "clearable" : "1",
+        
+        "field" : "",
+        "param" : "",
+        
+        "defaultSelectorString" : "didUpdatedMyFormModel:indexPath:",
+        "customSelectorString" : "customDidSelectedMyFormModel:indexPath:",
+        
+        "cpnConfig" : {
+            "textType" : "url",
+            "lengthLimit" : "5",
+            "precision" : "2"
+        },
+        "cpnStyle" : {},
+        "cpnRule" : {
+            "message" : {},
+            "validators" : [
+                "isEmpty",
+                "isPhone"
+            ],
+            "trigger" : "blur"
+        }
+    }
 ]

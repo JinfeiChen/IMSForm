@@ -7,23 +7,22 @@
 
 #import <IMSForm/IMSFormObject.h>
 
-#import <IMSForm/IMSFormComponentStyle.h>
-
-// Text input type
-typedef NS_ENUM(NSUInteger, IMSFormTextType) {
-    IMSFormTextType_Phone,
-    IMSFormTextType_Email,
-    IMSFormTextType_IDCard,
-    IMSFormTextType_Number,
-    IMSFormTextType_Password,
-    IMSFormTextType_Money
-};
+//// Text input type
+//typedef NS_ENUM(NSUInteger, IMSFormTextType) {
+//    IMSFormTextType_Default, // No limit
+//    IMSFormTextType_URL,
+//    IMSFormTextType_Number,
+//    IMSFormTextType_Phone,
+//    IMSFormTextType_Email,
+//    IMSFormTextType_IDCard,
+//    IMSFormTextType_Password,
+//    IMSFormTextType_Money
+//};
+#import <IMSForm/IMSFormTextType.h> 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormComponentConfig : IMSFormObject
-
-@property (strong, nonatomic) IMSFormComponentStyle *style; /**< 组件样式 */
 
 #pragma mark - Select
 
@@ -32,9 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - TextField
 
-@property (assign, nonatomic) IMSFormTextType textType; /**< 文本输入类型限制 */
-@property (assign, nonatomic) NSInteger lengthLimit; /**< 文本最大输入长度限制 */
-@property (assign, nonatomic) NSInteger precision; /**< 小数点精确度(小数点位数) */
+@property (copy, nonatomic) IMSFormTextType textType; /**< 文本输入类型限制 */
+@property (assign, nonatomic) NSInteger lengthLimit; /**< 文本最大输入长度限制, default 100 */
+@property (assign, nonatomic) NSInteger precision; /**< 小数点精确度(小数点位数), default 2 */
 @property (copy, nonatomic) NSString *prefixUnit; /**< 前置符号, e.g. $ */
 @property (copy, nonatomic) NSString *suffixUnit; /**< 后置符号, e.g. % */
 
@@ -42,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSInteger maxRowsLimit; /**< 文本最大行数输入限制 */
 
-#pragma mark - Range
+#pragma mark - Number Range
 
 @property (assign, nonatomic) CGFloat min; /**< 最小值 */
 @property (assign, nonatomic) CGFloat max; /**< 最大值 */

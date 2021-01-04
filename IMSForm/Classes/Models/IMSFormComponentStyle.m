@@ -19,7 +19,22 @@
 
 + (instancetype)defaultStyle
 {
-    return [[IMSFormComponentStyle alloc] init];
+    IMSFormComponentStyle *style = [[IMSFormComponentStyle alloc] init];
+    
+    style.titleHexColor = 0x252D34;
+    style.titleFontSize = 16;
+    
+    style.infoHexColor = 0x9FA2A8;
+    style.infoFontSize = 12;
+    
+    style.backgroundHexColor = 0xF9F9F9;
+    
+    style.spacing = 10.0;
+    style.contentInset = UIEdgeInsetsMake(12, 15, 12, 15);
+    
+    return style;
 }
+
+
 
 @end

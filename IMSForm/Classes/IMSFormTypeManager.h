@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormTypeManager : NSObject
 
++ (instancetype)shared;
+
 - (void)registCellClass:(Class)cls forKey:(IMSFormType)key;
 
 - (Class)getCellClassWithKey:(IMSFormType)key;

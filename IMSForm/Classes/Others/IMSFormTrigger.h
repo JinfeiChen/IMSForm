@@ -9,6 +9,6 @@
 
 typedef NSString *IMSFormTrigger NS_STRING_ENUM;
 
-FOUNDATION_EXPORT IMSFormTrigger const IMSFormTrigger_Change;
+FOUNDATION_EXPORT IMSFormTrigger const IMSFormTrigger_Change; // default.
 
 FOUNDATION_EXPORT IMSFormTrigger const IMSFormTrigger_Blur;

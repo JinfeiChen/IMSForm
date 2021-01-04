@@ -15,6 +15,15 @@
 
 @implementation IMSFormTypeManager
 
++ (instancetype)shared {
+    static id _sharedInstance = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[self alloc] init];
+    });
+    return _sharedInstance;
+}
+
 - (instancetype)init
 {
     if (self = [super init]) {

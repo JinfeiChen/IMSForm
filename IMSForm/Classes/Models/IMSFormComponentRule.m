@@ -9,4 +9,22 @@
 
 @implementation IMSFormComponentRule
 
+#pragma mark - Getters
+
+- (IMSFormMessage *)message
+{
+    if (!_message) {
+        _message = [[IMSFormMessage alloc] init];
+    }
+    return _message;
+}
+
+- (IMSFormTrigger)trigger
+{
+    if (!_trigger) {
+        _trigger = IMSFormTrigger_Change;
+    }
+    return _trigger;
+}
+
 @end

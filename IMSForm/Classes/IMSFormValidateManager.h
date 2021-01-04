@@ -1,6 +1,8 @@
 //
 //  IMSFormValidateManager.h
 //  Pods
+//  校验类
+//  开发者可实现子类，拓展自己的校验方法
 //
 //  Created by cjf on 31/12/2020.
 //
@@ -31,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isMobile:(NSString *)value;
 
 /**
- 非空校验
+ 空字符校验
 
  @param value 校验的字符串
  @return BOOL 为空返回YES
@@ -44,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param dataArray 表单的数据源
  @return 全部校验通过返回YES，否则返回NO。
  */
-+ (BOOL)validateFormDataArray:(NSArray<IMSFormModel *> *)dataArray;
++ (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray validator:(id _Nullable)validator;
 
 @end
 

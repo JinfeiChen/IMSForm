@@ -8,6 +8,8 @@
 #ifndef IMSForm_h
 #define IMSForm_h
 
-#import <IMSForm/IMSFormDataManager.h>
+#import <IMSForm/IMSFormManager.h>
+
+#import <IMSForm/IMSFormTableViewCell.h>
 
 #endif /* IMSForm_h */

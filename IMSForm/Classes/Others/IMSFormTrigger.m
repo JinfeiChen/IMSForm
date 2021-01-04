@@ -7,6 +7,6 @@
 
 #import "IMSFormTrigger.h"
 
-NSString *const IMSFormTrigger_Change = @"IMSFormTrigger_Change";
+NSString *const IMSFormTrigger_Change = @"change";
 
-NSString *const IMSFormTrigger_Blur = @"IMSFormTrigger_Blur";
+NSString *const IMSFormTrigger_Blur = @"blur";
