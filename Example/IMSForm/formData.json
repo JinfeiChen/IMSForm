@@ -12,7 +12,7 @@
         "required" : "1",
         "clearable" : "1",
         
-        "field" : "",
+        "field" : "email",
         "param" : "",
         
         "defaultSelectorString" : "didUpdatedMyFormModel:indexPath:",

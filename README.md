@@ -20,6 +20,57 @@ it, simply add the following line to your Podfile:
 pod 'IMSForm'
 ```
 
+## Usage
+
+JSON Data
+
+```
+[
+    {
+        "type" : "IMSFormComponentType_TextField",
+        
+        "title" : "Email",
+        "value" : "",
+        "placeholder" : "Please enter your email address",
+        "info" : "Max length limit 20",
+        
+        "visible" : "1",
+        "editable" : "1",
+        "required" : "1",
+        "clearable" : "1",
+        
+        "field" : "email",
+        "param" : "",
+        
+        "defaultSelectorString" : "didUpdatedMyFormModel:indexPath:",
+        "customSelectorString" : "customDidSelectedMyFormModel:indexPath:",
+        
+        "cpnConfig" : {
+            "textType" : "email",
+            "lengthLimit" : "20",
+            "precision" : "2"
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
+            "message" : {},
+            "validators" : [
+                {
+                    "class" : "IMSMyValidateManager",
+                    "selector" : "isNotEmpty"
+                },
+                {
+                    "class" : "IMSFormValidateManager",
+                    "selector" : "isEmail"
+                }
+            ],
+            "trigger" : "change"
+        }
+    }
+]
+```
+
 ## Author
 
 jinfei_chen@icloud.com, jinfei_chen@icloud.com

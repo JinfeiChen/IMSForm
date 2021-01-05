@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 从tableView数据源获取json数据，用于提交服务器
 + (NSArray *)jsonFromDataSource:(NSArray <IMSFormModel *> *)dataSource;
 
+// 将tableView数据源按顺序排列, orderArray 对应已排序的服务器字段的数组
++ (NSArray <IMSFormModel *> *)sortFormDataArray:(NSArray <IMSFormModel *> *)dataSource byOrder:(NSArray <NSString *> *)orderArray;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -35,9 +35,12 @@
     // MARK: 测试固定字段+自定义字段
     NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
     NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
-    NSMutableArray *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
+    NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
     [dataSource addObjectsFromArray:customArray];
-    self.form.dataSource = dataSource;
+    
+    // MARK: Sort dataSource
+    NSArray *order = @[@"email", @"name"];
+    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
 
     [self.form.tableView reloadData];
 }

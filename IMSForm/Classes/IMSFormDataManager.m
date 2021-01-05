@@ -46,4 +46,15 @@
     return [dataSource yy_modelToJSONObject];
 }
 
++ (NSArray<IMSFormModel *> *)sortFormDataArray:(NSArray<IMSFormModel *> *)dataSource byOrder:(NSArray<NSString *> *)orderArray
+{
+    NSMutableArray *newDataSource = [NSMutableArray array];
+    [orderArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"field contains [cd] %@", obj];
+        NSArray *filterdArray = [dataSource filteredArrayUsingPredicate:predicate];
+        [newDataSource addObjectsFromArray:filterdArray];
+    }];
+    return newDataSource;
+}
+
 @end
