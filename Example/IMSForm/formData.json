@@ -1,11 +1,11 @@
 [
     {
-        "type" : "IMSFormType_TextField",
+        "type" : "IMSFormComponentType_TextField",
         
-        "title" : "TextField",
-        "value" : "default text",
-        "placeholder" : "Please input",
-        "info" : "Max length limit 6",
+        "title" : "Email",
+        "value" : "",
+        "placeholder" : "Please enter your email address",
+        "info" : "Max length limit 20",
         
         "visible" : "1",
         "editable" : "1",
@@ -19,18 +19,26 @@
         "customSelectorString" : "customDidSelectedMyFormModel:indexPath:",
         
         "cpnConfig" : {
-            "textType" : "url",
-            "lengthLimit" : "5",
+            "textType" : "email",
+            "lengthLimit" : "20",
             "precision" : "2"
         },
-        "cpnStyle" : {},
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
         "cpnRule" : {
             "message" : {},
             "validators" : [
-                "isEmpty",
-                "isPhone"
+                {
+                    "class" : "IMSMyValidateManager",
+                    "selector" : "isNotEmpty"
+                },
+                {
+                    "class" : "IMSFormValidateManager",
+                    "selector" : "isEmail"
+                }
             ],
-            "trigger" : "blur"
+            "trigger" : "change"
         }
     }
 ]

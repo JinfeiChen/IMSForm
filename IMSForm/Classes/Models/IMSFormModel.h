@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormModel : IMSFormObject
 
-@property (copy, nonatomic) IMSFormType type; /**< 组件类型（字符串枚举） */
+@property (copy, nonatomic) IMSFormComponentType type; /**< 组件类型（字符串枚举） */
 
 @property (copy, nonatomic) NSString *title; /**< 组件显示的标题 */
 @property (copy, nonatomic) NSString *value; /**< 组件显示的值 */

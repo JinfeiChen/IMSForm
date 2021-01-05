@@ -8,7 +8,7 @@
 #import <IMSForm/IMSFormObject.h>
 
 #import <IMSForm/IMSFormMacros.h>
-#import <IMSForm/IMSFormMessageType.h>
+#import <IMSForm/IMSFormType.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

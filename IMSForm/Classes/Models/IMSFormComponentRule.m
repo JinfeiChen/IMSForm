@@ -7,7 +7,25 @@
 
 #import "IMSFormComponentRule.h"
 
+@implementation IMSFormValidator
+
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{
+        @"className" : @[@"class"],
+        @"selectorName" : @[@"selector"]
+    };
+}
+
+@end
+
 @implementation IMSFormComponentRule
+
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    // value should be Class or Class name.
+    return @{
+        @"validators" : [IMSFormValidator class]
+    };
+}
 
 #pragma mark - Getters
 

@@ -34,19 +34,20 @@
 
 - (void)defaultRegist
 {
-    [self registCellClass:NSClassFromString(@"IMSFormTextFieldCell") forKey:IMSFormType_TextField];
+    // TODO: 添加全部默认提供的组件类型
+    [self registCellClass:NSClassFromString(@"IMSFormTextFieldCell") forKey:IMSFormComponentType_TextField];
 }
 
 #pragma mark - Public Methods
 
-- (void)registCellClass:(Class)cls forKey:(IMSFormType)key
+- (void)registCellClass:(Class)cls forKey:(IMSFormComponentType)key
 {
     if (cls && key) {
         [self.cellClassDict setObject:cls forKey:key];
     }
 }
 
-- (Class)getCellClassWithKey:(IMSFormType)key
+- (Class)getCellClassWithKey:(IMSFormComponentType)key
 {
     return [self.cellClassDict objectForKey:key];
 }

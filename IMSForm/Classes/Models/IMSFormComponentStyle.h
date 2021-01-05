@@ -7,33 +7,30 @@
 
 #import <IMSForm/IMSFormObject.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#import <IMSForm/IMSFormType.h>
 
-typedef NS_ENUM(NSUInteger, IMSFormComponentLayout) {
-    IMSFormComponentLayout_Vertical, // default.
-    IMSFormComponentLayout_Horizontal
-};
+NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormComponentStyle : IMSFormObject
 
 + (instancetype)defaultStyle;
 
-@property (assign, nonatomic) IMSFormComponentLayout layout; /**< 布局方向，横向/竖向 */
+@property (copy, nonatomic) IMSFormLayoutType layout; /**< 布局方向，横向/竖向 */
 
-@property (assign, nonatomic) int titleHexColor; /**< e.g. 0xC0C0C0 */
+@property (copy, nonatomic) NSString *titleHexColor; /**< e.g. 0xC0C0C0 */
 @property (assign, nonatomic) CGFloat titleFontSize; /**< <#property#> */
 
-@property (assign, nonatomic) int infoHexColor; /**< <#property#> */
+@property (copy, nonatomic) NSString *infoHexColor; /**< <#property#> */
 @property (assign, nonatomic) CGFloat infoFontSize; /**< <#property#> */
 
 @property (copy, nonatomic) NSString *backgroundImageName; /**< <#property#> */
-@property (assign, nonatomic) int backgroundHexColor; /**< <#property#> */
+@property (copy, nonatomic) NSString *backgroundHexColor; /**< <#property#> */
 
 @property (copy, nonatomic) NSString *iconImageName; /**< <#property#> */
 
 @property (assign, nonatomic) CGFloat borderWidth; /**< <#property#> */
 @property (assign, nonatomic) CGFloat borderWeight; /**< <#property#> */
-@property (assign, nonatomic) int borderHexColor; /**< <#property#> */
+@property (copy, nonatomic) NSString *borderHexColor; /**< <#property#> */
 
 @property (assign, nonatomic) CGFloat spacing; /**< <#property#> */
 

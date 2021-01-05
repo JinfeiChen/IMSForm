@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		37805E48259DBFDE00548119 /* formData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805E47259DBFDE00548119 /* formData.json */; };
 		37805EBF25A3151E00548119 /* IMSMyValidateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37805EBE25A3151E00548119 /* IMSMyValidateManager.m */; };
+		37805EE125A44F9000548119 /* customFormData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805EE025A44F8E00548119 /* customFormData.json */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -42,6 +43,7 @@
 		37805E47259DBFDE00548119 /* formData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = formData.json; sourceTree = "<group>"; };
 		37805EBD25A3151E00548119 /* IMSMyValidateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSMyValidateManager.h; sourceTree = "<group>"; };
 		37805EBE25A3151E00548119 /* IMSMyValidateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSMyValidateManager.m; sourceTree = "<group>"; };
+		37805EE025A44F8E00548119 /* customFormData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = customFormData.json; sourceTree = "<group>"; };
 		3FF1DA41F64DEA77DE029A1B /* Pods-IMSForm_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMSForm_Example.release.xcconfig"; path = "Target Support Files/Pods-IMSForm_Example/Pods-IMSForm_Example.release.xcconfig"; sourceTree = "<group>"; };
 		47E1F3F36C86B0C0A9B18FD0 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		4B9756232CED09B73C0FBB90 /* IMSForm.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = IMSForm.podspec; path = ../IMSForm.podspec; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				6003F596195388D20070C39A /* InfoPlist.strings */,
 				6003F599195388D20070C39A /* main.m */,
 				6003F59B195388D20070C39A /* IMSForm-Prefix.pch */,
+				37805EE025A44F8E00548119 /* customFormData.json */,
 				37805E47259DBFDE00548119 /* formData.json */,
 			);
 			name = "Supporting Files";
@@ -289,6 +292,7 @@
 				37805E48259DBFDE00548119 /* formData.json in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				37805EE125A44F9000548119 /* customFormData.json in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

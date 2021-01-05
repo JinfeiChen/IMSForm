@@ -18,7 +18,7 @@
 //    IMSFormTextType_Password,
 //    IMSFormTextType_Money
 //};
-#import <IMSForm/IMSFormTextType.h> 
+#import <IMSForm/IMSFormType.h> 
 
 NS_ASSUME_NONNULL_BEGIN
 

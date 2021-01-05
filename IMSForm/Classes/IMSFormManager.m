@@ -14,31 +14,26 @@
     if (self = [super init]) {
         _tableView = tableView;
         _dataSource = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:jsonName]];
+        // TODO: Sort dataSource
     }
     return self;
 }
 
 #pragma mark - Public Methods
 
-- (void)submit:(void (^)(BOOL))validateBlock
+- (void)submit:(void (^)(BOOL))validateCompleted
 {
-    BOOL result = [IMSFormValidateManager validateFormDataSource:self.dataSource validator:self.validate];
-    if (validateBlock) {
-        validateBlock(result);
+    [self.tableView endEditing:YES];
+    
+    BOOL result = [IMSFormValidateManager validateFormDataSource:self.dataSource];
+    if (validateCompleted) {
+        validateCompleted(result);
     }
 }
 
 #pragma mark - Private Methods
 
 #pragma mark - Getters
-
-- (IMSFormValidateManager *)validate
-{
-    if (!_validate) {
-        _validate = [[IMSFormValidateManager alloc] init];
-    }
-    return _validate;
-}
 
 
 @end

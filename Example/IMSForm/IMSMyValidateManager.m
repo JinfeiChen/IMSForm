@@ -12,15 +12,5 @@
 
 #pragma mark - validate
 
-- (BOOL)isEmpty:(IMSFormModel *)model
-{
-    NSLog(@"value: %@", model.value);
-    return ![IMSFormValidateManager isEmpty:model.value];
-}
-
-- (BOOL)isPhone:(IMSFormModel *)model
-{
-    return [IMSFormValidateManager isMobile:model.value];
-}
 
 @end

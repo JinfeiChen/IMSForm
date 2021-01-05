@@ -21,11 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
 @property (strong, nonatomic) NSArray <IMSFormModel *> *dataSource; /**< <#property#> */
 
-@property (strong, nonatomic) IMSFormValidateManager *validate; /**< <#property#> */
-
 - (instancetype)initWithTableView:(UITableView *)tableView JSON:(NSString *)jsonName;
 
-- (void)submit:(void(^)(BOOL isPass))validateBlock;
+- (void)submit:(void(^)(BOOL isPass))validateCompleted;
 
 @end
 

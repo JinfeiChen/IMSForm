@@ -34,19 +34,42 @@
 
 - (void)updateUI
 {
-    self.contentView.backgroundColor = IMS_HEXCOLOR(self.model.cpnStyle.backgroundHexColor);
-    self.bodyView.backgroundColor = [UIColor whiteColor];
+    self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
     
-    self.titleLabel.textColor = IMS_HEXCOLOR(self.model.cpnStyle.titleHexColor);
+    self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
     
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
-    self.infoLabel.textColor = IMS_HEXCOLOR(self.model.cpnStyle.infoHexColor);
+    self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
     CGFloat spacing = self.model.cpnStyle.spacing;
-    if (self.model.cpnStyle.layout == IMSFormComponentLayout_Horizontal) {
-        // TODO: Layout Horizontal
+    if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
+        self.bodyView.backgroundColor = [UIColor whiteColor];
+        
+        [self.bodyView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).mas_offset(spacing);
+            make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
+            make.height.mas_equalTo(kIMSFormDefaultHeight);
+        }];
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top + 8);
+            make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
+            make.right.mas_equalTo(self.bodyView.mas_left).mas_offset(-self.model.cpnStyle.spacing);
+            make.width.mas_lessThanOrEqualTo(150);
+        }];
+        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
+            make.height.mas_equalTo(kIMSFormDefaultHeight);
+        }];
+        [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+        [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
+            make.left.right.mas_equalTo(self.bodyView);
+            make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
+        }];
     } else {
+        self.bodyView.backgroundColor = [UIColor whiteColor];
+        
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
@@ -87,11 +110,6 @@
     NSUInteger newLength = oldLength - rangeLength + replacementLength;
     BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
     
-    // TODO: text type limit, change 触发校验
-    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
-        NSLog(@"change");
-    }
-    
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     self.model.value = str;
@@ -101,16 +119,19 @@
         self.didUpdateFormModelBlock(self, self.model, nil);
     }
     
+    // text type limit, change 触发校验
+    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
+        [self validate];
+    }
+    
     return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
 {
-    // TODO: text type limit, blur 触发校验
+    // text type limit, blur 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur]) {
-        NSLog(@"blur");
-        BOOL result = [IMSFormValidateManager validateFormDataSource:@[self.model] validator:self.form.validate];
-        NSLog(@"校验结果：%d", result);
+        [self validate];
     }
 }
 
@@ -127,15 +148,24 @@
         self.didUpdateFormModelBlock(self, self.model, nil);
     }
     
-    // TODO: text type limit, change 触发校验
+    // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
-        NSLog(@"change");
+        [self validate];
     }
     
     return YES;
 }
 
-#pragma mark - Setters
+#pragma mark - Private Methods
+
+- (void)validate
+{
+    BOOL result = [IMSFormValidateManager validateFormDataSource:@[self.model]];
+    NSLog(@"校验结果：%d", result);
+    // TODO: 更新样式和提示内容
+}
+
+#pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
 {
@@ -146,7 +176,7 @@
     [self setTitle:model.title required:model.isRequired];
     
     self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, model.cpnConfig.lengthLimit))];
-    self.textField.placeholder = model.placeholder;
+    self.textField.placeholder = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;
     

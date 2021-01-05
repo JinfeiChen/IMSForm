@@ -39,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
  @return BOOL 为空返回YES
  */
 + (BOOL)isEmpty:(NSString *)value;
+// 非空校验
++ (BOOL)isNotEmpty:(NSString *)value;
+
++ (BOOL)isEmail:(NSString *)value;
 
 /**
  数据源校验
@@ -46,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param dataArray 表单的数据源
  @return 全部校验通过返回YES，否则返回NO。
  */
-+ (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray validator:(id _Nullable)validator;
++ (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray;
 
 @end
 

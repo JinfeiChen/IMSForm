@@ -2,21 +2,18 @@
 //  IMSViewController.m
 //  IMSForm
 //
-//  Created by jinfei_chen@icloud.com on 12/30/2020.
+//  Created by jinfei_chen@.com on 12/30/2020.
 //  Copyright (c) 2020 jinfei_chen@icloud.com. All rights reserved.
 //
 
 #import "IMSViewController.h"
 
 #import <IMSForm/IMSForm.h>
-#import "IMSMyValidateManager.h"
 
 @interface IMSViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
-
-@property (strong, nonatomic) IMSMyValidateManager *myValidate; /**< <#property#> */
 
 @end
 
@@ -29,11 +26,20 @@
     [self.view addSubview:self.tableView];
     
     // MARK: regist cell class
-    @weakify(self);
-    [self.form.dataSource enumerateObjectsUsingBlock:^(IMSFormModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        @strongify(self);
-        [self.tableView registerClass:[[IMSFormTypeManager shared] getCellClassWithKey:obj.type] forCellReuseIdentifier:obj.type];
-    }];
+//    @weakify(self);
+//    [self.form.dataSource enumerateObjectsUsingBlock:^(IMSFormModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        @strongify(self);
+//        [self.tableView registerClass:[[IMSFormTypeManager shared] getCellClassWithKey:obj.type] forCellReuseIdentifier:obj.type];
+//    }];
+    
+    // MARK: 测试固定字段+自定义字段
+    NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
+    NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
+    NSMutableArray *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
+    [dataSource addObjectsFromArray:customArray];
+    self.form.dataSource = dataSource;
+
+    [self.form.tableView reloadData];
 }
 
 #pragma mark - FormTableViewCell Events
@@ -58,7 +64,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IMSFormModel *model = self.form.dataSource[indexPath.row];
-    IMSFormTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:model.type];
+//    IMSFormTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:model.type];
+    IMSFormTableViewCell *cell = [IMSFormUIManager safe_dequeueReusableCellWithType:model.type tableView:tableView];
     [cell setModel:model form:self.form];
     // custom selector
     if ([cell respondsToSelector:@selector(setCustomDidSelectedBlock:)]) {
@@ -111,7 +118,7 @@
         
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 60)];
         UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        submitBtn.frame = CGRectMake(0, 0, 200, 40);
+        submitBtn.frame = headerView.bounds;
         submitBtn.center = headerView.center;
         [submitBtn setTitle:@"Submit" forState:UIControlStateNormal];
         [submitBtn addTarget:self action:@selector(submitAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -125,17 +132,8 @@
 {
     if (!_form) {
         _form = [[IMSFormManager alloc] initWithTableView:self.tableView JSON:@"formData"];
-        _form.validate = self.myValidate;
     }
     return _form;
-}
-
-- (IMSMyValidateManager *)myValidate
-{
-    if (!_myValidate) {
-        _myValidate = [[IMSMyValidateManager alloc] init];
-    }
-    return _myValidate;
 }
 
 @end
