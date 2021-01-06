@@ -52,6 +52,22 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isEmail:(NSString *)value;
 
 /**
+ 数字校验
+ 
+ @param value 校验的字符串
+ @return BOOL
+ */
++ (BOOL)isNumber:(NSString *)value;
+
+/**
+ 浮点数字校验
+ 
+ @param value 校验的字符串
+ @return BOOL
+ */
++ (BOOL)isFloatNumber:(NSString *)value;
+
+/**
  数据源校验
 
  @param dataArray 表单的数据源

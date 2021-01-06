@@ -54,7 +54,7 @@
     
     // time实际上是一个double
     CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
-    NSLog(@"time cost: %0.6f", end - start);
+//    NSLog(@"time cost: %0.6f", end - start);
     
     return resultString;
 }

@@ -32,12 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Switch
 
-@property (copy, nonatomic) IMSFormBodyAlign bodyAlign; /**< body区域内容对齐方式(left/right), default right */
-
 #pragma mark - Number Range
 
 @property (assign, nonatomic) CGFloat min; /**< 最小值, e.g. 0.0 */
 @property (assign, nonatomic) CGFloat max; /**< 最大值, e.g. 10.0 */
+@property (assign, nonatomic) CGFloat increment; /**< 增量, default 1.0 */
 
 #pragma mark - Date
 

@@ -85,7 +85,27 @@
         "field" : "switch",
         
         "cpnConfig" : {
+        },
+        "cpnStyle" : {
+            "layout" : "vertical",
             "bodyAlign" : "right"
+        },
+        "cpnRule" : {
+        }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_Number",
+        
+        "title" : "Number",
+        
+        "field" : "number",
+        
+        "cpnConfig" : {
+            "min" : "0",
+            "max" : "10000",
+            "precision" : "0",
+            "increment" : "1"
         },
         "cpnStyle" : {
             "layout" : "vertical"

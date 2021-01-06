@@ -8,6 +8,7 @@
 #ifndef IMSForm_h
 #define IMSForm_h
 
+#import <IQKeyboardManager/IQKeyboardManager.h>
 #import <IMSForm/IMSFormManager.h>
 
 #import <IMSForm/IMSFormTableViewCell.h>

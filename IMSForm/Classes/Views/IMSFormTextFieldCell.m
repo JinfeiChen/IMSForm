@@ -30,6 +30,8 @@
     [self.contentView addSubview:self.infoLabel];
     [self.contentView addSubview:self.bodyView];
     [self.bodyView addSubview:self.textField];
+    
+    [self updateUI];
 }
 
 - (void)updateUI
@@ -46,22 +48,22 @@
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
         self.bodyView.backgroundColor = [UIColor whiteColor];
         
-        [self.bodyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(spacing);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         }];
-        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top + 8);
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
             make.right.mas_equalTo(self.bodyView.mas_left).mas_offset(-self.model.cpnStyle.spacing);
             make.width.mas_lessThanOrEqualTo(150);
         }];
-        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
             make.height.mas_equalTo(kIMSFormDefaultHeight);
         }];
         [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-        [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
             make.left.right.mas_equalTo(self.bodyView);
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
@@ -69,21 +71,21 @@
     } else {
         self.bodyView.backgroundColor = [UIColor whiteColor];
         
-        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         }];
-        [self.bodyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.titleLabel.mas_bottom).mas_offset(spacing);
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         }];
-        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
             make.height.mas_equalTo(kIMSFormDefaultHeight);
         }];
-        [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
             make.left.right.mas_equalTo(self.bodyView);
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
@@ -186,7 +188,7 @@
 {
     if (!_textField) {
         _textField = [[UITextField alloc] init];
-        _textField.placeholder = self.model.placeholder;
+        _textField.placeholder = @"Please enter";
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         _textField.keyboardType = UIKeyboardTypeDefault;
         _textField.delegate = self;

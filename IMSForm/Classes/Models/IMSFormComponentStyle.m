@@ -13,6 +13,7 @@
 {
     if (self = [super init]) {
         _layout = IMSFormLayoutType_Vertical;
+        _bodyAlign = IMSFormBodyAlign_Right;
     }
     return self;
 }

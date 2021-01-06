@@ -85,12 +85,21 @@
 
 #pragma mark - Getters
 
+- (IMSFormModel *)model
+{
+    if (!_model) {
+        _model = [[IMSFormModel alloc] init];
+    }
+    return _model;
+}
+
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
         _titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
+        _titleLabel.text = @"Title";
     }
     return _titleLabel;
 }
