@@ -2,7 +2,7 @@
 //  IMSFormValidateManager.h
 //  Pods
 //  校验类
-//  开发者可实现子类，拓展自己的校验方法
+//  开发者可创建子类，实现自定义的校验方法（Required规则: 有且仅有一个参数，并且参数类型为IMSFormModel）
 //
 //  Created by cjf on 31/12/2020.
 //
@@ -43,13 +43,19 @@ NS_ASSUME_NONNULL_BEGIN
 // 非空校验
 + (BOOL)isNotEmpty:(NSString *)value;
 
+/**
+ 邮箱校验
+
+ @param value 校验的字符串
+ @return BOOL
+ */
 + (BOOL)isEmail:(NSString *)value;
 
 /**
  数据源校验
 
  @param dataArray 表单的数据源
- @return 全部校验通过返回YES，否则返回NO。
+ @return BOOL 全部校验通过返回YES，否则返回NO。
  */
 + (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray;
 

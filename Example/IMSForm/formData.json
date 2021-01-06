@@ -38,7 +38,7 @@
                     "selector" : "isEmail"
                 }
             ],
-            "trigger" : "change"
+            "trigger" : "blur"
         }
     }
 ]

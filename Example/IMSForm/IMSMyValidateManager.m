@@ -10,7 +10,15 @@
 
 @implementation IMSMyValidateManager
 
-#pragma mark - validate
+#pragma mark - custom validators
 
+- (BOOL)isNotEmpty:(IMSFormModel *)model
+{
+    BOOL result = [IMSFormValidateManager isNotEmpty:model.value];
+    if (!result) {
+        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 不能为空", model.title]];
+    }
+    return result;
+}
 
 @end

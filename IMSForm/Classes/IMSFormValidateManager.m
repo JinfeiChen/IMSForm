@@ -14,6 +14,12 @@
 
 + (BOOL)validate:(NSString *)value withRegex:(NSString *)regex
 {
+    if (!value || ![value isKindOfClass:[NSString class]]) {
+        return NO;
+    }
+    if (!regex || ![regex isKindOfClass:[NSString class]]) {
+        return NO;
+    }
     return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex] evaluateWithObject:[value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 }
 
@@ -24,24 +30,12 @@
 
 + (BOOL)isEmpty:(NSString *)value
 {
-    if (!value) return YES;
-    if ([value isKindOfClass:[NSNull class]])
-    {
-        return YES;
-    }
-    if ([value isKindOfClass:[NSString class]])
-    {
-        if (value.length == 0)
-        {
-            return YES;
-        }
-    }
-    return NO;
+    return [self validate:value withRegex:@"^$"];
 }
 
 + (BOOL)isNotEmpty:(NSString *)value
 {
-    return ![self isEmpty:value];
+    return ![self validate:value withRegex:@"^$"];
 }
 
 + (BOOL)isEmail:(NSString *)value
@@ -59,31 +53,27 @@
                     id obj = [[cls alloc] init];
                     if (!cls || !obj) {
                         NSLog(@"找不到校验器: %@", validator.className);
-                        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"找不到校验器: %@", validator.className]];
                         return NO;
                     }
                     NSString *str = [NSMutableString stringWithFormat:@"%@:", validator.selectorName];
                     SEL sel = NSSelectorFromString(str);
                     // 尝试执行实例对象的方法
                     if ([obj respondsToSelector:sel]) {
-                        BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model.value);
+                        BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model);
                         if (!result) {
                             NSLog(@"%@ 未通过实例方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value);
-                            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 未通过实例方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value]];
                             return NO;
                         }
                     }
                     // 尝试执行类对象的方法
                     else if ([cls respondsToSelector:sel]) {
-                        BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(cls, sel, model.value);
+                        BOOL result = ((BOOL(*)(id, SEL, IMSFormModel *))objc_msgSend)(cls, sel, model);
                         if (!result) {
                             NSLog(@"%@ 未通过类方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value);
-                            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 未通过类方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value]];
                             return NO;
                         }
                     } else {
                         NSLog(@"未实现的校验方法: %@", validator.selectorName);
-                        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"未实现的校验方法: %@", validator.selectorName]];
                         return NO;
                     }
                 }
