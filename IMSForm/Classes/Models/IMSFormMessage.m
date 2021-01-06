@@ -14,7 +14,7 @@
     IMSFormMessageStyle *style = [[IMSFormMessageStyle alloc] init];
     
     style.titleFontSize = 16;
-    style.titleFontHexColor = 0x252D34;
+    style.titleFontHexColor = @"0x252D34";
     
     return style;
 }

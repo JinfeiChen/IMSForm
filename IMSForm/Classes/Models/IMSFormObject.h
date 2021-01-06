@@ -1,6 +1,7 @@
 //
 //  IMSFormObject.h
 //  Pods
+//  自定义基类
 //
 //  Created by cjf on 30/12/2020.
 //

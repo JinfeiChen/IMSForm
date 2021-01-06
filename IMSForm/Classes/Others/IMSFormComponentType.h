@@ -1,6 +1,7 @@
 //
 //  IMSFormComponentType.h
 //  Pods
+//  组件类型
 //
 //  Created by cjf on 31/12/2020.
 //

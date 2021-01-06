@@ -7,17 +7,6 @@
 
 #import <IMSForm/IMSFormObject.h>
 
-//// Text input type
-//typedef NS_ENUM(NSUInteger, IMSFormTextType) {
-//    IMSFormTextType_Default, // No limit
-//    IMSFormTextType_URL,
-//    IMSFormTextType_Number,
-//    IMSFormTextType_Phone,
-//    IMSFormTextType_Email,
-//    IMSFormTextType_IDCard,
-//    IMSFormTextType_Password,
-//    IMSFormTextType_Money
-//};
 #import <IMSForm/IMSFormType.h> 
 
 NS_ASSUME_NONNULL_BEGIN

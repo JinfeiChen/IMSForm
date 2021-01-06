@@ -59,6 +59,7 @@
                     id obj = [[cls alloc] init];
                     if (!cls || !obj) {
                         NSLog(@"找不到校验器: %@", validator.className);
+                        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"找不到校验器: %@", validator.className]];
                         return NO;
                     }
                     NSString *str = [NSMutableString stringWithFormat:@"%@:", validator.selectorName];
@@ -68,6 +69,7 @@
                         BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model.value);
                         if (!result) {
                             NSLog(@"%@ 未通过实例方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value);
+                            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 未通过实例方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value]];
                             return NO;
                         }
                     }
@@ -76,10 +78,12 @@
                         BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(cls, sel, model.value);
                         if (!result) {
                             NSLog(@"%@ 未通过类方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value);
+                            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 未通过类方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value]];
                             return NO;
                         }
                     } else {
                         NSLog(@"未实现的校验方法: %@", validator.selectorName);
+                        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"未实现的校验方法: %@", validator.selectorName]];
                         return NO;
                     }
                 }

@@ -1,6 +1,7 @@
 //
 //  IMSFormTrigger.h
 //  Pods
+//  事件触发方式
 //
 //  Created by cjf on 31/12/2020.
 //

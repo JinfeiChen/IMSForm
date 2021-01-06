@@ -16,31 +16,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)defaultStyle;
 
-@property (assign, nonatomic) CGFloat titleFontSize; /**< <#property#> */
-@property (assign, nonatomic) CGFloat titleFontWeight; /**< <#property#> */
-@property (assign, nonatomic) int titleFontHexColor; /**< <#property#> */
+@property (assign, nonatomic) CGFloat titleFontSize; /**< 标题字体大小 */
+@property (copy, nonatomic) NSString *titleFontHexColor; /**< 标题字体颜色 */
 
-@property (assign, nonatomic) CGFloat messageFontSize; /**< <#property#> */
-@property (assign, nonatomic) CGFloat messageFontWeight; /**< <#property#> */
-@property (assign, nonatomic) int messageFontHexColor; /**< <#property#> */
+@property (assign, nonatomic) CGFloat messageFontSize; /**< 消息字体大小 */
+@property (copy, nonatomic) NSString *messageFontHexColor; /**< 消息字体颜色 */
 
-@property (assign, nonatomic) CGFloat borderWidth; /**< <#property#> */
-@property (assign, nonatomic) int borderHexColor; /**< <#property#> */
+@property (assign, nonatomic) CGFloat borderWidth; /**< 边框大小 */
+@property (copy, nonatomic) NSString *borderHexColor; /**< 边框颜色 */
 
-@property (copy, nonatomic) NSString *backgroundImageName; /**< <#property#> */
-@property (assign, nonatomic) int backgroundHexColor; /**< <#property#> */
+@property (copy, nonatomic) NSString *backgroundImageName; /**< 背景图片名称 */
+@property (copy, nonatomic) NSString *backgroundHexColor; /**< 背景颜色 */
 
-@property (copy, nonatomic) NSString *iconName; /**< <#property#> */
+@property (copy, nonatomic) NSString *iconName; /**< 图标名称 */
 
 @end
 
 @interface IMSFormMessage : IMSFormObject
 
-@property (copy, nonatomic) IMSFormMessageType type; /**< <#property#> */
-@property (strong, nonatomic) IMSFormMessageStyle *style; /**< <#property#> */
+@property (copy, nonatomic) IMSFormMessageType type; /**< 消息类型 */
+@property (strong, nonatomic) IMSFormMessageStyle *style; /**< 样式 */
 
-@property (copy, nonatomic) NSString *title; /**< <#property#> */
-@property (copy, nonatomic) NSString *message; /**< <#property#> */
+@property (copy, nonatomic) NSString *title; /**< 标题 */
+@property (copy, nonatomic) NSString *message; /**< 消息 */
 
 @end
 

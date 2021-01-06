@@ -1,6 +1,7 @@
 //
 //  IMSFormTextType.h
 //  Pods
+//  文本输入类型
 //
 //  Created by cjf on 4/1/2021.
 //

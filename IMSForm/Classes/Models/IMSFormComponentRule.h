@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormValidator : IMSFormObject
 
-@property (copy, nonatomic) NSString *className; /**< <#property#> */
-@property (copy, nonatomic) NSString *selectorName; /**< <#property#> */
+@property (copy, nonatomic) NSString *className; /**< 校验器对应的类名 */
+@property (copy, nonatomic) NSString *selectorName; /**< 校验方法名 */
 
 @end
 

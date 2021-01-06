@@ -1,6 +1,7 @@
 //
 //  IMSFormLayoutType.h
 //  Pods
+//  组件布局方式
 //
 //  Created by cjf on 5/1/2021.
 //

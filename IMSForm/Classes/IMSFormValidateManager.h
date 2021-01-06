@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 
 #import <IMSForm/IMSFormModel.h>
+#import <IMSForm/IMSDropHUD.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

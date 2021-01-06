@@ -1,6 +1,7 @@
 //
 //  IMSFormMessageType.h
 //  Pods
+//  消息类型
 //
 //  Created by cjf on 4/1/2021.
 //
