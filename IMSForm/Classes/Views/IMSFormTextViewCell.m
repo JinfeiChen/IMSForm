@@ -1,18 +1,18 @@
 //
-//  IMSFormTextFieldCell.m
-//  Pods
+//  IMSFormTextViewCell.m
+//  IMSForm
 //
-//  Created by cjf on 31/12/2020.
+//  Created by cjf on 6/1/2021.
 //
 
-#import "IMSFormTextFieldCell.h"
-#import <IMSForm/IMSFormManager.h>
+#import "IMSFormTextViewCell.h"
 
-@interface IMSFormTextFieldCell () <UITextFieldDelegate>
+
+@interface IMSFormTextViewCell () <YYTextViewDelegate>
 
 @end
 
-@implementation IMSFormTextFieldCell
+@implementation IMSFormTextViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -29,7 +29,7 @@
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.infoLabel];
     [self.contentView addSubview:self.bodyView];
-    [self.bodyView addSubview:self.textField];
+    [self.bodyView addSubview:self.textView];
 }
 
 - (void)updateUI
@@ -56,9 +56,9 @@
             make.right.mas_equalTo(self.bodyView.mas_left).mas_offset(-self.model.cpnStyle.spacing);
             make.width.mas_lessThanOrEqualTo(150);
         }];
-        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
-            make.height.mas_equalTo(kIMSFormDefaultHeight);
+            make.height.mas_equalTo(80);
         }];
         [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
         [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -79,9 +79,9 @@
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         }];
-        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
-            make.height.mas_equalTo(kIMSFormDefaultHeight);
+            make.height.mas_equalTo(80);
         }];
         [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
@@ -94,23 +94,63 @@
     [self.form.tableView endUpdates];
 }
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - Public Methods
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+- (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
+{
+    [super setModel:model form:form];
+    
+    [self updateUI];
+    
+    [self setTitle:model.title required:model.isRequired];
+    
+    self.textView.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, model.cpnConfig.lengthLimit))];
+    self.textView.placeholderText = model.placeholder ? : @"Please enter";
+    
+    self.infoLabel.text = model.info;
+    
+    self.bodyView.userInteractionEnabled = model.isEditable;
+    
+    if (model.isEditable) {
+        self.textView.keyboardType = [self keyboardWithTextType:model.cpnConfig.textType];
+        self.textView.secureTextEntry = [model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
+    }
+}
+
+#pragma mark - Private Methods
+
+#pragma mark - YYTextViewDelegate
+
+- (void)textViewDidEndEditing:(YYTextView *)textView {
+    self.model.value = textView.text;
+    
+    // call back
+    if (self.didUpdateFormModelBlock) {
+        self.didUpdateFormModelBlock(self, self.model, nil);
+    }
+    
+    // text type limit, blur 触发校验
+    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur]) {
+        [self validate];
+    }
+}
+
+- (BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if (!self.model.isEditable) {
         return NO;
     }
     
     // length limit
-    NSUInteger oldLength = [textField.text length];
-    NSUInteger replacementLength = [string length];
+    NSUInteger oldLength = [textView.text length];
+    NSUInteger replacementLength = [text length];
     NSUInteger rangeLength = range.length;
     NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
+    BOOL returnKey = [text rangeOfString: @"\n"].location != NSNotFound;
     
     // update model value
-    NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    NSString *str = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    NSLog(@"%@", str);
     self.model.value = str;
     
     // call back
@@ -123,76 +163,28 @@
         [self validate];
     }
     
+    // 回车结束编辑
+//    if ([text isEqualToString:@"\n"]) {
+//        [textView resignFirstResponder];
+//        return NO;
+//    }
     return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
-{
-    // text type limit, blur 触发校验
-    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur]) {
-        [self validate];
-    }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return YES;
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField {
-    self.model.value = @"";
-    
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
-    
-    // text type limit, change 触发校验
-    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
-        [self validate];
-    }
-    
-    return YES;
-}
-
-#pragma mark - Private Methods
-
-#pragma mark - Public Methods
-
-- (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
-{
-    [super setModel:model form:form];
-    
-    [self updateUI];
-    
-    [self setTitle:model.title required:model.isRequired];
-    
-    self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, model.cpnConfig.lengthLimit))];
-    self.textField.placeholder = model.placeholder ? : @"Please enter";
-    
-    self.infoLabel.text = model.info;
-    
-    self.bodyView.userInteractionEnabled = model.isEditable;
-    
-    if (model.isEditable) {
-        self.textField.keyboardType = [self keyboardWithTextType:model.cpnConfig.textType];
-        self.textField.secureTextEntry = [model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
-    }
 }
 
 #pragma mark - Getters
 
-- (UITextField *)textField
-{
-    if (!_textField) {
-        _textField = [[UITextField alloc] init];
-        _textField.placeholder = self.model.placeholder;
-        _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _textField.keyboardType = UIKeyboardTypeDefault;
-        _textField.delegate = self;
-        _textField.font = [UIFont systemFontOfSize:14];
+- (YYTextView *)textView {
+    if (_textView == nil) {
+        _textView = [[YYTextView alloc] init];
+        _textView.font = [UIFont systemFontOfSize:14];
+        _textView.textColor = IMS_HEXCOLOR(0x565465);
+        _textView.layer.masksToBounds = YES;
+        _textView.layer.cornerRadius  = 8;
+        _textView.backgroundColor = [UIColor whiteColor];
+        _textView.returnKeyType = UIReturnKeyDone;
+        _textView.delegate = self;
     }
-    return _textField;
+    return _textView;
 }
 
 @end

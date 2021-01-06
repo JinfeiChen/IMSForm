@@ -10,6 +10,12 @@
 
 #import <Masonry/Masonry.h>
 
+#import <YYModel/YYModel.h>
+#import <YYText/YYLabel.h>
+#import <YYText/NSAttributedString+YYText.h>
+#import <YYText/YYTextView.h>
+#import <YYWebImage/YYWebImage.h>
+
 #import <IMSForm/IMSFormMacros.h>
 #import <IMSForm/IMSFormModel.h>
 #import <IMSForm/NSString+Extension.h>
@@ -32,10 +38,29 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) void(^didUpdateFormModelBlock)(IMSFormTableViewCell *cell, IMSFormModel *model, id _Nullable reservedObj); /**< 默认数据源更新事件， 开发者需自行更新UITableView的数据源，按需执行UITableView的reloadData， reservedObj 预留参数 */
 @property (copy, nonatomic) void(^customDidSelectedBlock)(IMSFormTableViewCell *cell, IMSFormModel *model, id _Nullable reservedObj); /**< 自定义点击事件， reservedObj 预留参数 */
 
+/**
+ 设置数据
+ 
+ @param model 数据模型
+ @param form 表单管理对象
+ @@return void
+ */
 - (void)setModel:(IMSFormModel * _Nonnull)model form:(IMSFormManager *)form;
+
+/**
+ 设置组件标题
+ 
+ @param title 标题
+ @param required 是否必填
+ @@return void
+ */
 - (void)setTitle:(NSString *)title required:(BOOL)required;
 
+// 根据输入类型获取键盘类型
 - (UIKeyboardType)keyboardWithTextType:(IMSFormTextType)textType;
+
+// 校验数据
+- (void)validate;
 
 @end
 

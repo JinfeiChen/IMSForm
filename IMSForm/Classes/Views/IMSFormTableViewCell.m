@@ -77,6 +77,12 @@
     }
 }
 
+- (void)validate
+{
+    BOOL result = [IMSFormValidateManager validateFormDataSource:@[self.model]];
+    // TODO: 更新样式和提示内容
+}
+
 #pragma mark - Getters
 
 - (UILabel *)titleLabel

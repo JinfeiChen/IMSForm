@@ -85,12 +85,6 @@
     }
 }
 
-- (void)setTextColor:(UIColor *)textColor
-{
-    self.pointLB.textColor = textColor;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-}
-
 #pragma mark -  展示提示框
 
 - (void)show
@@ -113,6 +107,12 @@
 }
 
 #pragma mark - Setters
+
+- (void)setTextColor:(UIColor *)textColor
+{
+    self.pointLB.textColor = textColor;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+}
 
 @end
 

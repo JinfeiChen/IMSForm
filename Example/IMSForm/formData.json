@@ -40,5 +40,34 @@
             ],
             "trigger" : "blur"
         }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_TextView",
+        
+        "title" : "Description",
+        
+        "field" : "desc",
+        
+        "cpnStyle" : {
+            "layout" : "vertical"
+        }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_Slider",
+        
+        "title" : "Progress",
+        
+        "field" : "progress",
+        
+        "cpnConfig" : {
+            "min" : "0",
+            "max" : "10",
+            "precision" : "3"
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        }
     }
 ]

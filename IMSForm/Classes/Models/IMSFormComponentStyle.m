@@ -30,7 +30,7 @@
     style.backgroundHexColor = @"0xF9F9F9";
     
     style.spacing = 10.0;
-    style.contentInset = UIEdgeInsetsMake(12, 15, 12, 15);
+    style.contentInset = UIEdgeInsetsMake(12, 15, 10, 15);
     
     return style;
 }

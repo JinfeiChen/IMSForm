@@ -16,6 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
 // convert uicolor to hex-string value
 + (NSString *)stringHexFromColor:(UIColor *)color;
 
+/**
+ 基础计算-截取指定小数位数(时间耗时较少)
+ 
+ @param floatNumber 浮点小数
+ @param precision 小数点精确位数
+ @return NSString
+ */
++ (NSString *)getRoundFloat:(double)floatNumber withPrecisionNum:(NSInteger)precision;
+
 @end
 
 NS_ASSUME_NONNULL_END

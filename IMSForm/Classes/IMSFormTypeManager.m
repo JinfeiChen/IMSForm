@@ -36,6 +36,8 @@
 {
     // TODO: 添加全部默认提供的组件类型
     [self registCellClass:NSClassFromString(@"IMSFormTextFieldCell") forKey:IMSFormComponentType_TextField];
+    [self registCellClass:NSClassFromString(@"IMSFormTextViewCell") forKey:IMSFormComponentType_TextView];
+    [self registCellClass:NSClassFromString(@"IMSFormSliderCell") forKey:IMSFormComponentType_Slider];
 }
 
 #pragma mark - Public Methods
