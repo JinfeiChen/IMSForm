@@ -40,6 +40,7 @@
     [self registCellClass:NSClassFromString(@"IMSFormSliderCell") forKey:IMSFormComponentType_Slider];
     [self registCellClass:NSClassFromString(@"IMSFormSwitchCell") forKey:IMSFormComponentType_Switch];
     [self registCellClass:NSClassFromString(@"IMSFormNumberCell") forKey:IMSFormComponentType_Number];
+    [self registCellClass:NSClassFromString(@"IMSFormRangeCell") forKey:IMSFormComponentType_Range];
 }
 
 #pragma mark - Public Methods

@@ -112,5 +112,27 @@
         },
         "cpnRule" : {
         }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_Range",
+        
+        "title" : "Range",
+        "value" : "123;1234",
+        
+        "field" : "range",
+        
+        "cpnConfig" : {
+            "min" : "0",
+            "max" : "10000",
+            "precision" : "0",
+            "minPlaceholder" : "MIN",
+            "maxPlaceholder" : "MAX"
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
+        }
     }
 ]
