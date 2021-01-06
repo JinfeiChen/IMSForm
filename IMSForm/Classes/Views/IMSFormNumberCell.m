@@ -115,9 +115,9 @@
     }
 
     // number limit
-    if (![IMSFormValidateManager isNumber:string]) {
-        return NO;
-    }
+//    if (![IMSFormValidateManager isNumber:string]) {
+//        return NO;
+//    }
 
     BOOL returnKey = [string rangeOfString:@"\n"].location != NSNotFound;
 
@@ -140,6 +140,9 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
 {
+    // update textField value
+    textField.text = self.model.value;
+    
     // text type limit, blur 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur]) {
         [self validate];
@@ -280,7 +283,7 @@
         _textField.delegate = self;
         _textField.returnKeyType = UIReturnKeyDone;
         _textField.textAlignment = NSTextAlignmentCenter;
-        _textField.keyboardType = UIKeyboardTypeNumberPad;
+        _textField.keyboardType = UIKeyboardTypeDecimalPad;
 
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
         leftView.backgroundColor = [UIColor clearColor];

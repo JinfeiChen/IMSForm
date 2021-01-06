@@ -67,7 +67,7 @@
     } else if ([textType isEqualToString:IMSFormTextType_Phone]) {
         return UIKeyboardTypePhonePad;
     } else if ([textType isEqualToString:IMSFormTextType_Number]) {
-        return UIKeyboardTypeNumberPad;
+        return UIKeyboardTypeDecimalPad;
     } else if ([textType isEqualToString:IMSFormTextType_Password]) {
         return UIKeyboardTypeNumbersAndPunctuation;
     } else if ([textType isEqualToString:IMSFormTextType_IDCard]) {

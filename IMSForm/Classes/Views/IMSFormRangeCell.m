@@ -153,14 +153,15 @@
     }
 
     // number limit
-    if (![IMSFormValidateManager isNumber:string]) {
-        return NO;
-    }
+//        if (![IMSFormValidateManager isNumber:string]) {
+//            return NO;
+//        }
 
     BOOL returnKey = [string rangeOfString:@"\n"].location != NSNotFound;
     
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
     if (textField.tag == 100) { // min
         _minValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
     } else if (textField.tag == 101) { // max
@@ -183,6 +184,13 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
 {
+    // update textField value
+    if (textField.tag == 100) { // min
+        textField.text = _minValue;
+    } else if (textField.tag == 101) { // max
+        textField.text = _maxValue;
+    }
+    
     // text type limit, blur 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur]) {
         [self validate];
@@ -235,7 +243,7 @@
         _minTextField.textColor = IMS_HEXCOLOR(0x565465);
         _minTextField.tintColor = IMS_HEXCOLOR(0x184585);
         _minTextField.delegate = self;
-        _minTextField.keyboardType = UIKeyboardTypeNumberPad;
+        _minTextField.keyboardType = UIKeyboardTypeDecimalPad;
         _minTextField.returnKeyType = UIReturnKeyDone;
         _minTextField.backgroundColor = [UIColor whiteColor];
         _minTextField.textAlignment = NSTextAlignmentCenter;
@@ -254,7 +262,7 @@
         _maxTextField.textColor = IMS_HEXCOLOR(0x565465);
         _maxTextField.tintColor = IMS_HEXCOLOR(0x184585);
         _maxTextField.delegate = self;
-        _maxTextField.keyboardType = UIKeyboardTypeNumberPad;
+        _maxTextField.keyboardType = UIKeyboardTypeDecimalPad;
         _maxTextField.returnKeyType = UIReturnKeyDone;
         _maxTextField.backgroundColor = [UIColor whiteColor];
         _maxTextField.textAlignment = NSTextAlignmentCenter;

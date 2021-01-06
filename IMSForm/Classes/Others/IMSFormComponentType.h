@@ -14,22 +14,22 @@ typedef NSString *IMSFormComponentType NS_STRING_ENUM;
 #pragma mark - Edit
 
 // Single line text input component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TextField;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TextField; // added
 
 // Multi-line text input component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TextView;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TextView; // added
 
 // Sliding component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Slider;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Slider; // added
 
 // Switch component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Switch;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Switch; // added
 
 // Counter component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Number;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Number; // added
 
 // Range component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Range;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Range; // added
 
 // Map component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map;
