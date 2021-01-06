@@ -21,4 +21,13 @@
     return result;
 }
 
+- (BOOL)isEmail:(IMSFormModel *)model
+{
+    BOOL result = [IMSFormValidateManager isEmail:model.value];
+    if (!result) {
+        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 邮箱地址不合法", model.title]];
+    }
+    return result;
+}
+
 @end

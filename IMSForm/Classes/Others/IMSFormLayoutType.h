@@ -13,3 +13,9 @@ typedef NSString *IMSFormLayoutType NS_STRING_ENUM;
 FOUNDATION_EXPORT IMSFormLayoutType const IMSFormLayoutType_Vertical; // default.
 
 FOUNDATION_EXPORT IMSFormLayoutType const IMSFormLayoutType_Horizontal;
+
+typedef NSString *IMSFormBodyAlign NS_STRING_ENUM;
+
+FOUNDATION_EXPORT IMSFormBodyAlign const IMSFormBodyAlign_Right; // default.
+
+FOUNDATION_EXPORT IMSFormBodyAlign const IMSFormBodyAlign_Left;

@@ -38,6 +38,7 @@
     [self registCellClass:NSClassFromString(@"IMSFormTextFieldCell") forKey:IMSFormComponentType_TextField];
     [self registCellClass:NSClassFromString(@"IMSFormTextViewCell") forKey:IMSFormComponentType_TextView];
     [self registCellClass:NSClassFromString(@"IMSFormSliderCell") forKey:IMSFormComponentType_Slider];
+    [self registCellClass:NSClassFromString(@"IMSFormSwitchCell") forKey:IMSFormComponentType_Switch];
 }
 
 #pragma mark - Public Methods

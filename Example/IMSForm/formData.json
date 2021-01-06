@@ -3,7 +3,7 @@
         "type" : "IMSFormComponentType_TextField",
         
         "title" : "Email",
-        "value" : "",
+        "value" : "raptor@ims.com",
         "placeholder" : "Please enter your email address",
         "info" : "Max length limit 20",
         
@@ -34,7 +34,7 @@
                     "selector" : "isNotEmpty"
                 },
                 {
-                    "class" : "IMSFormValidateManager",
+                    "class" : "IMSMyValidateManager",
                     "selector" : "isEmail"
                 }
             ],
@@ -49,8 +49,12 @@
         
         "field" : "desc",
         
+        "cpnConfig" : {
+        },
         "cpnStyle" : {
             "layout" : "vertical"
+        },
+        "cpnRule" : {
         }
     },
     
@@ -68,6 +72,25 @@
         },
         "cpnStyle" : {
             "layout" : "vertical"
+        },
+        "cpnRule" : {
+        }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_Switch",
+        
+        "title" : "Switch",
+        
+        "field" : "switch",
+        
+        "cpnConfig" : {
+            "bodyAlign" : "right"
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
         }
     }
 ]

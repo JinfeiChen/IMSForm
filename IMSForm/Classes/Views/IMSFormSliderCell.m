@@ -134,7 +134,7 @@
     }
     
     // text type limit, blur 触发校验
-    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur]) {
+    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur] || [self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
     }
 }

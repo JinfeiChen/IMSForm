@@ -39,7 +39,7 @@
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
-    NSArray *order = @[@"email", @"name", @"progress", @"desc"];
+    NSArray *order = @[@"email", @"name", @"progress", @"switch", @"desc"];
     self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
 
     [self.form.tableView reloadData];
@@ -102,6 +102,7 @@
     [self.form submit:^(BOOL isPass) {
         if (isPass) {
             NSLog(@"校验通过");
+            [IMSDropHUD showAlertWithType:IMSFormMessageType_Success message:@"校验通过"];
         } else {
             NSLog(@"校验未通过");
         }

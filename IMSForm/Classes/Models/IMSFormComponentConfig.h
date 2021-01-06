@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Select
 
 @property (assign, nonatomic, getter=isMultiple) BOOL multiple; /**< 是否多选 */
-@property (assign, nonatomic) NSInteger multipleLimit; /**< 最多选择数量 */
+@property (assign, nonatomic) NSInteger multipleLimit; /**< 最多选择数量, default 100 */
 
 #pragma mark - TextField
 
-@property (copy, nonatomic) IMSFormTextType textType; /**< 文本输入类型限制 */
+@property (copy, nonatomic) IMSFormTextType textType; /**< 文本输入类型限制, e.g. phone/email/url... */
 @property (assign, nonatomic) NSInteger lengthLimit; /**< 文本最大输入长度限制, default 100 */
 @property (assign, nonatomic) NSInteger precision; /**< 小数点精确度(小数点位数), default 2 */
 @property (copy, nonatomic) NSString *prefixUnit; /**< 前置符号, e.g. $ */
@@ -30,10 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSInteger maxRowsLimit; /**< 文本最大行数输入限制 */
 
+#pragma mark - Switch
+
+@property (copy, nonatomic) IMSFormBodyAlign bodyAlign; /**< body区域内容对齐方式(left/right), default right */
+
 #pragma mark - Number Range
 
-@property (assign, nonatomic) CGFloat min; /**< 最小值 */
-@property (assign, nonatomic) CGFloat max; /**< 最大值 */
+@property (assign, nonatomic) CGFloat min; /**< 最小值, e.g. 0.0 */
+@property (assign, nonatomic) CGFloat max; /**< 最大值, e.g. 10.0 */
 
 #pragma mark - Date
 
