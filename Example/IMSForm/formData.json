@@ -134,5 +134,24 @@
         },
         "cpnRule" : {
         }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_FileUpload",
+        
+        "title" : "File",
+        "value" : "[{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"},{\"idField\":\"123456\",\"name\":\"file name 01\",\"url\":\"http://www.baidu.com/xxx/xxx.pdf\",\"ext\":\"reserved text\"}]",
+        "info" : "最多上传5文件",
+        
+        "field" : "file",
+        
+        "cpnConfig" : {
+            "maxFilesLimit" : "5"
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
+        }
     }
 ]

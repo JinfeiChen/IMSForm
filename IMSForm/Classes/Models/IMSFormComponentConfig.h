@@ -48,6 +48,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIDatePickerMode datePickerMode; /**< 模式 */
 @property (nonatomic, copy) NSString *dateFormat; /**< 日期格式，e.g. yyyy-MM-dd, MM/dd */
 
+#pragma mark - File
+
+@property (assign, nonatomic) NSInteger maxFilesLimit; /**< 最大文件上传数量 */
+
 @end
 
 NS_ASSUME_NONNULL_END

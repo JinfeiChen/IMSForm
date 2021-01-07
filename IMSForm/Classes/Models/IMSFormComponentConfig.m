@@ -21,6 +21,7 @@
         _increment = 1.0;
         _min = 0.0;
         _max = 100000.0;
+        _maxFilesLimit = 20;
     }
     return self;
 }

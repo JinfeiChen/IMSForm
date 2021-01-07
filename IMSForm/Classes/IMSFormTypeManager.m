@@ -41,6 +41,7 @@
     [self registCellClass:NSClassFromString(@"IMSFormSwitchCell") forKey:IMSFormComponentType_Switch];
     [self registCellClass:NSClassFromString(@"IMSFormNumberCell") forKey:IMSFormComponentType_Number];
     [self registCellClass:NSClassFromString(@"IMSFormRangeCell") forKey:IMSFormComponentType_Range];
+    [self registCellClass:NSClassFromString(@"IMSFormFileCell") forKey:IMSFormComponentType_FileUpload];
 }
 
 #pragma mark - Public Methods
