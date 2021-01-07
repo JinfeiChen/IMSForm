@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'IMSForm_Example' do
+  pod 'IMSForm', :path => '../'
+
+  target 'IMSForm_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
