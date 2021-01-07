@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=isRequired) BOOL required; /**< 是否必需 */
 
 @property (copy, nonatomic) NSString *field; /**< 对应服务器字段 */
-@property (copy, nonatomic) NSString *param; /**< 对应服务器字段的值 */
+@property (strong, nonatomic) id param; /**< 对应服务器字段的值 */
 
 @property (copy, nonatomic) NSString *defaultSelectorString; /**< 默认组件点击事件的方法名 */
 @property (copy, nonatomic) NSString *customSelectorString; /**< 自定义组件响应事件的方法名 */
