@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Images
 
 @property (assign, nonatomic) NSInteger maxImagesLimit; /**< 最大图片数量, default 20 */
-@property (assign, nonatomic) NSInteger rowImages; /**< 每行显示图片数量 */
+@property (assign, nonatomic) NSInteger rowImages; /**< 每行显示图片数量, 为了显示效果，maxImagesLimit最好为rowImages的倍数 */
 
 #pragma mark - Money
 

@@ -50,7 +50,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Select;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_FileUpload; // added
 
 // Image upload component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageUpload;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageUpload; // added
 
 // Scoring component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Rate;
