@@ -173,7 +173,7 @@
         make.top.left.mas_equalTo(self.bodyView).offset(0);
     }];
     [self.listTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.addButton.mas_bottom).offset(spacing);
+        make.top.mas_equalTo(self.addButton.mas_bottom).offset(spacing).priorityLow();
         make.left.right.mas_equalTo(self.bodyView).offset(0);
         make.bottom.mas_equalTo(self.bodyView).offset(0).priorityLow(); // 消除控制台中提示约束重载的冲突
     }];
@@ -230,12 +230,14 @@
     cell.deleteBlock = ^(UIButton *button) {
         // delete
         [self.listArray removeObjectAtIndex:indexPath.row];
-        self.model.value = [self.listArray yy_modelToJSONString];
         self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
         [self updateMyConstraints];
         [self.listTableView reloadData];
         [self.form.tableView beginUpdates];
         [self.form.tableView endUpdates];
+        
+        // update model value
+        self.model.value = [self.listArray yy_modelToJSONString];
         
         // call back
         if (self.didUpdateFormModelBlock) {

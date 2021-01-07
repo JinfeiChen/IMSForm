@@ -47,7 +47,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Checkbox;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Select;
 
 // File upload component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_FileUpload;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_FileUpload; // added
 
 // Image upload component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageUpload;

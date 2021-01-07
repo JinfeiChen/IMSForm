@@ -153,5 +153,11 @@
         },
         "cpnRule" : {
         }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_Line",
+        
+        "field" : "line"
     }
 ]
