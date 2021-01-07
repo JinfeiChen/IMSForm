@@ -208,7 +208,6 @@
     NSError *localError = nil;
     NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-    NSLog(@"%@", jsonObject);
     if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
         [self.listArray addObjectsFromArray:[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, model.cpnConfig.maxFilesLimit))]];
     }
@@ -228,7 +227,7 @@
     NSDictionary *modelDict = self.listArray[indexPath.row];
     cell.myTitleLabel.text = [NSString stringWithFormat:@"%@", [modelDict valueForKey:@"name"]];
     cell.deleteBlock = ^(UIButton *button) {
-        // delete
+        // delete file
         [self.listArray removeObjectAtIndex:indexPath.row];
         self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
         [self updateMyConstraints];
@@ -282,10 +281,33 @@
     if (self.listArray.count >= self.model.cpnConfig.maxFilesLimit) {
         return;
     }
-     
-    if (self.customDidSelectedBlock) {
-        self.customDidSelectedBlock(self, self.model, nil);
-    }
+    
+    [self.filePicker presentDocumentPicker];
+    @weakify(self);
+    self.filePicker.documentPickerFinishedBlock = ^(NSData * _Nonnull fileData, NSURL * _Nonnull fileURL, NSString * _Nonnull fileName, NSError * _Nullable error) {
+        @strongify(self);
+        NSLog(@"fileData: %@, fileName: %@, fileURL: %@, error: %@", fileData, fileName, fileURL, error);
+        
+        NSMutableDictionary *obj = [NSMutableDictionary dictionary];
+        if (fileData) {
+            [obj setObject:fileData forKey:@"fileData"];
+        }
+        if (fileURL) {
+            [obj setObject:fileURL forKey:@"fileURL"];
+        }
+        if (fileName) {
+            [obj setObject:fileName forKey:@"fileName"];
+        }
+        if (error) {
+            [obj setObject:error forKey:@"error"];
+        }
+        
+        // call back
+        if (self.didUpdateFormModelBlock) {
+            self.didUpdateFormModelBlock(self, self.model, obj);
+        }
+    };
+    
 }
 
 #pragma mark - Getters
@@ -337,6 +359,14 @@
         [_addButton setBackgroundColor:[UIColor whiteColor]];
     }
     return _addButton;
+}
+
+- (IMSFilePicker *)filePicker
+{
+    if (!_filePicker) {
+        _filePicker = [[IMSFilePicker alloc] init];
+    }
+    return _filePicker;
 }
 
 @end

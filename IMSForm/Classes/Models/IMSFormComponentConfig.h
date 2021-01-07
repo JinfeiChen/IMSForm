@@ -50,7 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - File
 
-@property (assign, nonatomic) NSInteger maxFilesLimit; /**< 最大文件上传数量 */
+@property (assign, nonatomic) NSInteger maxFilesLimit; /**< 最大文件数量, default 20 */
+
+#pragma mark - Images
+
+@property (assign, nonatomic) NSInteger maxImagesLimit; /**< 最大图片数量, default 20 */
+@property (assign, nonatomic) NSInteger rowImages; /**< 每行显示图片数量 */
+
+#pragma mark - Money
 
 @end
 

@@ -22,6 +22,8 @@
         _min = 0.0;
         _max = 100000.0;
         _maxFilesLimit = 20;
+        _maxImagesLimit = 20;
+        _rowImages = 4;
     }
     return self;
 }

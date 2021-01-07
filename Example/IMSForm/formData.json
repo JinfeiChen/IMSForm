@@ -159,5 +159,25 @@
         "type" : "IMSFormComponentType_Line",
         
         "field" : "line"
+    },
+    
+    {
+        "type" : "IMSFormComponentType_ImageUpload",
+        
+        "title" : "Image",
+        "value" : "[\"https://img-blog.csdnimg.cn/20201222160340884.jpg\",\"https://img-blog.csdnimg.cn/20201222160340884.jpg\",\"https://img-blog.csdnimg.cn/20201222160340884.jpg\",\"https://img-blog.csdnimg.cn/20201222160340884.jpg\",\"https://img-blog.csdnimg.cn/20201222160340884.jpg\",\"https://img-blog.csdnimg.cn/20201222160340884.jpg\"]",
+        "info" : "最多上传4张图片",
+        
+        "field" : "image",
+        
+        "cpnConfig" : {
+            "maxImagesLimit" : "4",
+            "rowImages" : "4"
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
+        }
     }
 ]

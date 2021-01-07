@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) IMSFormComponentType type; /**< 组件类型（字符串枚举） */
 
 @property (copy, nonatomic) NSString *title; /**< 组件显示的标题 */
-@property (copy, nonatomic) NSString *value; /**< 组件显示的值 */
+@property (copy, nonatomic) NSString *value; /**< 组件显示的值(一般为普通字符串，但在file/image类型组件中，value应为JSON string, e.g. [{"name":"filename"}]) */
+@property (strong, nonatomic) NSArray *valueList; /**< <#property#> */
 @property (copy, nonatomic) NSString *info; /**< 提示/说明文本 */
 @property (copy, nonatomic) NSString *placeholder; /**< 占位文本 */
 
@@ -36,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) IMSFormComponentConfig *cpnConfig; /**< 组件配置, default: */
 @property (strong, nonatomic) IMSFormComponentStyle *cpnStyle; /**< 组件样式, default: */
-@property (strong, nonatomic) IMSFormComponentRule *cpnRule; /**< 组件检验, default: */
+@property (strong, nonatomic) IMSFormComponentRule *cpnRule; /**< 组件校验, default: */
 
 @end
 

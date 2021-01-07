@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isNotEmpty:(NSString *)value;
 
 /**
- 邮箱校验
+ Email校验
 
  @param value 校验的字符串
  @return BOOL
@@ -66,6 +66,15 @@ NS_ASSUME_NONNULL_BEGIN
  @return BOOL
  */
 + (BOOL)isFloatNumber:(NSString *)value;
+
+/**
+ URL校验
+ 注意：这里校验忽略了url长度限制，有特殊要求可使用严格的正则表达式配合validate:withRegex:使用
+ 
+ @param value 校验的字符串
+ @return BOOL
+ */
++ (BOOL)isURL:(NSString *)value;
 
 /**
  数据源校验

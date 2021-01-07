@@ -73,7 +73,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TimePicker;
 #pragma mark - Readonly
 
 // Seperator component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Line;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Line; // added
 
 // Section head component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_SectionHeader;

@@ -53,6 +53,11 @@
     return [self validate:value withRegex:@"^[0-9]+([.]{1}[0-9]+){0,1}$"];
 }
 
++ (BOOL)isURL:(NSString *)value
+{
+    return [self validate:value withRegex:@"^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:[0-9]{1,5})?[-a-zA-Z0-9()@:%_\\\+\.~#?&//=]*$"];
+}
+
 + (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray
 {
     for (IMSFormModel * _Nonnull model in dataArray) {
