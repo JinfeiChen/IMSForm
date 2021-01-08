@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 用于快速根据配置文件构建APP表单页面，减少低价值的硬编码工作，提高开发效率。
                        DESC
 
-  s.homepage         = 'https://github.com/JinfeiChen/IMSForm'
+  s.homepage         = 'https://git.imshktech.com/ios/imsform'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'jinfei_chen@icloud.com' => 'jinfei_chen@icloud.com' }
-  s.source           = { :git => 'https://github.com/JinfeiChen/IMSForm.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://git.imshktech.com/ios/imsform.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'

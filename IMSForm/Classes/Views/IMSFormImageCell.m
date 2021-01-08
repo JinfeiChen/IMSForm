@@ -240,11 +240,20 @@
     
     // MARK: update _selectedPhotos
     _selectedPhotos = [NSMutableArray array];
-    NSError *localError = nil;
-    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-        [[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+//    NSError *localError = nil;
+//    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
+//    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
+//    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
+//        [[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+//            if (![IMSFormValidateManager isURL:obj]) {
+//                NSLog(@"图片地址不是合法的URL");
+//            }
+//            [_selectedPhotos addObject:[NSURL URLWithString:obj]];
+//        }];
+//    }
+    NSArray *valueList = model.valueList;
+    if (valueList && [valueList isKindOfClass:[NSArray class]]) {
+        [[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
             if (![IMSFormValidateManager isURL:obj]) {
                 NSLog(@"图片地址不是合法的URL");
             }
@@ -470,13 +479,19 @@
         [self.form.tableView endUpdates];
         
         // update model value
-        NSError *localError = nil;
-        NSData *jsonData = [self.model.value dataUsingEncoding:NSUTF8StringEncoding];
-        NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-        if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-            NSMutableArray *mArr = [NSMutableArray arrayWithArray:jsonObject];
+//        NSError *localError = nil;
+//        NSData *jsonData = [self.model.value dataUsingEncoding:NSUTF8StringEncoding];
+//        NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
+//        if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
+//            NSMutableArray *mArr = [NSMutableArray arrayWithArray:jsonObject];
+//            [mArr removeObjectAtIndex:sender.tag];
+//            self.model.value = [mArr yy_modelToJSONString];
+//        }
+        NSArray *valueList = self.model.valueList;
+        if (valueList && [valueList isKindOfClass:[NSArray class]]) {
+            NSMutableArray *mArr = [NSMutableArray arrayWithArray:valueList];
             [mArr removeObjectAtIndex:sender.tag];
-            self.model.value = [mArr yy_modelToJSONString];
+            self.model.value = [mArr copy];
         }
         
         // call back
@@ -502,13 +517,19 @@
     }];
     
     // update model value
-    NSError *localError = nil;
-    NSData *jsonData = [self.model.value dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-        NSMutableArray *mArr = [NSMutableArray arrayWithArray:jsonObject];
+//    NSError *localError = nil;
+//    NSData *jsonData = [self.model.value dataUsingEncoding:NSUTF8StringEncoding];
+//    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
+//    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
+//        NSMutableArray *mArr = [NSMutableArray arrayWithArray:jsonObject];
+//        [mArr removeObjectAtIndex:sender.tag];
+//        self.model.value = [mArr yy_modelToJSONString];
+//    }
+    NSArray *valueList = self.model.valueList;
+    if (valueList && [valueList isKindOfClass:[NSArray class]]) {
+        NSMutableArray *mArr = [NSMutableArray arrayWithArray:valueList];
         [mArr removeObjectAtIndex:sender.tag];
-        self.model.value = [mArr yy_modelToJSONString];
+        self.model.valueList = [mArr copy];
     }
     
     // call back

@@ -205,11 +205,15 @@
 
     self.bodyView.userInteractionEnabled = model.isEditable;
 
-    NSError *localError = nil;
-    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
-    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-        [self.listArray addObjectsFromArray:[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, model.cpnConfig.maxFilesLimit))]];
+//    NSError *localError = nil;
+//    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
+//    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
+//    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
+//        [self.listArray addObjectsFromArray:[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, model.cpnConfig.maxFilesLimit))]];
+//    }
+    NSArray *valueList = model.valueList;
+    if (valueList && [valueList isKindOfClass:[NSArray class]]) {
+        [self.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, model.cpnConfig.maxFilesLimit))]];
     }
     self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
 }
@@ -236,7 +240,7 @@
         [self.form.tableView endUpdates];
         
         // update model value
-        self.model.value = [self.listArray yy_modelToJSONString];
+        self.model.valueList = [self.listArray copy];
         
         // call back
         if (self.didUpdateFormModelBlock) {
