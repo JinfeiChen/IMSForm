@@ -8,7 +8,11 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IMSForm'
+<<<<<<< HEAD
   s.version          = '1.0.2'
+=======
+  s.version          = '1.0.3'
+>>>>>>> main
   s.summary          = 'IMSForm 为开发者准备的APP端表单组件库.'
 
 # This description is used to generate tags and improve search results.
@@ -28,7 +32,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://git.imshktech.com/ios/imsform.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'IMSForm/Classes/**/*'
   
