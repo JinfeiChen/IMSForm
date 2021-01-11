@@ -16,6 +16,7 @@
         _editable = YES;
         _required = NO;
         _clearable = YES;
+        _selected = NO;
     }
     return self;
 }

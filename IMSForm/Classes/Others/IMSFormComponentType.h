@@ -44,7 +44,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio;//
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Checkbox;
 
 // Select component (multiple: YES or NO)
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Select;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Select; // in progress...
 
 // File upload component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_FileUpload; // added

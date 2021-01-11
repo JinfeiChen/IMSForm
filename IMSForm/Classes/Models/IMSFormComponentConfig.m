@@ -9,10 +9,19 @@
 
 @implementation IMSFormComponentConfig
 
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    // value should be Class or Class name.
+    return @{
+        @"uniDataSource" : [IMSPopupSingleSelectModel class],
+        @"multDataSource" : [IMSPopupMultipleSelectModel class]
+    };
+}
+
 - (instancetype)init
 {
     if (self = [super init]) {
-        _multipleLimit = 100;
+        _multiple = NO;
+        _multipleLimit = _multiple ? 100 : 1;
         _textType = IMSFormTextType_Default;
         _lengthLimit = 100;
         _precision = 0;

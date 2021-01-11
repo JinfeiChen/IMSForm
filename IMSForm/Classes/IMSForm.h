@@ -12,5 +12,6 @@
 #import <IMSForm/IMSFormManager.h>
 
 #import <IMSForm/IMSFormTableViewCell.h>
+#import <IMSForm/IMSFormView.h>
 
 #endif /* IMSForm_h */
