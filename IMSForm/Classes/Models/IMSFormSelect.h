@@ -6,7 +6,7 @@
 //  Created by cjf on 11/1/2021.
 //
 
-#import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSFormObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=isSelected) BOOL selected; /**< <#property#> */
 
 @property (strong, nonatomic) NSArray <IMSFormSelect *> *child; /**< <#property#> */
+
+
 
 @end
 

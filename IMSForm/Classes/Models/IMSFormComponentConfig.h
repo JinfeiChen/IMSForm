@@ -10,6 +10,7 @@
 #import <IMSForm/IMSFormType.h>
 #import <IMSForm/IMSPopupSingleSelectModel.h>
 #import <IMSForm/IMSPopupMultipleSelectModel.h>
+#import <IMSForm/IMSFormSelect.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSInteger multipleLimit; /**< 最多选择数量, default 100, 当isMultiple=NO时，multipleLimit不可变，始终为1 */
 
 @property (assign, nonatomic) NSInteger uniItemType; /**< 子列表Cell类型，0 System/ 1 Related/ 2 SourceCampaign */
-@property (strong, nonatomic) NSArray <IMSPopupSingleSelectModel *> *uniDataSource; /**< 单选数据列表 */
+
+@property (nonatomic, strong) NSArray *selectDataSource;/**< 列表数据源 *  dict */
+
+@property (strong, nonatomic) NSArray <IMSPopupSingleSelectModel *> *uniDataSource; /**< 单选数据列表*/
 
 @property (strong, nonatomic) NSArray <IMSPopupMultipleSelectModel *> *multDataSource; /**< 多选数据列表 */
 

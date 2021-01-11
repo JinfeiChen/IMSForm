@@ -8,6 +8,8 @@
               "datePickerMode" : 1,
               "dateFormat" : "yyyy-MM-dd"
           }
+    },
+    {
         "type" : "IMSFormComponentType_TextField",
         
         "title" : "Email",
@@ -296,5 +298,35 @@
         },
         "cpnRule" : {
         }
-    }
+    },
+    {
+        "type" : "IMSFormComponentType_Radio",
+        "title" : "radio",
+        "field" : "radio",
+        "cpnConfig" : {
+              "selectDataSource" : [
+                  {
+                      "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                      "selected" : 1,
+                      "param" : "",
+                      "normalImageName" : "search_radio",
+                      "selectedImageName" : "bt_radio_select"
+                  },
+                  {
+                      "value" : "value2",
+                      "selected" : 0,
+                      "param" : "",
+                      "normalImageName" : "search_radio",
+                      "selectedImageName" : "bt_radio_select"
+                  },
+                  {
+                      "value" : "value3",
+                      "selected" : 0,
+                      "param" : "",
+                      "normalImageName" : "search_radio",
+                      "selectedImageName" : "bt_radio_select"
+                  }
+              ]
+          }
+    },
 ]

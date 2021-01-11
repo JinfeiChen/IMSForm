@@ -6,6 +6,11 @@
 //
 
 #import "IMSFormRadioCell.h"
+#import "IMSFormSelect.h"
+
+@implementation IMSFormRadioModel
+
+@end
 
 @interface IMSFormRadioCell ()
 @property (nonatomic, strong) NSMutableArray *buttonArrayM;
@@ -57,7 +62,7 @@
         make.top.mas_equalTo(self.titleLabel.mas_bottom).mas_offset(spacing);
         make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
         make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
-        make.height.mas_equalTo(kIMSFormDefaultHeight);
+//        make.height.mas_equalTo(kIMSFormDefaultHeight);
     }];
 
     [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
@@ -84,39 +89,64 @@
     
     self.bodyView.userInteractionEnabled = model.isEditable;
     
-    if (dataModel.selectDataArrayM.count != self.buttonArrayM.count) {
+    
+    NSArray *dataModelSource = [NSArray yy_modelArrayWithClass:[IMSFormRadioModel class] json:model.cpnConfig.selectDataSource];
+    
+    if (dataModelSource.count != self.buttonArrayM.count) {
         for (UIButton *button in self.buttonArrayM) {
             [button removeFromSuperview];
         }
         [self.buttonArrayM removeAllObjects];
     }
     
-    if (self.model.valueList.count && !self.buttonArrayM.count) {
-        for (int i = 0; i < self.model.valueList.count; ++i) {
-            
-            RAContactsFilterRightTabManySelectedModel *model = dataModel.selectDataArrayM[i];
+    if (dataModelSource.count && !self.buttonArrayM.count) {
+        for (int i = 0; i < dataModelSource.count; ++i) {
+            IMSFormRadioModel *selectModel = dataModelSource[i];
             UIButton *button = [[UIButton alloc]init];
             button.tag = i;
-            [button setTitle:model.value forState:UIControlStateNormal];
+            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [button setImage:[UIImage bundleImageWithNamed:selectModel.normalImageName] forState:UIControlStateNormal];
+            [button setImage:[UIImage bundleImageWithNamed:selectModel.selectedImageName] forState:UIControlStateSelected];
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
             [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
             button.backgroundColor = [UIColor whiteColor];
             button.titleLabel.font = [UIFont systemFontOfSize:14];
-            [button rounded:8];
-            [self.contentView addSubview:button];
+    
+            [self.bodyView addSubview:button];
             [self.buttonArrayM addObject:button];
-            
-            
         }
-        [self.buttonArrayM mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:10 leadSpacing:10 tailSpacing:10];
+        
+        [self.buttonArrayM mas_distributeViewsAlongAxis:MASAxisTypeVertical withFixedSpacing:10 leadSpacing:10 tailSpacing:10];
         [self.buttonArrayM mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentView);
-            make.height.mas_equalTo(40);
-            make.bottom.equalTo(self.contentView).offset(-10);
+            make.height.mas_equalTo(30);
+            make.left.equalTo(self.bodyView).offset(10);
+            make.right.equalTo(self.bodyView);
         }];
     }
     
+    for (int i = 0; i < dataModelSource.count; ++i) {
+        IMSFormRadioModel *selectModel = dataModelSource[i];
+        UIButton *button = self.buttonArrayM[i];
+        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.value] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.value] forState:UIControlStateSelected];
+        button.selected = selectModel.selected;
+    }
+    
+}
+
+- (void)buttonAction:(UIButton *)button {
+    if (button.selected) return;
+    
+    NSMutableArray *resultArray = [[NSMutableArray alloc]init];
+    for (int i = 0; i < self.buttonArrayM.count; ++i) {
+        UIButton *allButton = self.buttonArrayM[i];
+        NSDictionary *dataDict = self.model.cpnConfig.selectDataSource[i];
+        NSMutableDictionary *dataDictM = dataDict.mutableCopy;
+        allButton.selected = (button.tag == allButton.tag);
+        [dataDictM setValue:@(allButton.selected) forKey:@"selected"];
+        [resultArray addObject:dataDictM];
+    }
+    self.model.cpnConfig.selectDataSource = resultArray;
 }
 
 - (NSMutableArray *)buttonArrayM {

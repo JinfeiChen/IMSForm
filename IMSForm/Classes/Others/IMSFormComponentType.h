@@ -38,7 +38,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Cascader;
 
 // Single selection component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio;//
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio; // added
 
 // Multiple selection component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Checkbox;

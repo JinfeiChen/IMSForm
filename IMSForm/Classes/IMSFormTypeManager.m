@@ -43,13 +43,10 @@
     [self registCellClass:NSClassFromString(@"IMSFormRangeCell") forKey:IMSFormComponentType_Range];
     [self registCellClass:NSClassFromString(@"IMSFormFileCell") forKey:IMSFormComponentType_FileUpload];
     [self registCellClass:NSClassFromString(@"IMSFormImageCell") forKey:IMSFormComponentType_ImageUpload];
-<<<<<<< HEAD
-        [self registCellClass:NSClassFromString(@"IMSFormDateTimeCell") forKey:IMSFormComponentType_DateTimePicker];
-=======
+    [self registCellClass:NSClassFromString(@"IMSFormDateTimeCell") forKey:IMSFormComponentType_DateTimePicker];
     [self registCellClass:NSClassFromString(@"IMSFormSelectCell") forKey:IMSFormComponentType_Select];
->>>>>>> main
-    
     [self registCellClass:NSClassFromString(@"IMSFormLineCell") forKey:IMSFormComponentType_Line];
+    [self registCellClass:NSClassFromString(@"IMSFormRadioCell") forKey:IMSFormComponentType_Radio];
 }
 
 #pragma mark - Public Methods
