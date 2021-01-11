@@ -198,5 +198,95 @@
         },
         "cpnRule" : {
         }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_Select",
+        
+        "title" : "Single Select",
+        "value" : "SingleValue",
+        "placeholder" : "请单选",
+        "info" : "这是个单选列表组件",
+        
+        "selected" : 1,
+        
+        "field" : "uniSelect",
+        
+        "cpnConfig" : {
+            "multiple" : 0,
+            "uniItemType" : 0,
+            "uniDataSource" : [
+                {
+                    "name" : "name1",
+                    "key" : "key1",
+                    "value" : "value1"
+                },
+                {
+                    "name" : "name2",
+                    "key" : "key2",
+                    "value" : "value2"
+                }
+            ]
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
+        }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_Select",
+        
+        "title" : "Multiple Select",
+        "valueList" : [
+            {
+                "label" : "Default1",
+                "key" : "key1",
+                "value" : "value1"
+            }
+        ],
+        "placeholder" : "请多选",
+        "info" : "这是个多选列表组件",
+        
+        "selected" : 0,
+        
+        "field" : "multipleSelect",
+        
+        "cpnConfig" : {
+            "multiple" : 1,
+            "multipleLimit" : "100",
+            "multDataSource" : [
+                [
+                    {
+                        "label" : "Default11",
+                        "key" : "key11",
+                        "value" : "value11"
+                    },
+                    {
+                        "label" : "Default12",
+                        "key" : "key12",
+                        "value" : "value12"
+                    }
+                ],
+                [
+                    {
+                        "label" : "Default21",
+                        "key" : "key21",
+                        "value" : "value21"
+                    },
+                    {
+                        "label" : "Default22",
+                        "key" : "key22",
+                        "value" : "value22"
+                    }
+                ]
+            ]
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
+        }
     }
 ]

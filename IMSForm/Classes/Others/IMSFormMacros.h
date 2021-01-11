@@ -8,6 +8,8 @@
 #ifndef IMSFormMacros_h
 #define IMSFormMacros_h
 
+#define IMSAppWindow [[UIApplication sharedApplication].delegate window]
+
 #define IMS_SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define IMS_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
@@ -43,6 +45,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 \
 alpha:(a)]
 
 #define IMS_HEXCOLOR(rgbValue) IMS_HEXALPHACOLOR(rgbValue, 1.0)
+
+//1.根据设计图使用的手机类型尺寸，得出屏幕比
+#define kHeightResult(a)   (a * IMS_SCREEN_HEIGHT / 667.0)
+#define kWidthResult(b)  (b * IMS_SCREEN_WIDTH / 375.0)
 
 /**
  合成弱引用/强引用

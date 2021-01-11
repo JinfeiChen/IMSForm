@@ -43,6 +43,7 @@
     [self registCellClass:NSClassFromString(@"IMSFormRangeCell") forKey:IMSFormComponentType_Range];
     [self registCellClass:NSClassFromString(@"IMSFormFileCell") forKey:IMSFormComponentType_FileUpload];
     [self registCellClass:NSClassFromString(@"IMSFormImageCell") forKey:IMSFormComponentType_ImageUpload];
+    [self registCellClass:NSClassFromString(@"IMSFormSelectCell") forKey:IMSFormComponentType_Select];
     
     [self registCellClass:NSClassFromString(@"IMSFormLineCell") forKey:IMSFormComponentType_Line];
 }
