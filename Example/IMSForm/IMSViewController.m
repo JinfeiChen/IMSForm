@@ -39,7 +39,7 @@
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
-    NSArray *order = @[@"email", @"progress", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
+    NSArray *order = @[@"email", @"progress", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name",@"date"];
     self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
 
     [self.form.tableView reloadData];

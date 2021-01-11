@@ -44,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *maxPlaceholder; /**< 最大值占位文本 */
 
 #pragma mark - Date
-
+@property (nonatomic, strong) NSDate *minDate;
+@property (nonatomic, strong) NSDate *maxDate;
 @property (nonatomic, assign) UIDatePickerMode datePickerMode; /**< 模式 */
 @property (nonatomic, copy) NSString *dateFormat; /**< 日期格式，e.g. yyyy-MM-dd, MM/dd */
 

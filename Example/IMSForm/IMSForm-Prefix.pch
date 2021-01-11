@@ -14,3 +14,205 @@
     @import UIKit;
     @import Foundation;
 #endif
+/*
+ {
+     "type" : "IMSFormComponentType_TextField",
+     
+     "title" : "Email",
+     "value" : "raptor@ims.com",
+     "placeholder" : "Please enter your email address",
+     "info" : "Max length limit 20",
+     
+     "visible" : "1",
+     "editable" : "1",
+     "required" : "1",
+     "clearable" : "1",
+     
+     "field" : "email",
+     "param" : "",
+     
+     "defaultSelectorString" : "didUpdatedMyFormModel:indexPath:",
+     "customSelectorString" : "customDidSelectedMyFormModel:indexPath:",
+     
+     "cpnConfig" : {
+         "textType" : "email",
+         "lengthLimit" : "20",
+         "precision" : "2"
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+         "message" : {},
+         "validators" : [
+             {
+                 "class" : "IMSMyValidateManager",
+                 "selector" : "isNotEmpty"
+             },
+             {
+                 "class" : "IMSMyValidateManager",
+                 "selector" : "isEmail"
+             }
+         ],
+         "trigger" : "blur"
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_TextView",
+     
+     "title" : "Description",
+     
+     "field" : "desc",
+     
+     "cpnConfig" : {
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_Slider",
+     
+     "title" : "Progress",
+     
+     "field" : "progress",
+     
+     "cpnConfig" : {
+         "min" : "0",
+         "max" : "10",
+         "precision" : "3"
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_Switch",
+     
+     "title" : "Switch",
+     
+     "field" : "switch",
+     
+     "cpnConfig" : {
+     },
+     "cpnStyle" : {
+         "layout" : "vertical",
+         "bodyAlign" : "right"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_Number",
+     
+     "title" : "Number",
+     
+     "field" : "number",
+     
+     "cpnConfig" : {
+         "min" : "0",
+         "max" : "10000",
+         "precision" : "0",
+         "increment" : "1"
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_Range",
+     
+     "title" : "Range",
+     "value" : "123;1234",
+     
+     "field" : "range",
+     
+     "cpnConfig" : {
+         "min" : "",
+         "max" : "",
+         "precision" : "3",
+         "minPlaceholder" : "MIN",
+         "maxPlaceholder" : "MAX"
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_FileUpload",
+     
+     "title" : "File",
+     "valueList" : [
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+         {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"}
+     ],
+     "info" : "最多上传5文件",
+     
+     "field" : "file",
+     
+     "cpnConfig" : {
+         "maxFilesLimit" : "5"
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_Line",
+     "field" : "line"
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_ImageUpload",
+     
+     "title" : "Image",
+     "valueList" : [
+         "https://img-blog.csdnimg.cn/20201222160340884.jpg",
+         "https://img-blog.csdnimg.cn/20201222160340884.jpg",
+         "https://img-blog.csdnimg.cn/20201222160340884.jpg",
+         "https://img-blog.csdnimg.cn/20201222160340884.jpg",
+         "https://img-blog.csdnimg.cn/20201222160340884.jpg",
+         "https://img-blog.csdnimg.cn/20201222160340884.jpg"
+     ],
+     "info" : "最多上传4张图片",
+     
+     "field" : "image",
+     
+     "cpnConfig" : {
+         "maxImagesLimit" : "4",
+         "rowImages" : "4"
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ */

@@ -38,7 +38,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Cascader;
 
 // Single selection component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio;//
 
 // Multiple selection component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Checkbox;
@@ -62,7 +62,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Transfer;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ColorPicker;
 
 // Date and time picker component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker; // added
 
 #pragma mark - Readonly
 
