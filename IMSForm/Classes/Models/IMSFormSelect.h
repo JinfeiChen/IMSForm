@@ -6,7 +6,7 @@
 //  Created by cjf on 11/1/2021.
 //
 
-#import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSFormObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *value; /**< <#property#> */
 @property (strong, nonatomic) id param; /**< <#property#> */
-@property (assign, nonatomic, getter=isSelected) BOOL selected; /**< <#property#> */
+@property (nonatomic, copy) NSString *title; /**< 分区标题 */
+@property (assign, nonatomic, getter=isSelected) BOOL selected; /**< 选中状态 */
+@property (assign, nonatomic, getter=isEnable) BOOL enable; /**< 可用性 */
 
 @property (strong, nonatomic) NSArray <IMSFormSelect *> *child; /**< <#property#> */
 

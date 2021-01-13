@@ -6,7 +6,7 @@
 //
 
 #import "IMSFormTextViewCell.h"
-
+#import <IMSForm/IMSFormManager.h>
 
 @interface IMSFormTextViewCell () <YYTextViewDelegate>
 

@@ -7,6 +7,8 @@
 
 #import "IMSFormFileCell.h"
 
+#import <IMSForm/IMSFormManager.h>
+
 #define kFormTBFileRowHeight 35.0
 
 @interface IMSFormFileSubCell : UITableViewCell

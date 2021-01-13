@@ -8,7 +8,7 @@
 #import <IMSForm/IMSFormObject.h>
 
 #import <IMSForm/IMSFormType.h>
-#import <IMSForm/IMSPopupSingleSelectModel.h>
+#import <IMSForm/IMSPopupSingleSelectContactModel.h>
 #import <IMSForm/IMSPopupMultipleSelectModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,10 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=isMultiple) BOOL multiple; /**< 是否多选, default NO */
 @property (assign, nonatomic) NSInteger multipleLimit; /**< 最多选择数量, default 100, 当isMultiple=NO时，multipleLimit不可变，始终为1 */
 
-@property (assign, nonatomic) NSInteger uniItemType; /**< 子列表Cell类型，0 System/ 1 Related/ 2 SourceCampaign */
-@property (strong, nonatomic) NSArray <IMSPopupSingleSelectModel *> *uniDataSource; /**< 单选数据列表 */
-
-@property (strong, nonatomic) NSArray <IMSPopupMultipleSelectModel *> *multDataSource; /**< 多选数据列表 */
+/**
+ 子列表Cell类型
+ 
+ A. multiple YES : 0 Default/ 1 Custom
+ B. multiple NO : 0 Default/ 1 Contact/ 2 Custom
+ */
+@property (assign, nonatomic) NSInteger selectItemType;
+@property (strong, nonatomic) NSArray *selectDataSource; /**< 数据列表 */
 
 #pragma mark - TextField
 

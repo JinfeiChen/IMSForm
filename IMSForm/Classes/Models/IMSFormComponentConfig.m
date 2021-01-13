@@ -12,8 +12,6 @@
 + (NSDictionary *)modelContainerPropertyGenericClass {
     // value should be Class or Class name.
     return @{
-        @"uniDataSource" : [IMSPopupSingleSelectModel class],
-        @"multDataSource" : [IMSPopupMultipleSelectModel class]
     };
 }
 

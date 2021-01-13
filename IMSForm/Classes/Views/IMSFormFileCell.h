@@ -5,7 +5,7 @@
 //  Created by cjf on 7/1/2021.
 //
 
-#import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSFormTableViewCell.h>
 #import <IMSForm/IMSFilePicker.h>
 
 NS_ASSUME_NONNULL_BEGIN

@@ -6,6 +6,8 @@
 //
 
 #import "IMSFormNumberCell.h"
+
+#import <IMSForm/IMSFormManager.h>
 #import <IMSForm/NSString+Extension.h>
 
 @interface IMSFormNumberCell () <UITextFieldDelegate>

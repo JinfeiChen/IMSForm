@@ -204,27 +204,35 @@
         "type" : "IMSFormComponentType_Select",
         
         "title" : "Single Select",
-        "value" : "SingleValue",
+        "valueList" : [
+            {
+                "value" : "value1",
+                "name" : "name1",
+                "selected" : 1
+            }
+        ],
         "placeholder" : "请单选",
         "info" : "这是个单选列表组件",
         
-        "selected" : 1,
+        "selected" : 0,
         
         "field" : "uniSelect",
         
         "cpnConfig" : {
             "multiple" : 0,
-            "uniItemType" : 0,
-            "uniDataSource" : [
+            "selectItemType" : 1,
+            "selectDataSource" : [
                 {
+                    "value" : "value1",
                     "name" : "name1",
-                    "key" : "key1",
-                    "value" : "value1"
+                    "selected" : 1
                 },
                 {
+                    "value" : "value2",
                     "name" : "name2",
-                    "key" : "key2",
-                    "value" : "value2"
+                    "phone" : "+86 188 8888 8888",
+                    "role" : "role",
+                    "info" : "contact info text"
                 }
             ]
         },
@@ -241,9 +249,28 @@
         "title" : "Multiple Select",
         "valueList" : [
             {
-                "label" : "Default1",
-                "key" : "key1",
-                "value" : "value1"
+                "value" : "value21",
+                "child" : []
+            },
+            {
+                "value" : "value22",
+                "child" : []
+            },
+            {
+                "value" : "value23",
+                "child" : []
+            },
+            {
+                "value" : "value24",
+                "child" : []
+            },
+            {
+                "value" : "value25",
+                "child" : []
+            },
+            {
+                "value" : "value26",
+                "child" : []
             }
         ],
         "placeholder" : "请多选",
@@ -255,32 +282,53 @@
         
         "cpnConfig" : {
             "multiple" : 1,
-            "multipleLimit" : "100",
-            "multDataSource" : [
-                [
-                    {
-                        "label" : "Default11",
-                        "key" : "key11",
-                        "value" : "value11"
-                    },
-                    {
-                        "label" : "Default12",
-                        "key" : "key12",
-                        "value" : "value12"
-                    }
-                ],
-                [
-                    {
-                        "label" : "Default21",
-                        "key" : "key21",
-                        "value" : "value21"
-                    },
-                    {
-                        "label" : "Default22",
-                        "key" : "key22",
-                        "value" : "value22"
-                    }
-                ]
+            "multipleLimit" : 20,
+            "selectItemType" : 0,
+            "selectDataSource" : [
+                {
+                    "value": "section1",
+                    "title": "Section 1",
+                    "child": [
+                        {
+                            "value" : "value11",
+                            "child" : []
+                        },
+                        {
+                            "value" : "value12",
+                            "child" : []
+                        }
+                    ]
+                },
+                {
+                    "value": "section2",
+                    "title": "Section 2",
+                    "child": [
+                        {
+                            "value" : "value21",
+                            "child" : []
+                        },
+                        {
+                            "value" : "value22",
+                            "child" : []
+                        },
+                        {
+                            "value" : "value23",
+                            "child" : []
+                        },
+                        {
+                            "value" : "value24",
+                            "child" : []
+                        },
+                        {
+                            "value" : "value25",
+                            "child" : []
+                        },
+                        {
+                            "value" : "value26",
+                            "child" : []
+                        }
+                    ]
+                }
             ]
         },
         "cpnStyle" : {

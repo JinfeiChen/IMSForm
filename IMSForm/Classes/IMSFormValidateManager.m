@@ -30,7 +30,7 @@
 
 + (BOOL)isEmpty:(NSString *)value
 {
-    return [self validate:value withRegex:@"^$"];
+    return !value || (value.length == 0) || ![value isKindOfClass:[NSString class]];
 }
 
 + (BOOL)isNotEmpty:(NSString *)value

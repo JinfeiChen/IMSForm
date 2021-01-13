@@ -16,4 +16,13 @@
     };
 }
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _selected = NO;
+        _enable = YES;
+    }
+    return self;
+}
+
 @end

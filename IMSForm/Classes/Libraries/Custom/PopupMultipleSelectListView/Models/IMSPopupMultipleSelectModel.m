@@ -13,39 +13,15 @@
 + (NSDictionary *)modelCustomPropertyMapper
 {
     return @{
-        @"value": @[@"Value", @"value", @"Name"],
-        @"label": @[@"Label", @"label"],
-        @"childArray": @[@"Children", @"children"]
+        @"title": @[@"title", @"Title"]
     };
 }
 
 + (NSDictionary *)modelContainerPropertyGenericClass {
     // value should be Class or Class name.
     return @{
-        @"childArray": [IMSPopupMultipleSelectModel class],
-        @"dataSourceArrayM": [IMSPopupMultipleSelectModel class]
+        @"child": [IMSPopupMultipleSelectModel class]
     };
-}
-
-- (BOOL)noSelect {
-    if ([_value isEqualToString:@"Internal Agent"]) {
-        _noSelect = YES;
-    }
-    return _noSelect;
-}
-
-- (NSString *)Id {
-    if (!_Id || _Id.length == 0) {
-        return _value;
-    }
-    return _Id;
-}
-
-- (NSMutableArray *)dataSourceArrayM {
-    if (_dataSourceArrayM == nil) {
-        _dataSourceArrayM = [[NSMutableArray alloc] init];
-    }
-    return _dataSourceArrayM;
 }
 
 @end

@@ -7,6 +7,8 @@
 
 #import "IMSFormImageCell.h"
 
+#import <IMSForm/IMSFormManager.h>
+
 #import <TZImagePickerController/TZImagePickerController.h>
 #import <TZImagePickerController/UIView+TZLayout.h>
 #import <TZImagePickerController/TZImageManager.h>

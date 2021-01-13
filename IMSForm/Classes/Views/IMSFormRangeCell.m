@@ -7,6 +7,8 @@
 
 #import "IMSFormRangeCell.h"
 
+#import <IMSForm/IMSFormManager.h>
+
 @interface IMSFormRangeCell () <UITextFieldDelegate>
 
 @property (copy, nonatomic) NSString *minValue; /**< <#property#> */

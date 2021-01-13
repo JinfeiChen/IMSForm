@@ -27,7 +27,8 @@ Pod::Spec.new do |s|
   s.author           = { 'jinfei_chen@icloud.com' => 'jinfei_chen@icloud.com' }
   s.source           = { :git => 'https://git.imshktech.com/ios/imsform.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-
+  
+  s.platform = :ios
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'IMSForm/Classes/**/*'
@@ -35,6 +36,8 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'IMSForm' => ['IMSForm/Assets/*.*']
   }
+  
+  s.prefix_header_file = 'IMSForm/Classes/Others/IMSFormPrefix.pch'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

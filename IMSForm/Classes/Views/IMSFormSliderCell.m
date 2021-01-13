@@ -6,6 +6,8 @@
 //
 
 #import "IMSFormSliderCell.h"
+
+#import <IMSForm/IMSFormManager.h>
 #import <IMSForm/IMSValueTrackingSlider.h>
 #import <IMSForm/NSString+Extension.h>
 

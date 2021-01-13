@@ -9,11 +9,16 @@
 #import "IMSViewController.h"
 
 #import <IMSForm/IMSForm.h>
+#import "IMSCustomSingleSelectListView.h"
+#import "IMSCustomMultipleSelectListView.h"
 
-@interface IMSViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerDelegate>
 
 @property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
+
+@property (strong, nonatomic) UIView *customContactSingleListView; /**< <#property#> */
+@property (strong, nonatomic) UIView *customAddressSingleListView; /**< <#property#> */
 
 @end
 
@@ -95,6 +100,24 @@
     return cell;
 }
 
+#pragma mark - IMSFormManagerDelegate
+
+- (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel
+{
+    IMSCustomSingleSelectListView *selectListView = [[IMSCustomSingleSelectListView alloc] init];
+    selectListView.cellType = IMSPopupSingleSelectListViewCellType_Custom;
+    selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
+    return selectListView;
+}
+
+- (IMSPopupMultipleSelectListView *)customMultipleSelectListViewWithFormModel:(IMSFormModel *)formModel
+{
+    IMSCustomMultipleSelectListView *selectListView = [[IMSCustomMultipleSelectListView alloc] init];
+    selectListView.cellType = IMSPopupMultipleSelectListViewCellType_Custom;
+    selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
+    return selectListView;
+}
+
 #pragma mark - Actions
 
 - (void)submitAction:(id)sender
@@ -136,6 +159,7 @@
 {
     if (!_form) {
         _form = [[IMSFormManager alloc] initWithTableView:self.tableView JSON:@"formData"];
+        _form.delegate = self;
     }
     return _form;
 }
