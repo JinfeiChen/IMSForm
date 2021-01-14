@@ -6,6 +6,7 @@
 //
 
 #import <IMSForm/IMSFormTableViewCell.h>
+#import <IMSForm/IMSFormNumberModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIButton *increaseButton;
 @property (nonatomic, strong) UIButton *decreaseButton;
 @property (strong, nonatomic) UITextField *textField; /**< <#property#> */
+
+@property (strong, nonatomic) IMSFormNumberModel *model; /**< <#property#> */
 
 @end
 

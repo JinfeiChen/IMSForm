@@ -35,7 +35,9 @@
     NSMutableArray *mArr = [NSMutableArray array];
     [array enumerateObjectsUsingBlock:^(IMSFormModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.isVisible) {
-            [mArr addObject:obj];
+            Class newModelClass = [IMSFormTypeManager formModelClassWithCPNType:obj.type];
+            NSArray *newModelArr = [NSArray yy_modelArrayWithClass:newModelClass json:@[[jsonArrayData objectAtIndex:idx]]];
+            [mArr addObjectsFromArray:newModelArr];
         }
     }];
     return mArr;
@@ -48,13 +50,20 @@
 
 + (NSArray<IMSFormModel *> *)sortFormDataArray:(NSArray<IMSFormModel *> *)dataSource byOrder:(NSArray<NSString *> *)orderArray
 {
-    NSMutableArray *newDataSource = [NSMutableArray array];
+    NSMutableArray *unSortedArray = [NSMutableArray array];
+    NSMutableArray *sortedArray = [NSMutableArray array];
     [orderArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"field contains [cd] %@", obj];
         NSArray *filterdArray = [dataSource filteredArrayUsingPredicate:predicate];
-        [newDataSource addObjectsFromArray:filterdArray];
+        [sortedArray addObjectsFromArray:filterdArray];
     }];
-    return newDataSource;
+    [dataSource enumerateObjectsUsingBlock:^(IMSFormModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![sortedArray containsObject:obj]) {
+            [unSortedArray addObject:obj];
+        }
+    }];
+    [sortedArray addObjectsFromArray:unSortedArray];
+    return sortedArray;
 }
 
 @end

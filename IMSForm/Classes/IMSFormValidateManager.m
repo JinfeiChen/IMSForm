@@ -9,6 +9,7 @@
 
 #import <objc/message.h>
 #import <objc/runtime.h>
+#import <IMSForm/IMSFormModelValidator.h>
 
 @implementation IMSFormValidateManager
 
@@ -58,44 +59,67 @@
     return [self validate:value withRegex:@"^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:[0-9]{1,5})?[-a-zA-Z0-9()@:%_\\\+\.~#?&//=]*$"];
 }
 
-+ (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray
++ (NSError *)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray
 {
+    NSError *error = nil;
     for (IMSFormModel * _Nonnull model in dataArray) {
         if (model.isRequired && model.isEditable && model.isVisible) {
             if (model.cpnRule) {
-                for (IMSFormValidator *validator in model.cpnRule.validators) {
-                    Class cls = NSClassFromString(validator.className);
-                    id obj = [[cls alloc] init];
-                    if (!cls || !obj) {
-                        NSLog(@"找不到校验器: %@", validator.className);
-                        return NO;
-                    }
-                    NSString *str = [NSMutableString stringWithFormat:@"%@:", validator.selectorName];
-                    SEL sel = NSSelectorFromString(str);
-                    // 尝试执行实例对象的方法
-                    if ([obj respondsToSelector:sel]) {
-                        BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model);
-                        if (!result) {
-                            NSLog(@"%@ 未通过实例方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value);
-                            return NO;
-                        }
-                    }
-                    // 尝试执行类对象的方法
-                    else if ([cls respondsToSelector:sel]) {
-                        BOOL result = ((BOOL(*)(id, SEL, IMSFormModel *))objc_msgSend)(cls, sel, model);
-                        if (!result) {
-                            NSLog(@"%@ 未通过类方法 %@ 校验, value = %@", model.title, validator.selectorName, model.value);
-                            return NO;
-                        }
-                    } else {
-                        NSLog(@"未实现的校验方法: %@", validator.selectorName);
-                        return NO;
-                    }
+                for (id obj in model.cpnRule.validators) {
+                    if ([obj isKindOfClass:[IMSFormModelValidator class]]) {
+                        
+                        IMSFormModelValidator *validator = (IMSFormModelValidator *)obj;
+                        Class cls = NSClassFromString(validator.className);
+                        SEL sel = NSSelectorFromString([NSMutableString stringWithFormat:@"%@:", validator.selectorName]);
+                        error = [self callValidatorWithClass:cls selector:sel formModel:model];
+                        
+                    } else if ([obj isKindOfClass:[NSString class]]) {
+                        
+                        Class cls = NSClassFromString(obj);
+                        SEL sel = NSSelectorFromString(@"validateFormModel:");
+                        error = [self callValidatorWithClass:cls selector:sel formModel:model];
+                        
+                    } else {}
+                    
                 }
             }
         }
     }
-    return YES;
+    return error;
+}
+
+#pragma mark - Private Methods
+
++ (NSError *)callValidatorWithClass:(Class)cls selector:(SEL)sel formModel:(IMSFormModel *)model
+{
+    NSError *error = nil;
+    NSString *desc = nil;
+    id obj = [[cls alloc] init];
+    if (!desc && (!cls || !obj)) {
+        desc = [NSString stringWithFormat:@"找不到校验器: %@", NSStringFromClass(cls)];
+    }
+    // 尝试执行实例对象的方法
+    if (!desc) {
+        if ([obj respondsToSelector:sel]) {
+            BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model);
+            if (!result) {
+                desc = [NSString stringWithFormat:@"%@ 未通过实例方法 %@ 校验, value = %@", model.title, NSStringFromSelector(sel), model.value];
+            }
+        }
+        // 尝试执行类对象的方法
+        else if ([cls respondsToSelector:sel]) {
+            BOOL result = ((BOOL(*)(id, SEL, IMSFormModel *))objc_msgSend)(cls, sel, model);
+            if (!result) {
+                desc = [NSString stringWithFormat:@"%@ 未通过类方法 %@ 校验, value = %@", model.title, NSStringFromSelector(sel), model.value];
+            }
+        } else {
+            desc = [NSString stringWithFormat:@"未实现的校验方法: %@", NSStringFromSelector(sel)];
+        }
+    }
+    if (desc) {
+        error = [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey : desc}];
+    }
+    return error;
 }
 
 @end

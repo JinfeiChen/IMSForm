@@ -6,7 +6,7 @@
 //  Copyright © 2021 jinfei_chen@icloud.com. All rights reserved.
 //
 
-#import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSPopupMultipleSelectListView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -26,8 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class IMSFormManager;
 @interface IMSFormTableViewCell : UITableViewCell
 
-@property (strong, nonatomic, readonly) IMSFormModel *model; /**< <#property#> */
-@property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
+@property (strong, nonatomic) IMSFormModel *model; /**< <#property#> */
+@property (strong, nonatomic, readonly) IMSFormManager *form; /**< <#property#> */
 
 @property (strong, nonatomic) UILabel *titleLabel; /**< <#property#> */
 @property (strong, nonatomic) UILabel *infoLabel; /**< <#property#> */

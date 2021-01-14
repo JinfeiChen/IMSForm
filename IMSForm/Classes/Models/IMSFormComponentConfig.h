@@ -70,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Money
 
+#pragma mark - Input Search
+
 @end
 
 NS_ASSUME_NONNULL_END

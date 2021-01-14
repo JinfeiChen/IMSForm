@@ -6,12 +6,15 @@
 //
 
 #import <IMSForm/IMSFormTableViewCell.h>
+#import <IMSForm/IMSFormTextViewModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormTextViewCell : IMSFormTableViewCell
 
 @property (strong, nonatomic) YYTextView *textView; /**< <#property#> */
+
+@property (strong, nonatomic) IMSFormTextViewModel *model; /**< <#property#> */
 
 @end
 

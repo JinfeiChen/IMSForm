@@ -11,12 +11,14 @@
 
 @interface IMSFormTableViewCell ()
 
-@property (strong, nonatomic) IMSFormModel *model; /**< <#property#> */
-//@property (weak, nonatomic) UITableView *tableView; /**< <#property#> */
+//@property (strong, nonatomic) IMSFormModel *model; /**< <#property#> */
+@property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
 
 @end
 
 @implementation IMSFormTableViewCell
+
+@synthesize model = _model;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -41,7 +43,9 @@
 
 - (void)setModel:(IMSFormModel *)model form:(IMSFormManager *)form
 {
-    _model = model;
+    [self setModel:model];
+//    _model = model;
+    
     _form = form;
 }
 

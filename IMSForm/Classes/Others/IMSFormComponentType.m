@@ -43,6 +43,8 @@ NSString *const IMSFormComponentType_ColorPicker = @"IMSFormComponentType_ColorP
 
 NSString *const IMSFormComponentType_DateTimePicker = @"IMSFormComponentType_DateTimePicker";
 
+NSString *const IMSFormComponentType_InputSearch = @"IMSFormComponentType_InputSearch";
+
 #pragma mark - Readonly
 
 NSString *const IMSFormComponentType_Line = @"IMSFormComponentType_Line";

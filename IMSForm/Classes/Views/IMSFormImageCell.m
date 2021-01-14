@@ -164,6 +164,8 @@
 
 @implementation IMSFormImageCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -246,7 +248,7 @@
 //    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
 //    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
 //    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-//        [[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+//        [[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, self.model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
 //            if (![IMSFormValidateManager isURL:obj]) {
 //                NSLog(@"图片地址不是合法的URL");
 //            }
@@ -255,7 +257,7 @@
 //    }
     NSArray *valueList = model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
-        [[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+        [[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
             if (![IMSFormValidateManager isURL:obj]) {
                 NSLog(@"图片地址不是合法的URL");
             }
@@ -271,7 +273,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (_selectedPhotos.count >= self.model.cpnConfig.maxImagesLimit) {
+    if (_selectedPhotos.count >= self.self.model.cpnConfig.maxImagesLimit) {
         return _selectedPhotos.count;
     }
     return self.model.editable ? _selectedPhotos.count + 1 : _selectedPhotos.count;
@@ -401,6 +403,9 @@
 
 - (CGSize)systemLayoutSizeFittingSize:(CGSize)targetSize withHorizontalFittingPriority:(UILayoutPriority)horizontalFittingPriority verticalFittingPriority:(UILayoutPriority)verticalFittingPriority
 {
+    if (!self.model) {
+        return targetSize;
+    }
     // 先对bgview进行布局,这里需对bgView布局后collectionView宽度才会准确
     self.bodyView.frame = CGRectMake(0, 0, targetSize.width, 44);
     [self.bodyView layoutIfNeeded];
@@ -410,7 +415,7 @@
     [self.collectionView layoutIfNeeded];
     
     _margin = 10;
-    _itemWH = (targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.model.cpnConfig.rowImages - 1) * _margin - 2 * _margin) / self.model.cpnConfig.rowImages;
+    _itemWH = (targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.self.model.cpnConfig.rowImages - 1) * _margin - 2 * _margin) / self.self.model.cpnConfig.rowImages;
     self.flowLayout.itemSize = CGSizeMake(_itemWH, _itemWH);
 //    [self.collectionView layoutIfNeeded];
 

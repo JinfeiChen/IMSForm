@@ -14,6 +14,8 @@
 
 @implementation IMSFormTextViewCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -106,7 +108,7 @@
     
     [self setTitle:model.title required:model.isRequired];
     
-    self.textView.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, model.cpnConfig.lengthLimit))];
+    self.textView.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
     self.textView.placeholderText = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;
@@ -114,8 +116,8 @@
     self.bodyView.userInteractionEnabled = model.isEditable;
     
     if (model.isEditable) {
-        self.textView.keyboardType = [self keyboardWithTextType:model.cpnConfig.textType];
-        self.textView.secureTextEntry = [model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
+        self.textView.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
+        self.textView.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
     }
 }
 
@@ -169,7 +171,7 @@
 //        [textView resignFirstResponder];
 //        return NO;
 //    }
-    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 #pragma mark - Getters

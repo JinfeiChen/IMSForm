@@ -24,7 +24,8 @@
             "precision" : "2"
         },
         "cpnStyle" : {
-            "layout" : "vertical"
+            "layout" : "vertical",
+            "infoHexColor" : "0xFF0000"
         },
         "cpnRule" : {
             "message" : {},
@@ -36,9 +37,27 @@
                 {
                     "class" : "IMSMyValidateManager",
                     "selector" : "isEmail"
-                }
+                },
+                "IMSFormModelMobileValidator"
             ],
             "trigger" : "blur"
+        }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_InputSearch",
+        
+        "title" : "Input Search",
+        "info" : "Info text",
+        
+        "field" : "search",
+        
+        "cpnConfig" : {
+        },
+        "cpnStyle" : {
+            "layout" : "vertical"
+        },
+        "cpnRule" : {
         }
     },
     
@@ -46,6 +65,7 @@
         "type" : "IMSFormComponentType_TextView",
         
         "title" : "Description",
+        "info" : "Info text",
         
         "field" : "desc",
         
@@ -62,6 +82,7 @@
         "type" : "IMSFormComponentType_Slider",
         
         "title" : "Progress",
+        "info" : "Info text",
         
         "field" : "progress",
         
@@ -81,6 +102,7 @@
         "type" : "IMSFormComponentType_Switch",
         
         "title" : "Switch",
+        "info" : "Info text",
         
         "field" : "switch",
         
@@ -98,6 +120,7 @@
         "type" : "IMSFormComponentType_Number",
         
         "title" : "Number",
+        "info" : "Info text",
         
         "field" : "number",
         
@@ -119,6 +142,7 @@
         
         "title" : "Range",
         "value" : "123;1234",
+        "info" : "Info text",
         
         "field" : "range",
         

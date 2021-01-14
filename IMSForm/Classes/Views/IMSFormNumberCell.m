@@ -16,6 +16,8 @@
 
 @implementation IMSFormNumberCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -125,7 +127,7 @@
 
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.self.model.cpnConfig.precision];
 
     // call back
     if (self.didUpdateFormModelBlock) {
@@ -137,7 +139,7 @@
         [self validate];
     }
 
-    return ([str floatValue] >= self.model.cpnConfig.min && [str floatValue] <= self.model.cpnConfig.max) || returnKey;
+    return ([str floatValue] >= self.self.model.cpnConfig.min && [str floatValue] <= self.self.model.cpnConfig.max) || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
@@ -188,9 +190,9 @@
 
     self.bodyView.userInteractionEnabled = model.isEditable;
 
-    CGFloat value = MAX(model.value.floatValue, model.cpnConfig.min);
-    value = MIN(value, model.cpnConfig.max);
-    self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.model.cpnConfig.precision];
+    CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
+    value = MIN(value, self.model.cpnConfig.max);
+    self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.self.model.cpnConfig.precision];
 }
 
 #pragma mark - Actions
@@ -198,8 +200,8 @@
 - (void)decreaseButtonAction:(UIButton *)button
 {
     CGFloat current = [self.textField.text floatValue];
-    CGFloat result = MAX((current - self.model.cpnConfig.increment), self.model.cpnConfig.min);
-    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.model.cpnConfig.precision];
+    CGFloat result = MAX((current - self.self.model.cpnConfig.increment), self.self.model.cpnConfig.min);
+    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.self.model.cpnConfig.precision];
 
     // update model value
     self.model.value = self.textField.text;
@@ -218,8 +220,8 @@
 - (void)increaseButtonAction:(UIButton *)button
 {
     CGFloat current = [self.textField.text floatValue];
-    CGFloat result = MIN((current + self.model.cpnConfig.increment), self.model.cpnConfig.max);
-    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.model.cpnConfig.precision];
+    CGFloat result = MIN((current + self.self.model.cpnConfig.increment), self.self.model.cpnConfig.max);
+    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.self.model.cpnConfig.precision];
 
     // update model value
     self.model.value = self.textField.text;

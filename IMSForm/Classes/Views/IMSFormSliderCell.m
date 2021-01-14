@@ -19,6 +19,8 @@
 
 @implementation IMSFormSliderCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -117,11 +119,11 @@
     
     self.bodyView.userInteractionEnabled = model.isEditable;
     
-    [self.sliderView setMaxFractionDigitsDisplayed:model.cpnConfig.precision];
-    self.sliderView.minimumValue = model.cpnConfig.min;
-    self.sliderView.maximumValue = model.cpnConfig.max;
-    CGFloat value = MAX(model.value.floatValue, model.cpnConfig.min);
-    value = MIN(value, model.cpnConfig.max);
+    [self.sliderView setMaxFractionDigitsDisplayed:self.model.cpnConfig.precision];
+    self.sliderView.minimumValue = self.model.cpnConfig.min;
+    self.sliderView.maximumValue = self.model.cpnConfig.max;
+    CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
+    value = MIN(value, self.model.cpnConfig.max);
     self.sliderView.value = value;
 }
 
@@ -130,7 +132,7 @@
 - (void)sliderAction
 {
     // update model value
-    self.model.value = [NSString getRoundFloat:self.sliderView.value withPrecisionNum:self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:self.sliderView.value withPrecisionNum:self.self.model.cpnConfig.precision];
     
     // call back
     if (self.didUpdateFormModelBlock) {

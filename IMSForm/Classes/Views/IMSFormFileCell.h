@@ -7,6 +7,7 @@
 
 #import <IMSForm/IMSFormTableViewCell.h>
 #import <IMSForm/IMSFilePicker.h>
+#import <IMSForm/IMSFormFileModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIButton *addButton; /**< <#property#> */
 @property (strong, nonatomic) UITableView *listTableView; /**< <#property#> */
 @property (strong, nonatomic) IMSFilePicker *filePicker; /**< 文件管理器 */
+
+@property (strong, nonatomic) IMSFormFileModel *model; /**< <#property#> */
 
 @end
 

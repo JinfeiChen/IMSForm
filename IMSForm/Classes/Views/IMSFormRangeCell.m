@@ -18,6 +18,8 @@
 
 @implementation IMSFormRangeCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -128,16 +130,16 @@
     CGFloat minValue = [valueArr.firstObject floatValue];
     CGFloat maxValue = [valueArr.lastObject floatValue];
     
-    minValue = MAX(minValue, model.cpnConfig.min);
-    minValue = MIN(minValue, model.cpnConfig.max);
-    self.minTextField.text = [NSString getRoundFloat:minValue withPrecisionNum:self.model.cpnConfig.precision];
-    self.minTextField.placeholder = model.cpnConfig.minPlaceholder ? : @"Please enter";
+    minValue = MAX(minValue, self.model.cpnConfig.min);
+    minValue = MIN(minValue, self.model.cpnConfig.max);
+    self.minTextField.text = [NSString getRoundFloat:minValue withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.minTextField.placeholder = self.model.cpnConfig.minPlaceholder ? : @"Please enter";
     self.minValue = self.minTextField.text;
     
-    maxValue = MAX(maxValue, model.cpnConfig.min);
-    maxValue = MIN(maxValue, model.cpnConfig.max);
-    self.maxTextField.text = [NSString getRoundFloat:maxValue withPrecisionNum:self.model.cpnConfig.precision];
-    self.maxTextField.placeholder = model.cpnConfig.maxPlaceholder ? : @"Please enter";
+    maxValue = MAX(maxValue, self.model.cpnConfig.min);
+    maxValue = MIN(maxValue, self.model.cpnConfig.max);
+    self.maxTextField.text = [NSString getRoundFloat:maxValue withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.maxTextField.placeholder = self.model.cpnConfig.maxPlaceholder ? : @"Please enter";
     self.maxValue = self.maxTextField.text;
     
     self.infoLabel.text = model.info;
@@ -165,9 +167,9 @@
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     
     if (textField.tag == 100) { // min
-        _minValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
+        _minValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.self.model.cpnConfig.precision];
     } else if (textField.tag == 101) { // max
-        _maxValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
+        _maxValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.self.model.cpnConfig.precision];
     }
     self.model.value = [@[_minValue, _maxValue] componentsJoinedByString:@";"];
     
@@ -181,7 +183,7 @@
         [self validate];
     }
 
-    return ([str floatValue] >= self.model.cpnConfig.min && [str floatValue] <= self.model.cpnConfig.max) || returnKey;
+    return ([str floatValue] >= self.self.model.cpnConfig.min && [str floatValue] <= self.self.model.cpnConfig.max) || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason

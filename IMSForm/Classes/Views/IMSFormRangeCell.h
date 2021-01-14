@@ -6,6 +6,7 @@
 //
 
 #import <IMSForm/IMSFormTableViewCell.h>
+#import <IMSForm/IMSFormRangeModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *lineLabel;
 @property (nonatomic, strong) UITextField *minTextField;
 @property (nonatomic, strong) UITextField *maxTextField;
+
+@property (strong, nonatomic) IMSFormRangeModel *model; /**< <#property#> */
 
 @end
 

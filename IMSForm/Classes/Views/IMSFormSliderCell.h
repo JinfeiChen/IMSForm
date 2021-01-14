@@ -6,10 +6,13 @@
 //
 
 #import <IMSForm/IMSFormTableViewCell.h>
+#import <IMSForm/IMSFormSliderModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormSliderCell : IMSFormTableViewCell
+
+@property (strong, nonatomic) IMSFormSliderModel *model; /**< <#property#> */
 
 @end
 

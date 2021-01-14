@@ -44,7 +44,9 @@
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
-    NSArray *order = @[@"email", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
+//    NSArray *order = @[@"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
+    NSArray *order = @[@"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
+//    NSArray *order = @[@"email"];
     self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
 
     [self.form.tableView reloadData];
@@ -104,30 +106,47 @@
 
 - (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel
 {
-    IMSCustomSingleSelectListView *selectListView = [[IMSCustomSingleSelectListView alloc] init];
-    selectListView.cellType = IMSPopupSingleSelectListViewCellType_Custom;
-    selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
-    return selectListView;
+    // formModel.field
+    if ([formModel.field isEqualToString:@"uniSelect"]) {
+        IMSCustomSingleSelectListView *selectListView = [[IMSCustomSingleSelectListView alloc] init];
+        selectListView.cellType = IMSPopupSingleSelectListViewCellType_Custom;
+//        selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
+        return selectListView;
+    }
+    return nil;
 }
 
 - (IMSPopupMultipleSelectListView *)customMultipleSelectListViewWithFormModel:(IMSFormModel *)formModel
 {
-    IMSCustomMultipleSelectListView *selectListView = [[IMSCustomMultipleSelectListView alloc] init];
-    selectListView.cellType = IMSPopupMultipleSelectListViewCellType_Custom;
-    selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
-    return selectListView;
+    // formModel.filed
+    if ([formModel.field isEqualToString:@"multipleSelect"]) {
+        IMSCustomMultipleSelectListView *selectListView = [[IMSCustomMultipleSelectListView alloc] init];
+        selectListView.cellType = IMSPopupMultipleSelectListViewCellType_Custom;
+//        selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
+        return selectListView;
+    }
+    return nil;
+}
+
+- (void)testInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void (^)(NSArray * _Nonnull))callback
+{
+    NSArray *dataArray = [NSArray array];
+    if (callback) {
+        callback(dataArray);
+    }
 }
 
 #pragma mark - Actions
 
 - (void)submitAction:(id)sender
 {
-    [self.form submit:^(BOOL isPass) {
-        if (isPass) {
+    [self.form submit:^(NSError * _Nonnull error) {
+        if (!error) {
             NSLog(@"校验通过");
             [IMSDropHUD showAlertWithType:IMSFormMessageType_Success message:@"校验通过"];
         } else {
             NSLog(@"校验未通过");
+            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"校验未通过: %@", error.localizedDescription]];
         }
     }];
 }

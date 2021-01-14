@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 根据组件类型获取对应的组件类
 - (Class)getCellClassWithKey:(IMSFormComponentType)key;
 
+// 根据组件类型获取对应的数据模型类
++ (Class)formModelClassWithCPNType:(IMSFormComponentType)cpnType;
+
 @end
 
 NS_ASSUME_NONNULL_END

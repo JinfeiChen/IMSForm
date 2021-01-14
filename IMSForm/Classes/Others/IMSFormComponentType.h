@@ -44,7 +44,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Checkbox;
 
 // Select component (multiple: YES or NO)
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Select; // in progress...
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Select; // added
 
 // File upload component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_FileUpload; // added
@@ -63,6 +63,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ColorPicker;
 
 // Date and time picker component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker;
+
+// Input Search
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch;
 
 #pragma mark - Readonly
 
