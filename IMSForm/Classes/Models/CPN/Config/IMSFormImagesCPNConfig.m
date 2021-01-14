@@ -9,4 +9,13 @@
 
 @implementation IMSFormImagesCPNConfig
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _maxImagesLimit = 20;
+        _rowImages = 4;
+    }
+    return self;
+}
+
 @end

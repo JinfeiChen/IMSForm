@@ -9,4 +9,13 @@
 
 @implementation IMSFormSelectCPNConfig
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _multiple = NO;
+        _multipleLimit = _multiple ? 100 : 1;
+    }
+    return self;
+}
+
 @end

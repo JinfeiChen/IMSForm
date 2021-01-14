@@ -9,4 +9,14 @@
 
 @implementation IMSFormRangeCPNConfig
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _precision = 0;
+        _min = 0.0;
+        _max = 100000.0;
+    }
+    return self;
+}
+
 @end

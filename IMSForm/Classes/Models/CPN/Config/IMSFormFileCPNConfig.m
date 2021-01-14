@@ -9,4 +9,12 @@
 
 @implementation IMSFormFileCPNConfig
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _maxFilesLimit = 20;
+    }
+    return self;
+}
+
 @end
