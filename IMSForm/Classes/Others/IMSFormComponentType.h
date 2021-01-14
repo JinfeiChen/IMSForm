@@ -73,9 +73,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; /
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Line; // added
 
 // Section head component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_SectionHeader;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_SectionHeader; // added
 
 // Section foot component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_SectionFooter;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_SectionFooter; // added
 
 
