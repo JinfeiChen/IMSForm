@@ -22,7 +22,7 @@ pod 'IMSForm'
 
 ## Structure
 
-![image](https://git.imshktech.com/ios/imsform/images/structure.png)
+![image](https://git.imshktech.com/ios/imsform/-/raw/Jenkins/images/structure.png)
 
 ## Usage
 
