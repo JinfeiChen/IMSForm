@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) IMSFormMessageType type; /**< 消息类型 */
 @property (strong, nonatomic) IMSFormMessageStyle *style; /**< 样式 */
 
-@property (copy, nonatomic) NSString *title; /**< 标题 */
-@property (copy, nonatomic) NSString *message; /**< 消息 */
+@property (copy, nonatomic) NSString *title; /**< 消息标题 */
+@property (copy, nonatomic) NSString *message; /**< 消息内容 */
 
 @end
 

@@ -72,7 +72,15 @@
             "validators" : [
                 {
                     "class" : "IMSMyValidateManager",
-                    "selector" : "isEmail"
+                    "selector" : "isEmail",
+                    "success" : {
+                        "title" : "周董说：",
+                        "message" : "唉哟，不错喔"
+                    },
+                    "failure" : {
+                        "title" : "周董说：",
+                        "message" : "Fuck you!"
+                    }
                 }
             ]
         }

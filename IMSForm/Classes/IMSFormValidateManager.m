@@ -73,6 +73,8 @@
                         SEL sel = NSSelectorFromString([NSMutableString stringWithFormat:@"%@:", validator.selectorName]);
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
                         if (error) {
+                            NSLog(@"validate error: %@", error.localizedDescription);
+                            error = validator.failure.message ? [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey : validator.failure.message}] : error;
                             return error;
                         }
                         
@@ -82,6 +84,7 @@
                         SEL sel = NSSelectorFromString(@"validateFormModel:");
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
                         if (error) {
+                            NSLog(@"validate error: %@", error.localizedDescription);
                             return error;
                         }
                         
@@ -104,7 +107,7 @@
     NSString *desc = nil;
     id obj = [[cls alloc] init];
     if (!desc && (!cls || !obj)) {
-        desc = [NSString stringWithFormat:@"找不到校验器: %@", NSStringFromClass(cls)];
+        desc = [NSString stringWithFormat:@"No validator found: %@", NSStringFromClass(cls)];
     }
     // 尝试执行实例对象的方法
     if (!desc) {
