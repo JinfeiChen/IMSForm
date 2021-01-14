@@ -171,7 +171,7 @@
 //        [textView resignFirstResponder];
 //        return NO;
 //    }
-    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 #pragma mark - Getters

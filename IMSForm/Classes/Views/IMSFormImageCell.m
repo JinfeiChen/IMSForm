@@ -273,7 +273,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (_selectedPhotos.count >= self.self.model.cpnConfig.maxImagesLimit) {
+    if (_selectedPhotos.count >= self.model.cpnConfig.maxImagesLimit) {
         return _selectedPhotos.count;
     }
     return self.model.editable ? _selectedPhotos.count + 1 : _selectedPhotos.count;
@@ -415,7 +415,7 @@
     [self.collectionView layoutIfNeeded];
     
     _margin = 10;
-    _itemWH = (targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.self.model.cpnConfig.rowImages - 1) * _margin - 2 * _margin) / self.self.model.cpnConfig.rowImages;
+    _itemWH = (targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.model.cpnConfig.rowImages - 1) * _margin - 2 * _margin) / self.model.cpnConfig.rowImages;
     self.flowLayout.itemSize = CGSizeMake(_itemWH, _itemWH);
 //    [self.collectionView layoutIfNeeded];
 

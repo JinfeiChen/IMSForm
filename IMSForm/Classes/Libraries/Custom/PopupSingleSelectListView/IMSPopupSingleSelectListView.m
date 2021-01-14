@@ -42,6 +42,7 @@
         self.hidden = NO;
         self.contentView.y = IMS_SCREEN_HEIGHT - self.contentView.height;
     } completion:^(BOOL finished) {
+        [self.mainTableView reloadData];
     }];
     if (self.didFinishedShowAndHideBlock) {
         self.didFinishedShowAndHideBlock(YES);
@@ -68,6 +69,11 @@
     _cellType = type;
     
     switch (type) {
+        case IMSPopupSingleSelectListViewCellType_Custom:
+        {
+            self.dataArray = dataArray;
+        }
+            break;
         case IMSPopupSingleSelectListViewCellType_Contact:
         {
             self.dataArray = [NSArray yy_modelArrayWithClass:[IMSPopupSingleSelectContactModel class] json:dataArray];

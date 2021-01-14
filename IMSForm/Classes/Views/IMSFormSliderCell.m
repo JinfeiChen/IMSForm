@@ -132,7 +132,7 @@
 - (void)sliderAction
 {
     // update model value
-    self.model.value = [NSString getRoundFloat:self.sliderView.value withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:self.sliderView.value withPrecisionNum:self.model.cpnConfig.precision];
     
     // call back
     if (self.didUpdateFormModelBlock) {

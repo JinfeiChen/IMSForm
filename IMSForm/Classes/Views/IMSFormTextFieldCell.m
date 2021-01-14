@@ -127,7 +127,7 @@
         [self validate];
     }
     
-    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason

@@ -219,14 +219,14 @@
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
         [self.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxFilesLimit))]];
     }
-    self.addButton.enabled = (self.listArray.count < self.self.model.cpnConfig.maxFilesLimit);
+    self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
 }
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return MIN(self.listArray.count, self.self.model.cpnConfig.maxFilesLimit);
+    return MIN(self.listArray.count, self.model.cpnConfig.maxFilesLimit);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -237,7 +237,7 @@
     cell.deleteBlock = ^(UIButton *button) {
         // delete file
         [self.listArray removeObjectAtIndex:indexPath.row];
-        self.addButton.enabled = (self.listArray.count < self.self.model.cpnConfig.maxFilesLimit);
+        self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
         [self updateMyConstraints];
         [self.listTableView reloadData];
         [self.form.tableView beginUpdates];
@@ -290,7 +290,7 @@
 
 - (void)addButtonAction:(UIButton *)button
 {
-    if (self.listArray.count >= self.self.model.cpnConfig.maxFilesLimit) {
+    if (self.listArray.count >= self.model.cpnConfig.maxFilesLimit) {
         return;
     }
     

@@ -131,7 +131,7 @@
         [self validate];
     }
     
-    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
@@ -192,6 +192,8 @@
 
 - (void)searchButtonAction:(UIButton *)sender
 {
+    [self.textField endEditing:YES];
+    
     if (self.textField.text.length <= 0) {
         NSLog(@"please input some text first");
         [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"please input some text first"];
@@ -206,8 +208,27 @@
 //    }
     
     if (self.form) {
-        if (self.form.delegate && [self.form.delegate respondsToSelector:NSSelectorFromString(@"testInputSearchWithFormModel:completation:")]) {
-            [self.form.delegate testInputSearchWithFormModel:self.model completation:^(NSArray * _Nonnull dataArray) {
+        if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customInputSearchWithFormModel:completation:")]) {
+            
+            @weakify(self);
+            [self.form.uiDelegate customInputSearchWithFormModel:self.model completation:^(IMSPopupSingleSelectListView * _Nonnull selectListView, NSArray * _Nonnull dataArray) {
+                @strongify(self);
+                NSLog(@"listView = %@, dataArray = %@", selectListView, dataArray);
+                
+                self.singleSelectListView = selectListView;
+                [self.singleSelectListView setDataArray:dataArray type:IMSPopupSingleSelectListViewCellType_Custom];
+                
+                [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+                    NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
+                    
+                    // update value
+                    self.textField.text = selectedModel.value;
+                    // update model valueList
+                    self.model.valueList = selectedModel.isSelected ? @[[selectedModel yy_modelToJSONObject]] : @[];
+                    
+                }];
+                
+                [self.singleSelectListView showView];
                 
             }];
         }
