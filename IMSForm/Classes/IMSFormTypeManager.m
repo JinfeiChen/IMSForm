@@ -45,6 +45,8 @@
     [self registCellClass:NSClassFromString(@"IMSFormImageCell") forKey:IMSFormComponentType_ImageUpload];
     [self registCellClass:NSClassFromString(@"IMSFormSelectCell") forKey:IMSFormComponentType_Select];
     [self registCellClass:NSClassFromString(@"IMSFormInputSearchCell") forKey:IMSFormComponentType_InputSearch];
+    [self registCellClass:NSClassFromString(@"IMSFormSectionHeaderCell") forKey:IMSFormComponentType_SectionHeader];
+    [self registCellClass:NSClassFromString(@"IMSFormSectionFooterCell") forKey:IMSFormComponentType_SectionFooter];
     
     [self registCellClass:NSClassFromString(@"IMSFormLineCell") forKey:IMSFormComponentType_Line];
 }

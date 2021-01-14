@@ -1,5 +1,17 @@
 [
     {
+        "type" : "IMSFormComponentType_SectionHeader",
+        
+        "title" : "SectionHeader",
+        
+        "field" : "sectionHeader",
+        
+        "cpnStyle" : {
+            "backgroundHexColor" : "0xF1F2F3"
+        }
+    },
+    
+    {
         "type" : "IMSFormComponentType_TextField",
         
         "title" : "Email",
@@ -226,6 +238,18 @@
             "layout" : "vertical"
         },
         "cpnRule" : {
+        }
+    },
+    
+    {
+        "type" : "IMSFormComponentType_SectionFooter",
+        
+        "title" : "SectionFooter",
+        
+        "field" : "sectionFooter",
+        
+        "cpnStyle" : {
+            "backgroundHexColor" : "0xF1F2F3"
         }
     },
     

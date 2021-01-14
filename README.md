@@ -32,6 +32,44 @@ pod 'IMSForm'
 
 ![image](https://git.imshktech.com/ios/imsform/-/raw/Jenkins/images/IMSFormSelectCell.png)
 
+## Development
+
+### 新增表单组件 Example
+
+1.在 IMSFormComponentType 文件中创建类型枚举项 IMSFormComponentType_Example，创建 IMSFormTableViewCell 子类 IMSFormExampleCell;
+
+2.[可选/按需]创建 IMSFormModel 子类 IMSFormExampleModel，作为 IMSFormExampleCell.model，并在.m文件添加 
+
+```objective-c
+@synthesize model = _model;
+```
+
+在 [IMSFormTypeManager formModelClassWithCPNType:] 中添加
+
+```objective-c
+if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
+    return NSClassFromString(@"IMSFormExampleModel");
+}
+```
+
+3.[可选/按需]创建 IMSFormCPNConfig/IMSFormCPNStyle 子类，并在IMSFormExampleModel的.m文件中添加
+
+```objective-c
+@synthesize cpnConfig = _cpnConfig;
+```
+
+或
+
+```objective-c
+@synthesize cpnStyle = _cpnStyle;
+```
+
+4.添加类映射 - 在 [IMSFormTypeManager defaultRegist] 中添加 
+
+```objective-c
+[self registCellClass:NSClassFromString(@"IMSFormExampleCell") forKey:IMSFormComponentType_Example];
+```
+
 ## Usage
 
 JSON Data

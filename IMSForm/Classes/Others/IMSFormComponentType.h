@@ -65,7 +65,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ColorPicker;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker;
 
 // Input Search
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; // added
 
 #pragma mark - Readonly
 
