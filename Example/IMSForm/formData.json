@@ -329,4 +329,65 @@
               ]
           }
     },
+    {
+           "type" : "IMSFormComponentType_Cascader",
+           "title" : "cascader",
+           "field" : "cascader",
+           "cpnConfig" : {
+                 "selectDataSource" : [
+                     {
+                         "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                         "selected" : 0,
+                         "param" : "",
+                         "child" : [
+                             {
+                                 "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                                 "selected" : 0,
+                                 "param" : "",
+                                 "child" : [
+                                     {
+                                         "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                                         "selected" : 0,
+                                         "param" : "",
+                                         "child" : [
+                                             
+                                         ],
+                                     },
+                                     {
+                                         "value" : "value2",
+                                         "selected" : 0,
+                                         "param" : "",
+                                     },
+                                     {
+                                         "value" : "value3",
+                                         "selected" : 0,
+                                         "param" : ""
+                                     }
+                                 ],
+                             },
+                             {
+                                 "value" : "value2",
+                                 "selected" : 0,
+                                 "param" : "",
+                             },
+                             {
+                                 "value" : "value3",
+                                 "selected" : 0,
+                                 "param" : ""
+                             }
+                         ],
+                     },
+                     {
+                         "value" : "value2",
+                         "selected" : 0,
+                         "param" : "",
+                     },
+                     {
+                         "value" : "value3",
+                         "selected" : 0,
+                         "param" : ""
+                     }
+                 ]
+             }
+       },
 ]

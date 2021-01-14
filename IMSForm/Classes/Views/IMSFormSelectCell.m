@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 // only for multiple select
 @property (nonatomic, strong) IMSTagView *tagView;
+
 @property (strong, nonatomic) NSArray <IMSPopupMultipleSelectModel *> *valueModelArray; /**< <#property#> */
 
 @end

@@ -88,7 +88,8 @@
     return self.dataArray.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath { 
+    
     IMSPopupSingleSelectModel *model = self.dataArray[indexPath.row];
     switch (self.cellType) {
         case IMSPopupSingleSelectListViewSystemCell:

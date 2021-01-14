@@ -35,7 +35,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Range; // adde
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map;
 
 // Cascader component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Cascader;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Cascader;//
 
 // Single selection component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio; // added

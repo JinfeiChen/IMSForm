@@ -34,26 +34,13 @@
     
     // MARK: 测试固定字段+自定义字段
     NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
-
-    /*
-     处理数据源
-     
-     
-     // 初始值
-     // 数据
-     selectDataSource 转 model
-     
-     
-     
-     */
-    
     
     NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
     NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
-    NSArray *order = @[@"email", @"progress", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name",@"date",@"radio"];
+    NSArray *order = @[@"cascader",@"email", @"progress", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name",@"date",@"radio"];
     self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
 
     [self.form.tableView reloadData];

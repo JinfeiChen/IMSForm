@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)submit:(void(^)(BOOL isPass))validateCompleted;
 
+
+
 @end
 
 NS_ASSUME_NONNULL_END
