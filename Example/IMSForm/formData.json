@@ -34,11 +34,7 @@
                     "class" : "IMSMyValidateManager",
                     "selector" : "isNotEmpty"
                 },
-                {
-                    "class" : "IMSMyValidateManager",
-                    "selector" : "isEmail"
-                },
-                "IMSFormModelMobileValidator"
+                "IMSFormModelEmailValidator"
             ],
             "trigger" : "blur"
         }
@@ -50,7 +46,10 @@
         "title" : "Input Search",
         "info" : "Info text",
         
+        "required" : "1",
+        
         "field" : "search",
+        "param" : "",
         
         "cpnConfig" : {
         },
@@ -58,6 +57,12 @@
             "layout" : "vertical"
         },
         "cpnRule" : {
+            "validators" : [
+                {
+                    "class" : "IMSMyValidateManager",
+                    "selector" : "isEmail"
+                }
+            ]
         }
     },
     

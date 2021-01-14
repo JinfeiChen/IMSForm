@@ -72,12 +72,18 @@
                         Class cls = NSClassFromString(validator.className);
                         SEL sel = NSSelectorFromString([NSMutableString stringWithFormat:@"%@:", validator.selectorName]);
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
+                        if (error) {
+                            return error;
+                        }
                         
                     } else if ([obj isKindOfClass:[NSString class]]) {
                         
                         Class cls = NSClassFromString(obj);
                         SEL sel = NSSelectorFromString(@"validateFormModel:");
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
+                        if (error) {
+                            return error;
+                        }
                         
                     } else {}
                     
@@ -92,6 +98,8 @@
 
 + (NSError *)callValidatorWithClass:(Class)cls selector:(SEL)sel formModel:(IMSFormModel *)model
 {
+    NSLog(@"%@ validate: %@", NSStringFromSelector(sel), model.value);
+    
     NSError *error = nil;
     NSString *desc = nil;
     id obj = [[cls alloc] init];
