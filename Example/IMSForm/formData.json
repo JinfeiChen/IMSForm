@@ -20,7 +20,7 @@
         "info" : "Max length limit 20",
         
         "visible" : "1",
-        "editable" : "1",
+        "editable" : "0",
         "required" : "1",
         "clearable" : "1",
         
@@ -59,6 +59,7 @@
         "info" : "Info text",
         
         "required" : "1",
+        "editable" : 0,
         
         "field" : "search",
         "param" : "",
@@ -92,6 +93,8 @@
         "title" : "Description",
         "info" : "Info text",
         
+        "editable" : 0,
+        
         "field" : "desc",
         
         "cpnConfig" : {
@@ -108,6 +111,8 @@
         
         "title" : "Progress",
         "info" : "Info text",
+        
+        "editable" : 0,
         
         "field" : "progress",
         
@@ -129,6 +134,8 @@
         "title" : "Switch",
         "info" : "Info text",
         
+        "editable" : 0,
+        
         "field" : "switch",
         
         "cpnConfig" : {
@@ -146,6 +153,8 @@
         
         "title" : "Number",
         "info" : "Info text",
+        
+        "editable" : 0,
         
         "field" : "number",
         
@@ -169,6 +178,8 @@
         "value" : "123;1234",
         "info" : "Info text",
         
+        "editable" : 0,
+        
         "field" : "range",
         
         "cpnConfig" : {
@@ -191,18 +202,20 @@
         "title" : "File",
         "valueList" : [
             {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"}
+            {"idField":"123456","name":"file name 02","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 03","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 04","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 05","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 06","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 07","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 08","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 09","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 10","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
+            {"idField":"123456","name":"file name 11","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"}
         ],
         "info" : "最多上传5文件",
+        
+        "editable" : 0,
         
         "field" : "file",
         
@@ -236,10 +249,12 @@
         ],
         "info" : "最多上传4张图片",
         
+        "editable" : 0,
+        
         "field" : "image",
         
         "cpnConfig" : {
-            "maxImagesLimit" : "4",
+            "maxImagesLimit" : "8",
             "rowImages" : "4"
         },
         "cpnStyle" : {
@@ -275,6 +290,7 @@
         "placeholder" : "请单选",
         "info" : "这是个单选列表组件",
         
+        "editable" : 0,
         "selected" : 0,
         
         "field" : "uniSelect",
@@ -337,6 +353,7 @@
         "placeholder" : "请多选",
         "info" : "这是个多选列表组件",
         
+        "editable" : 0,
         "selected" : 0,
         
         "field" : "multipleSelect",

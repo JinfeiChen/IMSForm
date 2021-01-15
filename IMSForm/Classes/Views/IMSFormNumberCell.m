@@ -44,13 +44,18 @@
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
 
-    self.bodyView.backgroundColor = [UIColor clearColor];
-
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
 
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
+    
+    self.bodyView.backgroundColor = self.contentView.backgroundColor;
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    
+    self.textField.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.decreaseButton.backgroundColor = self.textField.backgroundColor;
+    self.increaseButton.backgroundColor = self.textField.backgroundColor;
 
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
@@ -187,8 +192,6 @@
     [self setTitle:model.title required:model.isRequired];
 
     self.infoLabel.text = model.info;
-
-    self.bodyView.userInteractionEnabled = model.isEditable;
 
     CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);

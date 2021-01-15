@@ -48,13 +48,17 @@
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
     
-    self.bodyView.backgroundColor = [UIColor clearColor];
-    
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
     
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
+    
+    self.bodyView.backgroundColor = self.contentView.backgroundColor;
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    
+    self.minTextField.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.maxTextField.backgroundColor = self.minTextField.backgroundColor;
     
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
@@ -97,15 +101,15 @@
         }];
     }
 
-    [self.lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(8);
         make.center.equalTo(self.bodyView);
     }];
-    [self.minTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.minTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.mas_equalTo(self.bodyView).offset(0);
         make.right.mas_equalTo(self.lineLabel.mas_left).offset(-spacing);
     }];
-    [self.maxTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.maxTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.right.bottom.equalTo(self.bodyView).offset(0);
         make.left.mas_equalTo(self.lineLabel.mas_right).offset(spacing);
     }];
@@ -143,8 +147,6 @@
     self.maxValue = self.maxTextField.text;
     
     self.infoLabel.text = model.info;
-    
-    self.bodyView.userInteractionEnabled = model.isEditable;
 }
 
 

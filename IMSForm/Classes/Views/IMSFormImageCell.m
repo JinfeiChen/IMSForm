@@ -200,7 +200,8 @@
     
     CGFloat spacing = self.model.cpnStyle.spacing;
     
-    self.bodyView.backgroundColor = [UIColor whiteColor];
+    self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.collectionView.backgroundColor = self.bodyView.backgroundColor;
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -240,21 +241,8 @@
     
     self.infoLabel.text = model.info;
     
-    self.bodyView.userInteractionEnabled = model.isEditable;
-    
     // MARK: update _selectedPhotos
     _selectedPhotos = [NSMutableArray array];
-//    NSError *localError = nil;
-//    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
-//    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-//    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-//        [[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, self.model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-//            if (![IMSFormValidateManager isURL:obj]) {
-//                NSLog(@"图片地址不是合法的URL");
-//            }
-//            [_selectedPhotos addObject:[NSURL URLWithString:obj]];
-//        }];
-//    }
     NSArray *valueList = model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
         [[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
@@ -265,7 +253,6 @@
         }];
     }
     
-    self.collectionView.backgroundColor = self.model.isEditable ? [UIColor whiteColor] : [UIColor colorWithWhite:0.95 alpha:1.0];
     [self.collectionView reloadData];
 }
 

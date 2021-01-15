@@ -56,17 +56,6 @@
     }];
 }
 
-//- (void)layoutSubviews
-//{
-//    [super layoutSubviews];
-//
-//    CGFloat imgW = 12;
-//    CGFloat imgH = 15;
-//    CGFloat padding = (kFormTBFileRowHeight - imgH) / 2;
-//    CGRect frame = self.imageView.frame;
-//    self.imageView.frame = CGRectMake(CGRectGetMinX(frame), padding, imgW, imgH);
-//}
-
 #pragma mark - Actions
 
 - (void)deleteBtnAction:(UIButton *)button
@@ -83,7 +72,7 @@
     if (!_iconImgView) {
         _iconImgView = [[UIImageView alloc] init];
         _iconImgView.contentMode = UIViewContentModeScaleAspectFill;
-        _iconImgView.image = [UIImage bundleImageWithNamed:@"file"];
+        _iconImgView.image = [UIImage bundleImageWithNamed:@"ims-icon-file"];
     }
     return _iconImgView;
 }
@@ -146,13 +135,15 @@
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
 
-    self.bodyView.backgroundColor = [UIColor clearColor];
-
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
 
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
+    
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    self.bodyView.backgroundColor = self.contentView.backgroundColor;
+    [self.addButton setBackgroundColor:self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor];
 
     CGFloat spacing = self.model.cpnStyle.spacing;
     // 只支持竖向布局
@@ -206,20 +197,17 @@
     [self setTitle:model.title required:model.isRequired];
 
     self.infoLabel.text = model.info;
-
-    self.bodyView.userInteractionEnabled = model.isEditable;
-
-//    NSError *localError = nil;
-//    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
-//    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-//    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-//        [self.listArray addObjectsFromArray:[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, self.model.cpnConfig.maxFilesLimit))]];
-//    }
-    NSArray *valueList = model.valueList;
+    
+    NSArray *valueList = self.model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
         [self.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxFilesLimit))]];
     }
-    self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+    if (self.model.isEditable) {
+        self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+    } else {
+        self.addButton.enabled = NO;
+    }
+    
 }
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource
@@ -234,6 +222,8 @@
     IMSFormFileSubCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSFormFileSubCell class])];
     NSDictionary *modelDict = self.listArray[indexPath.row];
     cell.myTitleLabel.text = [NSString stringWithFormat:@"%@", [modelDict valueForKey:@"name"]];
+    cell.deleteBtn.hidden = !self.model.isEditable;
+    cell.contentView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     cell.deleteBlock = ^(UIButton *button) {
         // delete file
         [self.listArray removeObjectAtIndex:indexPath.row];

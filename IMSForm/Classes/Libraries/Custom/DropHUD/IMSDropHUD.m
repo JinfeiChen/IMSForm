@@ -64,7 +64,7 @@
     self.pointLB = alertMsg;
 
     UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width, .5)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
+    lineView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1.0];
     [self addSubview:lineView];
 }
 
