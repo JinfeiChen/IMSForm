@@ -34,6 +34,12 @@ pod 'IMSForm'
 
 ## Development
 
+### 多语言支持
+
+IMSForm 目前已支持多语言：English、Chinese Simplified
+
+可根据需要增加其他语言配置文件
+
 ### 新增表单组件 Example
 
 1.在 IMSFormComponentType 文件中创建类型枚举项 IMSFormComponentType_Example，创建 IMSFormTableViewCell 子类 IMSFormExampleCell;

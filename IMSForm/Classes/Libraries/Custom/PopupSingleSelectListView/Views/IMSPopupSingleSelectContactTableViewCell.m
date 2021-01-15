@@ -134,8 +134,8 @@
         [_selectButton setImage:normalImage forState:UIControlStateNormal];
         UIImage *selectedImage = [[UIImage bundleImageWithNamed:@"ims-icon-radio-selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [_selectButton setImage:selectedImage forState:UIControlStateSelected];
-        _selectButton.userInteractionEnabled = NO;
         _selectButton.tintColor = [UIColor colorWithRed:255/255.0 green:194/255.0 blue:76/255.0 alpha:1.0];
+        _selectButton.userInteractionEnabled = NO;
     }
     return _selectButton;
 }

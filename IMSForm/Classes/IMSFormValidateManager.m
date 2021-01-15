@@ -73,7 +73,7 @@
                         SEL sel = NSSelectorFromString([NSMutableString stringWithFormat:@"%@:", validator.selectorName]);
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
                         if (error) {
-                            NSLog(@"validate error: %@", error.localizedDescription);
+                            NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
                             error = validator.failure.message ? [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey : validator.failure.message}] : error;
                             return error;
                         }
@@ -84,7 +84,7 @@
                         SEL sel = NSSelectorFromString(@"validateFormModel:");
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
                         if (error) {
-                            NSLog(@"validate error: %@", error.localizedDescription);
+                            NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
                             return error;
                         }
                         
@@ -101,30 +101,28 @@
 
 + (NSError *)callValidatorWithClass:(Class)cls selector:(SEL)sel formModel:(IMSFormModel *)model
 {
-    NSLog(@"%@ validate: %@", NSStringFromSelector(sel), model.value);
-    
     NSError *error = nil;
     NSString *desc = nil;
     id obj = [[cls alloc] init];
     if (!desc && (!cls || !obj)) {
-        desc = [NSString stringWithFormat:@"No validator found: %@", NSStringFromClass(cls)];
+        desc = [NSString stringWithFormat:@"%@: %@", @"No validator found".ims_localizable, NSStringFromClass(cls)];
     }
     // 尝试执行实例对象的方法
     if (!desc) {
         if ([obj respondsToSelector:sel]) {
             BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model);
             if (!result) {
-                desc = [NSString stringWithFormat:@"%@ 未通过实例方法 %@ 校验, value = %@", model.title, NSStringFromSelector(sel), model.value];
+                desc = [NSString stringWithFormat:@"%@ %@: %@", model.title, @"Verification failed".ims_localizable, model.value];
             }
         }
         // 尝试执行类对象的方法
         else if ([cls respondsToSelector:sel]) {
             BOOL result = ((BOOL(*)(id, SEL, IMSFormModel *))objc_msgSend)(cls, sel, model);
             if (!result) {
-                desc = [NSString stringWithFormat:@"%@ 未通过类方法 %@ 校验, value = %@", model.title, NSStringFromSelector(sel), model.value];
+                desc = [NSString stringWithFormat:@"%@ %@: %@", model.title, @"Verification failed".ims_localizable, model.value];
             }
         } else {
-            desc = [NSString stringWithFormat:@"未实现的校验方法: %@", NSStringFromSelector(sel)];
+            desc = [NSString stringWithFormat:@"%@: %@", @"Unimplemented verification method".ims_localizable, NSStringFromSelector(sel)];
         }
     }
     if (desc) {

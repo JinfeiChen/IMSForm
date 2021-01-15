@@ -6,6 +6,7 @@
 //
 
 #import "NSString+Extension.h"
+#import <IMSForm/NSBundle+ims.h>
 
 @implementation NSString (Extension)
 
@@ -57,6 +58,12 @@
 //    NSLog(@"time cost: %0.6f", end - start);
     
     return resultString;
+}
+
+- (NSString *)ims_localizable
+{
+    NSBundle *resourceBundle = [NSBundle bundleWithBundleName:@"IMSForm" podName:@"IMSForm"];
+    return NSLocalizedStringFromTableInBundle(self, nil, resourceBundle, @"");
 }
 
 @end

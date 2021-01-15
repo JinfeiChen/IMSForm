@@ -3,7 +3,7 @@
         "type" : "IMSFormComponentType_TextField",
         
         "title" : "Name(custom)",
-        "info" : "这是自定义字段的说明/提示文字",
+        "info" : "这是自定义字段的说明/提示文字"
         
         "field" : "name"
     }
