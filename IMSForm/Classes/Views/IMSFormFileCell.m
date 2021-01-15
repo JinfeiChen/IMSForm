@@ -52,7 +52,7 @@
     [self.myTitleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.contentView);
         make.left.mas_equalTo(self.iconImgView.mas_right).offset(spacing);
-        make.right.mas_equalTo(self.deleteBtn.mas_left).offset(-spacing);
+        make.right.mas_equalTo(self.deleteBtn.mas_left).offset(0);
     }];
 }
 
@@ -208,6 +208,7 @@
         self.addButton.enabled = NO;
     }
     
+    [self.listTableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource
