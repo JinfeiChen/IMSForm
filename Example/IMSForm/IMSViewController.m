@@ -8,6 +8,7 @@
 
 #import "IMSViewController.h"
 
+
 #import <IMSForm/IMSForm.h>
 #import "IMSCustomSingleSelectListView.h"
 #import "IMSCustomMultipleSelectListView.h"
@@ -40,15 +41,18 @@
     
     // MARK: 测试固定字段+自定义字段
     NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
+    
     NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
     NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
+
 //    NSArray *order = @[@"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
-    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
+//    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
 //    NSArray *order = @[@"email"];
-    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
+
+    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
 
     [self.form.tableView reloadData];
 }
@@ -104,7 +108,6 @@
 }
 
 #pragma mark - IMSFormManagerDelegate
-
 - (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel
 {
     // formModel.field

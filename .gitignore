@@ -37,4 +37,6 @@ Carthage/Build
 Pods/
 Podfile.lock
 IMSForm.xcworkspace
+formData.json
+
 
