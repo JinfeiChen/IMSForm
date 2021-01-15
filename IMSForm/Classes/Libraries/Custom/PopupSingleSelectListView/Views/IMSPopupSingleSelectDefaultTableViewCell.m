@@ -31,14 +31,14 @@
 - (void)setupUI {
     
     [self.contentView addSubview:self.selectButton];
-    [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.selectButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).offset(-15);
         make.centerY.equalTo(self.contentView);
         make.width.height.equalTo(@(kWidthResult(12)));
     }];
     
     [self.contentView addSubview:self.nameLabel];
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(kHeightResult(10));
         make.left.equalTo(self.contentView).offset(10);
         make.right.equalTo(self.selectButton.mas_left).offset(-10);
@@ -46,7 +46,7 @@
     }];
     
     [self.contentView addSubview:self.lineLabel];
-    [self.lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView);
         make.left.equalTo(self.nameLabel);
         make.right.equalTo(self.selectButton);

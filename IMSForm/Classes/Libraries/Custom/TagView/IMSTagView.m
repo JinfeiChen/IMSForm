@@ -84,19 +84,19 @@
             UIImageView *imageView = [[UIImageView alloc]init];
             imageView.image = self.deleteImage;
             [bgView addSubview:imageView];
-            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(bgView);
                 make.right.equalTo(bgView.mas_right).offset(-self.tagsMinPadding);
                 make.size.mas_equalTo(self.deleteImage.size);
             }];
             
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(imageView.mas_left).offset(-self.contentPadding);
             }];
         }else {
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(bgView).offset(-self.tagsMinPadding);
@@ -169,19 +169,19 @@
             UIImageView *imageView = [[UIImageView alloc]init];
             imageView.image = self.deleteImage;
             [bgView addSubview:imageView];
-            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(bgView);
                 make.right.equalTo(bgView.mas_right).offset(-self.tagsMinPadding);
                 make.size.mas_equalTo(self.deleteImage.size);
             }];
             
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(imageView.mas_left).offset(-self.contentPadding);
             }];
         }else {
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(bgView).offset(-self.tagsMinPadding);

@@ -21,7 +21,7 @@
     if (self = [super init]) {
         self.backgroundColor = IMS_HEXCOLOR(0xF5F6F9);
         [self addSubview:self.titleLabel];
-        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.right.bottom.equalTo(self);
             make.left.equalTo(self).offset(10);
         }];

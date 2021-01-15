@@ -122,7 +122,7 @@
         _tabHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, IMS_SCREEN_WIDTH, 40)];
         _tabHeaderView.backgroundColor = [UIColor whiteColor];
         [_tabHeaderView addSubview:self.backButton];
-        [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.backButton mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.equalTo(_tabHeaderView);
             make.left.equalTo(_tabHeaderView).offset(15);
             make.right.equalTo(_tabHeaderView).offset(-15);
