@@ -298,6 +298,7 @@
         }];
         
         self.multipleSelectListView.maxCount = self.model.cpnConfig.multipleLimit;
+        self.multipleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
         
         [self.multipleSelectListView showView];
         
@@ -336,6 +337,8 @@
             self.model.selected = isShow;
             [self updateArrowButtonAnimation];
         }];
+        
+        self.singleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
         
         [self.singleSelectListView showView];
 

@@ -114,6 +114,7 @@
         {
             IMSPopupSingleSelectContactModel *model = (IMSPopupSingleSelectContactModel *)self.dataArray[indexPath.row];
             IMSPopupSingleSelectContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSPopupSingleSelectContactTableViewCell class])];
+            cell.tintColor = self.tintColor;
             cell.model = model;
             return cell;
         }
@@ -129,6 +130,7 @@
         {
             IMSFormSelect *model= self.dataArray[indexPath.row];
             IMSPopupSingleSelectDefaultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSPopupSingleSelectDefaultTableViewCell class])];
+            cell.tintColor = self.tintColor;
             cell.model = model;
             return cell;
         }

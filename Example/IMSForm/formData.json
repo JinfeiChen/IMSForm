@@ -297,7 +297,7 @@
         
         "cpnConfig" : {
             "multiple" : 0,
-            "selectItemType" : 1,
+            "selectItemType" : 0,
             "selectDataSource" : [
                 {
                     "value" : "value1",
@@ -410,7 +410,9 @@
             ]
         },
         "cpnStyle" : {
-            "layout" : "vertical"
+            "layout" : "vertical",
+            
+            "tintHexColor" : "0xFF0000"
         },
         "cpnRule" : {
         }

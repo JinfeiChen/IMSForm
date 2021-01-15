@@ -30,6 +30,8 @@ Pod::Spec.new do |s|
   
   s.platform = :ios
   s.ios.deployment_target = '9.0'
+  
+  s.ios.vendored_frameworks = 'Frameworks/IMSForm.framework'
 
   s.source_files = 'IMSForm/Classes/**/*'
   

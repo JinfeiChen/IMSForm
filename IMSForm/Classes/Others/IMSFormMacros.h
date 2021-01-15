@@ -54,6 +54,11 @@ alpha:(a)]
 #define kEnabledCellBodyBackgroundColor IMS_HEXCOLOR(0xFFFFFF)
 #define kDisabledCellBodyBackgroundColor IMS_HEXCOLOR(0xEFEFEF)
 
+// defaultTintColor
+#define kIMSFormDefaultTintHexColor @"0xFFC24B"
+// global form tintColor key
+#define kIMSFormGlobalTintColorKey @"IMSFormTintHexColor"
+
 /**
  合成弱引用/强引用
  

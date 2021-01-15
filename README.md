@@ -72,7 +72,18 @@ if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
 
 ## Usage
 
-JSON Data
+### 全局配置表单主题色
+
+在工程的info.plist文件中添加
+
+```C
+<key>IMSFormTintHexColor</key>
+<string>0xFF0000</string>
+```
+
+如需要单独设置组件颜色，可在cpnStyle中配置 tintHexColor，单独设置的优先级高于全局。
+
+### Form JSON Data
 
 ```
 [

@@ -25,7 +25,7 @@
         _spacing = 10.0;
         _contentInset = UIEdgeInsetsMake(12, 15, 10, 15);
         
-        _tintHexColor = @"0xFFC24B";
+//        _tintHexColor = @"0xFFC24B";
     }
     return self;
 }
@@ -46,6 +46,13 @@
     style.contentInset = UIEdgeInsetsMake(12, 15, 10, 15);
     
     return style;
+}
+
+- (NSString *)tintHexColor
+{
+    // 获取自定义的全局表单主题色
+    NSString *globalHexColor = [NSBundle mainBundle].infoDictionary[kIMSFormGlobalTintColorKey];
+    return (_tintHexColor ? : globalHexColor) ? : kIMSFormDefaultTintHexColor;
 }
 
 @end
