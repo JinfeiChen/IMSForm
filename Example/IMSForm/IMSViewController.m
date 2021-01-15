@@ -12,8 +12,9 @@
 #import <IMSForm/IMSForm.h>
 #import "IMSCustomSingleSelectListView.h"
 #import "IMSCustomMultipleSelectListView.h"
+#import "IMSCustomInpuSearchListView.h"
 
-@interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerDelegate>
+@interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerUIDelegate, IMSFormManagerDataDelegate>
 
 @property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
@@ -46,8 +47,11 @@
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
-//    NSArray *order = @[@"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
-    NSArray *order = @[@"cascader"];
+
+//    NSArray *order = @[@"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
+    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
+//    NSArray *order = @[@"email"];
+
     self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
 
     [self.form.tableView reloadData];
@@ -128,13 +132,24 @@
     return nil;
 }
 
-- (void)testInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void (^)(NSArray * _Nonnull))callback
+- (void)customInputSearchWithFormModel:(IMSFormModel *)formModel completation:(nonnull void (^)(IMSPopupSingleSelectListView * _Nullable, NSArray * _Nonnull))callback
 {
-    NSArray *dataArray = [NSArray array];
+    // 这里的json数据可通过服务器获取，再转换成IMSFormSelect类型的对象数组
+    NSArray *dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:@[
+        @{
+            @"value" : @"value1"
+        },
+        @{
+            @"value" : @"value2"
+        }
+    ]];
     if (callback) {
-        callback(dataArray);
+        IMSCustomInpuSearchListView *selectListView = [[IMSCustomInpuSearchListView alloc] init];
+        callback(selectListView, dataArray);
     }
 }
+
+#pragma mark - IMSFormManagerDataDelegate
 
 #pragma mark - Actions
 
@@ -178,7 +193,8 @@
 {
     if (!_form) {
         _form = [[IMSFormManager alloc] initWithTableView:self.tableView JSON:@"formData"];
-        _form.delegate = self;
+        _form.uiDelegate = self;
+        _form.dataDelegate = self;
     }
     return _form;
 }

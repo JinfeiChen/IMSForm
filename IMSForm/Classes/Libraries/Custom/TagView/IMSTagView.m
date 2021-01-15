@@ -148,7 +148,7 @@
     [self.dataArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         UIView *bgView = [[UIView alloc]init];
-        bgView.backgroundColor = IMS_HEXCOLOR(0xE8EBF3);
+        bgView.backgroundColor = self.tintColor ? : IMS_HEXCOLOR(0xE8EBF3);
         bgView.tag = idx;
         bgView.layer.cornerRadius = 2.0;
         bgView.layer.masksToBounds = YES;

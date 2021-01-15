@@ -9,4 +9,13 @@
 
 @implementation IMSFormInputSearchCPNConfig
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _textType = IMSFormTextType_Default;
+        _lengthLimit = 100;
+    }
+    return self;
+}
+
 @end

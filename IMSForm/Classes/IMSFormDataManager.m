@@ -8,6 +8,7 @@
 #import "IMSFormDataManager.h"
 
 #import <YYModel/YYModel.h>
+#import <IMSForm/NSString+Extension.h>
 
 @implementation IMSFormDataManager
 
@@ -21,7 +22,7 @@
     NSError *error;
     id jsonObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:&error];
     if (!data || error) {
-        NSLog(@"JSON解码失败: %@", error.localizedDescription);
+        NSLog(@"%@: %@", @"JSON decoding failed".ims_localizable, error.localizedDescription);
         return nil;
     } else {
         return jsonObj;

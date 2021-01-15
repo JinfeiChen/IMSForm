@@ -46,9 +46,17 @@
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.textView.backgroundColor = self.bodyView.backgroundColor;
+    
+    if (self.model.isEditable) {
+        self.textView.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
+        self.textView.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
+    }
+    
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(spacing);
@@ -71,7 +79,6 @@
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
     } else {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -84,7 +91,7 @@
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         }];
         [self.textView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
+            make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
             make.height.mas_equalTo(80);
         }];
         [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -112,13 +119,6 @@
     self.textView.placeholderText = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;
-    
-    self.bodyView.userInteractionEnabled = model.isEditable;
-    
-    if (model.isEditable) {
-        self.textView.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
-        self.textView.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
-    }
 }
 
 #pragma mark - Private Methods
@@ -171,7 +171,7 @@
 //        [textView resignFirstResponder];
 //        return NO;
 //    }
-    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 #pragma mark - Getters

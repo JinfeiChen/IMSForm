@@ -20,19 +20,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol IMSFormManagerDelegate <NSObject>
-
-@optional
-
-- (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义单选列表视图
-- (IMSPopupMultipleSelectListView *)customMultipleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义多选列表视图
-- (void)testInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void(^)(NSArray *dataArray))callback;
-
-@end
+//@protocol IMSFormManagerDelegate <NSObject>
+//
+//@optional
+//
+//- (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义单选列表视图
+//- (IMSPopupMultipleSelectListView *)customMultipleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义多选列表视图
+//- (void)testInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void(^)(NSArray *dataArray))callback;
+//
+//@end
 
 @interface IMSFormManager : IMSFormObject
 
-@property (weak, nonatomic) id<IMSFormManagerDelegate> delegate __attribute__((deprecated("Use -uiDelegate."))); /**< <#property#> */
+//@property (weak, nonatomic) id<IMSFormManagerDelegate> delegate __attribute__((deprecated("Use -uiDelegate."))); /**< <#property#> */
 
 @property (weak, nonatomic) id<IMSFormManagerUIDelegate> uiDelegate; /**< <#property#> */
 @property (weak, nonatomic) id<IMSFormManagerDataDelegate> dataDelegate; /**< <#property#> */

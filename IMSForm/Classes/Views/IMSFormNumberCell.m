@@ -44,13 +44,18 @@
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
 
-    self.bodyView.backgroundColor = [UIColor clearColor];
-
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
 
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
+    
+    self.bodyView.backgroundColor = self.contentView.backgroundColor;
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    
+    self.textField.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.decreaseButton.backgroundColor = self.textField.backgroundColor;
+    self.increaseButton.backgroundColor = self.textField.backgroundColor;
 
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
@@ -127,7 +132,7 @@
 
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
 
     // call back
     if (self.didUpdateFormModelBlock) {
@@ -139,7 +144,7 @@
         [self validate];
     }
 
-    return ([str floatValue] >= self.self.model.cpnConfig.min && [str floatValue] <= self.self.model.cpnConfig.max) || returnKey;
+    return ([str floatValue] >= self.model.cpnConfig.min && [str floatValue] <= self.model.cpnConfig.max) || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
@@ -188,11 +193,9 @@
 
     self.infoLabel.text = model.info;
 
-    self.bodyView.userInteractionEnabled = model.isEditable;
-
     CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);
-    self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.model.cpnConfig.precision];
 }
 
 #pragma mark - Actions
@@ -200,8 +203,8 @@
 - (void)decreaseButtonAction:(UIButton *)button
 {
     CGFloat current = [self.textField.text floatValue];
-    CGFloat result = MAX((current - self.self.model.cpnConfig.increment), self.self.model.cpnConfig.min);
-    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.self.model.cpnConfig.precision];
+    CGFloat result = MAX((current - self.model.cpnConfig.increment), self.model.cpnConfig.min);
+    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.model.cpnConfig.precision];
 
     // update model value
     self.model.value = self.textField.text;
@@ -220,8 +223,8 @@
 - (void)increaseButtonAction:(UIButton *)button
 {
     CGFloat current = [self.textField.text floatValue];
-    CGFloat result = MIN((current + self.self.model.cpnConfig.increment), self.self.model.cpnConfig.max);
-    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.self.model.cpnConfig.precision];
+    CGFloat result = MIN((current + self.model.cpnConfig.increment), self.model.cpnConfig.max);
+    self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.model.cpnConfig.precision];
 
     // update model value
     self.model.value = self.textField.text;

@@ -48,13 +48,17 @@
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
     
-    self.bodyView.backgroundColor = [UIColor clearColor];
-    
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
     
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
+    
+    self.bodyView.backgroundColor = self.contentView.backgroundColor;
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    
+    self.minTextField.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.maxTextField.backgroundColor = self.minTextField.backgroundColor;
     
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
@@ -97,15 +101,15 @@
         }];
     }
 
-    [self.lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(8);
         make.center.equalTo(self.bodyView);
     }];
-    [self.minTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.minTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.mas_equalTo(self.bodyView).offset(0);
         make.right.mas_equalTo(self.lineLabel.mas_left).offset(-spacing);
     }];
-    [self.maxTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.maxTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.right.bottom.equalTo(self.bodyView).offset(0);
         make.left.mas_equalTo(self.lineLabel.mas_right).offset(spacing);
     }];
@@ -132,19 +136,17 @@
     
     minValue = MAX(minValue, self.model.cpnConfig.min);
     minValue = MIN(minValue, self.model.cpnConfig.max);
-    self.minTextField.text = [NSString getRoundFloat:minValue withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.minTextField.text = [NSString getRoundFloat:minValue withPrecisionNum:self.model.cpnConfig.precision];
     self.minTextField.placeholder = self.model.cpnConfig.minPlaceholder ? : @"Please enter";
     self.minValue = self.minTextField.text;
     
     maxValue = MAX(maxValue, self.model.cpnConfig.min);
     maxValue = MIN(maxValue, self.model.cpnConfig.max);
-    self.maxTextField.text = [NSString getRoundFloat:maxValue withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.maxTextField.text = [NSString getRoundFloat:maxValue withPrecisionNum:self.model.cpnConfig.precision];
     self.maxTextField.placeholder = self.model.cpnConfig.maxPlaceholder ? : @"Please enter";
     self.maxValue = self.maxTextField.text;
     
     self.infoLabel.text = model.info;
-    
-    self.bodyView.userInteractionEnabled = model.isEditable;
 }
 
 
@@ -167,9 +169,9 @@
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     
     if (textField.tag == 100) { // min
-        _minValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.self.model.cpnConfig.precision];
+        _minValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
     } else if (textField.tag == 101) { // max
-        _maxValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.self.model.cpnConfig.precision];
+        _maxValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
     }
     self.model.value = [@[_minValue, _maxValue] componentsJoinedByString:@";"];
     
@@ -183,7 +185,7 @@
         [self validate];
     }
 
-    return ([str floatValue] >= self.self.model.cpnConfig.min && [str floatValue] <= self.self.model.cpnConfig.max) || returnKey;
+    return ([str floatValue] >= self.model.cpnConfig.min && [str floatValue] <= self.model.cpnConfig.max) || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason

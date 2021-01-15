@@ -55,6 +55,7 @@
             self.tipLabel.hidden = YES;
             self.tipLabel.height = 10;
         }
+        self.tipLabel.textColor = self.tintColor;
         self.mainTableView.y =  CGRectGetMaxY(self.tipLabel.frame);
         self.bgView.height = self.mainTableView.height + self.tipLabel.height;
         self.bgView.y = IMS_SCREEN_HEIGHT - self.bgView.height;
@@ -169,6 +170,7 @@
             } else {
                 model = self.dataArray[indexPath.row];
             }
+            cell.tintColor = self.tintColor;
             cell.model = model;
             return cell;
         }

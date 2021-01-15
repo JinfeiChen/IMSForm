@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Pods
+
+  Created by cjf on 15/1/2021.
+  
+*/
+
+"JSON decoding failed" = "[en] JSON decoding failed";
+"Verification failed" = "Verification failed";
+"No validator found" = "No validator found";

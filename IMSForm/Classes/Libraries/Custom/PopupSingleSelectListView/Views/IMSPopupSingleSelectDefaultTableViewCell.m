@@ -61,6 +61,7 @@
     _model = model;
     self.nameLabel.text = model.value ? : @"-";
     self.selectButton.selected = model.selected;
+    self.selectButton.tintColor = self.tintColor;
 }
 
 #pragma mark - Getters
@@ -77,10 +78,13 @@
 
 - (UIButton *)selectButton {
     if (_selectButton == nil) {
-        _selectButton = [[UIButton alloc] init];
-        [_selectButton setImage:[UIImage bundleImageWithNamed:@"search_radio"] forState:UIControlStateNormal];
-        [_selectButton setImage:[UIImage bundleImageWithNamed:@"bt_radio_select"] forState:UIControlStateSelected];
+        _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage *normalImage = [[UIImage bundleImageWithNamed:@"ims-icon-radio-normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [_selectButton setImage:normalImage forState:UIControlStateNormal];
+        UIImage *selectedImage = [[UIImage bundleImageWithNamed:@"ims-icon-radio-selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [_selectButton setImage:selectedImage forState:UIControlStateSelected];
         _selectButton.userInteractionEnabled = NO;
+        _selectButton.tintColor = [UIColor colorWithRed:255/255.0 green:194/255.0 blue:76/255.0 alpha:1.0];
     }
     return _selectButton;
 }

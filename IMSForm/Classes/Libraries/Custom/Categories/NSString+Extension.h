@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)getRoundFloat:(double)floatNumber withPrecisionNum:(NSInteger)precision;
 
+// 读取本地化文字
+- (NSString *)ims_localizable;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -20,13 +20,76 @@ it, simply add the following line to your Podfile:
 pod 'IMSForm'
 ```
 
+## IMSForm
+
+![image](https://git.imshktech.com/ios/imsform/-/raw/Jenkins/images/IMSForm.png)
+
 ## Structure
 
-![image](https://git.imshktech.com/ios/imsform/images/structure.png)
+![image](https://git.imshktech.com/ios/imsform/-/raw/Jenkins/images/structure.png)
+
+## e.g. Custom Select UI
+
+![image](https://git.imshktech.com/ios/imsform/-/raw/Jenkins/images/IMSFormSelectCell.png)
+
+## Development
+
+### 多语言支持
+
+IMSForm 目前已支持多语言：English、Chinese Simplified
+
+可根据需要增加其他语言配置文件
+
+### 新增表单组件 Example
+
+1.在 IMSFormComponentType 文件中创建类型枚举项 IMSFormComponentType_Example，创建 IMSFormTableViewCell 子类 IMSFormExampleCell;
+
+2.[可选/按需]创建 IMSFormModel 子类 IMSFormExampleModel，作为 IMSFormExampleCell.model，并在.m文件添加 
+
+```objective-c
+@synthesize model = _model;
+```
+
+在 [IMSFormTypeManager formModelClassWithCPNType:] 中添加
+
+```objective-c
+if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
+    return NSClassFromString(@"IMSFormExampleModel");
+}
+```
+
+3.[可选/按需]创建 IMSFormCPNConfig/IMSFormCPNStyle 子类，并在IMSFormExampleModel的.m文件中添加
+
+```objective-c
+@synthesize cpnConfig = _cpnConfig;
+```
+
+或
+
+```objective-c
+@synthesize cpnStyle = _cpnStyle;
+```
+
+4.添加类映射 - 在 [IMSFormTypeManager defaultRegist] 中添加 
+
+```objective-c
+[self registCellClass:NSClassFromString(@"IMSFormExampleCell") forKey:IMSFormComponentType_Example];
+```
 
 ## Usage
 
-JSON Data
+### 全局配置表单主题色
+
+在工程的info.plist文件中添加
+
+```C
+<key>IMSFormTintHexColor</key>
+<string>0xFF0000</string>
+```
+
+如需要单独设置组件颜色，可在cpnStyle中配置 tintHexColor，单独设置的优先级高于全局。
+
+### Form JSON Data
 
 ```
 [

@@ -42,6 +42,7 @@
         self.hidden = NO;
         self.contentView.y = IMS_SCREEN_HEIGHT - self.contentView.height;
     } completion:^(BOOL finished) {
+        [self.mainTableView reloadData];
     }];
     if (self.didFinishedShowAndHideBlock) {
         self.didFinishedShowAndHideBlock(YES);
@@ -68,6 +69,11 @@
     _cellType = type;
     
     switch (type) {
+        case IMSPopupSingleSelectListViewCellType_Custom:
+        {
+            self.dataArray = dataArray;
+        }
+            break;
         case IMSPopupSingleSelectListViewCellType_Contact:
         {
             self.dataArray = [NSArray yy_modelArrayWithClass:[IMSPopupSingleSelectContactModel class] json:dataArray];
@@ -108,6 +114,7 @@
         {
             IMSPopupSingleSelectContactModel *model = (IMSPopupSingleSelectContactModel *)self.dataArray[indexPath.row];
             IMSPopupSingleSelectContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSPopupSingleSelectContactTableViewCell class])];
+            cell.tintColor = self.tintColor;
             cell.model = model;
             return cell;
         }
@@ -123,6 +130,7 @@
         {
             IMSFormSelect *model= self.dataArray[indexPath.row];
             IMSPopupSingleSelectDefaultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSPopupSingleSelectDefaultTableViewCell class])];
+            cell.tintColor = self.tintColor;
             cell.model = model;
             return cell;
         }

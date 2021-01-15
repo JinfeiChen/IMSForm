@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) UIView *searchView;
 @property (strong, nonatomic) IMSPopupSingleSelectListView *singleSelectListView; /**< <#property#> */
+@property (strong, nonatomic) UIButton *appendButton; /**< <#property#> */
 
 @end
 
@@ -50,9 +51,20 @@
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.textField.backgroundColor = self.bodyView.backgroundColor;
+    self.appendButton.enabled = self.model.isEditable;
+    
+    self.appendButton.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    
+    if (self.model.isEditable) {
+        self.textField.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
+        self.textField.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
+    }
+    
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(spacing);
@@ -75,7 +87,6 @@
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
     } else {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -131,7 +142,7 @@
         [self validate];
     }
     
-    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason {
@@ -179,19 +190,14 @@
     self.textField.placeholder = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;
-    
-    self.bodyView.userInteractionEnabled = model.isEditable;
-    
-    if (model.isEditable) {
-        self.textField.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
-        self.textField.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
-    }
 }
 
 #pragma mark - Actions
 
 - (void)searchButtonAction:(UIButton *)sender
 {
+    [self.textField endEditing:YES];
+    
     if (self.textField.text.length <= 0) {
         NSLog(@"please input some text first");
         [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"please input some text first"];
@@ -206,8 +212,27 @@
 //    }
     
     if (self.form) {
-        if (self.form.delegate && [self.form.delegate respondsToSelector:NSSelectorFromString(@"testInputSearchWithFormModel:completation:")]) {
-            [self.form.delegate testInputSearchWithFormModel:self.model completation:^(NSArray * _Nonnull dataArray) {
+        if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customInputSearchWithFormModel:completation:")]) {
+            
+            @weakify(self);
+            [self.form.uiDelegate customInputSearchWithFormModel:self.model completation:^(IMSPopupSingleSelectListView * _Nonnull selectListView, NSArray * _Nonnull dataArray) {
+                @strongify(self);
+                NSLog(@"listView = %@, dataArray = %@", selectListView, dataArray);
+                
+                self.singleSelectListView = selectListView;
+                [self.singleSelectListView setDataArray:dataArray type:IMSPopupSingleSelectListViewCellType_Custom];
+                
+                [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+                    NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
+                    
+                    // update value
+                    self.textField.text = selectedModel.value;
+                    // update model valueList
+                    self.model.valueList = selectedModel.isSelected ? @[[selectedModel yy_modelToJSONObject]] : @[];
+                    
+                }];
+                
+                [self.singleSelectListView showView];
                 
             }];
         }
@@ -231,6 +256,7 @@
 //        _textField.leftView = leftView;
 //        _textField.leftViewMode = UITextFieldViewModeAlways;
 
+        [self.searchView addSubview:self.appendButton];
         _textField.rightView = self.searchView;
         _textField.rightViewMode = UITextFieldViewModeAlways;
     }
@@ -241,12 +267,19 @@
     if (_searchView == nil) {
         _searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
         _searchView.backgroundColor = [UIColor colorWithRed:255/255.0 green:194/255.0 blue:76/255.0 alpha:1.0];
-        UIButton *rightButton = [[UIButton alloc]initWithFrame:_searchView.bounds];
-        [rightButton addTarget:self action:@selector(searchButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [rightButton setImage:[UIImage bundleImageWithNamed:@"search"] forState:UIControlStateNormal];
-        [_searchView addSubview:rightButton];
     }
     return _searchView;
+}
+
+- (UIButton *)appendButton
+{
+    if (!_appendButton) {
+        UIButton *rightButton = [[UIButton alloc]initWithFrame:self.searchView.bounds];
+        [rightButton addTarget:self action:@selector(searchButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [rightButton setImage:[UIImage bundleImageWithNamed:@"search"] forState:UIControlStateNormal];
+        _appendButton = rightButton;
+    }
+    return _appendButton;
 }
 
 - (IMSPopupSingleSelectListView *)singleSelectListView {

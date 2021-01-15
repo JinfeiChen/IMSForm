@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<IMSTagViewDelegate> delegate;
 
+@property (strong, nonatomic) UIColor *tintColor; /**< <#property#> */
+
 @end
 
 NS_ASSUME_NONNULL_END

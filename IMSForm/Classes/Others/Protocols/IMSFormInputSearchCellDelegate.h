@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol IMSFormInputSearchCellDelegate <NSObject>
 
-- (void)customInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void(^)(NSArray *dataArray))callback;
+- (void)customInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void(^)(IMSPopupSingleSelectListView * _Nullable selectListView, NSArray *dataArray))callback;
 
 @end
 

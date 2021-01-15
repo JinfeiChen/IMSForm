@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) UIEdgeInsets contentInset; /**< 内边距， e.g. UIEdgeInsetsMake(12, 15, 12, 15) */
 
+@property (copy, nonatomic) NSString *tintHexColor; /**< 主题色 */
+
 @end
 
 NS_ASSUME_NONNULL_END

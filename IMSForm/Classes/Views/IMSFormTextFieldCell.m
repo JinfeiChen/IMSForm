@@ -46,9 +46,16 @@
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    
+    if (self.model.isEditable) {
+        self.textField.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
+        self.textField.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
+    }
+    
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(spacing);
@@ -70,8 +77,8 @@
             make.left.right.mas_equalTo(self.bodyView);
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
+        
     } else {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -92,6 +99,7 @@
             make.left.right.mas_equalTo(self.bodyView);
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
+        
     }
     
     [self.form.tableView beginUpdates];
@@ -127,7 +135,7 @@
         [self validate];
     }
     
-    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
@@ -175,13 +183,6 @@
     self.textField.placeholder = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;
-    
-    self.bodyView.userInteractionEnabled = model.isEditable;
-    
-    if (model.isEditable) {
-        self.textField.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
-        self.textField.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
-    }
 }
 
 #pragma mark - Getters

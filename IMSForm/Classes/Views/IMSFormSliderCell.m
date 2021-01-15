@@ -53,9 +53,14 @@
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
+    self.bodyView.userInteractionEnabled = self.model.isEditable;
+    self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    
+    self.sliderView.minimumTrackTintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    self.sliderView.popUpViewColor = self.sliderView.minimumTrackTintColor;
+    
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(spacing);
@@ -78,7 +83,6 @@
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
     } else {
-        self.bodyView.backgroundColor = [UIColor whiteColor];
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -117,8 +121,6 @@
     
     self.infoLabel.text = model.info;
     
-    self.bodyView.userInteractionEnabled = model.isEditable;
-    
     [self.sliderView setMaxFractionDigitsDisplayed:self.model.cpnConfig.precision];
     self.sliderView.minimumValue = self.model.cpnConfig.min;
     self.sliderView.maximumValue = self.model.cpnConfig.max;
@@ -132,7 +134,7 @@
 - (void)sliderAction
 {
     // update model value
-    self.model.value = [NSString getRoundFloat:self.sliderView.value withPrecisionNum:self.self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:self.sliderView.value withPrecisionNum:self.model.cpnConfig.precision];
     
     // call back
     if (self.didUpdateFormModelBlock) {
