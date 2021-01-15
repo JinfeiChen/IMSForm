@@ -49,10 +49,10 @@
     // MARK: Sort dataSource
 
 //    NSArray *order = @[@"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
-    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
+//    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
 //    NSArray *order = @[@"email"];
 
-    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
+    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
 
     [self.form.tableView reloadData];
 }

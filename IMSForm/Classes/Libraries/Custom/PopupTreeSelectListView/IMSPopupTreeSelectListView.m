@@ -96,20 +96,16 @@
             }else {
                 [titleMutString appendString:didSelectDataModel.value];
             }
-            
             [treeView show:YES andTitle:titleMutString];
-            
             for (IMSFormSelect *allModel in view.dataArray) {
                 if ((allModel != didSelectDataModel) && allModel.child.count) {
                     allModel.selected = NO;
                 }
             }
             [self didSelectedBlock:treeView andFirstShow:NO];
-            
         }else { // 选择
             didSelectDataModel.selected = !didSelectDataModel.selected;
-            BOOL isAdd = NO ;
-            if (didSelectDataModel.selected) { // add
+            if (didSelectDataModel.selected && self.maxCount > 0) { // add
                 self.didSelectedCount ++ ;
                 if (self.didSelectedCount > self.maxCount) { // 超过最大数 label震动
                     self.didSelectedCount = self.maxCount;
@@ -122,16 +118,13 @@
                     shake.repeatCount = 3;//次数
                     [self.tipLabel.layer addAnimation:shake forKey:@"shakeAnimation"];
                     return;
-                }else {
-                    isAdd = YES;
                 }
-            }else if (!didSelectDataModel.selected) { // sub
+            }else if (!didSelectDataModel.selected && self.maxCount > 0) { // sub
                 self.didSelectedCount --;
-                isAdd = NO;
             }
             self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)",self.didSelectedCount,self.didSelectedCount > 1 ? @"items" : @"item",self.maxCount];
             if (self.didSelectedBlock) {
-                self.didSelectedBlock(didSelectDataModel, isAdd, self.tipLabel.text);
+                self.didSelectedBlock(didSelectDataModel, didSelectDataModel.selected, self.tipLabel.text);
             }
         }
     }];
