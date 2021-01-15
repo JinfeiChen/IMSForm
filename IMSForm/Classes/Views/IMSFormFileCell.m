@@ -7,6 +7,8 @@
 
 #import "IMSFormFileCell.h"
 
+#import <IMSForm/IMSFormManager.h>
+
 #define kFormTBFileRowHeight 35.0
 
 @interface IMSFormFileSubCell : UITableViewCell
@@ -117,6 +119,8 @@
 
 @implementation IMSFormFileCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -196,7 +200,7 @@
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
 {
     [super setModel:model form:form];
-
+    
     [self updateUI];
 
     [self setTitle:model.title required:model.isRequired];
@@ -209,20 +213,20 @@
 //    NSData *jsonData = [model.value dataUsingEncoding:NSUTF8StringEncoding];
 //    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
 //    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-//        [self.listArray addObjectsFromArray:[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, model.cpnConfig.maxFilesLimit))]];
+//        [self.listArray addObjectsFromArray:[jsonObject subarrayWithRange:NSMakeRange(0, MIN(jsonObject.count, self.model.cpnConfig.maxFilesLimit))]];
 //    }
     NSArray *valueList = model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
-        [self.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, model.cpnConfig.maxFilesLimit))]];
+        [self.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxFilesLimit))]];
     }
-    self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+    self.addButton.enabled = (self.listArray.count < self.self.model.cpnConfig.maxFilesLimit);
 }
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return MIN(self.listArray.count, self.model.cpnConfig.maxFilesLimit);
+    return MIN(self.listArray.count, self.self.model.cpnConfig.maxFilesLimit);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -233,7 +237,7 @@
     cell.deleteBlock = ^(UIButton *button) {
         // delete file
         [self.listArray removeObjectAtIndex:indexPath.row];
-        self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+        self.addButton.enabled = (self.listArray.count < self.self.model.cpnConfig.maxFilesLimit);
         [self updateMyConstraints];
         [self.listTableView reloadData];
         [self.form.tableView beginUpdates];
@@ -254,6 +258,10 @@
 
 - (CGSize)systemLayoutSizeFittingSize:(CGSize)targetSize withHorizontalFittingPriority:(UILayoutPriority)horizontalFittingPriority verticalFittingPriority:(UILayoutPriority)verticalFittingPriority
 {
+    if (!self.model) {
+        return targetSize;
+    }
+    
     self.listTableView.frame = CGRectMake(0, 0, targetSize.width, 44);
     [self.listTableView layoutIfNeeded];
     
@@ -282,7 +290,7 @@
 
 - (void)addButtonAction:(UIButton *)button
 {
-    if (self.listArray.count >= self.model.cpnConfig.maxFilesLimit) {
+    if (self.listArray.count >= self.self.model.cpnConfig.maxFilesLimit) {
         return;
     }
     

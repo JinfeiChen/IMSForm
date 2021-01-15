@@ -45,6 +45,7 @@
     [self registCellClass:NSClassFromString(@"IMSFormImageCell") forKey:IMSFormComponentType_ImageUpload];
     [self registCellClass:NSClassFromString(@"IMSFormDateTimeCell") forKey:IMSFormComponentType_DateTimePicker];
     [self registCellClass:NSClassFromString(@"IMSFormSelectCell") forKey:IMSFormComponentType_Select];
+    [self registCellClass:NSClassFromString(@"IMSFormInputSearchCell") forKey:IMSFormComponentType_InputSearch];
     [self registCellClass:NSClassFromString(@"IMSFormLineCell") forKey:IMSFormComponentType_Line];
     [self registCellClass:NSClassFromString(@"IMSFormRadioCell") forKey:IMSFormComponentType_Radio];
     [self registCellClass:NSClassFromString(@"IMSFormCascaderCell") forKey:IMSFormComponentType_Cascader];
@@ -63,6 +64,39 @@
 - (Class)getCellClassWithKey:(IMSFormComponentType)key
 {
     return [self.cellClassDict objectForKey:key];
+}
+
++ (Class)formModelClassWithCPNType:(IMSFormComponentType)cpnType
+{
+    if ([cpnType isEqualToString:IMSFormComponentType_TextField]) {
+        return NSClassFromString(@"IMSFormTextFieldModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_TextView]) {
+        return NSClassFromString(@"IMSFormTextViewModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Select]) {
+        return NSClassFromString(@"IMSFormSelectModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Slider]) {
+        return NSClassFromString(@"IMSFormSliderModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Switch]) {
+        return NSClassFromString(@"IMSFormSwitchModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Number]) {
+        return NSClassFromString(@"IMSFormNumberModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Range]) {
+        return NSClassFromString(@"IMSFormRangeModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_FileUpload]) {
+        return NSClassFromString(@"IMSFormFileModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_ImageUpload]) {
+        return NSClassFromString(@"IMSFormImageModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_InputSearch]) {
+        return NSClassFromString(@"IMSFormInputSearchModel");
+    }else if ([cpnType isEqualToString:IMSFormComponentType_DateTimePicker]) {
+        return NSClassFromString(@"IMSFormDateTimeModel");
+    }else if ([cpnType isEqualToString:IMSFormComponentType_Radio]) {
+        return NSClassFromString(@"IMSFormRadioModel");
+    }else if ([cpnType isEqualToString:IMSFormComponentType_Cascader]) {
+        return NSClassFromString(@"IMSFormCascaderModel");
+    }else {
+        return NSClassFromString(@"IMSFormModel");
+    }
 }
 
 #pragma mark - Private Methods

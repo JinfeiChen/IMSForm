@@ -1,17 +1,16 @@
 //
-//  IMSPopupSingleSelect01TableViewCell.m
+//  IMSPopupSingleSelectDefaultTableViewCell.m
 //  Raptor
 //
 //  Created by cjf on 18/12/2020.
 //  Copyright © 2020 IMS. All rights reserved.
 //
 
-#import "IMSPopupSingleSelect01TableViewCell.h"
+#import "IMSPopupSingleSelectDefaultTableViewCell.h"
 #import <Masonry/Masonry.h>
-#import <IMSForm/IMSFormMacros.h>
 #import <IMSForm/UIImage+Bundle.h>
 
-@interface IMSPopupSingleSelect01TableViewCell ()
+@interface IMSPopupSingleSelectDefaultTableViewCell ()
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UIButton *selectButton;
@@ -19,7 +18,7 @@
 
 @end
 
-@implementation IMSPopupSingleSelect01TableViewCell
+@implementation IMSPopupSingleSelectDefaultTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -55,11 +54,16 @@
     }];
 }
 
-- (void)setModel:(IMSPopupSingleSelectModel *)model {
+#pragma mark - Setters
+
+- (void)setModel:(IMSFormSelect *)model
+{
     _model = model;
     self.nameLabel.text = model.value ? : @"-";
-    self.selectButton.selected = model.buttonState;
+    self.selectButton.selected = model.selected;
 }
+
+#pragma mark - Getters
 
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {

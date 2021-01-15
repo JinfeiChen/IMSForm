@@ -25,15 +25,13 @@
         [self addSubview:self.bgView];
         [self.bgView addSubview:self.tipLabel];
         [self.bgView addSubview:self.mainTableView];
-        
-        
+        [self dealData];
         [IMSAppWindow addSubview:self];
     }
     return self;
 }
 
 - (void)showView {
-    
     [self.superview bringSubviewToFront:self];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.hidden = NO;
@@ -50,6 +48,9 @@
         self.bgView.y = IMS_SCREEN_HEIGHT - self.bgView.height;
     } completion:^(BOOL finished) {
     }];
+    if (self.didFinishedShowAndHideBlock) {
+        self.didFinishedShowAndHideBlock(YES);
+    }
 }
 
 - (void)hiddenView {
@@ -57,8 +58,11 @@
         self.bgView.y = IMS_SCREEN_HEIGHT;
     } completion:^(BOOL finished) {
         self.hidden = YES;
-        [self.superview sendSubviewToBack:self];
+        [self removeFromSuperview];
     }];
+    if (self.didFinishedShowAndHideBlock) {
+        self.didFinishedShowAndHideBlock(NO);
+    }
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -71,10 +75,72 @@
     self.mainTableView.dataArray = dataArray;
 }
 
+- (void)dealData {
+    [self didSelectedBlock:self.mainTableView andFirstShow:YES];
+}
+
+- (void)didSelectedBlock:(IMSPopupTreeTabView *)view andFirstShow:(BOOL)isfirstShow {
+    @weakify(self)
+    @weakify(view)
+    [view setDidSelectItemBlock:^(BOOL isShowChildView, IMSFormSelect * _Nonnull didSelectDataModel,NSString *treeTabViewTitleString) {
+        @strongify(self)
+        @strongify(view)
+        if (isShowChildView) {
+            didSelectDataModel.selected = YES;
+            IMSPopupTreeTabView *treeView = [[IMSPopupTreeTabView alloc]initWithFrame:CGRectMake(IMS_SCREEN_WIDTH, CGRectGetMaxY(self.tipLabel.frame), IMS_SCREEN_WIDTH, TableViewHeight)];
+            [self.bgView addSubview:treeView];
+            treeView.dataArray = didSelectDataModel.child;
+            NSMutableString *titleMutString = [[NSMutableString alloc]init];
+            if (isfirstShow == NO) {
+                [titleMutString appendFormat:@"%@ > %@",treeTabViewTitleString,didSelectDataModel.value];
+            }else {
+                [titleMutString appendString:didSelectDataModel.value];
+            }
+            
+            [treeView show:YES andTitle:titleMutString];
+            
+            for (IMSFormSelect *allModel in view.dataArray) {
+                if ((allModel != didSelectDataModel) && allModel.child.count) {
+                    allModel.selected = NO;
+                }
+            }
+            [self didSelectedBlock:treeView andFirstShow:NO];
+            
+        }else { // 选择
+            didSelectDataModel.selected = !didSelectDataModel.selected;
+            BOOL isAdd = NO ;
+            if (didSelectDataModel.selected) { // add
+                self.didSelectedCount ++ ;
+                if (self.didSelectedCount > self.maxCount) { // 超过最大数 label震动
+                    self.didSelectedCount = self.maxCount;
+                    didSelectDataModel.selected = 0;
+                    CABasicAnimation *shake = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
+                    shake.fromValue = [NSNumber numberWithFloat:-5];
+                    shake.toValue = [NSNumber numberWithFloat:5];
+                    shake.duration = 0.1;//执行时间
+                    shake.autoreverses = YES;//是否重复
+                    shake.repeatCount = 3;//次数
+                    [self.tipLabel.layer addAnimation:shake forKey:@"shakeAnimation"];
+                    return;
+                }else {
+                    isAdd = YES;
+                }
+            }else if (!didSelectDataModel.selected) { // sub
+                self.didSelectedCount --;
+                isAdd = NO;
+            }
+            self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)",self.didSelectedCount,self.didSelectedCount > 1 ? @"items" : @"item",self.maxCount];
+            if (self.didSelectedBlock) {
+                self.didSelectedBlock(didSelectDataModel, isAdd, self.tipLabel.text);
+            }
+        }
+    }];
+}
+
 #pragma mark - lazy laod
 - (IMSPopupTreeTabView *)mainTableView {
     if (_mainTableView == nil) {
-        _mainTableView = [[IMSPopupTreeTabView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tipLabel.frame), IMS_SCREEN_WIDTH, TableViewHeight) style:UITableViewStylePlain];
+        _mainTableView = [[IMSPopupTreeTabView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tipLabel.frame), IMS_SCREEN_WIDTH, TableViewHeight)];
     }
     return _mainTableView;
 }

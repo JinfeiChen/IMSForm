@@ -7,6 +7,8 @@
 
 #import "IMSFormSwitchCell.h"
 
+#import <IMSForm/IMSFormManager.h>
+
 @interface IMSFormSwitchCell ()
 
 @property (strong, nonatomic) UISwitch *mySwitch; /**< <#property#> */
@@ -14,6 +16,8 @@
 @end
 
 @implementation IMSFormSwitchCell
+
+@synthesize model = _model;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

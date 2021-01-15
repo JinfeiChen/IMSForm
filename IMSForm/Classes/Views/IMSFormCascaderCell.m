@@ -8,13 +8,12 @@
 #import "IMSFormCascaderCell.h"
 #import "IMSTagView.h"
 #import "IMSPopupTreeSelectListView.h"
+#import "IMSFormCascaderModel.h"
 
-@interface IMSFormCascaderCell ()
+@interface IMSFormCascaderCell ()<IMSTagViewDelegate>
 @property (nonatomic, strong) UIButton *arrowButton;
 @property (nonatomic, strong) UILabel *placeholderLabel;
 @property (nonatomic, strong) IMSTagView *tagView;
-
-@property (nonatomic, strong) IMSPopupTreeSelectListView *listView;
 @end
 
 @implementation IMSFormCascaderCell
@@ -112,18 +111,8 @@
     self.bodyView.userInteractionEnabled = model.isEditable;
     self.bodyView.backgroundColor = model.isEditable ? [UIColor whiteColor] : [UIColor colorWithWhite:0.95 alpha:1.0];
     
-    [UIView animateWithDuration:0.3 animations:^{
-        if (model.isSelected) {
-            self.arrowButton.transform = CGAffineTransformMakeRotation(M_PI_2);
-        } else {
-            self.arrowButton.transform = CGAffineTransformIdentity;
-        }
-    }];
+    [self updateArrowButton];
     
-    BOOL hasData = model.valueList && model.valueList.count > 0;
-    
-    self.placeholderLabel.hidden = hasData;
-    self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
     self.arrowButton.hidden = model.isEditable ? NO : YES;
     self.tagView.deleteImage = model.isEditable ? [UIImage bundleImageWithNamed:@"search_close_tag"] : nil;
     
@@ -133,22 +122,28 @@
 #pragma mark - Private Methods
 - (void)updateTagViewDataSource
 {
-    NSArray *valueModelArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList];
     NSMutableArray *titleArrayM = [NSMutableArray array];
-    for (IMSPopupMultipleSelectModel *model in valueModelArray) {
-        [titleArrayM addObject:model.label?:@"N/A"];
+    
+    for (IMSFormSelect *model in self.model.valueList) {
+        [titleArrayM addObject:model.value?:@"N/A"];
     }
     self.tagView.dataArray = titleArrayM;
+    
+    BOOL hasData = self.model.valueList && self.model.valueList.count > 0;
+    
+    self.placeholderLabel.hidden = hasData;
+     
+    self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
+    
+    [self.form.tableView beginUpdates];
+    [self.form.tableView endUpdates];
 }
 
 #pragma mark - RATagViewDelegate
 - (void)tagView:(IMSTagView *)tagView didSelectAtIndex:(NSInteger)index
 {
     // delete
-    NSMutableArray *mArr = [NSMutableArray arrayWithArray:self.model.valueList];
-    [mArr removeObjectAtIndex:index];
-    // update model's valueList
-    self.model.cpnConfig.selectDataSource = mArr;
+    [self.model.valueList removeObjectAtIndex:index];
     
     // update tagview datasource
     [self updateTagViewDataSource];
@@ -156,47 +151,94 @@
     [self.form.tableView beginUpdates];
     [self.form.tableView endUpdates];
     
-//    // call back
-//    if (self.didUpdateFormModelBlock) {
-//        self.didUpdateFormModelBlock(self, self.model, nil);
-//    }
+    // call back
+    if (self.didUpdateFormModelBlock) {
+        self.didUpdateFormModelBlock(self, self.model, nil);
+    }
     
     BOOL hasData = self.model.valueList && self.model.valueList.count > 0;
     self.placeholderLabel.hidden = hasData;
     self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
+    
+    for (int i = 0; i < self.model.valueList.count; ++i) {
+        IMSFormSelect *model = self.model.valueList[i];
+        NSLog(@"%@",model.value);
+    }
+    
+    
 }
 
 
 - (void)clickAction:(id)sender
 {
-    if (!self.model) {
-        return;
-    }
+    if (!self.model)  return;
     
     // MARK: Show multiple select list view
-           self.listView.dataArray = self.model.cpnConfig.selectDataSource;
-           
-           [self.listView showView];
-           
-           @weakify(self);
-//           [self.listView setRefreshUI:^{
-//               @strongify(self);
-//               [self.form.tableView reloadData];
-//           }];
-           
-           [self.listView setDidSelectedBlock:^(IMSPopupMultipleSelectModel * _Nonnull selectedModel, BOOL isAdd, NSString *tipString) {
-               @strongify(self);
-               NSLog(@"%@, isAdd = %d", [selectedModel yy_modelToJSONObject], isAdd);
-               
-           }];
+    IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
+    IMSPopupTreeSelectListView *listView = [[IMSPopupTreeSelectListView alloc]init];
+    [self dealStatus:cascaderModel.cpnConfig.selectDataSource andHaveDataSource:cascaderModel.valueList];// 重置按钮状态
+    listView.dataArray = cascaderModel.cpnConfig.selectDataSource;
+    listView.maxCount = cascaderModel.cpnConfig.maxCount;
+    listView.didSelectedCount = cascaderModel.cpnConfig.didSelectedCount;
     
+    @weakify(self);
+    [listView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
+        @strongify(self);
+        self.model.selected = isShow;
+        [self updateArrowButton];
+    }];
+    
+    [listView showView];
+    
+    [listView setDidSelectedBlock:^(IMSPopupMultipleSelectModel * _Nonnull selectedModel, BOOL isAdd, NSString *tipString) {
+        @strongify(self);
+//        NSLog(@"%@, isAdd = %d", [selectedModel yy_modelToJSONObject], isAdd);
+        if (isAdd) {
+            cascaderModel.cpnConfig.didSelectedCount ++ ;
+            [self.model.valueList addObject:selectedModel];
+        }else {
+            cascaderModel.cpnConfig.didSelectedCount -- ;
+            [self.model.valueList removeObject:selectedModel];
+        }
+        [self updateTagViewDataSource];
+    }];
 //    // call back
 //    if (self.customDidSelectedBlock) {
 //        self.customDidSelectedBlock(self, self.model, nil);
 //    }
 }
 
+- (void)dealStatus:(NSArray *)allDataSource andHaveDataSource:(NSArray *)haveDataSource {
+    
+    for (int i = 0; i < allDataSource.count; ++i) {
+        IMSFormSelect *dataModel = allDataSource[i];
+        for (IMSFormSelect *valueListModel in haveDataSource) {
+            if ([dataModel.value isEqualToString:valueListModel.value]) {
+                dataModel.selected = YES;
+                break;
+            }else {
+                dataModel.selected = NO;
+            }
+        }
+        if (i < allDataSource.count - 1) {
+            [self dealStatus:dataModel.child andHaveDataSource:haveDataSource];
+        }
+    }
+}
 
+- (void)updateArrowButton
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        if (self.model.isSelected) {
+            self.arrowButton.transform = CGAffineTransformMakeRotation(M_PI_2);
+        } else {
+            self.arrowButton.transform = CGAffineTransformIdentity;
+        }
+    }];
+}
+
+
+#pragma mark - lazy load
 - (UILabel *)placeholderLabel {
     if (_placeholderLabel == nil) {
         _placeholderLabel = [[UILabel alloc] init];
@@ -231,13 +273,6 @@
         _tagView.delegate = self;
     }
     return _tagView;
-}
-
-- (IMSPopupTreeSelectListView *)listView {
-    if (_listView == nil) {
-        _listView = [[IMSPopupTreeSelectListView alloc] init];
-    }
-    return _listView;
 }
 
 @end

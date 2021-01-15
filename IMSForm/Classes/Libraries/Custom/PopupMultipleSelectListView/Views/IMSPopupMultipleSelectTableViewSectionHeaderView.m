@@ -8,7 +8,6 @@
 
 #import "IMSPopupMultipleSelectTableViewSectionHeaderView.h"
 #import <Masonry/Masonry.h>
-#import <IMSForm/IMSFormMacros.h>
 
 @interface IMSPopupMultipleSelectTableViewSectionHeaderView ()
 

@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <IMSForm/IMSFormType.h>
 #import <IMSForm/IMSFormModel.h>
 #import <IMSForm/IMSDropHUD.h>
 
@@ -80,9 +81,9 @@ NS_ASSUME_NONNULL_BEGIN
  数据源校验
 
  @param dataArray 表单的数据源
- @return BOOL 全部校验通过返回YES，否则返回NO。
+ @return NSError 全部校验通过返回nil，否则返回error。
  */
-+ (BOOL)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray;
++ (NSError *)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray;
 
 @end
 

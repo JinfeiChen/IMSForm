@@ -5,8 +5,9 @@
 //  Created by cjf on 7/1/2021.
 //
 
-#import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSFormTableViewCell.h>
 #import <AVFoundation/AVFoundation.h>
+#import <IMSForm/IMSFormImageModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface IMSFormImageCell : IMSFormTableViewCell
+
+@property (strong, nonatomic) IMSFormImageModel *model; /**< <#property#> */
 
 /**
  数据模型的参数说明

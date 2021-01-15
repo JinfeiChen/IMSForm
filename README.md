@@ -20,6 +20,10 @@ it, simply add the following line to your Podfile:
 pod 'IMSForm'
 ```
 
+## Structure
+
+![image](https://git.imshktech.com/ios/imsform/images/structure.png)
+
 ## Usage
 
 JSON Data

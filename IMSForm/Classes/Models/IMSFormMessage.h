@@ -7,9 +7,6 @@
 
 #import <IMSForm/IMSFormObject.h>
 
-#import <IMSForm/IMSFormMacros.h>
-#import <IMSForm/IMSFormType.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormMessageStyle : IMSFormObject

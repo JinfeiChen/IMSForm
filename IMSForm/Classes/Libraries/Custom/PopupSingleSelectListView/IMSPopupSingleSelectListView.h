@@ -6,29 +6,35 @@
 //  Copyright © 2020 IMS. All rights reserved.
 //
 
-#import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSFormView.h>
 
-#import <IMSForm/IMSPopupSingleSelect01TableViewCell.h>
-#import <IMSForm/IMSPopupSingleSelect02TableViewCell.h>
+#import <IMSForm/IMSPopupSingleSelectDefaultTableViewCell.h>
+#import <IMSForm/IMSPopupSingleSelectContactTableViewCell.h>
 
 typedef NS_ENUM(NSUInteger, IMSPopupSingleSelectListViewCellType) {
-    IMSPopupSingleSelectListViewSystemCell = 0, //只显示名称
-    IMSPopupSingleSelectListViewRelatedCell,
-    IMSPopupSingleSelectListViewSourceCampaignCell,
+    IMSPopupSingleSelectListViewCellType_Default = 0, // system: 显示选项名称
+    IMSPopupSingleSelectListViewCellType_Contact, // system: 显示联系人信息
+    IMSPopupSingleSelectListViewCellType_Custom // custom: 自定义显示，开发者需要实现 customTableView:cellForRowAtIndexPath:
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSPopupSingleSelectListView : IMSFormView
 
+@property (nonatomic, strong) UITableView *mainTableView;
+@property (strong, nonatomic) NSArray <IMSFormSelect *> *dataArray; /**< <#property#> */
+@property (assign, nonatomic) IMSPopupSingleSelectListViewCellType cellType; /**< <#property#> */
+
 - (void)showView;
 - (void)hiddenView;
 
-@property (nonatomic, assign) IMSPopupSingleSelectListViewCellType cellType;
-@property (nonatomic, strong) NSArray <IMSPopupSingleSelectModel *> *dataArray;
+- (void)setDataArray:(NSArray *)dataArray type:(IMSPopupSingleSelectListViewCellType)type;
 
-@property (nonatomic, copy) void (^didSelectedBlock)(IMSPopupSingleSelectModel * selectedModel);
-@property (nonatomic, copy) void (^refreshUI)(void);
+@property (nonatomic, copy) void (^didSelectedBlock)(NSArray *dataArray, IMSFormSelect *selectedModel);
+@property (copy, nonatomic) void (^didFinishedShowAndHideBlock)(BOOL isShow); /**< <#property#> */
+
+// 在子类中实现此方法可实现cell自定义, model则需实现IMSFormSelect子类
+//- (UITableViewCell *)customTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

@@ -6,388 +6,82 @@
         "field" : "date",
         "cpnConfig" : {
               "datePickerMode" : 1,
-              "dateFormat" : "yyyy-MM-dd"
+              "minDate" : -36000,
+              "maxDate" : 36000,
           }
-    },
-    {
-        "type" : "IMSFormComponentType_TextField",
-        
-        "title" : "Email",
-        "value" : "raptor@ims.com",
-        "placeholder" : "Please enter your email address",
-        "info" : "Max length limit 20",
-        
-        "visible" : "1",
-        "editable" : "1",
-        "required" : "1",
-        "clearable" : "1",
-        
-        "field" : "email",
-        "param" : "",
-        
-        "defaultSelectorString" : "didUpdatedMyFormModel:indexPath:",
-        "customSelectorString" : "customDidSelectedMyFormModel:indexPath:",
-        
-        "cpnConfig" : {
-            "textType" : "email",
-            "lengthLimit" : "20",
-            "precision" : "2"
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-            "message" : {},
-            "validators" : [
-                {
-                    "class" : "IMSMyValidateManager",
-                    "selector" : "isNotEmpty"
-                },
-                {
-                    "class" : "IMSMyValidateManager",
-                    "selector" : "isEmail"
-                }
-            ],
-            "trigger" : "blur"
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_TextView",
-        
-        "title" : "Description",
-        
-        "field" : "desc",
-        
-        "cpnConfig" : {
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_Slider",
-        
-        "title" : "Progress",
-        
-        "field" : "progress",
-        
-        "cpnConfig" : {
-            "min" : "0",
-            "max" : "10",
-            "precision" : "3"
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_Switch",
-        
-        "title" : "Switch",
-        
-        "field" : "switch",
-        
-        "cpnConfig" : {
-        },
-        "cpnStyle" : {
-            "layout" : "vertical",
-            "bodyAlign" : "right"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_Number",
-        
-        "title" : "Number",
-        
-        "field" : "number",
-        
-        "cpnConfig" : {
-            "min" : "0",
-            "max" : "10000",
-            "precision" : "0",
-            "increment" : "1"
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_Range",
-        
-        "title" : "Range",
-        "value" : "123;1234",
-        
-        "field" : "range",
-        
-        "cpnConfig" : {
-            "min" : "0",
-            "max" : "10000",
-            "precision" : "3",
-            "minPlaceholder" : "MIN",
-            "maxPlaceholder" : "MAX"
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_FileUpload",
-        
-        "title" : "File",
-        "valueList" : [
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"},
-            {"idField":"123456","name":"file name 01","url":"http://www.baidu.com/xxx/xxx.pdf","ext":"reserved text"}
-        ],
-        "info" : "最多上传5文件",
-        
-        "field" : "file",
-        
-        "cpnConfig" : {
-            "maxFilesLimit" : "5"
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_Line",
-        
-        "field" : "line"
-    },
-    
-    {
-        "type" : "IMSFormComponentType_ImageUpload",
-        
-        "title" : "Image",
-        "valueList" : [
-            "https://img-blog.csdnimg.cn/20201222160340884.jpg",
-            "https://img-blog.csdnimg.cn/20201222160340884.jpg",
-            "https://img-blog.csdnimg.cn/20201222160340884.jpg",
-            "https://img-blog.csdnimg.cn/20201222160340884.jpg",
-            "https://img-blog.csdnimg.cn/20201222160340884.jpg",
-            "https://img-blog.csdnimg.cn/20201222160340884.jpg"
-        ],
-        "info" : "最多上传4张图片",
-        
-        "field" : "image",
-        
-        "cpnConfig" : {
-            "maxImagesLimit" : "4",
-            "rowImages" : "4"
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_Select",
-        
-        "title" : "Single Select",
-        "value" : "SingleValue",
-        "placeholder" : "请单选",
-        "info" : "这是个单选列表组件",
-        
-        "selected" : 1,
-        
-        "field" : "uniSelect",
-        
-        "cpnConfig" : {
-            "multiple" : 0,
-            "uniItemType" : 0,
-            "uniDataSource" : [
-                {
-                    "name" : "name1",
-                    "key" : "key1",
-                    "value" : "value1"
-                },
-                {
-                    "name" : "name2",
-                    "key" : "key2",
-                    "value" : "value2"
-                }
-            ]
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
-    },
-    
-    {
-        "type" : "IMSFormComponentType_Select",
-        
-        "title" : "Multiple Select",
-        "valueList" : [
-            {
-                "label" : "Default1",
-                "key" : "key1",
-                "value" : "value1"
-            }
-        ],
-        "placeholder" : "请多选",
-        "info" : "这是个多选列表组件",
-        
-        "selected" : 0,
-        
-        "field" : "multipleSelect",
-        
-        "cpnConfig" : {
-            "multiple" : 1,
-            "multipleLimit" : "100",
-            "multDataSource" : [
-                [
-                    {
-                        "label" : "Default11",
-                        "key" : "key11",
-                        "value" : "value11"
-                    },
-                    {
-                        "label" : "Default12",
-                        "key" : "key12",
-                        "value" : "value12"
-                    }
-                ],
-                [
-                    {
-                        "label" : "Default21",
-                        "key" : "key21",
-                        "value" : "value21"
-                    },
-                    {
-                        "label" : "Default22",
-                        "key" : "key22",
-                        "value" : "value22"
-                    }
-                ]
-            ]
-        },
-        "cpnStyle" : {
-            "layout" : "vertical"
-        },
-        "cpnRule" : {
-        }
     },
     {
         "type" : "IMSFormComponentType_Radio",
         "title" : "radio",
         "field" : "radio",
         "cpnConfig" : {
-              "selectDataSource" : [
-                  {
-                      "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
-                      "selected" : 1,
-                      "param" : "",
-                      "normalImageName" : "search_radio",
-                      "selectedImageName" : "bt_radio_select"
-                  },
-                  {
-                      "value" : "value2",
-                      "selected" : 0,
-                      "param" : "",
-                      "normalImageName" : "search_radio",
-                      "selectedImageName" : "bt_radio_select"
-                  },
-                  {
-                      "value" : "value3",
-                      "selected" : 0,
-                      "param" : "",
-                      "normalImageName" : "search_radio",
-                      "selectedImageName" : "bt_radio_select"
-                  }
-              ]
-          }
+            "normalImageName" : "search_radio",
+            "selectedImageName" : "bt_radio_select",
+            "selectDataSource" : [
+                {
+                    "value" : "value1",
+                    "selected" : 1,
+                    "param" : ""
+                },
+                {
+                    "value" : "value2",
+                    "selected" : 0,
+                    "param" : ""
+                },
+                {
+                    "value" : "value3",
+                    "selected" : 0,
+                    "param" : ""
+                }
+            ]
+        }
     },
     {
-           "type" : "IMSFormComponentType_Cascader",
-           "title" : "cascader",
-           "field" : "cascader",
-           "cpnConfig" : {
-                 "selectDataSource" : [
-                     {
-                         "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
-                         "selected" : 0,
-                         "param" : "",
-                         "child" : [
-                             {
-                                 "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
-                                 "selected" : 0,
-                                 "param" : "",
-                                 "child" : [
-                                     {
-                                         "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
-                                         "selected" : 0,
-                                         "param" : "",
-                                         "child" : [
-                                             
-                                         ],
-                                     },
-                                     {
-                                         "value" : "value2",
-                                         "selected" : 0,
-                                         "param" : "",
-                                     },
-                                     {
-                                         "value" : "value3",
-                                         "selected" : 0,
-                                         "param" : ""
-                                     }
-                                 ],
-                             },
-                             {
-                                 "value" : "value2",
-                                 "selected" : 0,
-                                 "param" : "",
-                             },
-                             {
-                                 "value" : "value3",
-                                 "selected" : 0,
-                                 "param" : ""
-                             }
-                         ],
-                     },
-                     {
-                         "value" : "value2",
-                         "selected" : 0,
-                         "param" : "",
-                     },
-                     {
-                         "value" : "value3",
-                         "selected" : 0,
-                         "param" : ""
-                     }
-                 ]
-             }
-       },
+        "type" : "IMSFormComponentType_Cascader",
+        "title" : "cascader",
+        "field" : "cascader",
+        "cpnConfig" : {
+            "maxCount" : 9,
+            "didSelectedCount" : 0,
+            "selectDataSource" : [
+                {
+                    "value" : "value1",
+                    "selected" : 0,
+                    "param" : "",
+                    "child" : [
+                        {
+                            "value" : "value1-1",
+                            "selected" : 0,
+                            "param" : "",
+                            "child" : [
+                                {
+                                    "value" : "value1-1-1",
+                                    "selected" : 0,
+                                    "param" : "",
+                                    "child" : [
+                                        
+                                    ],
+                                },
+                                {
+                                    "value" : "value1-1-2",
+                                    "selected" : 0,
+                                    "param" : "",
+                                },
+                            ]
+                        },
+                        {
+                            "value" : "value3-1",
+                            "selected" : 0,
+                            "param" : ""
+                        }
+                    ],
+                },
+                {
+                    "value" : "value2",
+                    "selected" : 0,
+                    "param" : "",
+                }
+            ]
+        }
+    },
 ]

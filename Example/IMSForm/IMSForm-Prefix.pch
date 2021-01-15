@@ -40,7 +40,8 @@
          "precision" : "2"
      },
      "cpnStyle" : {
-         "layout" : "vertical"
+         "layout" : "vertical",
+         "infoHexColor" : "0xFF0000"
      },
      "cpnRule" : {
          "message" : {},
@@ -52,9 +53,27 @@
              {
                  "class" : "IMSMyValidateManager",
                  "selector" : "isEmail"
-             }
+             },
+             "IMSFormModelMobileValidator"
          ],
          "trigger" : "blur"
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_InputSearch",
+     
+     "title" : "Input Search",
+     "info" : "Info text",
+     
+     "field" : "search",
+     
+     "cpnConfig" : {
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
      }
  },
  
@@ -62,6 +81,7 @@
      "type" : "IMSFormComponentType_TextView",
      
      "title" : "Description",
+     "info" : "Info text",
      
      "field" : "desc",
      
@@ -78,6 +98,7 @@
      "type" : "IMSFormComponentType_Slider",
      
      "title" : "Progress",
+     "info" : "Info text",
      
      "field" : "progress",
      
@@ -97,6 +118,7 @@
      "type" : "IMSFormComponentType_Switch",
      
      "title" : "Switch",
+     "info" : "Info text",
      
      "field" : "switch",
      
@@ -114,6 +136,7 @@
      "type" : "IMSFormComponentType_Number",
      
      "title" : "Number",
+     "info" : "Info text",
      
      "field" : "number",
      
@@ -135,12 +158,13 @@
      
      "title" : "Range",
      "value" : "123;1234",
+     "info" : "Info text",
      
      "field" : "range",
      
      "cpnConfig" : {
-         "min" : "",
-         "max" : "",
+         "min" : "0",
+         "max" : "10000",
          "precision" : "3",
          "minPlaceholder" : "MIN",
          "maxPlaceholder" : "MAX"
@@ -185,6 +209,7 @@
  
  {
      "type" : "IMSFormComponentType_Line",
+     
      "field" : "line"
  },
  
@@ -214,5 +239,234 @@
      "cpnRule" : {
      }
  },
+ 
+ {
+     "type" : "IMSFormComponentType_Select",
+     
+     "title" : "Single Select",
+     "valueList" : [
+         {
+             "value" : "value1",
+             "name" : "name1",
+             "selected" : 1
+         }
+     ],
+     "placeholder" : "请单选",
+     "info" : "这是个单选列表组件",
+     
+     "selected" : 0,
+     
+     "field" : "uniSelect",
+     
+     "cpnConfig" : {
+         "multiple" : 0,
+         "selectItemType" : 1,
+         "selectDataSource" : [
+             {
+                 "value" : "value1",
+                 "name" : "name1",
+                 "selected" : 1
+             },
+             {
+                 "value" : "value2",
+                 "name" : "name2",
+                 "phone" : "+86 188 8888 8888",
+                 "role" : "role",
+                 "info" : "contact info text"
+             }
+         ]
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ 
+ {
+     "type" : "IMSFormComponentType_Select",
+     
+     "title" : "Multiple Select",
+     "valueList" : [
+         {
+             "value" : "value21",
+             "child" : []
+         },
+         {
+             "value" : "value22",
+             "child" : []
+         },
+         {
+             "value" : "value23",
+             "child" : []
+         },
+         {
+             "value" : "value24",
+             "child" : []
+         },
+         {
+             "value" : "value25",
+             "child" : []
+         },
+         {
+             "value" : "value26",
+             "child" : []
+         }
+     ],
+     "placeholder" : "请多选",
+     "info" : "这是个多选列表组件",
+     
+     "selected" : 0,
+     
+     "field" : "multipleSelect",
+     
+     "cpnConfig" : {
+         "multiple" : 1,
+         "multipleLimit" : 20,
+         "selectItemType" : 0,
+         "selectDataSource" : [
+             {
+                 "value": "section1",
+                 "title": "Section 1",
+                 "child": [
+                     {
+                         "value" : "value11",
+                         "child" : []
+                     },
+                     {
+                         "value" : "value12",
+                         "child" : []
+                     }
+                 ]
+             },
+             {
+                 "value": "section2",
+                 "title": "Section 2",
+                 "child": [
+                     {
+                         "value" : "value21",
+                         "child" : []
+                     },
+                     {
+                         "value" : "value22",
+                         "child" : []
+                     },
+                     {
+                         "value" : "value23",
+                         "child" : []
+                     },
+                     {
+                         "value" : "value24",
+                         "child" : []
+                     },
+                     {
+                         "value" : "value25",
+                         "child" : []
+                     },
+                     {
+                         "value" : "value26",
+                         "child" : []
+                     }
+                 ]
+             }
+         ]
+     },
+     "cpnStyle" : {
+         "layout" : "vertical"
+     },
+     "cpnRule" : {
+     }
+ },
+ {
+     "type" : "IMSFormComponentType_Radio",
+     "title" : "radio",
+     "field" : "radio",
+     "cpnConfig" : {
+           "selectDataSource" : [
+               {
+                   "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                   "selected" : 1,
+                   "param" : "",
+                   "normalImageName" : "search_radio",
+                   "selectedImageName" : "bt_radio_select"
+               },
+               {
+                   "value" : "value2",
+                   "selected" : 0,
+                   "param" : "",
+                   "normalImageName" : "search_radio",
+                   "selectedImageName" : "bt_radio_select"
+               },
+               {
+                   "value" : "value3",
+                   "selected" : 0,
+                   "param" : "",
+                   "normalImageName" : "search_radio",
+                   "selectedImageName" : "bt_radio_select"
+               }
+           ]
+       }
+ },
+ {
+        "type" : "IMSFormComponentType_Cascader",
+        "title" : "cascader",
+        "field" : "cascader",
+        "cpnConfig" : {
+              "selectDataSource" : [
+                  {
+                      "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                      "selected" : 0,
+                      "param" : "",
+                      "child" : [
+                          {
+                              "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                              "selected" : 0,
+                              "param" : "",
+                              "child" : [
+                                  {
+                                      "value" : "value1hjkkhkhkjhkjhkhkjhkhkhkhkhuyiiyiuyuiyuuuuuuyyyyyttttttffffffffdddd",
+                                      "selected" : 0,
+                                      "param" : "",
+                                      "child" : [
+                                          
+                                      ],
+                                  },
+                                  {
+                                      "value" : "value2",
+                                      "selected" : 0,
+                                      "param" : "",
+                                  },
+                                  {
+                                      "value" : "value3",
+                                      "selected" : 0,
+                                      "param" : ""
+                                  }
+                              ],
+                          },
+                          {
+                              "value" : "value2",
+                              "selected" : 0,
+                              "param" : "",
+                          },
+                          {
+                              "value" : "value3",
+                              "selected" : 0,
+                              "param" : ""
+                          }
+                      ],
+                  },
+                  {
+                      "value" : "value2",
+                      "selected" : 0,
+                      "param" : "",
+                  },
+                  {
+                      "value" : "value3",
+                      "selected" : 0,
+                      "param" : ""
+                  }
+              ]
+          }
+    },
  
  */

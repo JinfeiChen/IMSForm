@@ -7,6 +7,7 @@
 
 #import "IMSFormDateTimeCell.h"
 #import "DatePickerView.h"
+#import "IMSFormDateTimeModel.h"
 
 @interface IMSFormDateTimeCell ()<UITextFieldDelegate>
 @property (nonatomic, strong) UIButton *iconButton;
@@ -14,6 +15,8 @@
 @end
 
 @implementation IMSFormDateTimeCell
+
+@synthesize model = _model;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -63,7 +66,7 @@
         make.height.mas_equalTo(kIMSFormDefaultHeight);
     }];
 
-    [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.bodyView);
     }];
 
@@ -81,21 +84,28 @@
 #pragma mark - Private Methods
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     PVDatePickerMode mode = PVDatePickerModeYMD;
-    if (self.model.cpnConfig.datePickerMode == UIDatePickerModeTime) {
+    IMSFormDateTimeModel *dateTimeModel = (IMSFormDateTimeModel *)self.model;
+    NSDate *minDate =  [[NSDate date] pv_getNewDateAddDays:dateTimeModel.cpnConfig.minDate];
+    NSDate *maxDate = [[NSDate date] pv_getNewDateAddDays:dateTimeModel.cpnConfig.maxDate];
+    NSString *dateFormat = @"";
+    if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeTime) {
         mode = PVDatePickerModeHM;
-    }else if (self.model.cpnConfig.datePickerMode == UIDatePickerModeDate) {
+        dateFormat = @"HH:mm";
+    }else if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeDate) {
         mode = PVDatePickerModeYMD;
-    }else if (self.model.cpnConfig.datePickerMode == UIDatePickerModeDateAndTime) {
+        dateFormat = @"yyyy-MM-dd";
+    }else if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeDateAndTime) {
         mode = PVDatePickerModeYMDHMS;
+        dateFormat = @"yyyy-MM-dd HH:mm:ss";
     }
 
     NSString *defaultString = self.model.value;
     if (!self.model.value || self.model.value.length == 0) {
-        defaultString = [NSDate pv_getDateString:[NSDate date] format:self.model.cpnConfig.dateFormat];
+        defaultString = [NSDate pv_getDateString:[NSDate date] format:dateFormat];
     }
 
     @weakify(self)
-    [DatePickerView showDatePickerWithTitle:@"Select" dateType:mode defaultSelValue:defaultString minDate:self.model.cpnConfig.minDate maxDate:self.model.cpnConfig.maxDate isAutoSelect:NO themeColor:nil resultBlock:^(NSString * _Nonnull selectValue) {
+    [DatePickerView showDatePickerWithTitle:@"Select" dateType:mode defaultSelValue:defaultString minDate:minDate maxDate:maxDate isAutoSelect:NO themeColor:nil resultBlock:^(NSString * _Nonnull selectValue) {
         @strongify(self)
         self.textField.text = self.model.value = self.model.param = selectValue;
     }];
@@ -111,15 +121,14 @@
     [self updateUI];
     
     [self setTitle:model.title required:model.isRequired];
-    
     self.infoLabel.text = model.info;
-    
     self.bodyView.userInteractionEnabled = model.isEditable;
-    
     self.textField.placeholder = model.placeholder;
     self.textField.text = model.value;
     
-    if (model.cpnConfig.datePickerMode == UIDatePickerModeDate) {
+    IMSFormDateTimeModel *dateTimeModel = (IMSFormDateTimeModel *)model;
+    
+    if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeDate) {
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_date"] forState:UIControlStateNormal];
     }else {
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];

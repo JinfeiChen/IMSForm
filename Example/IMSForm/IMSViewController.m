@@ -8,12 +8,18 @@
 
 #import "IMSViewController.h"
 
-#import <IMSForm/IMSForm.h>
 
-@interface IMSViewController () <UITableViewDelegate, UITableViewDataSource>
+#import <IMSForm/IMSForm.h>
+#import "IMSCustomSingleSelectListView.h"
+#import "IMSCustomMultipleSelectListView.h"
+
+@interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerDelegate>
 
 @property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
+
+@property (strong, nonatomic) UIView *customContactSingleListView; /**< <#property#> */
+@property (strong, nonatomic) UIView *customAddressSingleListView; /**< <#property#> */
 
 @end
 
@@ -40,7 +46,8 @@
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
-    NSArray *order = @[@"cascader",@"email", @"progress", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name",@"date",@"radio"];
+//    NSArray *order = @[@"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
+    NSArray *order = @[@"cascader"];
     self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:order];
 
     [self.form.tableView reloadData];
@@ -96,16 +103,50 @@
     return cell;
 }
 
+#pragma mark - IMSFormManagerDelegate
+- (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel
+{
+    // formModel.field
+    if ([formModel.field isEqualToString:@"uniSelect"]) {
+        IMSCustomSingleSelectListView *selectListView = [[IMSCustomSingleSelectListView alloc] init];
+        selectListView.cellType = IMSPopupSingleSelectListViewCellType_Custom;
+//        selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
+        return selectListView;
+    }
+    return nil;
+}
+
+- (IMSPopupMultipleSelectListView *)customMultipleSelectListViewWithFormModel:(IMSFormModel *)formModel
+{
+    // formModel.filed
+    if ([formModel.field isEqualToString:@"multipleSelect"]) {
+        IMSCustomMultipleSelectListView *selectListView = [[IMSCustomMultipleSelectListView alloc] init];
+        selectListView.cellType = IMSPopupMultipleSelectListViewCellType_Custom;
+//        selectListView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:formModel.cpnConfig.selectDataSource];
+        return selectListView;
+    }
+    return nil;
+}
+
+- (void)testInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void (^)(NSArray * _Nonnull))callback
+{
+    NSArray *dataArray = [NSArray array];
+    if (callback) {
+        callback(dataArray);
+    }
+}
+
 #pragma mark - Actions
 
 - (void)submitAction:(id)sender
 {
-    [self.form submit:^(BOOL isPass) {
-        if (isPass) {
+    [self.form submit:^(NSError * _Nonnull error) {
+        if (!error) {
             NSLog(@"校验通过");
             [IMSDropHUD showAlertWithType:IMSFormMessageType_Success message:@"校验通过"];
         } else {
             NSLog(@"校验未通过");
+            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"校验未通过: %@", error.localizedDescription]];
         }
     }];
 }
@@ -137,6 +178,7 @@
 {
     if (!_form) {
         _form = [[IMSFormManager alloc] initWithTableView:self.tableView JSON:@"formData"];
+        _form.delegate = self;
     }
     return _form;
 }

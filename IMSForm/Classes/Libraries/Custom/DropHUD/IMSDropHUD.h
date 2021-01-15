@@ -11,9 +11,6 @@
 #import <IMSForm/NSString+Extension.h>
 #import <IMSForm/UIImage+Bundle.h>
 
-#import <IMSForm/IMSFormMacros.h>
-#import <IMSForm/IMSFormType.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSDropView : UIView

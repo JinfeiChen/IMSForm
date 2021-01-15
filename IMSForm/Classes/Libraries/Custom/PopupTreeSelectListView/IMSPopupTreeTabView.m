@@ -7,8 +7,8 @@
 
 #import "IMSPopupTreeTabView.h"
 #import <IMSForm/UIView+Extension.h>
-#import "IMSPopupTreeTabCell.h"
 #import <Masonry/Masonry.h>
+#import "UIImage+Bundle.h"
 
 @interface IMSPopupTreeTabView ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UIView *tabHeaderView;
@@ -19,8 +19,8 @@
 
 @implementation IMSPopupTreeTabView
 
-- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
-    if (self = [super initWithFrame:frame style:style]) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         self.frame = frame;
         [self addSubview:self.mainTableView];
     }
@@ -43,13 +43,13 @@
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.x = IMS_SCREEN_WIDTH;
     } completion:^(BOOL finished) {
-        NSString *replaceString = [NSString stringWithFormat:@"%@>",self.backButton.titleLabel.text];
+        [self removeFromSuperview];
     }];
 }
 
 - (void)setDataArray:(NSArray *)dataArray {
     _dataArray = dataArray;
-    [self reloadData];
+    [self.mainTableView reloadData];
 }
 
 //- (void)lj_bindViewModel {
@@ -68,81 +68,18 @@
 
     IMSPopupTreeTabCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSPopupTreeTabCell class])];
     IMSFormSelect *dataModel = self.dataArray[indexPath.row];
-    [cell setupData:dataModel andIsLast:dataModel.child.count];
+    [cell setupData:dataModel andIsLast:!dataModel.child.count];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
      IMSFormSelect *dataModel = self.dataArray[indexPath.row];
-//
-//    if (!kArrayIsEmpty(dataModel.childArray)) { // 显示下一级
-//        dataModel.buttonState = 1;
-//        RAAddContactLocationTabView *view = [[RAAddContactLocationTabView alloc]initWithViewModel:self.viewModel andFrame:CGRectMake(IMSScreen_Width,0, IMSScreen_Width, AddContactLocationHeight)];
-//        view.isSingleSelect = self.isSingleSelect;
-//        view.maxCount = self.maxCount;
-//        view.didSelectedCount = self.didSelectedCount;
-//        [self addSubview:view];
-//        view.dataArray = dataModel.childArray;
-//        [view show:YES andTitle:dataModel.value];
-//
-//        // 拼接选择的标题
-//        [self.viewModel.titleMutString appendFormat:@"%@>",dataModel.value];
-//        DLog(@"==>%@",self.viewModel.titleMutString)
-//        for (RAContactsFilterRightTabManySelectedModel *allModel in self.dataArray) {
-//            if (allModel != dataModel) {
-//                allModel.buttonState = 0;
-////                for (RAContactsFilterRightTabManySelectedModel *childModel in allModel.childArray) {
-////                    childModel.buttonState = 0;
-////                    for (RAContactsFilterRightTabManySelectedModel *childModelTwo in childModel.childArray) {
-////                        childModelTwo.buttonState = 0;
-////                    }
-////                }
-//            }
-//        }
-//        [tableView reloadData];
-//    }else { // 选中逻辑
-//        if (dataModel.buttonState == 1) {
-//            dataModel.buttonState = 0;
-//        }else if (dataModel.buttonState == 0) {
-//            dataModel.buttonState = 1;
-//        }
-//        BOOL isShakeAnimation = NO;
-//        if (dataModel.buttonState == 1 && self.maxCount > 0) {
-//            self.didSelectedCount ++;
-//            if (self.didSelectedCount > self.maxCount) { // 超过最大数 label震动
-//                isShakeAnimation = YES;
-//                self.didSelectedCount = self.maxCount;
-//                dataModel.buttonState = 0;
-//            }
-//        }else if (dataModel.buttonState == 0 && self.maxCount > 0) {
-//            self.didSelectedCount --;
-//        }
-//        if (self.isSingleSelect) {
-//            for (RAContactsFilterRightTabManySelectedModel *allModel in self.dataArray) {
-//                if (allModel != dataModel) {
-//                    allModel.buttonState = 0;
-//                    for (RAContactsFilterRightTabManySelectedModel *childModel in allModel.childArray) {
-//                        childModel.buttonState = 0;
-//                        for (RAContactsFilterRightTabManySelectedModel *childModelTwo in childModel.childArray) {
-//                            childModelTwo.buttonState = 0;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        NSString *resultString = [NSString stringWithFormat:@"%@",dataModel.value];
-//        DLog(@"==>%@",resultString);
-//        [self.viewModel.sureClickSubject sendNext:@{@"value":resultString,
-//                                                    @"Id":dataModel.Id,
-//                                                    @"isSingleSelect":@(self.isSingleSelect),
-//                                                    @"isAdd":@(dataModel.buttonState),
-//                                                    @"isShakeAnimation":@(isShakeAnimation),
-//                                                    @"didSelectedCount" : @(self.didSelectedCount)
-//        }];
-//
-//        [tableView reloadData];
-//    }
+    
+    if (self.didSelectItemBlock) {
+        self.didSelectItemBlock(dataModel.child.count, dataModel,self.backButton.titleLabel.text);
+        [tableView reloadData];
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -168,15 +105,14 @@
 #pragma mark - lazy load
 - (UITableView *)mainTableView {
     if (_mainTableView == nil) {
-        _mainTableView = [[UITableView alloc] initWithFrame:self.bounds];
+        _mainTableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
         _mainTableView.showsVerticalScrollIndicator = NO;
         _mainTableView.backgroundColor = [UIColor whiteColor];
+//        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
-        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _mainTableView.bounces = NO;
         [_mainTableView registerClass:[IMSPopupTreeTabCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupTreeTabCell class])];
-        
     }
     return _mainTableView;
 }
@@ -185,7 +121,6 @@
     if (_tabHeaderView == nil) {
         _tabHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, IMS_SCREEN_WIDTH, 40)];
         _tabHeaderView.backgroundColor = [UIColor whiteColor];
-        
         [_tabHeaderView addSubview:self.backButton];
         [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.equalTo(_tabHeaderView);
@@ -199,7 +134,7 @@
 - (UIButton *)backButton {
     if (_backButton == nil) {
         _backButton = [[UIButton alloc] init];
-        [_backButton setImage:[UIImage imageNamed:@"ev_back"] forState:UIControlStateNormal];
+        [_backButton setImage: [UIImage bundleImageWithNamed:@"ic_left_arrow"] forState:UIControlStateNormal];
         _backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_backButton addTarget:self action:@selector(hiddenView) forControlEvents:UIControlEventTouchUpInside];
         [_backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

@@ -14,6 +14,8 @@
 
 @implementation IMSFormTextFieldCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -125,7 +127,7 @@
         [self validate];
     }
     
-    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
+    return newLength <= self.self.model.cpnConfig.lengthLimit || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
@@ -161,7 +163,7 @@
 
 #pragma mark - Public Methods
 
-- (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
+- (void)setModel:(IMSFormTextFieldModel *)model form:(nonnull IMSFormManager *)form
 {
     [super setModel:model form:form];
     
@@ -169,7 +171,7 @@
     
     [self setTitle:model.title required:model.isRequired];
     
-    self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, model.cpnConfig.lengthLimit))];
+    self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
     self.textField.placeholder = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;
@@ -177,8 +179,8 @@
     self.bodyView.userInteractionEnabled = model.isEditable;
     
     if (model.isEditable) {
-        self.textField.keyboardType = [self keyboardWithTextType:model.cpnConfig.textType];
-        self.textField.secureTextEntry = [model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
+        self.textField.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
+        self.textField.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];
     }
 }
 

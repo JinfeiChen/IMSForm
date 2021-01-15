@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger didSelectedCount;// 已经选择的数量
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, copy) void (^didSelectedBlock)(id selectedModel, BOOL isAdd, NSString *tipString);
+@property (copy, nonatomic) void (^didFinishedShowAndHideBlock)(BOOL isShow); /**< <#property#> */
 @end
 
 NS_ASSUME_NONNULL_END

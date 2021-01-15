@@ -20,17 +20,13 @@
 }
 
 - (void)setupData:(IMSFormSelect *)model andIsLast:(BOOL)isLast {
-    
     if (isLast) {
         self.accessoryType = UITableViewCellAccessoryNone;
     }else {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    
     self.textLabel.text = model.value;
-
     self.textLabel.textColor = model.selected ? IMS_HEXCOLOR(0xFFC24A) : [UIColor blackColor];
-    
 }
 
 @end

@@ -23,28 +23,35 @@
 
 #pragma mark - Getters
 
-- (IMSFormComponentConfig *)cpnConfig
+- (IMSFormCPNConfig *)cpnConfig
 {
     if (!_cpnConfig) {
-        _cpnConfig = [[IMSFormComponentConfig alloc] init];
+        _cpnConfig = [[IMSFormCPNConfig alloc] init];
     }
     return _cpnConfig;
 }
 
-- (IMSFormComponentStyle *)cpnStyle
+- (IMSFormCPNStyle *)cpnStyle
 {
     if (!_cpnStyle) {
-        _cpnStyle = [IMSFormComponentStyle defaultStyle];
+        _cpnStyle = [[IMSFormCPNStyle alloc] init];
     }
     return _cpnStyle;
 }
 
-- (IMSFormComponentRule *)cpnRule
+- (IMSFormCPNRule *)cpnRule
 {
     if (!_cpnRule) {
-        _cpnRule = [[IMSFormComponentRule alloc] init];
+        _cpnRule = [[IMSFormCPNRule alloc] init];
     }
     return _cpnRule;
+}
+
+- (NSMutableArray *)valueList {
+    if (_valueList == nil) {
+        _valueList = [[NSMutableArray alloc] init];
+    }
+    return _valueList;
 }
 
 @end

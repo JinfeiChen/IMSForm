@@ -21,13 +21,13 @@
 
 #pragma mark - Public Methods
 
-- (void)submit:(void (^)(BOOL))validateCompleted
+- (void)submit:(void (^)(NSError * _Nonnull))validateCompleted
 {
     [self.tableView endEditing:YES];
     
-    BOOL result = [IMSFormValidateManager validateFormDataSource:self.dataSource];
+    NSError *error = [IMSFormValidateManager validateFormDataSource:self.dataSource];
     if (validateCompleted) {
-        validateCompleted(result);
+        validateCompleted(error);
     }
 }
 

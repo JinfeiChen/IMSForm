@@ -7,6 +7,8 @@
 
 #import "IMSFormLineCell.h"
 
+#import <IMSForm/IMSFormManager.h>
+
 @interface IMSFormLineCell ()
 
 @property (strong, nonatomic) UIView *lineView; /**< <#property#> */

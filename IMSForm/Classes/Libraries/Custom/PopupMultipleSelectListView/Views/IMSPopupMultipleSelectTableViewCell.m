@@ -8,7 +8,6 @@
 
 #import "IMSPopupMultipleSelectTableViewCell.h"
 #import <Masonry/Masonry.h>
-#import <IMSForm/IMSFormMacros.h>
 #import <IMSForm/UIImage+Bundle.h>
 
 @interface IMSPopupMultipleSelectTableViewCell ()
@@ -54,19 +53,24 @@
     }];
 }
 
+#pragma mark - Setters
+
 - (void)setModel:(IMSPopupMultipleSelectModel *)model {
     _model = model;
+    
     self.nameLabel.text = model.value ? : @"-";
 
-    if (model.noSelect) {
+    if (!model.isEnable) {
         self.nameLabel.textColor = IMS_HEXCOLOR(0xA4ABBF);
         self.selectButton.hidden = YES;
     } else {
         self.nameLabel.textColor = [UIColor blackColor];
         self.selectButton.hidden = NO;
-        self.selectButton.selected = model.buttonState;
+        self.selectButton.selected = model.isSelected;
     }
 }
+
+#pragma mark - Getters
 
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {
