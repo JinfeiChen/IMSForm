@@ -173,8 +173,8 @@
         make.bottom.mas_equalTo(self.bodyView).offset(0).priorityLow(); // 消除控制台中提示约束重载的冲突
     }];
 
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
+//    [self.form.tableView beginUpdates];
+//    [self.form.tableView endUpdates];
 }
 
 - (void)updateMyConstraints

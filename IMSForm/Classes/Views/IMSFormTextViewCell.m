@@ -101,8 +101,8 @@
         }];
     }
     
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
+//    [self.form.tableView beginUpdates];
+//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - Public Methods
