@@ -52,6 +52,8 @@
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     
+    self.mySwitch.onTintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    
     CGFloat spacing = self.model.cpnStyle.spacing;
     // 只支持横向布局 IMSFormLayoutType_Horizontal
     [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {

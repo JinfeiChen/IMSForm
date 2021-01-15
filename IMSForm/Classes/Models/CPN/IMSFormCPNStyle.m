@@ -24,6 +24,8 @@
         
         _spacing = 10.0;
         _contentInset = UIEdgeInsetsMake(12, 15, 10, 15);
+        
+        _tintHexColor = @"0xFFC24B";
     }
     return self;
 }

@@ -56,6 +56,8 @@
     self.textField.backgroundColor = self.bodyView.backgroundColor;
     self.appendButton.enabled = self.model.isEditable;
     
+    self.appendButton.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    
     if (self.model.isEditable) {
         self.textField.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
         self.textField.secureTextEntry = [self.model.cpnConfig.textType isEqualToString:IMSFormTextType_Password];

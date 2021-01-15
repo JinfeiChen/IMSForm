@@ -56,6 +56,9 @@
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     
+    self.sliderView.minimumTrackTintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    self.sliderView.popUpViewColor = self.sliderView.minimumTrackTintColor;
+    
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
         

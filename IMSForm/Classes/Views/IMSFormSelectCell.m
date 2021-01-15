@@ -71,6 +71,7 @@
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     
     self.arrowButton.hidden = self.model.isEditable ? NO : YES;
+    self.tagView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
     
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
