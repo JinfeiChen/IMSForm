@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, IMSPopupMultipleSelectListViewCellType) {
 - (void)setDataArray:(NSArray *)dataArray type:(IMSPopupMultipleSelectListViewCellType)cellType selectedDataArray:(NSArray *)selectedDataArray;
 
 @property (nonatomic, copy) void (^didSelectedBlock)(NSArray *selectedDataArray, IMSFormSelect *selectedModel, BOOL isAdd, NSString *tipString);
+
 @property (copy, nonatomic) void (^didFinishedShowAndHideBlock)(BOOL isShow); /**< <#property#> */
 
 // 在子类中实现此方法可实现model自定义，model需为IMSFormSelect子类

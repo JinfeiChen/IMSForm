@@ -43,12 +43,15 @@
     [self registCellClass:NSClassFromString(@"IMSFormRangeCell") forKey:IMSFormComponentType_Range];
     [self registCellClass:NSClassFromString(@"IMSFormFileCell") forKey:IMSFormComponentType_FileUpload];
     [self registCellClass:NSClassFromString(@"IMSFormImageCell") forKey:IMSFormComponentType_ImageUpload];
+    [self registCellClass:NSClassFromString(@"IMSFormDateTimeCell") forKey:IMSFormComponentType_DateTimePicker];
     [self registCellClass:NSClassFromString(@"IMSFormSelectCell") forKey:IMSFormComponentType_Select];
     [self registCellClass:NSClassFromString(@"IMSFormInputSearchCell") forKey:IMSFormComponentType_InputSearch];
     [self registCellClass:NSClassFromString(@"IMSFormSectionHeaderCell") forKey:IMSFormComponentType_SectionHeader];
     [self registCellClass:NSClassFromString(@"IMSFormSectionFooterCell") forKey:IMSFormComponentType_SectionFooter];
-    
     [self registCellClass:NSClassFromString(@"IMSFormLineCell") forKey:IMSFormComponentType_Line];
+    [self registCellClass:NSClassFromString(@"IMSFormRadioCell") forKey:IMSFormComponentType_Radio];
+    [self registCellClass:NSClassFromString(@"IMSFormCascaderCell") forKey:IMSFormComponentType_Cascader];
+    
 }
 
 #pragma mark - Public Methods
@@ -87,7 +90,13 @@
         return NSClassFromString(@"IMSFormImageModel");
     } else if ([cpnType isEqualToString:IMSFormComponentType_InputSearch]) {
         return NSClassFromString(@"IMSFormInputSearchModel");
-    } else {
+    }else if ([cpnType isEqualToString:IMSFormComponentType_DateTimePicker]) {
+        return NSClassFromString(@"IMSFormDateTimeModel");
+    }else if ([cpnType isEqualToString:IMSFormComponentType_Radio]) {
+        return NSClassFromString(@"IMSFormRadioModel");
+    }else if ([cpnType isEqualToString:IMSFormComponentType_Cascader]) {
+        return NSClassFromString(@"IMSFormCascaderModel");
+    }else {
         return NSClassFromString(@"IMSFormModel");
     }
 }

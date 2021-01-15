@@ -145,8 +145,8 @@
     return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
-{
+- (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason {
+
     // text type limit, blur 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Blur]) {
         [self validate];

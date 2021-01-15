@@ -47,4 +47,11 @@
     return _cpnRule;
 }
 
+- (NSMutableArray *)valueList {
+    if (_valueList == nil) {
+        _valueList = [[NSMutableArray alloc] init];
+    }
+    return _valueList;
+}
+
 @end
