@@ -89,13 +89,14 @@
     NSDate *minDate =  [[NSDate date] pv_getNewDateAddDays:dateTimeModel.cpnConfig.minDate];
     NSDate *maxDate = [[NSDate date] pv_getNewDateAddDays:dateTimeModel.cpnConfig.maxDate];
     NSString *dateFormat = @"";
-    if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeTime) {
+    
+    if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_Time]) {
         mode = PVDatePickerModeHM;
         dateFormat = @"HH:mm";
-    }else if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeDate) {
+    }else if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_Date]) {
         mode = PVDatePickerModeYMD;
         dateFormat = @"yyyy-MM-dd";
-    }else if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeDateAndTime) {
+    }else if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_DateTime]) {
         mode = PVDatePickerModeYMDHMS;
         dateFormat = @"yyyy-MM-dd HH:mm:ss";
     }
@@ -128,12 +129,11 @@
     
     IMSFormDateTimeModel *dateTimeModel = (IMSFormDateTimeModel *)model;
     
-    if (dateTimeModel.cpnConfig.datePickerMode == UIDatePickerModeDate) {
+    if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_DateTime]) {
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_date"] forState:UIControlStateNormal];
     }else {
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];
     }
-    
 }
 
 

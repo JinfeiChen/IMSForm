@@ -14,6 +14,8 @@
 #import "IMSCustomMultipleSelectListView.h"
 #import "IMSCustomInpuSearchListView.h"
 
+
+
 @interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerUIDelegate, IMSFormManagerDataDelegate>
 
 @property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
@@ -62,11 +64,22 @@
 - (void)didUpdatedMyFormModel:(IMSFormModel *)model indexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%@", model);
+    NSLog(@"%@", indexPath);
 }
 
 - (void)customDidSelectedMyFormModel:(IMSFormModel *)model indexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%@", model);
+    NSLog(@"%@", indexPath);
+}
+
+- (void)radioCellDidSelect:(UITableViewCell *)cell andCellModel:(IMSFormModel *)cellModel andIndexPath:(NSIndexPath *)indexPath andSelectModel: (IMSFormSelect *)selectModel {
+    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%@", cellModel);
+    NSLog(@"%@",indexPath);
+    NSLog(@"%@", selectModel);
 }
 
 #pragma mark - UITableViewDelegate/UITableViewDataSource

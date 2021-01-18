@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormRadioCPNConfig : IMSFormCPNConfig
 
-@property (nonatomic, strong) NSString *normalImageName;
-@property (nonatomic, strong) NSString *selectedImageName;
+//@property (nonatomic, strong) NSString *normalImageName;
+//@property (nonatomic, strong) NSString *selectedImageName;
 @property (strong, nonatomic) NSArray *selectDataSource; /**< 数据列表 */
 @end
 

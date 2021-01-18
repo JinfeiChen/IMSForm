@@ -103,8 +103,8 @@
             UIButton *button = [[UIButton alloc]init];
             button.tag = i;
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [button setImage:[[UIImage bundleImageWithNamed:radioModel.cpnConfig.normalImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-            [button setImage:[[UIImage bundleImageWithNamed:radioModel.cpnConfig.selectedImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+            [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-normal"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
             button.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:model.cpnStyle.tintHexColor]);
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -139,8 +139,16 @@
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
     for (int i = 0; i < self.buttonArrayM.count; ++i) {
         UIButton *allButton = self.buttonArrayM[i];
-        IMSFormSelect *seleceModel = radioModel.cpnConfig.selectDataSource[i];
-        seleceModel.selected =  allButton.selected = (button.tag == allButton.tag);
+        IMSFormSelect *selectModel = radioModel.cpnConfig.selectDataSource[i];
+        selectModel.selected =  allButton.selected = (button.tag == allButton.tag);
+        if (selectModel.selected) {
+            if (self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, selectModel);
+            }
+//            if (self.customDidSelectedBlock) {
+//                self.customDidSelectedBlock(self, self.model, selectModel);
+//            }
+        }
     }
 }
 
