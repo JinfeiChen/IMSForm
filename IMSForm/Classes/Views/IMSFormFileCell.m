@@ -36,23 +36,23 @@
     CGFloat spacing = 10.0;
     
     [self.contentView addSubview:self.deleteBtn];
-    [self.deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.deleteBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kFormTBFileRowHeight, kFormTBFileRowHeight));
         make.top.right.bottom.mas_equalTo(self.contentView).offset(0);
     }];
     
     [self.contentView addSubview:self.iconImgView];
-    [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.iconImgView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.contentView).offset(spacing);
         make.centerY.mas_equalTo(self.contentView);
         make.size.mas_equalTo(CGSizeMake(kFormTBFileRowHeight / 4, kFormTBFileRowHeight / 3));
     }];
 
     [self.contentView addSubview:self.myTitleLabel];
-    [self.myTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.myTitleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.contentView);
         make.left.mas_equalTo(self.iconImgView.mas_right).offset(spacing);
-        make.right.mas_equalTo(self.deleteBtn.mas_left).offset(-spacing);
+        make.right.mas_equalTo(self.deleteBtn.mas_left).offset(0);
     }];
 }
 
@@ -163,18 +163,18 @@
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
     
-    [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.addButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(180, kIMSFormDefaultHeight));
         make.top.left.mas_equalTo(self.bodyView).offset(0);
     }];
-    [self.listTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.listTableView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.addButton.mas_bottom).offset(spacing).priorityLow();
         make.left.right.mas_equalTo(self.bodyView).offset(0);
         make.bottom.mas_equalTo(self.bodyView).offset(0).priorityLow(); // 消除控制台中提示约束重载的冲突
     }];
 
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
+//    [self.form.tableView beginUpdates];
+//    [self.form.tableView endUpdates];
 }
 
 - (void)updateMyConstraints
@@ -208,6 +208,7 @@
         self.addButton.enabled = NO;
     }
     
+    [self.listTableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource

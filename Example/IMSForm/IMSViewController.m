@@ -166,7 +166,21 @@
 
 #pragma mark - Actions
 
-- (void)submitAction:(id)sender
+- (IBAction)changeEditableAction:(id)sender {
+    for (IMSFormModel *obj in self.form.dataSource) {
+        obj.editable = !obj.isEditable;
+    }
+    [self.tableView reloadData];
+}
+
+- (IBAction)changeRequiredAction:(id)sender {
+    for (IMSFormModel *obj in self.form.dataSource) {
+        obj.required = !obj.isRequired;
+    }
+    [self.tableView reloadData];
+}
+
+- (IBAction)submitAction:(UIBarButtonItem *)sender
 {
     [self.form submit:^(NSError * _Nonnull error) {
         if (!error) {
@@ -184,20 +198,11 @@
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 64) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-        
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 60)];
-        UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        submitBtn.frame = headerView.bounds;
-        submitBtn.center = headerView.center;
-        [submitBtn setTitle:@"Submit" forState:UIControlStateNormal];
-        [submitBtn addTarget:self action:@selector(submitAction:) forControlEvents:UIControlEventTouchUpInside];
-        [headerView addSubview:submitBtn];
-        _tableView.tableHeaderView = headerView;
     }
     return _tableView;
 }

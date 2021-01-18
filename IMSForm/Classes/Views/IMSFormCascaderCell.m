@@ -79,7 +79,7 @@
         make.right.equalTo(self.arrowButton.mas_left).offset(-10);
     }];
     
-    [self.arrowButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.right.equalTo(self.bodyView);
         make.centerY.equalTo(self.bodyView);
         make.width.equalTo(@40);
@@ -92,8 +92,8 @@
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
     
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
+//    [self.form.tableView beginUpdates];
+//    [self.form.tableView endUpdates];
     
 }
 

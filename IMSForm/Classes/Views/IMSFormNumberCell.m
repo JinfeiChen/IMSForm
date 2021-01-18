@@ -111,8 +111,8 @@
         make.right.mas_equalTo(self.increaseButton.mas_left).offset(-10);
     }];
 
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
+//    [self.form.tableView beginUpdates];
+//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - UITextFieldDelegate

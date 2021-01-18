@@ -33,34 +33,34 @@
 - (void)setupUI
 {
     [self.contentView addSubview:self.selectButton];
-    [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.selectButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).offset(-15);
         make.centerY.equalTo(self.contentView);
         make.width.height.equalTo(@(kWidthResult(12)));
     }];
     
     [self.contentView addSubview:self.nameLabel];
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(8);
         make.left.equalTo(self.contentView).offset(10);
         make.width.lessThanOrEqualTo(@(IMS_SCREEN_WIDTH - 10 - 60));
     }];
 
     [self.contentView addSubview:self.roleLabel];
-    [self.roleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.roleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.nameLabel);
         make.left.equalTo(self.nameLabel.mas_right).offset(8);
     }];
 
     [self.contentView addSubview:self.phoneLabel];
-    [self.phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.phoneLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameLabel.mas_bottom).offset(5);
         make.left.equalTo(self.nameLabel);
         make.right.equalTo(self.selectButton.mas_left).offset(-10);
     }];
 
     [self.contentView addSubview:self.infoLabel];
-    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.phoneLabel.mas_bottom).offset(5);
         make.left.height.equalTo(self.nameLabel);
         make.right.equalTo(self.phoneLabel);

@@ -114,8 +114,8 @@
         make.left.mas_equalTo(self.lineLabel.mas_right).offset(spacing);
     }];
     
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
+//    [self.form.tableView beginUpdates];
+//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - Private Methods

@@ -33,7 +33,7 @@
     
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
     
-    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.contentView).with.insets(self.model.cpnStyle.contentInset);
         make.height.mas_equalTo(0.5);
     }];
