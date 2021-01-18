@@ -115,7 +115,7 @@
             [self.buttonArrayM addObject:button];
         }
         
-        [self.buttonArrayM mas_distributeViewsAlongAxis:MASAxisTypeVertical withFixedSpacing:0 leadSpacing:10 tailSpacing:10];
+        [self.buttonArrayM mas_distributeViewsAlongAxis:MASAxisTypeVertical withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
         [self.buttonArrayM mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(40);
             make.left.equalTo(self.bodyView).offset(10);
