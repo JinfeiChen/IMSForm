@@ -101,6 +101,26 @@
     }
 }
 
++ (NSInteger)selectItemTypeWithType:(IMSFormSelectItemType)type multiple:(BOOL)isMultiple
+{
+    if (!isMultiple) {
+        if ([type isEqualToString:@"custom"]) {
+            return 2; // IMSPopupSingleSelectListViewCellType_Custom
+        } else if ([type isEqualToString:@"contact"]) {
+            return 1; // IMSPopupSingleSelectListViewCellType_Contact
+        } else {
+            return 0; // IMSPopupSingleSelectListViewCellType_Default
+        }
+    } else {
+        if ([type isEqualToString:@"custom"]) {
+            return 1; // IMSPopupMultipleSelectListViewCellType_Custom
+        } else {
+            return 0; // IMSPopupMultipleSelectListViewCellType_Default
+        }
+    }
+}
+
+
 #pragma mark - Private Methods
 
 #pragma mark - Getters

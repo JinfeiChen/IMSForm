@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  A. multiple YES : 0 Default/ 1 Custom
  B. multiple NO : 0 Default/ 1 Contact/ 2 Custom
  */
-@property (assign, nonatomic) NSInteger selectItemType;
+@property (copy, nonatomic) NSString *selectItemType;
 @property (strong, nonatomic) NSArray *selectDataSource; /**< 数据列表 */
 
 @end
