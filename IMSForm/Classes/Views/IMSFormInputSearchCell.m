@@ -206,11 +206,6 @@
     
     self.model.value = self.textField.text;
     
-//    // call back
-//    if (self.didUpdateFormModelBlock) {
-//        self.didUpdateFormModelBlock(self, self.model, nil);
-//    }
-    
     if (self.form) {
         if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customInputSearchWithFormModel:completation:")]) {
             
@@ -229,6 +224,11 @@
                     self.textField.text = selectedModel.value;
                     // update model valueList
                     self.model.valueList = selectedModel.isSelected ? @[[selectedModel yy_modelToJSONObject]] : @[];
+                    
+                    // call back
+                    if (self.didUpdateFormModelBlock) {
+                        self.didUpdateFormModelBlock(self, self.model, nil);
+                    }
                     
                 }];
                 
