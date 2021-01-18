@@ -51,7 +51,8 @@
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
     CGFloat spacing = self.model.cpnStyle.spacing;
-    self.bodyView.backgroundColor = [UIColor whiteColor];
+    self.textField.userInteractionEnabled = self.bodyView.userInteractionEnabled = self.model.isEditable;
+    self.iconButton.backgroundColor = self.textField.backgroundColor = self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -122,7 +123,6 @@
     
     [self setTitle:model.title required:model.isRequired];
     self.infoLabel.text = model.info;
-    self.bodyView.userInteractionEnabled = model.isEditable;
     self.textField.placeholder = model.placeholder;
     self.textField.text = model.value;
     
@@ -144,7 +144,7 @@
         _textField.font = [UIFont systemFontOfSize:14];
         _textField.delegate = self;
 //        [_textField rounded:4 width:.5 color: HEXCOLOR(0xD6DCDF)];
-        _textField.backgroundColor = [UIColor whiteColor];
+//        _textField.backgroundColor = [UIColor whiteColor];
         _textField.returnKeyType = UIReturnKeyDone;
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
         leftView.backgroundColor = [UIColor whiteColor];

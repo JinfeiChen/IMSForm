@@ -47,7 +47,6 @@
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
     CGFloat spacing = self.model.cpnStyle.spacing;
-    self.bodyView.backgroundColor = [UIColor whiteColor];
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -62,7 +61,7 @@
 //        make.height.mas_equalTo(kIMSFormDefaultHeight);
     }];
 
-    [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+//    [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
         make.left.right.mas_equalTo(self.bodyView);
@@ -85,6 +84,7 @@
     self.infoLabel.text = model.info;
     
     self.bodyView.userInteractionEnabled = model.isEditable;
+    self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)model;
     
@@ -99,12 +99,13 @@
     
     if (dataModelSource.count && !self.buttonArrayM.count) {
         for (int i = 0; i < dataModelSource.count; ++i) {
-            IMSFormSelect *selectModel = dataModelSource[i];
+//            IMSFormSelect *selectModel = dataModelSource[i];
             UIButton *button = [[UIButton alloc]init];
             button.tag = i;
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [button setImage:[UIImage bundleImageWithNamed:radioModel.cpnConfig.normalImageName] forState:UIControlStateNormal];
-            [button setImage:[UIImage bundleImageWithNamed:radioModel.cpnConfig.selectedImageName] forState:UIControlStateSelected];
+            [button setImage:[[UIImage bundleImageWithNamed:radioModel.cpnConfig.normalImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            [button setImage:[[UIImage bundleImageWithNamed:radioModel.cpnConfig.selectedImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+            button.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:model.cpnStyle.tintHexColor]);
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
             button.backgroundColor = [UIColor whiteColor];
@@ -127,6 +128,7 @@
         UIButton *button = self.buttonArrayM[i];
         [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.value] forState:UIControlStateNormal];
         [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.value] forState:UIControlStateSelected];
+        button.backgroundColor = self.bodyView.backgroundColor;
         button.selected = selectModel.selected;
     }
     
