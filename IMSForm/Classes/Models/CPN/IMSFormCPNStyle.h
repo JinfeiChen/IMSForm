@@ -30,10 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *borderHexColor; /**< 边框颜色， e.g. 0xC0C0C0 */
 
 @property (assign, nonatomic) CGFloat spacing; /**< 组件内各元素间距， e.g. 10.0 */
-
-@property (nonatomic) UIEdgeInsets contentInset; /**< 内边距， e.g. UIEdgeInsetsMake(12, 15, 12, 15) */
+@property (assign, nonatomic) CGFloat contentInsetTop; /**< 内边距，上 */
+@property (assign, nonatomic) CGFloat contentInsetLeft; /**< 内边距，左 */
+@property (assign, nonatomic) CGFloat contentInsetBottom; /**< 内边距，下 */
+@property (assign, nonatomic) CGFloat contentInsetRight; /**< 内边距，右 */
 
 @property (copy, nonatomic) NSString *tintHexColor; /**< 主题色 */
+
+@property (nonatomic) UIEdgeInsets contentInset; /**< 内边距， e.g. UIEdgeInsetsMake(12, 15, 12, 15) */
 
 @end
 

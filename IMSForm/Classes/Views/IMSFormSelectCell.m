@@ -296,6 +296,11 @@
             @strongify(self);
             self.model.selected = isShow;
             [self updateArrowButtonAnimation];
+            
+            // call back
+            if (!isShow && self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
         }];
         
         self.multipleSelectListView.maxCount = self.model.cpnConfig.multipleLimit;
@@ -338,17 +343,17 @@
             @strongify(self);
             self.model.selected = isShow;
             [self updateArrowButtonAnimation];
+            
+            // call back
+            if (!isShow && self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
         }];
         
         self.singleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
         
         [self.singleSelectListView showView];
 
-    }
-    
-    // call back
-    if (self.customDidSelectedBlock) {
-        self.customDidSelectedBlock(self, self.model, nil);
     }
 }
 

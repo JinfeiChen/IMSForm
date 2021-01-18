@@ -7,7 +7,29 @@
 
 #import "IMSFormCPNStyle.h"
 
+#define kIMSFormCellContentInsetTop 12.0
+#define kIMSFormCellContentInsetLeft 15.0
+#define kIMSFormCellContentInsetBottom 10.0
+#define kIMSFormCellContentInsetRight 15.0
+
 @implementation IMSFormCPNStyle
+
+- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic {
+    NSNumber *top = dic[@"contentInsetTop"] ? : @(kIMSFormCellContentInsetTop);
+    NSNumber *left = dic[@"contentInsetLeft"] ? : @(kIMSFormCellContentInsetLeft);
+    NSNumber *bottom = dic[@"contentInsetBottom"] ? : @(kIMSFormCellContentInsetBottom);
+    NSNumber *right = dic[@"contentInsetRight"] ? : @(kIMSFormCellContentInsetRight);
+    _contentInset = UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
+    return YES;
+}
+
+- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {
+    dic[@"contentInsetTop"] = @(_contentInset.top);
+    dic[@"contentInsetLeft"] = @(_contentInset.left);
+    dic[@"contentInsetBottom"] = @(_contentInset.bottom);
+    dic[@"contentInsetRight"] = @(_contentInset.right);
+    return YES;
+}
 
 - (instancetype)init
 {
@@ -23,7 +45,7 @@
         _backgroundHexColor = @"0xF9F9F9";
         
         _spacing = 10.0;
-        _contentInset = UIEdgeInsetsMake(12, 15, 10, 15);
+        _contentInset = UIEdgeInsetsMake(kIMSFormCellContentInsetTop, kIMSFormCellContentInsetLeft, kIMSFormCellContentInsetBottom, kIMSFormCellContentInsetRight);
         
 //        _tintHexColor = @"0xFFC24B";
     }
@@ -43,7 +65,7 @@
     style.backgroundHexColor = @"0xF9F9F9";
     
     style.spacing = 10.0;
-    style.contentInset = UIEdgeInsetsMake(12, 15, 10, 15);
+    style.contentInset = UIEdgeInsetsMake(kIMSFormCellContentInsetTop, kIMSFormCellContentInsetLeft, kIMSFormCellContentInsetBottom, kIMSFormCellContentInsetRight);
     
     return style;
 }
