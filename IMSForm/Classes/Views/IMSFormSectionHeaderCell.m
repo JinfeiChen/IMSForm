@@ -40,7 +40,7 @@
     
     self.contentLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     
-    [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         UIEdgeInsets inset = self.model.cpnStyle.contentInset;
         inset.top = self.model.cpnStyle.contentInset.top + self.model.cpnStyle.spacing / 2;
         make.edges.mas_equalTo(self.contentView).with.insets(inset);

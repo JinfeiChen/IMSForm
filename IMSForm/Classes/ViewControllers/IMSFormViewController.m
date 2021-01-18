@@ -18,6 +18,12 @@
     // Do any additional setup after loading the view.
 }
 
+#ifdef __IPHONE_7_0
+- (UIRectEdge)edgesForExtendedLayout {
+    return UIRectEdgeNone;
+}
+#endif
+
 /*
 #pragma mark - Navigation
 

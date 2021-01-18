@@ -84,19 +84,19 @@
             UIImageView *imageView = [[UIImageView alloc]init];
             imageView.image = self.deleteImage;
             [bgView addSubview:imageView];
-            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(bgView);
                 make.right.equalTo(bgView.mas_right).offset(-self.tagsMinPadding);
                 make.size.mas_equalTo(self.deleteImage.size);
             }];
             
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(imageView.mas_left).offset(-self.contentPadding);
             }];
         }else {
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(bgView).offset(-self.tagsMinPadding);
@@ -109,7 +109,7 @@
     
     CGFloat height = self.tagSuperviewMinHeight > self.tagsFrame.tagsHeight ? self.tagSuperviewMinHeight : self.tagsFrame.tagsHeight;
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(height);
+        make.height.mas_equalTo(height).with.priorityLow();
     }];
 }
 
@@ -125,25 +125,25 @@
     
     self.tagsFrame.tagsArray = self.dataArray;
     
-    if (self.viewArrayM.count == self.dataArray.count) {
-        [self.viewArrayM enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            UILabel * label = self.labelArrayM[idx];
-            label.text = self.dataArray[idx];
-            obj.frame = CGRectFromString(self.tagsFrame.tagsFrames[idx]);
-        }];
-        
-        CGFloat height = self.tagSuperviewMinHeight > self.tagsFrame.tagsHeight ? self.tagSuperviewMinHeight : self.tagsFrame.tagsHeight;
-        [self mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(height);
-        }];
-        return;
-    }else {
+//    if (self.viewArrayM.count == self.dataArray.count) {
+//        [self.viewArrayM enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            UILabel * label = self.labelArrayM[idx];
+//            label.text = self.dataArray[idx];
+//            obj.frame = CGRectFromString(self.tagsFrame.tagsFrames[idx]);
+//        }];
+//
+//        CGFloat height = self.tagSuperviewMinHeight > self.tagsFrame.tagsHeight ? self.tagSuperviewMinHeight : self.tagsFrame.tagsHeight;
+//        [self mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.height.mas_equalTo(height);
+//        }];
+//        return;
+//    }else {
         [self.viewArrayM enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];
         }];
         [self.viewArrayM removeAllObjects];
         [self.labelArrayM removeAllObjects];
-    }
+//    }
     
     [self.dataArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -169,19 +169,19 @@
             UIImageView *imageView = [[UIImageView alloc]init];
             imageView.image = self.deleteImage;
             [bgView addSubview:imageView];
-            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(bgView);
                 make.right.equalTo(bgView.mas_right).offset(-self.tagsMinPadding);
                 make.size.mas_equalTo(self.deleteImage.size);
             }];
             
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(imageView.mas_left).offset(-self.contentPadding);
             }];
         }else {
-            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            [label mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.bottom.equalTo(bgView);
                 make.left.mas_equalTo(bgView).offset(self.tagsMinPadding);
                 make.right.equalTo(bgView).offset(-self.tagsMinPadding);

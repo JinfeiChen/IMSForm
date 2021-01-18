@@ -219,12 +219,12 @@
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
     
-    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.collectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.bodyView).with.insets(UIEdgeInsetsZero);
     }];
     
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
+//    [self.form.tableView beginUpdates];
+//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - Private Methods
@@ -310,10 +310,6 @@
         imagePickerVc.isSelectOriginalPhoto = NO;
         [imagePickerVc setDidFinishPickingPhotosWithInfosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto, NSArray<NSDictionary *> *infos) {
 //            NSLog(@"photos: %@, assets: %@, info: %@", photos, assets, infos);
-//            [self.selectedPhotos addObjectsFromArray:assets];
-//            [self.collectionView reloadData];
-//            [self.tableView beginUpdates];
-//            [self.tableView endUpdates];
             
             if (self.didUpdateFormModelBlock) {
                 self.didUpdateFormModelBlock(self, self.model, photos);
