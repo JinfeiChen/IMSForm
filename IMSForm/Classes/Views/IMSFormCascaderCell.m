@@ -55,6 +55,7 @@
     CGFloat spacing = self.model.cpnStyle.spacing;
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.tagView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
@@ -78,13 +79,13 @@
         make.top.bottom.equalTo(self.bodyView);
         make.right.equalTo(self.arrowButton.mas_left).offset(-10);
     }];
-    
+
     [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.right.equalTo(self.bodyView);
         make.centerY.equalTo(self.bodyView);
-        make.width.equalTo(@40);
+        make.width.equalTo(self.model.isEditable ? @40 : @0);
     }];
-
+    
     [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
@@ -160,8 +161,6 @@
         IMSFormSelect *model = self.model.valueList[i];
         NSLog(@"%@",model.value);
     }
-    
-    
 }
 
 - (void)clickAction:(id)sender
@@ -187,7 +186,6 @@
     
     [listView setDidSelectedBlock:^(IMSPopupMultipleSelectModel * _Nonnull selectedModel, BOOL isAdd, NSString *tipString) {
         @strongify(self);
-//        NSLog(@"%@, isAdd = %d", [selectedModel yy_modelToJSONObject], isAdd);
         if (isAdd) {
             cascaderModel.cpnConfig.didSelectedCount ++ ;
             [self.model.valueList addObject:selectedModel];
