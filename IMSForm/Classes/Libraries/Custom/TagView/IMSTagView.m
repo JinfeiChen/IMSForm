@@ -109,7 +109,7 @@
     
     CGFloat height = self.tagSuperviewMinHeight > self.tagsFrame.tagsHeight ? self.tagSuperviewMinHeight : self.tagsFrame.tagsHeight;
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(height);
+        make.height.mas_equalTo(height).with.priorityLow();
     }];
 }
 
