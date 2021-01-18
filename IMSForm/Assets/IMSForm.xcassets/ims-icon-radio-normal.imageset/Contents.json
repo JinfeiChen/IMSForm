@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "ims-icon-radio-normal.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "ims-icon-radio-normal@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
