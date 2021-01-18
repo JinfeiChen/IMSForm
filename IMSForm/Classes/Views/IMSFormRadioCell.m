@@ -131,17 +131,27 @@
         button.backgroundColor = self.bodyView.backgroundColor;
         button.selected = selectModel.selected;
     }
-    
 }
 
 - (void)buttonAction:(UIButton *)button {
-    if (button.selected) return;
+    
+    [self.model.valueList removeAllObjects];
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
+    if (button.selected) {
+        IMSFormSelect *selectModel = radioModel.cpnConfig.selectDataSource[button.tag];
+        selectModel.selected = button.selected = NO;
+        if (self.didUpdateFormModelBlock) {
+            self.didUpdateFormModelBlock(self, self.model, selectModel);
+        }
+        return;
+    }
+    
     for (int i = 0; i < self.buttonArrayM.count; ++i) {
         UIButton *allButton = self.buttonArrayM[i];
         IMSFormSelect *selectModel = radioModel.cpnConfig.selectDataSource[i];
         selectModel.selected =  allButton.selected = (button.tag == allButton.tag);
         if (selectModel.selected) {
+            [self.model.valueList addObject:selectModel];
             if (self.didUpdateFormModelBlock) {
                 self.didUpdateFormModelBlock(self, self.model, selectModel);
             }
