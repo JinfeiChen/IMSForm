@@ -12,6 +12,8 @@ typedef NSString *IMSFormTextType NS_STRING_ENUM;
 
 FOUNDATION_EXPORT IMSFormTextType const IMSFormTextType_Default;
 
+FOUNDATION_EXPORT IMSFormTextType const IMSFormTextType_Text;
+
 FOUNDATION_EXPORT IMSFormTextType const IMSFormTextType_URL;
 
 FOUNDATION_EXPORT IMSFormTextType const IMSFormTextType_Number;
