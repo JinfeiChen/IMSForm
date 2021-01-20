@@ -13,7 +13,7 @@
 #import "IMSCustomSingleSelectListView.h"
 #import "IMSCustomMultipleSelectListView.h"
 #import "IMSCustomInpuSearchListView.h"
-
+//#import "IMSFormCustomDataManager.h"
 
 @interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerUIDelegate, IMSFormManagerDataDelegate>
 
@@ -42,7 +42,7 @@
     
     // MARK: 测试固定字段+自定义字段
     NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
-    
+
     NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
     NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
     [dataSource addObjectsFromArray:customArray];
@@ -51,8 +51,24 @@
 //    NSArray *order = @[@"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
 //    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
 //    NSArray *order = @[@"email"];
-
-    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
+//
+//    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
+    
+//       // 获取文件路径
+//       NSString *path = [[NSBundle mainBundle] pathForResource:@"customFormData1" ofType:@"json"];
+//       // 将文件数据化
+//       NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+//       // 对数据进行JSON格式化并返回数组形式
+//       NSError *error;
+//       id jsonObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:&error];
+//
+//        NSLog(@"%@ JSON decoding failed",error.localizedDescription);
+//
+//        [IMSFormCustomDataManager sharedManager].customDataModel = [IMSFormCustomDataModel yy_modelWithJSON:jsonObj];
+//
+//        NSLog(@"%@",[IMSFormCustomDataManager sharedManager].customContact);
+//
+//        self.form.dataSource = [IMSFormDataManager formDataArrayWithJSON:[IMSFormCustomDataManager sharedManager].customContact];
 
     [self.form.tableView reloadData];
 }
