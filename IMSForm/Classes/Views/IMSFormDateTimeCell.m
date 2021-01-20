@@ -124,7 +124,7 @@
     
     [self setTitle:model.title required:model.isRequired];
     self.infoLabel.text = model.info;
-    self.textField.placeholder = model.placeholder;
+    self.textField.placeholder = model.placeholder ? : @"Please Select";
     self.textField.text = model.value;
     
     IMSFormDateTimeModel *dateTimeModel = (IMSFormDateTimeModel *)model;

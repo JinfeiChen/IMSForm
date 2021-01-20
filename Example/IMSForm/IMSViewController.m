@@ -15,7 +15,6 @@
 #import "IMSCustomInpuSearchListView.h"
 
 
-
 @interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerUIDelegate, IMSFormManagerDataDelegate>
 
 @property (strong, nonatomic) IMSFormManager *form; /**< <#property#> */
@@ -49,7 +48,6 @@
     [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
-
 //    NSArray *order = @[@"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
 //    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
 //    NSArray *order = @[@"email"];
