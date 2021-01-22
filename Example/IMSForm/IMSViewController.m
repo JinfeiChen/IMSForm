@@ -14,6 +14,7 @@
 #import "IMSCustomMultipleSelectListView.h"
 #import "IMSCustomInpuSearchListView.h"
 
+#import "IMSFormConverter.h"
 
 
 @interface IMSViewController () <UITableViewDelegate, UITableViewDataSource, IMSFormManagerUIDelegate, IMSFormManagerDataDelegate>
@@ -42,11 +43,11 @@
 //    }];
     
     // MARK: 测试固定字段+自定义字段
-    NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
-    
-    NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
-    NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
-    [dataSource addObjectsFromArray:customArray];
+//    NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
+//
+//    NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
+//    NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
+//    [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
 
@@ -54,8 +55,18 @@
 //    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
 //    NSArray *order = @[@"email"];
 
-    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
-
+//    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
+//
+//    [self.form.tableView reloadData];
+    
+    [IMSFormTypeManager cpnConfigClassWithFormModelClass:NSClassFromString(@"IMSFormTextFieldModel")];
+    
+    NSArray *jsonArray = [IMSFormDataManager readLocalJSONFileWithName:@"customField"];
+    NSArray *targetArray = [IMSFormConverter convertJsonArray:jsonArray];
+    NSLog(@"%@", targetArray);
+    
+    self.form.dataSource = [IMSFormDataManager formDataArrayWithJSON:targetArray];
+    
     [self.form.tableView reloadData];
 }
 

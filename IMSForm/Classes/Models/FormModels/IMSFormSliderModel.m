@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormSliderCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormSliderCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

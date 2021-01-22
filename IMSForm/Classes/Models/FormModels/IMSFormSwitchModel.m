@@ -11,4 +11,12 @@
 
 @synthesize cpnStyle = _cpnStyle;
 
+- (IMSFormSwitchCPNStyle *)cpnStyle
+{
+    if (!_cpnStyle) {
+        _cpnStyle = [[IMSFormSwitchCPNStyle alloc] init];
+    }
+    return _cpnStyle;
+}
+
 @end

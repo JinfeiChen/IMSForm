@@ -30,8 +30,6 @@ Pod::Spec.new do |s|
   
   s.platform = :ios
   s.ios.deployment_target = '9.0'
-  
-  s.ios.vendored_frameworks = 'Frameworks/IMSForm.framework'
 
   s.source_files = 'IMSForm/Classes/**/*'
   
@@ -41,7 +39,7 @@ Pod::Spec.new do |s|
   
   s.prefix_header_file = 'IMSForm/Classes/Others/IMSFormPrefix.pch'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'Masonry' # 如果需要多个依赖库依次往下写即可

@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 根据是否为多选列表组件获取对应的selectListViewItemType
 + (NSInteger)selectItemTypeWithType:(IMSFormSelectItemType)type multiple:(BOOL)isMultiple;
 
++ (Class)cpnConfigClassWithFormModelClass:(Class)modelClass;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormCascaderCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormCascaderCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

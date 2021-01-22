@@ -6,6 +6,7 @@
 //
 
 #import "IMSFormTypeManager.h"
+#import <objc/runtime.h>
 
 @interface IMSFormTypeManager ()
 
@@ -118,6 +119,40 @@
             return 0; // IMSPopupMultipleSelectListViewCellType_Default
         }
     }
+}
+
++ (Class)cpnConfigClassWithFormModelClass:(Class)modelClass
+{
+    if (!modelClass) {
+        return NSClassFromString(@"IMSFormCPNConfig");
+    }
+    
+    NSString *className = NSStringFromClass(modelClass);
+    id model = [[NSClassFromString(className) alloc] init];
+    
+    // 取得类对象
+    id classObject = objc_getClass([className UTF8String]);
+    
+    unsigned int count = 0;
+    objc_property_t *properties = class_copyPropertyList(classObject, &count);
+    Ivar *ivars = class_copyIvarList(classObject, nil);
+
+    for (int i = 0; i < count; i ++) {
+        
+        const char *type = ivar_getTypeEncoding(ivars[i]);
+        NSString *dataType =  [NSString stringWithCString:type encoding:NSUTF8StringEncoding];
+        
+        objc_property_t property = properties[i];
+        NSString *propertyName = [[NSString alloc] initWithCString:property_getName(property)
+                                                          encoding:NSUTF8StringEncoding];
+        
+        if ([propertyName isEqualToString:@"cpnConfig"]) {
+            return NSClassFromString([[dataType stringByReplacingOccurrencesOfString:@"@" withString:@""] stringByReplacingOccurrencesOfString:@"\"" withString:@""]);
+        }
+        
+    }
+    
+    return NSClassFromString(@"IMSFormCPNConfig");
 }
 
 

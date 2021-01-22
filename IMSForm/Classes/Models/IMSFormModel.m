@@ -17,6 +17,8 @@
         _required = NO;
         _clearable = YES;
         _selected = NO;
+        _title = @"";
+        _info = @"";
     }
     return self;
 }
