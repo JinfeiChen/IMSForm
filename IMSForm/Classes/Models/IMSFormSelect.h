@@ -12,9 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormSelect : IMSFormObject
 
+@property (copy, nonatomic) NSString *label; /**< <#property#> */
 @property (copy, nonatomic) NSString *value; /**< <#property#> */
 @property (strong, nonatomic) id param; /**< <#property#> */
 @property (nonatomic, copy) NSString *title; /**< 分区标题 */
+
 @property (assign, nonatomic, getter=isSelected) BOOL selected; /**< 选中状态 */
 @property (assign, nonatomic, getter=isEnable) BOOL enable; /**< 可用性 */
 @property (assign, nonatomic, getter=isDeafult) BOOL isDefault; /**< <#property#> */

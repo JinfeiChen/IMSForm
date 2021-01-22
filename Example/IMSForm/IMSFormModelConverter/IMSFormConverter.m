@@ -60,9 +60,22 @@
         NSDictionary *webCPNConfig = [obj objectForKey:@"cpnConfig"];
         if (webCPNConfig) {
             
-            
-            
-            [mDict setValue:webCPNConfig forKey:@"cpnConfig"];
+            if ([webType isEqualToString:@"Currency"]) {
+                
+                NSMutableDictionary *suffixCPNConfigDict = [NSMutableDictionary dictionary];
+                NSArray *values = [webCPNConfig valueForKey:@"values"];
+                if (values) {
+                    [suffixCPNConfigDict setValue:values forKey:@"dataSource"];
+                }
+                NSNumber *precision = [webCPNConfig valueForKey:@"precision"];
+                if (precision) {
+                    [suffixCPNConfigDict setValue:precision forKey:@"precision"];
+                }
+                [mDict setValue:suffixCPNConfigDict forKey:@"cpnConfig"];
+                
+            } else {
+                [mDict setValue:webCPNConfig forKey:@"cpnConfig"];
+            }
         }
 
         [resultArray addObject:mDict];
@@ -229,7 +242,7 @@ NSString * typeWithIvarType(NSString *ivarType)
 {
     return @{
         @"Text": IMSFormComponentType_TextField,
-        @"Currency": IMSFormComponentType_TextField,
+        @"Currency": IMSFormComponentType_Currency,
         @"Image": IMSFormComponentType_ImageUpload,
         @"Pick-List (Multi-Select)" : IMSFormComponentType_Select,
         @"Pick-List (Radio)" : IMSFormComponentType_Radio,
