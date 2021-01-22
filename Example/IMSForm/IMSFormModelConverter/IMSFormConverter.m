@@ -36,6 +36,17 @@
         if (webType) {
             NSString *CPNType = [self getCPNTypeWithWebCPNType:webType];
             [mDict setValue:CPNType forKey:@"type"];
+            
+            if ([webType isEqualToString:@"Date"]) {
+                NSMutableDictionary *cpnConfigDict = [NSMutableDictionary dictionary];
+                [cpnConfigDict setValue:@"IMSFormDateTimeType_Date" forKey:@"datePickerType"];
+                [mDict setValue:cpnConfigDict forKey:@"cpnConfig"];
+            }
+            else if ([webType isEqualToString:@"DateTime"]) {
+                NSMutableDictionary *cpnConfigDict = [NSMutableDictionary dictionary];
+                [cpnConfigDict setValue:@"IMSFormDateTimeType_DateTime" forKey:@"datePickerType"];
+                [mDict setValue:cpnConfigDict forKey:@"cpnConfig"];
+            } else {}
         }
         
         // title
@@ -71,9 +82,18 @@
                 if (precision) {
                     [suffixCPNConfigDict setValue:precision forKey:@"precision"];
                 }
+                NSNumber *min = [webCPNConfig valueForKey:@"min"];
+                if (min) {
+                    [suffixCPNConfigDict setValue:min forKey:@"min"];
+                }
+                NSNumber *max = [webCPNConfig valueForKey:@"max"];
+                if (max) {
+                    [suffixCPNConfigDict setValue:max forKey:@"max"];
+                }
                 [mDict setValue:suffixCPNConfigDict forKey:@"cpnConfig"];
                 
-            } else {
+            }
+            else {
                 [mDict setValue:webCPNConfig forKey:@"cpnConfig"];
             }
         }
@@ -83,8 +103,6 @@
     }
     return [resultArray copy];
 }
-
-
 
 + (NSString *)typeWithIvarType:(NSString *)ivarType
 {
