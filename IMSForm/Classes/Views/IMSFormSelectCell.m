@@ -256,6 +256,10 @@
         return;
     }
     
+    if (!self.model.cpnConfig.selectDataSource || self.model.cpnConfig.selectDataSource.count == 0) {
+        return;
+    }
+    
     if (self.model.cpnConfig.isMultiple) { // multiple select
         
         // MARK: Show multiple select list view
