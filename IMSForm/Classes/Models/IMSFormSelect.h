@@ -14,8 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *label; /**< <#property#> */
 @property (copy, nonatomic) NSString *value; /**< <#property#> */
-@property (strong, nonatomic) id param; /**< <#property#> */
+
 @property (nonatomic, copy) NSString *title; /**< 分区标题 */
+
+@property (copy, nonatomic) NSString *field; /**< <#property#> */
+@property (strong, nonatomic) id param; /**< <#property#> */
 
 @property (assign, nonatomic, getter=isSelected) BOOL selected; /**< 选中状态 */
 @property (assign, nonatomic, getter=isEnable) BOOL enable; /**< 可用性 */

@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=isRequired) BOOL required; /**< 是否必需 */
 @property (assign, nonatomic, getter=isSelected) BOOL selected; /**< 是否为选中状态 */
 
-@property (copy, nonatomic) NSString *dbType; /**< 对应服务器字段 */
+@property (copy, nonatomic) NSString *dbType; /**< 对应服务器自定义字段的类型 */
 @property (copy, nonatomic) NSString *field; /**< 对应服务器字段 */
 @property (strong, nonatomic) id param; /**< 对应服务器字段的值 */
 
