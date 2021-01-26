@@ -10,8 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_STRING_ENUM;
-
 @interface IMSFormConverter : NSObject
 
 + (NSString *)getCPNTypeWithWebCPNType:(NSString *)type;
