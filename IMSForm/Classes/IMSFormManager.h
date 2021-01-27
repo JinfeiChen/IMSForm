@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
 @property (strong, nonatomic) NSArray <IMSFormModel *> *dataSource; /**< 表单数据源 */
 
-- (instancetype)initWithTableView:(UITableView *)tableView JSON:(NSString *)jsonName;
+- (instancetype)initWithTableView:(UITableView *)tableView JSON:(NSString * _Nullable)jsonName;
 
 /**
  提交表单

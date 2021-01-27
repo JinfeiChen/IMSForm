@@ -43,25 +43,25 @@
 //    }];
     
     // MARK: 测试固定字段+自定义字段
-//    NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
-//
-//    NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
-//    NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
-//    [dataSource addObjectsFromArray:customArray];
+    NSArray *fixedArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"formData"]];
+
+    NSArray *customArray = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:@"customFormData"]];
+    NSMutableArray <IMSFormModel *> *dataSource = [[NSMutableArray alloc] initWithArray:fixedArray];
+    [dataSource addObjectsFromArray:customArray];
     
     // MARK: Sort dataSource
 //    NSArray *order = @[@"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name"];
 //    NSArray *order = @[@"sectionHeader", @"email", @"search", @"progress", @"uniSelect", @"multipleSelect", @"switch", @"number", @"range", @"file", @"image", @"desc", @"line", @"name", @"sectionFooter"];
 //    NSArray *order = @[@"email"];
 
-//    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
+    self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
     
     
-    NSArray *jsonArray = [IMSFormDataManager readLocalJSONFileWithName:@"customField"];
-    NSArray *targetArray = [IMSFormConverter convertJsonArray:jsonArray];
-    NSLog(@"%@", targetArray);
-
-    self.form.dataSource = [IMSFormDataManager formDataArrayWithJSON:targetArray];
+//    NSArray *jsonArray = [IMSFormDataManager readLocalJSONFileWithName:@"customField"];
+//    NSArray *targetArray = [IMSFormConverter convertJsonArray:jsonArray];
+//    NSLog(@"%@", targetArray);
+//
+//    self.form.dataSource = [IMSFormDataManager formDataArrayWithJSON:targetArray];
     
     [self.form.tableView reloadData];
 }
@@ -217,7 +217,7 @@
 - (IMSFormManager *)form
 {
     if (!_form) {
-        _form = [[IMSFormManager alloc] initWithTableView:self.tableView JSON:@"formData"];
+        _form = [[IMSFormManager alloc] initWithTableView:self.tableView JSON:@"formDataa"];
         _form.uiDelegate = self;
         _form.dataDelegate = self;
     }
