@@ -37,7 +37,7 @@
         _layout = IMSFormLayoutType_Vertical;
         
         _titleHexColor = @"0x252D34";
-        _titleFontSize = 16;
+        _titleFontSize = 14;
         
         _infoHexColor = @"0x9FA2A8";
         _infoFontSize = 12;
@@ -57,7 +57,7 @@
     IMSFormCPNStyle *style = [[IMSFormCPNStyle alloc] init];
     
     style.titleHexColor = @"0x252D34";
-    style.titleFontSize = 16;
+    style.titleFontSize = 14;
     
     style.infoHexColor = @"0x9FA2A8";
     style.infoFontSize = 12;

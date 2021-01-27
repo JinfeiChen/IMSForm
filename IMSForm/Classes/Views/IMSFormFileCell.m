@@ -352,9 +352,12 @@
         [_addButton addTarget:self action:@selector(addButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [_addButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [_addButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
-        _addButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
-        UIEdgeInsets edge = _addButton.titleEdgeInsets;
-        edge.left = 12.0;
+        _addButton.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        UIEdgeInsets edge = _addButton.imageEdgeInsets;
+        edge.left = -6.0;
+        _addButton.imageEdgeInsets = edge;
+        edge = _addButton.titleEdgeInsets;
+        edge.left = 6.0;
         _addButton.titleEdgeInsets = edge;
         _addButton.layer.cornerRadius = 8.0;
 //        _addButton.layer.borderWidth = 1.0;

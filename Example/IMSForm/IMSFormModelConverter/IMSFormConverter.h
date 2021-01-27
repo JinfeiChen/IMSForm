@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray *)convertJsonArray:(NSArray *)jsonArray;
 
++ (NSArray *)convertPickListJSONArray:(NSArray *)jsonArray;
+
 @end
 
 NS_ASSUME_NONNULL_END

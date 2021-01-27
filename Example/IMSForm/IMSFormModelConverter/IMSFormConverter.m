@@ -14,6 +14,25 @@
 
 @implementation IMSFormConverter
 
++ (NSArray *)convertPickListJSONArray:(NSArray *)jsonArray
+{
+    NSMutableArray *resultArray = [NSMutableArray array];
+    for (NSDictionary *obj in jsonArray) {
+        
+        NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
+        
+        NSString *value = [obj valueForKey:@"Value__c"];
+        if (value && [value isKindOfClass:[NSString class]]) {
+            [mDict setValue:value forKey:@"value"];
+        }
+        
+        if (mDict.count > 0) {
+            [resultArray addObject:mDict];
+        }
+    }
+    return resultArray;
+}
+
 + (NSString *)getCPNTypeWithWebCPNType:(NSString *)type
 {
     return [self mapCPNType:type];
@@ -98,7 +117,9 @@
             }
         }
 
-        [resultArray addObject:mDict];
+        if (mDict.count > 0) {
+            [resultArray addObject:mDict];
+        }
         
     }
     return [resultArray copy];
