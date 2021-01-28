@@ -124,12 +124,12 @@
     
     [self setTitle:model.title required:model.isRequired];
     self.infoLabel.text = model.info;
-    self.textField.placeholder = model.placeholder;
+    self.textField.placeholder = model.placeholder ? : @"Please Select";
     self.textField.text = model.value;
     
     IMSFormDateTimeModel *dateTimeModel = (IMSFormDateTimeModel *)model;
     
-    if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_DateTime]) {
+    if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_Date]) {
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_date"] forState:UIControlStateNormal];
     }else {
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];
