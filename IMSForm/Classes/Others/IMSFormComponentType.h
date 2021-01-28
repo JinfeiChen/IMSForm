@@ -70,6 +70,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; /
 // Currency
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Currency; // added
 
+// Phone
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Phone; // added
+
 #pragma mark - Readonly
 
 // Seperator component

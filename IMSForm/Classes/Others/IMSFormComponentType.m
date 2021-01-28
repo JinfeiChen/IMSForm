@@ -47,6 +47,8 @@ NSString *const IMSFormComponentType_InputSearch = @"IMSFormComponentType_InputS
 
 NSString *const IMSFormComponentType_Currency = @"IMSFormComponentType_Currency";
 
+NSString *const IMSFormComponentType_Phone = @"IMSFormComponentType_Phone";
+
 #pragma mark - Readonly
 
 NSString *const IMSFormComponentType_Line = @"IMSFormComponentType_Line";

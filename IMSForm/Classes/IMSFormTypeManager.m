@@ -53,6 +53,7 @@
     [self registCellClass:NSClassFromString(@"IMSFormRadioCell") forKey:IMSFormComponentType_Radio];
     [self registCellClass:NSClassFromString(@"IMSFormCascaderCell") forKey:IMSFormComponentType_Cascader];
     [self registCellClass:NSClassFromString(@"IMSFormCurrencyCell") forKey:IMSFormComponentType_Currency];
+    [self registCellClass:NSClassFromString(@"IMSFormPhoneCell") forKey:IMSFormComponentType_Phone];
 }
 
 #pragma mark - Public Methods
@@ -99,6 +100,8 @@
         return NSClassFromString(@"IMSFormCascaderModel");
     } else if ([cpnType isEqualToString:IMSFormComponentType_Currency]) {
         return NSClassFromString(@"IMSFormCurrencyModel");
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Phone]) {
+        return NSClassFromString(@"IMSFormPhoneModel");
     } else {
         return NSClassFromString(@"IMSFormModel");
     }

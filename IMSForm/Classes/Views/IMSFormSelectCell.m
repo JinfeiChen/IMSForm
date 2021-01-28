@@ -256,7 +256,7 @@
         return;
     }
     
-    if (!self.model.cpnConfig.selectDataSource || self.model.cpnConfig.selectDataSource.count == 0) {
+    if (!self.model.cpnConfig.dataSource || self.model.cpnConfig.dataSource.count == 0) {
         return;
     }
     
@@ -268,14 +268,14 @@
             if (!_multipleSelectListView) {
                 if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customMultipleSelectListViewWithFormModel:")]) {
                     _multipleSelectListView = [self.form.uiDelegate customMultipleSelectListViewWithFormModel:self.model];
-                    [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:type selectedDataArray:self.model.valueList];
+                    [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type selectedDataArray:self.model.valueList];
                 }
             }
             if (!self.form || !_multipleSelectListView) {
-                [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:IMSPopupMultipleSelectListViewCellType_Default selectedDataArray:self.model.valueList];
+                [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:IMSPopupMultipleSelectListViewCellType_Default selectedDataArray:self.model.valueList];
             }
         } else {
-            [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:type selectedDataArray:self.model.valueList];
+            [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type selectedDataArray:self.model.valueList];
         }
         
         @weakify(self);
@@ -323,10 +323,10 @@
                 }
             }
             if (!self.form || !_singleSelectListView) {
-                [self.singleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:IMSPopupSingleSelectListViewCellType_Default];
+                [self.singleSelectListView setDataArray:self.model.cpnConfig.dataSource type:IMSPopupSingleSelectListViewCellType_Default];
             }
         } else {
-            [self.singleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:type];
+            [self.singleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type];
         }
         
         @weakify(self);
@@ -338,7 +338,7 @@
             // update model valueList
             self.model.valueList = selectedModel.isSelected ? @[[selectedModel yy_modelToJSONObject]] : @[];
             // update select datasource
-            self.model.cpnConfig.selectDataSource = dataArray;
+            self.model.cpnConfig.dataSource = dataArray;
             
             [self updatePlaceholder];
         }];
