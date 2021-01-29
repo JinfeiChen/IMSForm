@@ -124,7 +124,7 @@
         }
         [self.prefixView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.left.bottom.mas_equalTo(self.bodyView);
-            make.width.mas_lessThanOrEqualTo(100);
+            make.width.mas_lessThanOrEqualTo(150);
         }];
         [self.prefixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
         self.prefixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
