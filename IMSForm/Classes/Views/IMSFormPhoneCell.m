@@ -138,35 +138,27 @@
         make.right.mas_equalTo(self.bodyView).offset(0);
     }];
     
-    if (self.model.cpnConfig.prefixUnit) {
-        if (![self.ctnView.subviews containsObject:self.prefixLabel]) {
-            [self.ctnView addSubview:self.prefixLabel];
-        }
-        [self.prefixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.mas_equalTo(self.ctnView);
-            make.left.mas_equalTo(self.ctnView).offset(10);
-        }];
-    } else {
-        [self.prefixLabel removeFromSuperview];
+    if (![self.ctnView.subviews containsObject:self.prefixLabel]) {
+        [self.ctnView addSubview:self.prefixLabel];
     }
+    [self.prefixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(self.ctnView);
+        make.left.mas_equalTo(self.ctnView).offset(10);
+    }];
 
-    if (self.model.cpnConfig.suffixUnit) {
-        if (![self.ctnView.subviews containsObject:self.suffixLabel]) {
-            [self.ctnView addSubview:self.suffixLabel];
-        }
-        [self.suffixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.mas_equalTo(self.ctnView);
-            make.right.mas_equalTo(self.ctnView).offset(-10);
-        }];
-    } else {
-        [self.suffixLabel removeFromSuperview];
+    if (![self.ctnView.subviews containsObject:self.suffixLabel]) {
+        [self.ctnView addSubview:self.suffixLabel];
     }
+    [self.suffixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(self.ctnView);
+        make.right.mas_equalTo(self.ctnView).offset(-10);
+    }];
 
     // textField
     [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.ctnView).offset(0);
-        make.left.mas_equalTo(self.model.cpnConfig.prefixUnit ? self.prefixLabel.mas_right : self.ctnView).offset(5);
-        make.right.mas_equalTo(self.model.cpnConfig.suffixUnit ? self.suffixLabel.mas_left : self.ctnView).offset(-5);
+        make.left.mas_equalTo(self.prefixLabel.mas_right).offset(5);
+        make.right.mas_equalTo(self.suffixLabel.mas_left).offset(-5);
         make.height.mas_equalTo(kIMSFormDefaultHeight);
     }];
     [self.textField setContentHuggingPriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
