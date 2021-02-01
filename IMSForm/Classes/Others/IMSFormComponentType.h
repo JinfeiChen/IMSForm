@@ -43,8 +43,11 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Radio; // adde
 // Multiple selection component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Checkbox;
 
-// Select component (multiple: YES or NO)
+// Single Select List component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Select; // added
+
+// Multiple Select List component
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_MultiSelect; // added
 
 // File upload component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_FileUpload; // added

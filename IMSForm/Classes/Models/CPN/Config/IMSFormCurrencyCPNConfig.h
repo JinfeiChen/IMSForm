@@ -5,7 +5,7 @@
 //  Created by cjf on 22/1/2021.
 //
 
-#import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSFormCPNConfig.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

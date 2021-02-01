@@ -113,6 +113,7 @@
     
     [self updateUI];
     
+    [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
     self.textView.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
@@ -122,6 +123,15 @@
 }
 
 #pragma mark - Private Methods
+
+// 清除重用数据
+- (void)clearReuseData
+{
+    self.titleLabel.text = @"";
+    self.infoLabel.text = @"";
+    self.textView.text = @"";
+    self.textView.placeholderText = @"Please enter";
+}
 
 #pragma mark - YYTextViewDelegate
 

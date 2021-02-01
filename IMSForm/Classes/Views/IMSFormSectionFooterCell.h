@@ -6,10 +6,13 @@
 //
 
 #import <IMSForm/IMSForm.h>
+#import <IMSForm/IMSFormSectionFooterModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormSectionFooterCell : IMSFormTableViewCell
+
+@property (strong, nonatomic) IMSFormSectionFooterModel *model; /**< <#property#> */
 
 @end
 

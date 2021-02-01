@@ -31,6 +31,8 @@ NSString *const IMSFormComponentType_Checkbox = @"IMSFormComponentType_Checkbox"
 
 NSString *const IMSFormComponentType_Select = @"IMSFormComponentType_Select";
 
+NSString *const IMSFormComponentType_MultiSelect = @"IMSFormComponentType_MultiSelect";
+
 NSString *const IMSFormComponentType_FileUpload = @"IMSFormComponentType_FileUpload";
 
 NSString *const IMSFormComponentType_ImageUpload = @"IMSFormComponentType_ImageUpload";

@@ -109,6 +109,16 @@
 //    [self.form.tableView endUpdates];
 }
 
+#pragma mark - Private Methods
+
+// 清除重用数据
+- (void)clearReuseData
+{
+    self.titleLabel.text = @"";
+    self.infoLabel.text = @"";
+    self.sliderView.value = 0;
+}
+
 #pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form

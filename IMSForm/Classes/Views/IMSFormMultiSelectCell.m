@@ -1,30 +1,31 @@
 //
-//  IMSFormSelectCell.m
+//  IMSFormMultiSelectCell.m
 //  IMSForm
 //
-//  Created by cjf on 8/1/2021.
+//  Created by cjf on 1/2/2021.
 //
 
-#import "IMSFormSelectCell.h"
+#import "IMSFormMultiSelectCell.h"
 
 #import <IMSForm/IMSFormManager.h>
 #import <IMSForm/IMSTagView.h>
-#import <IMSForm/IMSPopupSingleSelectListView.h>
+#import <IMSForm/IMSPopupMultipleSelectListView.h>
 
-@interface IMSFormSelectCell () <IMSTagViewDelegate>
+@interface IMSFormMultiSelectCell () <IMSTagViewDelegate>
 
 @property (nonatomic, strong) UIButton *arrowButton;
 @property (nonatomic, strong) UILabel *placeholderLabel;
-// only for uni select
-@property (nonatomic, strong) UILabel *contentLabel;
+
+// only for multiple select
+@property (nonatomic, strong) IMSTagView *tagView;
 
 @property (strong, nonatomic) NSArray <IMSFormSelect *> *valueModelArray; /**< <#property#> */
 
-@property (strong, nonatomic) IMSPopupSingleSelectListView *singleSelectListView; /**< <#property#> */
+@property (strong, nonatomic) IMSPopupMultipleSelectListView *multipleSelectListView; /**< <#property#> */
 
 @end
 
-@implementation IMSFormSelectCell
+@implementation IMSFormMultiSelectCell
 
 @synthesize model = _model;
 
@@ -67,6 +68,7 @@
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     
     self.arrowButton.hidden = self.model.isEditable ? NO : YES;
+    self.tagView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
     
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
@@ -114,24 +116,24 @@
     
     if (self.model) {
         
-        [self.contentLabel setHidden:NO];
-        if (![self.bodyView.subviews containsObject:self.contentLabel]) {
-            [self.bodyView addSubview:self.contentLabel];
+        [self.tagView setHidden:NO];
+        if (![self.bodyView.subviews containsObject:self.tagView]) {
+            [self.bodyView addSubview:self.tagView];
         }
-        [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(self.bodyView);
-            make.left.equalTo(self.bodyView).offset(10);
+        [self.tagView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.bottom.equalTo(self.bodyView);
             make.right.equalTo(self.arrowButton.mas_left);
         }];
         
         [self.placeholderLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.bodyView).offset(10);
-            make.top.bottom.equalTo(self.bodyView);
+            make.top.equalTo(self.bodyView);
             make.height.mas_equalTo(kIMSFormDefaultHeight);
             make.right.equalTo(self.arrowButton.mas_left).offset(-10);
         }];
         
     }
+    
 }
 
 #pragma mark - Public Methods
@@ -149,9 +151,7 @@
     
     self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:model.valueList];
     
-    for (IMSFormSelect *model in self.valueModelArray) {
-        self.contentLabel.text = model.value ? : @"N/A";
-    }
+    [self updateTagViewDataSource];
     
     [self updatePlaceholder];
     [self updateArrowButtonAnimation];
@@ -165,7 +165,7 @@
     self.titleLabel.text = @"";
     self.infoLabel.text = @"";
     self.valueModelArray = @[];
-    self.contentLabel.text = @"";
+    self.tagView.dataArray = @[];
 }
 
 - (void)updatePlaceholder
@@ -173,10 +173,9 @@
     self.placeholderLabel.hidden = (self.model.valueList && self.model.valueList.count > 0) ? YES : NO;
     self.placeholderLabel.text = (self.model.valueList && self.model.valueList.count > 0) ? @"" : (self.model.placeholder ? : @"Please Select");
     
-    if (self.model.valueList.count == 0) {
-        self.contentLabel.text = @"";
+    if (self.valueModelArray.count == 0) {
+        self.tagView.dataArray = @[];
     }
-    
 }
 
 - (void)updateArrowButtonAnimation
@@ -190,6 +189,42 @@
     }];
 }
 
+- (void)updateTagViewDataSource
+{
+    self.tagView.deleteImage = self.model.isEditable ? [UIImage bundleImageWithNamed:@"search_close_tag"] : nil;
+    
+    NSMutableArray *titleArrayM = [NSMutableArray array];
+    for (IMSFormSelect *model in self.valueModelArray) {
+        [titleArrayM addObject:model.value?:@"N/A"];
+    }
+    self.tagView.dataArray = titleArrayM;
+}
+
+#pragma mark - RATagViewDelegate
+
+- (void)tagView:(IMSTagView *)tagView didSelectAtIndex:(NSInteger)index
+{
+    // delete
+    NSMutableArray *mArr = [NSMutableArray arrayWithArray:self.model.valueList];
+    [mArr removeObjectAtIndex:index];
+    // update valueModelArray
+    self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSPopupMultipleSelectModel class] json:mArr];
+    // update model's valueList
+    self.model.valueList = mArr;
+    // update tagview datasource
+    [self updateTagViewDataSource];
+    
+    [self.form.tableView beginUpdates];
+    [self.form.tableView endUpdates];
+    
+    // call back
+    if (self.didUpdateFormModelBlock) {
+        self.didUpdateFormModelBlock(self, self.model, nil);
+    }
+    
+    [self updatePlaceholder];
+}
+
 #pragma mark - Actions
 
 - (void)clickAction:(id)sender
@@ -197,37 +232,42 @@
     if (!self.model) {
         return;
     }
-    
-    // MARK: Show single select list view
-    IMSPopupSingleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:NO];
-    if (type == IMSPopupSingleSelectListViewCellType_Custom) {
-        if (!_singleSelectListView) {
-            if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customSingleSelectListViewWithFormModel:")]) {
-                _singleSelectListView = [self.form.uiDelegate customSingleSelectListViewWithFormModel:self.model];
+
+    // MARK: Show multiple select list view
+    IMSPopupMultipleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:YES];
+    if (type == IMSPopupMultipleSelectListViewCellType_Custom) {
+        if (!_multipleSelectListView) {
+            if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customMultipleSelectListViewWithFormModel:")]) {
+                _multipleSelectListView = [self.form.uiDelegate customMultipleSelectListViewWithFormModel:self.model];
+                [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type selectedDataArray:self.model.valueList];
             }
         }
-        if (!self.form || !_singleSelectListView) {
-            [self.singleSelectListView setDataArray:self.model.cpnConfig.dataSource type:IMSPopupSingleSelectListViewCellType_Default];
+        if (!self.form || !_multipleSelectListView) {
+            [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:IMSPopupMultipleSelectListViewCellType_Default selectedDataArray:self.model.valueList];
         }
     } else {
-        [self.singleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type];
+        [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type selectedDataArray:self.model.valueList];
     }
     
     @weakify(self);
-    [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+    [self.multipleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull selectedDataArray, IMSFormSelect * _Nonnull selectedModel, BOOL isAdd, NSString * _Nonnull tipString) {
         @strongify(self);
-        NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
-        // update value
-        self.contentLabel.text = selectedModel.isSelected ? (selectedModel.value?:@"N/A") : @"";
-        // update model valueList
-        self.model.valueList = selectedModel.isSelected ? @[[selectedModel yy_modelToJSONObject]] : @[];
-        // update select datasource
-        self.model.cpnConfig.dataSource = dataArray;
+        NSLog(@"%@, %@, isAdd = %d, tip = %@", selectedDataArray, [selectedModel yy_modelToJSONObject], isAdd, tipString);
+        // update model's valueList
+        self.model.valueList = selectedDataArray;
+        // update valueModelArray
+        self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSPopupMultipleSelectModel class] json:selectedDataArray];
+        // update tagview datasource
+        [self updateTagViewDataSource];
         
         [self updatePlaceholder];
+        
+        [self.form.tableView beginUpdates];
+        [self.form.tableView endUpdates];
+        
     }];
     
-    [self.singleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
+    [self.multipleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
         @strongify(self);
         self.model.selected = isShow;
         [self updateArrowButtonAnimation];
@@ -238,9 +278,10 @@
         }
     }];
     
-    self.singleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    self.multipleSelectListView.maxCount = self.model.cpnConfig.multipleLimit;
+    self.multipleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
     
-    [self.singleSelectListView showView];
+    [self.multipleSelectListView showView];
 }
 
 #pragma mark - Getters
@@ -264,22 +305,30 @@
     return _arrowButton;
 }
 
-- (UILabel *)contentLabel {
-    if (_contentLabel == nil) {
-        _contentLabel = [[UILabel alloc] init];
-        _contentLabel.textColor = IMS_HEXCOLOR(0x565465);
-        _contentLabel.font = [UIFont systemFontOfSize:14];
-        _contentLabel.numberOfLines = 0;
-        _contentLabel.backgroundColor = [UIColor clearColor];
+- (IMSTagView *)tagView {
+    if (_tagView == nil) {
+        _tagView = [[IMSTagView alloc] init];
+        _tagView.minimumLineSpacing = 5;
+        _tagView.tagsMinPadding = 10;
+        _tagView.minimumInteritemSpacing = 5;
+        _tagView.tagItemfontSize = [UIFont systemFontOfSize:12];
+        _tagView.tagItemHeight = 25.0;
+        _tagView.contentInset = UIEdgeInsetsMake(7.5, 10, 7.5, 0);
+        _tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - 60;
+        _tagView.contentPadding = 5.0;
+        _tagView.tagSuperviewMinHeight = 40.0;
+        _tagView.deleteImage = [UIImage bundleImageWithNamed:@"search_close_tag"];
+        _tagView.delegate = self;
     }
-    return _contentLabel;
+    return _tagView;
 }
 
-- (IMSPopupSingleSelectListView *)singleSelectListView {
-    if (_singleSelectListView == nil) {
-        _singleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
+- (IMSPopupMultipleSelectListView *)multipleSelectListView
+{
+    if (!_multipleSelectListView) {
+        _multipleSelectListView = [[IMSPopupMultipleSelectListView alloc] initWithFrame:CGRectZero];
     }
-    return _singleSelectListView;
+    return _multipleSelectListView;
 }
 
 @end
