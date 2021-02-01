@@ -68,8 +68,6 @@
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
     
-    [self.form.tableView beginUpdates];
-    [self.form.tableView endUpdates];
 }
 
 #pragma mark - Public Methods
@@ -88,7 +86,7 @@
     
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)model;
     
-    NSArray *dataModelSource = radioModel.cpnConfig.selectDataSource;
+    NSArray *dataModelSource = radioModel.cpnConfig.dataSource;
     
     if (dataModelSource.count != self.buttonArrayM.count) {
         for (UIButton *button in self.buttonArrayM) {
@@ -99,7 +97,7 @@
     
     if (dataModelSource.count && !self.buttonArrayM.count) {
         for (int i = 0; i < dataModelSource.count; ++i) {
-//            IMSFormSelect *selectModel = dataModelSource[i];
+            //            IMSFormSelect *selectModel = dataModelSource[i];
             UIButton *button = [[UIButton alloc]init];
             button.tag = i;
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -110,24 +108,28 @@
             [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
             button.backgroundColor = [UIColor whiteColor];
             button.titleLabel.font = [UIFont systemFontOfSize:14];
-    
+            
             [self.bodyView addSubview:button];
             [self.buttonArrayM addObject:button];
         }
         
-        if (self.buttonArrayM.count > 1) {
-            [self.buttonArrayM mas_distributeViewsAlongAxis:MASAxisTypeVertical withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
-            [self.buttonArrayM mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(40);
+        UIView *lastView = self.bodyView;
+        for (int i = 0; i < self.buttonArrayM.count; ++i) {
+            UIButton *button = self.buttonArrayM[i];
+            
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                if (i == 0) {
+                    make.top.equalTo(lastView);
+                }else {
+                    make.top.equalTo(lastView.mas_bottom);
+                }
                 make.left.equalTo(self.bodyView).offset(10);
                 make.right.equalTo(self.bodyView);
-            }];
-        } else if (self.buttonArrayM.count == 1) {
-            [self.buttonArrayM.firstObject mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.height.mas_equalTo(40);
-                make.left.equalTo(self.bodyView).offset(10);
-                make.top.right.bottom.equalTo(self.bodyView);
+                if (i == self.buttonArrayM.count - 1) make.bottom.equalTo(self.bodyView);
+                
             }];
+            lastView = button;
         }
     }
     
@@ -146,7 +148,7 @@
     [self.model.valueList removeAllObjects];
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
     if (button.selected) {
-        IMSFormSelect *selectModel = radioModel.cpnConfig.selectDataSource[button.tag];
+        IMSFormSelect *selectModel = radioModel.cpnConfig.dataSource[button.tag];
         selectModel.selected = button.selected = NO;
         if (self.didUpdateFormModelBlock) {
             self.didUpdateFormModelBlock(self, self.model, selectModel);
@@ -156,7 +158,7 @@
     
     for (int i = 0; i < self.buttonArrayM.count; ++i) {
         UIButton *allButton = self.buttonArrayM[i];
-        IMSFormSelect *selectModel = radioModel.cpnConfig.selectDataSource[i];
+        IMSFormSelect *selectModel = radioModel.cpnConfig.dataSource[i];
         selectModel.selected =  allButton.selected = (button.tag == allButton.tag);
         if (selectModel.selected) {
             [self.model.valueList addObject:selectModel];

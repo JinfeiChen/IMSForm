@@ -22,6 +22,7 @@
         self.frame = CGRectMake(0, 0, IMS_SCREEN_WIDTH, IMS_SCREEN_HEIGHT);
         self.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.2];
         self.hidden = YES;
+        self.isMultiple = YES;
         [self addSubview:self.bgView];
         [self.bgView addSubview:self.tipLabel];
         [self.bgView addSubview:self.mainTableView];
@@ -79,12 +80,12 @@
     [self didSelectedBlock:self.mainTableView andFirstShow:YES];
 }
 
-- (void)didSelectedBlock:(IMSPopupTreeTabView *)view andFirstShow:(BOOL)isfirstShow {
+- (void)didSelectedBlock:(IMSPopupTreeTabView *)tabView andFirstShow:(BOOL)isfirstShow {
     @weakify(self)
-    @weakify(view)
-    [view setDidSelectItemBlock:^(BOOL isShowChildView, IMSFormSelect * _Nonnull didSelectDataModel,NSString *treeTabViewTitleString) {
+    @weakify(tabView)
+    [tabView setDidSelectItemBlock:^(BOOL isShowChildView, IMSFormSelect * _Nonnull didSelectDataModel,NSString *treeTabViewTitleString) {
         @strongify(self)
-        @strongify(view)
+        @strongify(tabView)
         if (isShowChildView) {
             didSelectDataModel.selected = YES;
             IMSPopupTreeTabView *treeView = [[IMSPopupTreeTabView alloc]initWithFrame:CGRectMake(IMS_SCREEN_WIDTH, CGRectGetMaxY(self.tipLabel.frame), IMS_SCREEN_WIDTH, TableViewHeight)];
@@ -97,7 +98,7 @@
                 [titleMutString appendString:didSelectDataModel.value];
             }
             [treeView show:YES andTitle:titleMutString];
-            for (IMSFormSelect *allModel in view.dataArray) {
+            for (IMSFormSelect *allModel in tabView.dataArray) {
                 if ((allModel != didSelectDataModel) && allModel.child.count) {
                     allModel.selected = NO;
                 }
@@ -122,6 +123,15 @@
             }else if (!didSelectDataModel.selected && self.maxCount > 0) { // sub
                 self.didSelectedCount --;
             }
+            
+            if (self.isMultiple == NO) {
+                for (IMSFormSelect *allModel in tabView.dataArray) {
+                    if (allModel != didSelectDataModel) {
+                        allModel.selected = NO;
+                    }
+                }
+            }
+            
             self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)",self.didSelectedCount,self.didSelectedCount > 1 ? @"items" : @"item",self.maxCount];
             if (self.didSelectedBlock) {
                 self.didSelectedBlock(didSelectDataModel, didSelectDataModel.selected, self.tipLabel.text);

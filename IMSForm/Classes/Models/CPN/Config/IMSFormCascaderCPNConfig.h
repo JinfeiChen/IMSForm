@@ -10,9 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormCascaderCPNConfig : IMSFormCPNConfig
+@property (nonatomic, assign) BOOL isMultiple;// 是否多项，默认多选
 @property (nonatomic, assign) NSInteger maxCount;//最大限制数量
 @property (nonatomic, assign) NSInteger didSelectedCount;// 已经选择的数量
-@property (strong, nonatomic) NSArray *selectDataSource; /**< 数据列表 */
+
 @end
 
 NS_ASSUME_NONNULL_END

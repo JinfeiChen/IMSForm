@@ -12,6 +12,8 @@
 
 @interface IMSFormCascaderCell ()<IMSTagViewDelegate>
 @property (nonatomic, strong) UIButton *arrowButton;
+// only for single select
+@property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) UILabel *placeholderLabel;
 @property (nonatomic, strong) IMSTagView *tagView;
 @end
@@ -38,6 +40,7 @@
     [self.bodyView addSubview:self.tagView];
     [self.bodyView addSubview:self.placeholderLabel];
     [self.bodyView addSubview:self.arrowButton];
+    [self.bodyView addSubview:self.contentLabel];
     [self updateUI];
 }
 
@@ -76,8 +79,14 @@
     
     [self.placeholderLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.bodyView).offset(10);
-        make.top.bottom.equalTo(self.bodyView);
+        make.top.equalTo(self.bodyView);
+        make.height.equalTo(@40);
         make.right.equalTo(self.arrowButton.mas_left).offset(-10);
+        make.bottom.equalTo(self.bodyView).priority(500);
+    }];
+    
+    [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.placeholderLabel);
     }];
 
     [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -92,9 +101,6 @@
         make.left.right.mas_equalTo(self.bodyView);
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
-    
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
     
 }
 
@@ -111,10 +117,20 @@
     [self updateArrowButton];
     
     self.arrowButton.hidden = model.isEditable ? NO : YES;
-    self.tagView.deleteImage = model.isEditable ? [UIImage bundleImageWithNamed:@"search_close_tag"] : nil;
     
-    [self updateTagViewDataSource];
+    IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
     
+    if (cascaderModel.cpnConfig.isMultiple) {
+        self.tagView.hidden = NO;
+        self.contentLabel.hidden = YES;
+        self.tagView.deleteImage = model.isEditable ? [UIImage bundleImageWithNamed:@"search_close_tag"] : nil;
+        [self updateTagViewDataSource];
+    }else {
+        self.tagView.hidden = YES;
+        self.contentLabel.hidden = NO;
+        
+        [self updateContentLable];
+    }
 }
 #pragma mark - Private Methods
 - (void)updateTagViewDataSource
@@ -124,6 +140,7 @@
     for (IMSFormSelect *model in self.model.valueList) {
         [titleArrayM addObject:model.value?:@"N/A"];
     }
+    
     self.tagView.dataArray = titleArrayM;
     
     BOOL hasData = self.model.valueList && self.model.valueList.count > 0;
@@ -134,6 +151,19 @@
     
     [self.form.tableView beginUpdates];
     [self.form.tableView endUpdates];
+}
+
+- (void)updateContentLable {
+    
+    IMSFormSelect *formSelect = self.model.valueList.firstObject;
+    
+    BOOL hasData = self.model.valueList && self.model.valueList.count > 0;
+    
+    self.placeholderLabel.hidden = hasData;
+     
+    self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
+    
+    self.contentLabel.text = formSelect.value ?: @"";
 }
 
 #pragma mark - RATagViewDelegate
@@ -170,8 +200,9 @@
     // MARK: Show multiple select list view
     IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
     IMSPopupTreeSelectListView *listView = [[IMSPopupTreeSelectListView alloc]init];
-    [self dealStatus:cascaderModel.cpnConfig.selectDataSource andHaveDataSource:cascaderModel.valueList];// 重置按钮状态
-    listView.dataArray = cascaderModel.cpnConfig.selectDataSource;
+    [self dealStatus:cascaderModel.cpnConfig.dataSource andHaveDataSource:cascaderModel.valueList];// 重置按钮状态
+    listView.isMultiple = cascaderModel.cpnConfig.isMultiple;
+    listView.dataArray = cascaderModel.cpnConfig.dataSource;
     listView.maxCount = cascaderModel.cpnConfig.maxCount;
     listView.didSelectedCount = cascaderModel.cpnConfig.didSelectedCount;
     
@@ -184,16 +215,19 @@
     
     [listView showView];
     
-    [listView setDidSelectedBlock:^(IMSPopupMultipleSelectModel * _Nonnull selectedModel, BOOL isAdd, NSString *tipString) {
+    [listView setDidSelectedBlock:^(IMSFormSelect * _Nonnull selectedModel, BOOL isAdd, NSString *tipString) {
         @strongify(self);
+        
         if (isAdd) {
+            if (cascaderModel.cpnConfig.isMultiple == NO) [self.model.valueList removeAllObjects];
             cascaderModel.cpnConfig.didSelectedCount ++ ;
             [self.model.valueList addObject:selectedModel];
         }else {
             cascaderModel.cpnConfig.didSelectedCount -- ;
             [self.model.valueList removeObject:selectedModel];
         }
-        [self updateTagViewDataSource];
+
+        cascaderModel.cpnConfig.isMultiple ? [self updateTagViewDataSource] : [self updateContentLable];
     }];
 //    // call back
 //    if (self.customDidSelectedBlock) {
@@ -266,6 +300,17 @@
         _tagView.delegate = self;
     }
     return _tagView;
+}
+
+- (UILabel *)contentLabel {
+    if (_contentLabel == nil) {
+        _contentLabel = [[UILabel alloc] init];
+        _contentLabel.textColor = IMS_HEXCOLOR(0x565465);
+        _contentLabel.font = [UIFont systemFontOfSize:14];
+        _contentLabel.numberOfLines = 0;
+        _contentLabel.backgroundColor = [UIColor clearColor];
+    }
+    return _contentLabel;
 }
 
 @end

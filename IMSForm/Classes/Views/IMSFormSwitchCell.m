@@ -44,9 +44,11 @@
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
     
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
+    
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
     
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
+    
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
     
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
@@ -82,6 +84,8 @@
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
     
+   
+    
 //    [self.form.tableView beginUpdates];
 //    [self.form.tableView endUpdates];
 }
@@ -95,6 +99,8 @@
     [super setModel:model form:form];
     
     [self updateUI];
+    
+    NSLog(@"%@",self.model.cpnStyle);
     
     [self setTitle:model.title required:model.isRequired];
     
