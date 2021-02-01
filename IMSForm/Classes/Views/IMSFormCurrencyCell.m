@@ -106,27 +106,20 @@
 
         [self buildBodyViewSubViews];
     }
-
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
 }
 
 - (void)buildBodyViewSubViews
 {
     // suffixView
-    if (self.model.cpnConfig.dataSource) {
-        if (![self.bodyView.subviews containsObject:self.suffixView]) {
-            [self.bodyView addSubview:self.suffixView];
-        }
-        [self.suffixView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.bottom.mas_equalTo(self.bodyView);
-            make.width.mas_lessThanOrEqualTo(150);
-        }];
-        [self.suffixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-        self.suffixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
-    } else {
-        [self.suffixView removeFromSuperview];
+    if (![self.bodyView.subviews containsObject:self.suffixView]) {
+        [self.bodyView addSubview:self.suffixView];
     }
+    [self.suffixView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.bottom.mas_equalTo(self.bodyView);
+        make.width.mas_lessThanOrEqualTo(150);
+    }];
+    [self.suffixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    self.suffixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
 
     [self.ctnView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.bodyView);
@@ -272,6 +265,17 @@
     return res;
 }
 
+// 清除重用数据
+- (void)clearReuseData
+{
+    self.titleLabel.text = @"";
+    self.textField.text = @"";
+    self.textField.placeholder = @"";
+    self.infoLabel.text = @"";
+    self.prefixLabel.text = @"";
+    self.suffixLabel.text = @"";
+}
+
 #pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
@@ -279,7 +283,8 @@
     [super setModel:model form:form];
 
     [self updateUI];
-
+    
+    [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
 
     CGFloat value = MAX(self.model.value.floatValue, self.model.cpnConfig.min);
@@ -289,10 +294,18 @@
 
     self.infoLabel.text = model.info;
 
-    if (self.model.cpnConfig && self.model.cpnConfig.dataSource.count > 0) {
-        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.cpnConfig.dataSource firstObject]];
+    // MARK: 显示已选中的值/默认值
+    if (self.model.valueList && self.model.valueList.count > 0) {
+        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.valueList firstObject]];
         self.suffixView.textLabel.text = selectedModel.label;
-        self.model.cpnConfig.suffixUnit = selectedModel.value;
+    } else {
+        if (self.model.cpnConfig && self.model.cpnConfig.dataSource.count > 0) {
+            IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.cpnConfig.dataSource firstObject]];
+            self.suffixView.textLabel.text = selectedModel.label;
+            self.model.valueList = @[[selectedModel yy_modelToJSONObject]];
+        } else {
+            self.suffixView.textLabel.text = @"N/A";
+        }
     }
 
     if (self.model.cpnConfig.prefixUnit) {
@@ -301,6 +314,9 @@
 
     if (self.model.cpnConfig.suffixUnit) {
         self.suffixLabel.text = self.model.cpnConfig.suffixUnit;
+    } else {
+        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.valueList firstObject]];
+        self.suffixLabel.text = selectedModel.value;
     }
 
     [self layoutIfNeeded];
@@ -343,8 +359,8 @@
             [self.suffixSingleSelectListView setDidSelectedBlock:^(NSArray *_Nonnull dataArray, IMSFormSelect *_Nonnull selectedModel) {
                 @strongify(self);
                 self.suffixView.textLabel.text = selectedModel.label;
-                self.suffixLabel.text = selectedModel.value;
-                self.model.cpnConfig.dataSource = [@[[selectedModel yy_modelToJSONObject]] mutableCopy];
+                self.suffixLabel.text = self.model.cpnConfig.suffixUnit ? : selectedModel.value;
+                self.model.valueList = [@[[selectedModel yy_modelToJSONObject]] mutableCopy];
             }];
 
             [self.suffixSingleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {

@@ -229,6 +229,14 @@
 
 #pragma mark - Private Methods
 
+// 清除重用数据
+- (void)clearReuseData
+{
+    self.titleLabel.text = @"";
+    self.infoLabel.text = @"";
+    _selectedPhotos = [NSMutableArray array];
+}
+
 #pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
@@ -237,6 +245,7 @@
     
     [self updateUI];
     
+    [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
     self.infoLabel.text = model.info;

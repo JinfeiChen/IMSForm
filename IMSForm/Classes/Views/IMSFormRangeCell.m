@@ -120,6 +120,19 @@
 
 #pragma mark - Private Methods
 
+// 清除重用数据
+- (void)clearReuseData
+{
+    self.titleLabel.text = @"";
+    self.infoLabel.text = @"";
+    self.minTextField.text = @"";
+    self.minTextField.placeholder = @"Please enter";
+    self.minValue = @"";
+    self.maxTextField.text = @"";
+    self.maxTextField.placeholder = @"Please enter";
+    self.maxValue = @"";
+}
+
 #pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
@@ -128,6 +141,7 @@
     
     [self updateUI];
     
+    [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
     NSArray *valueArr = [model.value componentsSeparatedByString:@";"];

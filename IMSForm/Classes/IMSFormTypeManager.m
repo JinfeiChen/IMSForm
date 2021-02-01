@@ -35,25 +35,9 @@
 
 - (void)defaultRegist
 {
-    // TODO: 添加全部默认提供的组件类型
-    [self registCellClass:NSClassFromString(@"IMSFormTextFieldCell") forKey:IMSFormComponentType_TextField];
-    [self registCellClass:NSClassFromString(@"IMSFormTextViewCell") forKey:IMSFormComponentType_TextView];
-    [self registCellClass:NSClassFromString(@"IMSFormSliderCell") forKey:IMSFormComponentType_Slider];
-    [self registCellClass:NSClassFromString(@"IMSFormSwitchCell") forKey:IMSFormComponentType_Switch];
-    [self registCellClass:NSClassFromString(@"IMSFormNumberCell") forKey:IMSFormComponentType_Number];
-    [self registCellClass:NSClassFromString(@"IMSFormRangeCell") forKey:IMSFormComponentType_Range];
-    [self registCellClass:NSClassFromString(@"IMSFormFileCell") forKey:IMSFormComponentType_FileUpload];
-    [self registCellClass:NSClassFromString(@"IMSFormImageCell") forKey:IMSFormComponentType_ImageUpload];
-    [self registCellClass:NSClassFromString(@"IMSFormDateTimeCell") forKey:IMSFormComponentType_DateTimePicker];
-    [self registCellClass:NSClassFromString(@"IMSFormSelectCell") forKey:IMSFormComponentType_Select];
-    [self registCellClass:NSClassFromString(@"IMSFormInputSearchCell") forKey:IMSFormComponentType_InputSearch];
-    [self registCellClass:NSClassFromString(@"IMSFormSectionHeaderCell") forKey:IMSFormComponentType_SectionHeader];
-    [self registCellClass:NSClassFromString(@"IMSFormSectionFooterCell") forKey:IMSFormComponentType_SectionFooter];
-    [self registCellClass:NSClassFromString(@"IMSFormLineCell") forKey:IMSFormComponentType_Line];
-    [self registCellClass:NSClassFromString(@"IMSFormRadioCell") forKey:IMSFormComponentType_Radio];
-    [self registCellClass:NSClassFromString(@"IMSFormCascaderCell") forKey:IMSFormComponentType_Cascader];
-    [self registCellClass:NSClassFromString(@"IMSFormCurrencyCell") forKey:IMSFormComponentType_Currency];
-    [self registCellClass:NSClassFromString(@"IMSFormPhoneCell") forKey:IMSFormComponentType_Phone];
+    for (NSString *key in [IMSFormTypeManager formCellClassMapping]) {
+        [self registCellClass:NSClassFromString([[IMSFormTypeManager formCellClassMapping] valueForKey:key] ? : @"IMSFormTableViewCell") forKey:key];
+    }
 }
 
 #pragma mark - Public Methods
@@ -67,44 +51,15 @@
 
 - (Class)getCellClassWithKey:(IMSFormComponentType)key
 {
-    return [self.cellClassDict objectForKey:key];
+    if (!key || ![key isKindOfClass:[NSString class]]) {
+        return [UITableViewCell class];
+    }
+    return [self.cellClassDict objectForKey:key] ? : NSClassFromString(@"IMSFormTableViewCell");
 }
 
 + (Class)formModelClassWithCPNType:(IMSFormComponentType)cpnType
 {
-    if ([cpnType isEqualToString:IMSFormComponentType_TextField]) {
-        return NSClassFromString(@"IMSFormTextFieldModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_TextView]) {
-        return NSClassFromString(@"IMSFormTextViewModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Select]) {
-        return NSClassFromString(@"IMSFormSelectModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Slider]) {
-        return NSClassFromString(@"IMSFormSliderModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Switch]) {
-        return NSClassFromString(@"IMSFormSwitchModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Number]) {
-        return NSClassFromString(@"IMSFormNumberModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Range]) {
-        return NSClassFromString(@"IMSFormRangeModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_FileUpload]) {
-        return NSClassFromString(@"IMSFormFileModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_ImageUpload]) {
-        return NSClassFromString(@"IMSFormImageModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_InputSearch]) {
-        return NSClassFromString(@"IMSFormInputSearchModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_DateTimePicker]) {
-        return NSClassFromString(@"IMSFormDateTimeModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Radio]) {
-        return NSClassFromString(@"IMSFormRadioModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Cascader]) {
-        return NSClassFromString(@"IMSFormCascaderModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Currency]) {
-        return NSClassFromString(@"IMSFormCurrencyModel");
-    } else if ([cpnType isEqualToString:IMSFormComponentType_Phone]) {
-        return NSClassFromString(@"IMSFormPhoneModel");
-    } else {
-        return NSClassFromString(@"IMSFormModel");
-    }
+    return NSClassFromString([[self formModelClassMapping] valueForKey:cpnType] ? : @"IMSFormModel");
 }
 
 + (NSInteger)selectItemTypeWithType:(IMSFormSelectItemType)type multiple:(BOOL)isMultiple
@@ -168,6 +123,58 @@
         _cellClassDict = [NSMutableDictionary dictionary];
     }
     return _cellClassDict;
+}
+
++ (NSDictionary *)formModelClassMapping
+{
+    // MARK: 请在这里添加全部默认提供的组件数据模型的类型映射
+    return @{
+        IMSFormComponentType_TextField : @"IMSFormTextFieldModel",
+        IMSFormComponentType_TextView : @"IMSFormTextViewModel",
+        IMSFormComponentType_Select : @"IMSFormSelectModel",
+        IMSFormComponentType_MultiSelect : @"IMSFormMultiSelectModel",
+        IMSFormComponentType_Slider : @"IMSFormSliderModel",
+        IMSFormComponentType_Switch : @"IMSFormSwitchModel",
+        IMSFormComponentType_Number : @"IMSFormNumberModel",
+        IMSFormComponentType_Range : @"IMSFormRangeModel",
+        IMSFormComponentType_FileUpload : @"IMSFormFileModel",
+        IMSFormComponentType_ImageUpload : @"IMSFormImageModel",
+        IMSFormComponentType_InputSearch : @"IMSFormInputSearchModel",
+        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeModel",
+        IMSFormComponentType_Radio : @"IMSFormRadioModel",
+        IMSFormComponentType_Cascader : @"IMSFormCascaderModel",
+        IMSFormComponentType_Currency : @"IMSFormCurrencyModel",
+        IMSFormComponentType_Phone : @"IMSFormPhoneModel",
+        
+        IMSFormComponentType_SectionHeader : @"IMSFormSectionHeaderModel",
+        IMSFormComponentType_SectionFooter : @"IMSFormSectionFooterModel"
+    };
+}
+
++ (NSDictionary *)formCellClassMapping
+{
+    // MARK: 请在这里添加全部默认提供的组件类型映射
+    return @{
+        IMSFormComponentType_TextField : @"IMSFormTextFieldCell",
+        IMSFormComponentType_TextView : @"IMSFormTextViewCell",
+        IMSFormComponentType_Select : @"IMSFormSelectCell",
+        IMSFormComponentType_MultiSelect : @"IMSFormMultiSelectCell",
+        IMSFormComponentType_Slider : @"IMSFormSliderCell",
+        IMSFormComponentType_Switch : @"IMSFormSwitchCell",
+        IMSFormComponentType_Number : @"IMSFormNumberCell",
+        IMSFormComponentType_Range : @"IMSFormRangeCell",
+        IMSFormComponentType_FileUpload : @"IMSFormFileCell",
+        IMSFormComponentType_ImageUpload : @"IMSFormImageCell",
+        IMSFormComponentType_InputSearch : @"IMSFormInputSearchCell",
+        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeCell",
+        IMSFormComponentType_Radio : @"IMSFormRadioCell",
+        IMSFormComponentType_Cascader : @"IMSFormCascaderCell",
+        IMSFormComponentType_Currency : @"IMSFormCurrencyCell",
+        IMSFormComponentType_Phone : @"IMSFormPhoneCell",
+        IMSFormComponentType_Line: @"IMSFormLineCell",
+        IMSFormComponentType_SectionHeader : @"IMSFormSectionHeaderCell",
+        IMSFormComponentType_SectionFooter : @"IMSFormSectionFooterCell"
+    };
 }
 
 @end

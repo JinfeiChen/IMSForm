@@ -12,7 +12,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _multiple = NO;
+        _multipleLimit = 1;
     }
     return self;
 }

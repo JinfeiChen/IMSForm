@@ -54,7 +54,7 @@
     NSString *text = [NSString stringWithFormat:@"%@%@", required ? @"* " : @"", title];
     NSMutableAttributedString *mAttr = [[NSMutableAttributedString alloc] initWithString:text];
     [mAttr addAttributes:@{
-         NSFontAttributeName: [UIFont systemFontOfSize:16.0],
+//         NSFontAttributeName: [UIFont systemFontOfSize:16.0],
          NSForegroundColorAttributeName: [UIColor redColor]
     } range:required ? NSMakeRange(0, 1) : NSMakeRange(0, 0)];
     self.titleLabel.attributedText = mAttr;

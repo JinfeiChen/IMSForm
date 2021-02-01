@@ -176,6 +176,15 @@
 
 #pragma mark - Private Methods
 
+// 清除重用数据
+- (void)clearReuseData
+{
+    self.titleLabel.text = @"";
+    self.infoLabel.text = @"";
+    self.textField.text = @"";
+    self.textField.placeholder = @"Please enter";
+}
+
 #pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
@@ -184,6 +193,7 @@
     
     [self updateUI];
     
+    [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
     self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
