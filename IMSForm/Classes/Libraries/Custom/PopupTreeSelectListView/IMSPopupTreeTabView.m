@@ -52,14 +52,6 @@
     [self.mainTableView reloadData];
 }
 
-//- (void)lj_bindViewModel {
-//    @weakify(self)
-//    [self.viewModel.sureClickSubject subscribeNext:^(NSDictionary *x) {
-//        @strongify(self)
-//        if (self.maxCount > 0)  self.didSelectedCount = [[x objectForKey:@"didSelectedCount"] integerValue];
-//    }];
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
 }

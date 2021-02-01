@@ -9,10 +9,17 @@
 
 @implementation IMSFormCascaderCPNConfig
 
+- (instancetype)init {
+    if (self = [super init]) {
+        _isMultiple = YES;
+    }
+    return self;
+}
+
 + (NSDictionary *)modelContainerPropertyGenericClass {
     // value should be Class or Class name.
     return @{
-        @"selectDataSource" : [IMSFormSelect class]
+        @"dataSource" : [IMSFormSelect class]
     };
 }
 
