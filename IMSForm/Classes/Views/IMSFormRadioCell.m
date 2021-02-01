@@ -113,12 +113,20 @@
             [self.buttonArrayM addObject:button];
         }
         
-        [self.buttonArrayM mas_distributeViewsAlongAxis:MASAxisTypeVertical withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
-        [self.buttonArrayM mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(40);
-            make.left.equalTo(self.bodyView).offset(10);
-            make.right.equalTo(self.bodyView);
-        }];
+        if (self.buttonArrayM.count > 1) {
+            [self.buttonArrayM mas_distributeViewsAlongAxis:MASAxisTypeVertical withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
+            [self.buttonArrayM mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(40);
+                make.left.equalTo(self.bodyView).offset(10);
+                make.right.equalTo(self.bodyView);
+            }];
+        } else if (self.buttonArrayM.count == 1) {
+            [self.buttonArrayM.firstObject mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(40);
+                make.left.equalTo(self.bodyView).offset(10);
+                make.top.right.bottom.equalTo(self.bodyView);
+            }];
+        }
     }
     
     for (int i = 0; i < dataModelSource.count; ++i) {

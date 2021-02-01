@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) IMSFormTextFieldCPNConfig *cpnConfig; /**< <#property#> */
 
+@property (strong, nonatomic) IMSFormModel *prefixModel; /**< <#property#> */
+@property (strong, nonatomic) IMSFormModel *suffixModel; /**< <#property#> */
+
 @end
 
 NS_ASSUME_NONNULL_END

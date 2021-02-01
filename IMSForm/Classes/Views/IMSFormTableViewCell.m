@@ -67,7 +67,7 @@
     } else if ([textType isEqualToString: IMSFormTextType_Email]) {
         return UIKeyboardTypeEmailAddress;
     } else if ([textType isEqualToString:IMSFormTextType_Money]) {
-        return UIKeyboardTypeASCIICapable;
+        return UIKeyboardTypeDecimalPad;
     } else if ([textType isEqualToString:IMSFormTextType_Phone]) {
         return UIKeyboardTypePhonePad;
     } else if ([textType isEqualToString:IMSFormTextType_Number]) {

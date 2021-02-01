@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormImagesCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormImagesCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

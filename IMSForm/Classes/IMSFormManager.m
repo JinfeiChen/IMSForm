@@ -9,7 +9,7 @@
 
 @implementation IMSFormManager
 
-- (instancetype)initWithTableView:(UITableView *)tableView JSON:(NSString *)jsonName
+- (instancetype)initWithTableView:(UITableView *)tableView JSON:(NSString * _Nullable)jsonName
 {
     if (self = [super init]) {
         _tableView = tableView;

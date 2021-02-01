@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol IMSFormSelectCellDelegate <NSObject>
 
+@optional
+
 - (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义单选列表视图
 - (IMSPopupMultipleSelectListView *)customMultipleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义多选列表视图
 

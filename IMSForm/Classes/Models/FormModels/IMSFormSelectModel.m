@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormSelectCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormSelectCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

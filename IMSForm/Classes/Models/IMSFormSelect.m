@@ -19,8 +19,8 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _selected = NO;
-        _enable = YES;
+        self.selected = NO;
+        self.enable = YES;
     }
     return self;
 }

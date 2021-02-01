@@ -67,6 +67,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker
 // Input Search
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; // added
 
+// Currency
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Currency; // added
+
 #pragma mark - Readonly
 
 // Seperator component

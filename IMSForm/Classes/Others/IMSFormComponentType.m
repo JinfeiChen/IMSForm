@@ -45,6 +45,8 @@ NSString *const IMSFormComponentType_DateTimePicker = @"IMSFormComponentType_Dat
 
 NSString *const IMSFormComponentType_InputSearch = @"IMSFormComponentType_InputSearch";
 
+NSString *const IMSFormComponentType_Currency = @"IMSFormComponentType_Currency";
+
 #pragma mark - Readonly
 
 NSString *const IMSFormComponentType_Line = @"IMSFormComponentType_Line";

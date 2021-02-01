@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormTextViewCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormTextViewCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

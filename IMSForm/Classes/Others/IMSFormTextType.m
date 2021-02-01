@@ -9,6 +9,8 @@
 
 NSString *const IMSFormTextType_Default = @"default";
 
+NSString *const IMSFormTextType_Text = @"text";
+
 NSString *const IMSFormTextType_URL = @"url";
 
 NSString *const IMSFormTextType_Number = @"number";

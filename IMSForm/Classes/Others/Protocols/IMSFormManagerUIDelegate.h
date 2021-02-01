@@ -8,10 +8,11 @@
 #import <Foundation/Foundation.h>
 #import <IMSForm/IMSFormSelectCellDelegate.h>
 #import <IMSForm/IMSFormInputSearchCellDelegate.h>
+#import <IMSForm/IMSFormTextFieldCellDelegate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol IMSFormManagerUIDelegate <NSObject, IMSFormSelectCellDelegate, IMSFormInputSearchCellDelegate>
+@protocol IMSFormManagerUIDelegate <NSObject, IMSFormSelectCellDelegate, IMSFormInputSearchCellDelegate, IMSFormTextFieldCellDelegate>
 
 @end
 

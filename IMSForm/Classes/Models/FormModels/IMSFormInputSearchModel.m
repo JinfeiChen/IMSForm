@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormInputSearchCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormInputSearchCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

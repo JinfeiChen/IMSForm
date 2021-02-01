@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormRangeCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormRangeCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

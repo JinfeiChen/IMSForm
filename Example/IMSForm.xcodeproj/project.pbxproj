@@ -10,6 +10,9 @@
 		37805E48259DBFDE00548119 /* formData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805E47259DBFDE00548119 /* formData.json */; };
 		37805EBF25A3151E00548119 /* IMSMyValidateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37805EBE25A3151E00548119 /* IMSMyValidateManager.m */; };
 		37805EE125A44F9000548119 /* customFormData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805EE025A44F8E00548119 /* customFormData.json */; };
+		379C06D625B83D65000ABA8D /* customField.json in Resources */ = {isa = PBXBuildFile; fileRef = 379C06D125B83D65000ABA8D /* customField.json */; };
+		379C06D725B83D65000ABA8D /* IMSFormConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 379C06D225B83D65000ABA8D /* IMSFormConverter.m */; };
+		379C06D825B83D65000ABA8D /* IMSFormConvertModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 379C06D525B83D65000ABA8D /* IMSFormConvertModel.m */; };
 		37D7EAA125AD4AD90042E8DD /* IMSCustomSingleSelectListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D7EAA025AD4AD90042E8DD /* IMSCustomSingleSelectListView.m */; };
 		37D7EB3425ADB3700042E8DD /* IMSCustomMultipleSelectListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D7EB3325ADB3700042E8DD /* IMSCustomMultipleSelectListView.m */; };
 		37D7EE9C25B03CA00042E8DD /* IMSCustomInpuSearchListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D7EE9B25B03CA00042E8DD /* IMSCustomInpuSearchListView.m */; };
@@ -50,6 +53,11 @@
 		37805EBD25A3151E00548119 /* IMSMyValidateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSMyValidateManager.h; sourceTree = "<group>"; };
 		37805EBE25A3151E00548119 /* IMSMyValidateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSMyValidateManager.m; sourceTree = "<group>"; };
 		37805EE025A44F8E00548119 /* customFormData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = customFormData.json; sourceTree = "<group>"; };
+		379C06D125B83D65000ABA8D /* customField.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = customField.json; sourceTree = "<group>"; };
+		379C06D225B83D65000ABA8D /* IMSFormConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMSFormConverter.m; sourceTree = "<group>"; };
+		379C06D325B83D65000ABA8D /* IMSFormConvertModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMSFormConvertModel.h; sourceTree = "<group>"; };
+		379C06D425B83D65000ABA8D /* IMSFormConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMSFormConverter.h; sourceTree = "<group>"; };
+		379C06D525B83D65000ABA8D /* IMSFormConvertModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMSFormConvertModel.m; sourceTree = "<group>"; };
 		37D7EA9F25AD4AD90042E8DD /* IMSCustomSingleSelectListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSCustomSingleSelectListView.h; sourceTree = "<group>"; };
 		37D7EAA025AD4AD90042E8DD /* IMSCustomSingleSelectListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSCustomSingleSelectListView.m; sourceTree = "<group>"; };
 		37D7EB3225ADB36F0042E8DD /* IMSCustomMultipleSelectListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSCustomMultipleSelectListView.h; sourceTree = "<group>"; };
@@ -114,6 +122,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		379C06D025B83D65000ABA8D /* IMSFormModelConverter */ = {
+			isa = PBXGroup;
+			children = (
+				379C06D125B83D65000ABA8D /* customField.json */,
+				379C06D425B83D65000ABA8D /* IMSFormConverter.h */,
+				379C06D225B83D65000ABA8D /* IMSFormConverter.m */,
+				379C06D325B83D65000ABA8D /* IMSFormConvertModel.h */,
+				379C06D525B83D65000ABA8D /* IMSFormConvertModel.m */,
+			);
+			path = IMSFormModelConverter;
+			sourceTree = "<group>";
+		};
 		37D7EA9E25AD4AA10042E8DD /* PopupSelectListView */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +195,7 @@
 		6003F593195388D20070C39A /* Example for IMSForm */ = {
 			isa = PBXGroup;
 			children = (
+				379C06D025B83D65000ABA8D /* IMSFormModelConverter */,
 				37D7EA9E25AD4AA10042E8DD /* PopupSelectListView */,
 				6003F59C195388D20070C39A /* IMSAppDelegate.h */,
 				6003F59D195388D20070C39A /* IMSAppDelegate.m */,
@@ -318,6 +339,7 @@
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				37805E48259DBFDE00548119 /* formData.json in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				379C06D625B83D65000ABA8D /* customField.json in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				37805EE125A44F9000548119 /* customFormData.json in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
@@ -424,6 +446,8 @@
 			files = (
 				6003F59E195388D20070C39A /* IMSAppDelegate.m in Sources */,
 				37D7EE9C25B03CA00042E8DD /* IMSCustomInpuSearchListView.m in Sources */,
+				379C06D725B83D65000ABA8D /* IMSFormConverter.m in Sources */,
+				379C06D825B83D65000ABA8D /* IMSFormConvertModel.m in Sources */,
 				37805EBF25A3151E00548119 /* IMSMyValidateManager.m in Sources */,
 				6003F5A7195388D20070C39A /* IMSViewController.m in Sources */,
 				37D7EB3425ADB3700042E8DD /* IMSCustomMultipleSelectListView.m in Sources */,
@@ -562,7 +586,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IMSForm/IMSForm-Prefix.pch";
 				INFOPLIST_FILE = "IMSForm/IMSForm-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -579,7 +603,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IMSForm/IMSForm-Prefix.pch";
 				INFOPLIST_FILE = "IMSForm/IMSForm-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

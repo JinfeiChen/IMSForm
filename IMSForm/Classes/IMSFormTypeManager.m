@@ -6,6 +6,7 @@
 //
 
 #import "IMSFormTypeManager.h"
+#import <objc/runtime.h>
 
 @interface IMSFormTypeManager ()
 
@@ -51,7 +52,7 @@
     [self registCellClass:NSClassFromString(@"IMSFormLineCell") forKey:IMSFormComponentType_Line];
     [self registCellClass:NSClassFromString(@"IMSFormRadioCell") forKey:IMSFormComponentType_Radio];
     [self registCellClass:NSClassFromString(@"IMSFormCascaderCell") forKey:IMSFormComponentType_Cascader];
-    
+    [self registCellClass:NSClassFromString(@"IMSFormCurrencyCell") forKey:IMSFormComponentType_Currency];
 }
 
 #pragma mark - Public Methods
@@ -90,15 +91,68 @@
         return NSClassFromString(@"IMSFormImageModel");
     } else if ([cpnType isEqualToString:IMSFormComponentType_InputSearch]) {
         return NSClassFromString(@"IMSFormInputSearchModel");
-    }else if ([cpnType isEqualToString:IMSFormComponentType_DateTimePicker]) {
+    } else if ([cpnType isEqualToString:IMSFormComponentType_DateTimePicker]) {
         return NSClassFromString(@"IMSFormDateTimeModel");
-    }else if ([cpnType isEqualToString:IMSFormComponentType_Radio]) {
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Radio]) {
         return NSClassFromString(@"IMSFormRadioModel");
-    }else if ([cpnType isEqualToString:IMSFormComponentType_Cascader]) {
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Cascader]) {
         return NSClassFromString(@"IMSFormCascaderModel");
-    }else {
+    } else if ([cpnType isEqualToString:IMSFormComponentType_Currency]) {
+        return NSClassFromString(@"IMSFormCurrencyModel");
+    } else {
         return NSClassFromString(@"IMSFormModel");
     }
+}
+
++ (NSInteger)selectItemTypeWithType:(IMSFormSelectItemType)type multiple:(BOOL)isMultiple
+{
+    if (!isMultiple) {
+        if ([type isEqualToString:@"custom"]) {
+            return 2; // IMSPopupSingleSelectListViewCellType_Custom
+        } else if ([type isEqualToString:@"contact"]) {
+            return 1; // IMSPopupSingleSelectListViewCellType_Contact
+        } else {
+            return 0; // IMSPopupSingleSelectListViewCellType_Default
+        }
+    } else {
+        if ([type isEqualToString:@"custom"]) {
+            return 1; // IMSPopupMultipleSelectListViewCellType_Custom
+        } else {
+            return 0; // IMSPopupMultipleSelectListViewCellType_Default
+        }
+    }
+}
+
++ (Class)cpnConfigClassWithFormModelClass:(Class)modelClass
+{
+    if (!modelClass) {
+        return NSClassFromString(@"IMSFormCPNConfig");
+    }
+
+    NSString *className = NSStringFromClass(modelClass);
+    id model = [[NSClassFromString(className) alloc] init];
+
+    // 取得类对象
+    id classObject = objc_getClass([className UTF8String]);
+
+    unsigned int count = 0;
+    objc_property_t *properties = class_copyPropertyList(classObject, &count);
+    Ivar *ivars = class_copyIvarList(classObject, nil);
+
+    for (int i = 0; i < count; i++) {
+        const char *type = ivar_getTypeEncoding(ivars[i]);
+        NSString *dataType =  [NSString stringWithCString:type encoding:NSUTF8StringEncoding];
+
+        objc_property_t property = properties[i];
+        NSString *propertyName = [[NSString alloc] initWithCString:property_getName(property)
+                                                          encoding:NSUTF8StringEncoding];
+
+        if ([propertyName isEqualToString:@"cpnConfig"]) {
+            return NSClassFromString([[dataType stringByReplacingOccurrencesOfString:@"@" withString:@""] stringByReplacingOccurrencesOfString:@"\"" withString:@""]);
+        }
+    }
+
+    return NSClassFromString(@"IMSFormCPNConfig");
 }
 
 #pragma mark - Private Methods

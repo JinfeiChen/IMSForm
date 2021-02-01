@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 // 根据组件类型获取对应的数据模型类
 + (Class)formModelClassWithCPNType:(IMSFormComponentType)cpnType;
 
+// 根据是否为多选列表组件获取对应的selectListViewItemType
++ (NSInteger)selectItemTypeWithType:(IMSFormSelectItemType)type multiple:(BOOL)isMultiple;
+
++ (Class)cpnConfigClassWithFormModelClass:(Class)modelClass;
+
 @end
 
 NS_ASSUME_NONNULL_END

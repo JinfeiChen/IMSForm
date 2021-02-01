@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormCPNConfig : IMSFormObject
 
+@property (strong, nonatomic) NSArray *dataSource; /**< <#property#> */
+
 @end
 
 NS_ASSUME_NONNULL_END

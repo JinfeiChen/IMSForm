@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class IMSFormModel;
 @protocol IMSFormModelValidateDelegate <NSObject>
 
+@optional
+
 - (BOOL)validateFormModel:(IMSFormModel *)formModel;
 - (BOOL)validateFormModel:(IMSFormModel *)formModel keyPath:(NSString *)keyPath; // 预留校验方法
 

@@ -256,21 +256,26 @@
         return;
     }
     
+    if (!self.model.cpnConfig.selectDataSource || self.model.cpnConfig.selectDataSource.count == 0) {
+        return;
+    }
+    
     if (self.model.cpnConfig.isMultiple) { // multiple select
         
         // MARK: Show multiple select list view
-        if (self.model.cpnConfig.selectItemType == IMSPopupMultipleSelectListViewCellType_Custom) {
+        IMSPopupMultipleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:self.model.cpnConfig.isMultiple];
+        if (type == IMSPopupMultipleSelectListViewCellType_Custom) {
             if (!_multipleSelectListView) {
                 if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customMultipleSelectListViewWithFormModel:")]) {
                     _multipleSelectListView = [self.form.uiDelegate customMultipleSelectListViewWithFormModel:self.model];
-                    [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:IMSPopupMultipleSelectListViewCellType_Custom selectedDataArray:self.model.valueList];
+                    [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:type selectedDataArray:self.model.valueList];
                 }
             }
             if (!self.form || !_multipleSelectListView) {
                 [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:IMSPopupMultipleSelectListViewCellType_Default selectedDataArray:self.model.valueList];
             }
         } else {
-            [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:self.model.cpnConfig.selectItemType selectedDataArray:self.model.valueList];
+            [self.multipleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:type selectedDataArray:self.model.valueList];
         }
         
         @weakify(self);
@@ -295,6 +300,11 @@
             @strongify(self);
             self.model.selected = isShow;
             [self updateArrowButtonAnimation];
+            
+            // call back
+            if (!isShow && self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
         }];
         
         self.multipleSelectListView.maxCount = self.model.cpnConfig.multipleLimit;
@@ -305,7 +315,8 @@
     } else { // uni select
         
         // MARK: Show single select list view
-        if (self.model.cpnConfig.selectItemType == IMSPopupSingleSelectListViewCellType_Custom) {
+        IMSPopupSingleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:self.model.cpnConfig.isMultiple];
+        if (type == IMSPopupSingleSelectListViewCellType_Custom) {
             if (!_singleSelectListView) {
                 if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customSingleSelectListViewWithFormModel:")]) {
                     _singleSelectListView = [self.form.uiDelegate customSingleSelectListViewWithFormModel:self.model];
@@ -315,7 +326,7 @@
                 [self.singleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:IMSPopupSingleSelectListViewCellType_Default];
             }
         } else {
-            [self.singleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:self.model.cpnConfig.selectItemType];
+            [self.singleSelectListView setDataArray:self.model.cpnConfig.selectDataSource type:type];
         }
         
         @weakify(self);
@@ -336,17 +347,17 @@
             @strongify(self);
             self.model.selected = isShow;
             [self updateArrowButtonAnimation];
+            
+            // call back
+            if (!isShow && self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
         }];
         
         self.singleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
         
         [self.singleSelectListView showView];
 
-    }
-    
-    // call back
-    if (self.customDidSelectedBlock) {
-        self.customDidSelectedBlock(self, self.model, nil);
     }
 }
 

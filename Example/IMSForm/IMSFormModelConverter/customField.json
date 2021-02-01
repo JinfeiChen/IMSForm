@@ -1,0 +1,156 @@
+[
+    {
+        "label":"multi unit's name",
+        "name":"Text",
+        "field":"multi_unit_1609733958133",
+        "type":"text",
+        "dbType":"Value_Text__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's currency",
+        "name":"Currency",
+        "field":"multi_unit_1609812786826",
+        "type":"inter-price",
+        "dbType":"Value_TextArea__c",
+        "enabled":true,
+        "cpnConfig":{
+            "ioConfig":{
+                "fieldPrice":"multi_unit_1609812786826_Price",
+                "fieldCurrency":"multi_unit_1609812786826_Currency"
+            },
+            "valuesDataSource":"pick-list",
+            "valuesObject":"Listing__c",
+            "valuesField":"CurrencyIsoCode",
+            "min":0,
+            "max":999999999999,
+            "precision":2,
+            "values":[
+                {
+                    "label":"British Pound",
+                    "value":"GBP",
+                    "i18n":"components.options.listing.currencyIsoCode.gbp",
+                    "disabled":false,
+                    "visible":true
+                },
+                {
+                    "label":"Chinese Yuan",
+                    "value":"CNY",
+                    "i18n":"components.options.listing.currencyIsoCode.cny",
+                    "disabled":false,
+                    "visible":true
+                },
+                {
+                    "label":"Hong Kong Dollar",
+                    "value":"HKD",
+                    "i18n":"components.options.listing.currencyIsoCode.hkd",
+                    "disabled":false,
+                    "visible":true
+                },
+                {
+                    "label":"U.S. Dollar",
+                    "value":"USD",
+                    "i18n":"components.options.listing.currencyIsoCode.usd",
+                    "disabled":false,
+                    "visible":true
+                }
+            ]
+        }
+    },
+    {
+        "label":"test",
+        "name":"Text",
+        "field":"multi_unit_1609827780677",
+        "type":"text",
+        "dbType":"Value_Text__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's image",
+        "name":"Image",
+        "field":"multi_unit_1609929418012",
+        "type":"image",
+        "dbType":"Value_TextArea__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's file",
+        "name":"File",
+        "field":"multi_unit_1609929445523",
+        "type":"file",
+        "dbType":"Value_TextArea__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's description",
+        "name":"Textarea",
+        "field":"multi_unit_1609929499245",
+        "type":"textarea",
+        "dbType":"Value_TextArea__c",
+        "enabled":true
+    },
+    {
+        "label":"Is new development?",
+        "name":"Switch",
+        "field":"multi_unit_1609929592269",
+        "type":"switch",
+        "dbType":"Value_Checkbox__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's number",
+        "name":"Number",
+        "field":"multi_unit_1609929607291",
+        "type":"number",
+        "dbType":"Value_Number__c",
+        "enabled":false
+    },
+    {
+        "label":"multi unit's date",
+        "name":"Date",
+        "field":"multi_unit_1609929613573",
+        "type":"date",
+        "dbType":"Value_Date__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's datetime",
+        "name":"DateTime",
+        "field":"multi_unit_1609929621755",
+        "type":"datetime",
+        "dbType":"Value_DateTime__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's select",
+        "name":"Pick-List (Select)",
+        "field":"multi_unit_1609929635491",
+        "type":"text",
+        "dbType":"Value_TextArea__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's radio",
+        "name":"Pick-List (Radio)",
+        "field":"multi_unit_1609733966008",
+        "type":"text",
+        "dbType":"Value_TextArea__c",
+        "enabled":true
+    },
+    {
+        "label":"multi unit's multi select",
+        "name":"Pick-List (Multi-Select)",
+        "field":"multi_unit_1609929647922",
+        "type":"text",
+        "dbType":"Value_TextArea__c",
+        "enabled":true
+    },
+    {
+        "label":"test-image",
+        "name":"Image",
+        "field":"multi_unit_1610523126655",
+        "type":"image",
+        "dbType":"Value_TextArea__c",
+        "enabled":false
+    }
+]

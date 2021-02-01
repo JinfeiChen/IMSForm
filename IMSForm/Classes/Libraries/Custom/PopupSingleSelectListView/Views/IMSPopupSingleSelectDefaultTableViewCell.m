@@ -59,7 +59,7 @@
 - (void)setModel:(IMSFormSelect *)model
 {
     _model = model;
-    self.nameLabel.text = model.value ? : @"-";
+    self.nameLabel.text = model.label ? : (model.value ? : @"-");
     self.selectButton.selected = model.selected;
     self.selectButton.tintColor = self.tintColor;
 }

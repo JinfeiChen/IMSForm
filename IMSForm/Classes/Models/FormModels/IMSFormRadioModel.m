@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormRadioCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormRadioCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

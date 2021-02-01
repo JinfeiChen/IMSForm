@@ -15,6 +15,7 @@
 #import <IMSForm/IMSFormTextType.h>
 #import <IMSForm/IMSFormTrigger.h>
 #import <IMSForm/IMSFormDateTimeType.h>
+#import <IMSForm/IMSFormSelectItemType.h>
 
 
 #endif /* IMSFormType_h */

@@ -11,4 +11,12 @@
 
 @synthesize cpnConfig = _cpnConfig;
 
+- (IMSFormDateTimeCPNConfig *)cpnConfig
+{
+    if (!_cpnConfig) {
+        _cpnConfig = [[IMSFormDateTimeCPNConfig alloc] init];
+    }
+    return _cpnConfig;
+}
+
 @end

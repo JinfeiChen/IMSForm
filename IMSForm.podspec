@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IMSForm'
-  s.version          = '1.0.3'
+  s.version          = '1.0.6'
   s.summary          = 'IMSForm 为开发者准备的APP端表单组件库.'
 
 # This description is used to generate tags and improve search results.
@@ -30,8 +30,6 @@ Pod::Spec.new do |s|
   
   s.platform = :ios
   s.ios.deployment_target = '9.0'
-  
-  s.ios.vendored_frameworks = 'Frameworks/IMSForm.framework'
 
   s.source_files = 'IMSForm/Classes/**/*'
   
@@ -41,7 +39,7 @@ Pod::Spec.new do |s|
   
   s.prefix_header_file = 'IMSForm/Classes/Others/IMSFormPrefix.pch'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'Masonry' # 如果需要多个依赖库依次往下写即可

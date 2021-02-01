@@ -14,10 +14,16 @@
 
 + (NSArray *)readLocalJSONFileWithName:(NSString *)name
 {
+    if (!name || ![name isKindOfClass:[NSString class]]) {
+        return nil;
+    }
     // 获取文件路径
     NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"json"];
     // 将文件数据化
     NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+    if (!data) {
+        return nil;
+    }
     // 对数据进行JSON格式化并返回数组形式
     NSError *error;
     id jsonObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:&error];

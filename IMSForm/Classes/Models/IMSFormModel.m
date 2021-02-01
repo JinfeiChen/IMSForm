@@ -12,11 +12,14 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _visible = YES;
-        _editable = YES;
-        _required = NO;
-        _clearable = YES;
-        _selected = NO;
+        
+        self.visible = YES;
+        self.editable = YES;
+        self.required = NO;
+        self.clearable = YES;
+        self.selected = NO;
+        
+        _title = @"";
         _info = @"";
     }
     return self;
