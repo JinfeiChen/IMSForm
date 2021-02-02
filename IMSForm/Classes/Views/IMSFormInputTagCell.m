@@ -65,10 +65,10 @@
     }];
     
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bodyView);
+        make.top.equalTo(self.bodyView).offset(5);
         make.left.equalTo(self.bodyView).offset(10);
         make.right.equalTo(self.bodyView);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(30);
     }];
     
     self.tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right;
@@ -169,7 +169,7 @@
         _tagView.minimumInteritemSpacing = 5;
         _tagView.tagItemfontSize = [UIFont systemFontOfSize:12];
         _tagView.tagItemHeight = 25.0;
-        _tagView.contentInset = UIEdgeInsetsMake(0, 10, 0, 0);
+        _tagView.contentInset = UIEdgeInsetsMake(0, 10, 5, 0);
         _tagView.contentPadding = 5.0;
         _tagView.tagSuperviewMinHeight = 0.0;
         _tagView.deleteImage = [UIImage bundleImageWithNamed:@"search_close_tag"];
