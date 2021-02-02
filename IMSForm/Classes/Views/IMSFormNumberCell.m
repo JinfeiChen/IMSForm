@@ -292,7 +292,7 @@
     if (_textField == nil) {
         _textField = [[UITextField alloc] init];
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _textField.font = [UIFont systemFontOfSize:14];
+        _textField.font = [UIFont systemFontOfSize:12];
         _textField.textColor = IMS_HEXCOLOR(0x565465);
         _textField.layer.masksToBounds = YES;
         _textField.layer.cornerRadius = 8;

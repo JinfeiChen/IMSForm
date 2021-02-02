@@ -156,7 +156,7 @@
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         _textField.keyboardType = UIKeyboardTypeDefault;
         _textField.delegate = self;
-        _textField.font = [UIFont systemFontOfSize:14];
+        _textField.font = [UIFont systemFontOfSize:12];
     }
     return _textField;
 }

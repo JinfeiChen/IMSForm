@@ -281,7 +281,7 @@
         self.suffixLabel.text = self.model.cpnConfig.suffixUnit;
     }
     
-    [self layoutIfNeeded];
+//    [self layoutIfNeeded];
 }
 
 #pragma mark - Getters
@@ -294,7 +294,7 @@
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         _textField.keyboardType = UIKeyboardTypeDefault;
         _textField.delegate = self;
-        _textField.font = [UIFont systemFontOfSize:14];
+        _textField.font = [UIFont systemFontOfSize:12];
     }
     return _textField;
 }
@@ -355,7 +355,7 @@
     if (_prefixLabel == nil) {
         _prefixLabel = [[UILabel alloc] init];
         _prefixLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-        _prefixLabel.font = [UIFont systemFontOfSize:14];
+        _prefixLabel.font = [UIFont systemFontOfSize:12];
         _prefixLabel.backgroundColor = [UIColor clearColor];
     }
     return _prefixLabel;
@@ -365,7 +365,7 @@
     if (_suffixLabel == nil) {
         _suffixLabel = [[UILabel alloc] init];
         _suffixLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-        _suffixLabel.font = [UIFont systemFontOfSize:14];
+        _suffixLabel.font = [UIFont systemFontOfSize:12];
         _suffixLabel.backgroundColor = [UIColor clearColor];
     }
     return _suffixLabel;

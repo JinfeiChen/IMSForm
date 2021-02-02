@@ -164,7 +164,7 @@
         _sliderView = [[IMSValueTrackingSlider alloc] init];
 //        _sliderView.minimumValue = 0;
 //        _sliderView.maximumValue = 100;
-        _sliderView.font = [UIFont systemFontOfSize:14];
+        _sliderView.font = [UIFont systemFontOfSize:12];
 //        _sliderView.popUpViewColor = [UIColor clearColor];
         [_sliderView setMaxFractionDigitsDisplayed:0]; // 小数点位数
         [_sliderView addTarget:self action:@selector(sliderAction) forControlEvents:UIControlEventTouchUpInside];

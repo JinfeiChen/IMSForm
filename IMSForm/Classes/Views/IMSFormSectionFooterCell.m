@@ -41,6 +41,7 @@
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
     
     self.contentLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
+    self.contentLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
     
     [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         UIEdgeInsets inset = self.model.cpnStyle.contentInset;
@@ -66,7 +67,7 @@
     if (_contentLabel == nil) {
         _contentLabel = [[UILabel alloc] init];
         _contentLabel.textColor = IMS_HEXCOLOR(0x000000);
-        _contentLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
+        _contentLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
         _contentLabel.numberOfLines = 2;
     }
     return _contentLabel;

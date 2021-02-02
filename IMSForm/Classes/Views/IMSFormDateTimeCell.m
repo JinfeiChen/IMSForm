@@ -141,7 +141,7 @@
 - (UITextField *)textField {
     if (_textField == nil) {
         _textField = [[UITextField alloc] init];
-        _textField.font = [UIFont systemFontOfSize:14];
+        _textField.font = [UIFont systemFontOfSize:12];
         _textField.delegate = self;
 //        [_textField rounded:4 width:.5 color: HEXCOLOR(0xD6DCDF)];
 //        _textField.backgroundColor = [UIColor whiteColor];
