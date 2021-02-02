@@ -103,7 +103,7 @@
     NSMutableArray *titleArrayM = [NSMutableArray array];
     
     for (IMSFormSelect *model in self.model.valueList) {
-        [titleArrayM addObject:model.value?:@"N/A"];
+        [titleArrayM addObject:model.label?:model.value];
     }
     self.tagView.dataArray = titleArrayM;
 }
@@ -118,14 +118,14 @@
 - (void)keyboardReturn:(UITextField *)textField {
     if (textField.text.length == 0) return;
     for (IMSFormSelect *model in self.model.valueList) {
-        if ([textField.text.lowercaseString isEqualToString:model.value.lowercaseString])  {
+        if ([textField.text.lowercaseString isEqualToString:model.label.lowercaseString])  {
              textField.text = @"";
              return;
         }
     }
     
     IMSFormSelect *model = [[IMSFormSelect alloc]init];
-    model.value = textField.text;
+    model.label = model.param = textField.text;
     [self.model.valueList addObject:model];
     
     [self updateTagViewDataSource];

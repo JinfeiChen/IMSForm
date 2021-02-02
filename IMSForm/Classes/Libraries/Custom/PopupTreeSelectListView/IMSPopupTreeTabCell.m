@@ -25,7 +25,7 @@
     }else {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    self.textLabel.text = model.value;
+    self.textLabel.text = model.label ?: model.value;
     self.textLabel.textColor = model.selected ? IMS_HEXCOLOR(0xFFC24A) : [UIColor blackColor];
 }
 

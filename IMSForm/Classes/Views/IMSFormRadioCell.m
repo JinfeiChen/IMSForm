@@ -136,8 +136,8 @@
     for (int i = 0; i < dataModelSource.count; ++i) {
         IMSFormSelect *selectModel = dataModelSource[i];
         UIButton *button = self.buttonArrayM[i];
-        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.value] forState:UIControlStateNormal];
-        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.value] forState:UIControlStateSelected];
+        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?:selectModel.value] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateSelected];
         button.backgroundColor = self.bodyView.backgroundColor;
         button.selected = selectModel.selected;
     }
