@@ -189,7 +189,7 @@
 - (YYTextView *)textView {
     if (_textView == nil) {
         _textView = [[YYTextView alloc] init];
-        _textView.font = [UIFont systemFontOfSize:14];
+        _textView.font = [UIFont systemFontOfSize:12];
         _textView.textColor = IMS_HEXCOLOR(0x565465);
         _textView.layer.masksToBounds = YES;
         _textView.layer.cornerRadius  = 8;

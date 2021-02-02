@@ -290,7 +290,7 @@
     if (_placeholderLabel == nil) {
         _placeholderLabel = [[UILabel alloc] init];
         _placeholderLabel.textColor = IMS_HEXCOLOR(0xC4C7D1);
-        _placeholderLabel.font = [UIFont systemFontOfSize:14];
+        _placeholderLabel.font = [UIFont systemFontOfSize:12];
         _placeholderLabel.backgroundColor = [UIColor clearColor];
     }
     return _placeholderLabel;

@@ -258,7 +258,7 @@
         _textField.placeholder = @"Please enter";
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         _textField.delegate = self;
-        _textField.font = [UIFont systemFontOfSize:14];
+        _textField.font = [UIFont systemFontOfSize:12];
         _textField.returnKeyType = UIReturnKeySearch;
         
 //        UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];

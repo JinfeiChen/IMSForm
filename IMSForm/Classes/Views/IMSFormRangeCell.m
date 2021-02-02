@@ -259,7 +259,7 @@
     if (_minTextField == nil) {
         _minTextField = [[UITextField alloc] init];
         _minTextField.tag = 100;
-        _minTextField.font = [UIFont systemFontOfSize:14];
+        _minTextField.font = [UIFont systemFontOfSize:12];
         _minTextField.textColor = IMS_HEXCOLOR(0x565465);
         _minTextField.tintColor = IMS_HEXCOLOR(0x184585);
         _minTextField.delegate = self;
@@ -278,7 +278,7 @@
     if (_maxTextField == nil) {
         _maxTextField = [[UITextField alloc] init];
         _maxTextField.tag = 101;
-        _maxTextField.font = [UIFont systemFontOfSize:14];
+        _maxTextField.font = [UIFont systemFontOfSize:12];
         _maxTextField.textColor = IMS_HEXCOLOR(0x565465);
         _maxTextField.tintColor = IMS_HEXCOLOR(0x184585);
         _maxTextField.delegate = self;

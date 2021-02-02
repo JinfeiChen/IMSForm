@@ -249,7 +249,7 @@
     if (_placeholderLabel == nil) {
         _placeholderLabel = [[UILabel alloc] init];
         _placeholderLabel.textColor = IMS_HEXCOLOR(0xC4C7D1);
-        _placeholderLabel.font = [UIFont systemFontOfSize:14];
+        _placeholderLabel.font = [UIFont systemFontOfSize:12];
         _placeholderLabel.backgroundColor = [UIColor clearColor];
     }
     return _placeholderLabel;
@@ -268,7 +268,7 @@
     if (_contentLabel == nil) {
         _contentLabel = [[UILabel alloc] init];
         _contentLabel.textColor = IMS_HEXCOLOR(0x565465);
-        _contentLabel.font = [UIFont systemFontOfSize:14];
+        _contentLabel.font = [UIFont systemFontOfSize:12];
         _contentLabel.numberOfLines = 0;
         _contentLabel.backgroundColor = [UIColor clearColor];
     }

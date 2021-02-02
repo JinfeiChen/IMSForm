@@ -107,7 +107,7 @@
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
             button.backgroundColor = [UIColor whiteColor];
-            button.titleLabel.font = [UIFont systemFontOfSize:14];
+            button.titleLabel.font = [UIFont systemFontOfSize:12];
             
             [self.bodyView addSubview:button];
             [self.buttonArrayM addObject:button];
