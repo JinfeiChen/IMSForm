@@ -145,6 +145,7 @@
         IMSFormComponentType_Cascader : @"IMSFormCascaderModel",
         IMSFormComponentType_Currency : @"IMSFormCurrencyModel",
         IMSFormComponentType_Phone : @"IMSFormPhoneModel",
+        IMSFormComponentType_InputTag : @"IMSFormInputTagModel",
         
         IMSFormComponentType_SectionHeader : @"IMSFormSectionHeaderModel",
         IMSFormComponentType_SectionFooter : @"IMSFormSectionFooterModel"
@@ -171,6 +172,7 @@
         IMSFormComponentType_Cascader : @"IMSFormCascaderCell",
         IMSFormComponentType_Currency : @"IMSFormCurrencyCell",
         IMSFormComponentType_Phone : @"IMSFormPhoneCell",
+        IMSFormComponentType_InputTag : @"IMSFormInputTagCell",
         IMSFormComponentType_Line: @"IMSFormLineCell",
         IMSFormComponentType_SectionHeader : @"IMSFormSectionHeaderCell",
         IMSFormComponentType_SectionFooter : @"IMSFormSectionFooterCell"

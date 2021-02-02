@@ -72,6 +72,13 @@
         make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
     }];
     
+    [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.height.right.equalTo(self.bodyView);
+        make.centerY.equalTo(self.bodyView);
+        make.width.equalTo(self.model.isEditable ? @40 : @0);
+    }];
+    
+    self.tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.model.isEditable ? 40 : 0);
     [self.tagView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(self.bodyView);
         make.right.equalTo(self.arrowButton.mas_left);
@@ -88,14 +95,8 @@
     [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.placeholderLabel);
     }];
-
-    [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.height.right.equalTo(self.bodyView);
-        make.centerY.equalTo(self.bodyView);
-        make.width.equalTo(self.model.isEditable ? @40 : @0);
-    }];
     
-    [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+//    [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
         make.left.right.mas_equalTo(self.bodyView);
@@ -293,7 +294,6 @@
         _tagView.tagItemfontSize = [UIFont systemFontOfSize:12];
         _tagView.tagItemHeight = 25.0;
         _tagView.contentInset = UIEdgeInsetsMake(7.5, 10, 7.5, 0);
-        _tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - 60;
         _tagView.contentPadding = 5.0;
         _tagView.tagSuperviewMinHeight = 40.0;
         _tagView.deleteImage = [UIImage bundleImageWithNamed:@"search_close_tag"];
