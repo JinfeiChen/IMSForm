@@ -43,11 +43,9 @@
     NSArray <IMSFormModel *> *array = [NSArray yy_modelArrayWithClass:[IMSFormModel class] json:jsonArrayData];
     NSMutableArray *mArr = [NSMutableArray array];
     [array enumerateObjectsUsingBlock:^(IMSFormModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.isVisible) {
-            Class newModelClass = [IMSFormTypeManager formModelClassWithCPNType:obj.type];
-            NSArray *newModelArr = [NSArray yy_modelArrayWithClass:newModelClass json:@[[jsonArrayData objectAtIndex:idx]]];
-            [mArr addObjectsFromArray:newModelArr];
-        }
+        Class newModelClass = [IMSFormTypeManager formModelClassWithCPNType:obj.type];
+        NSArray *newModelArr = [NSArray yy_modelArrayWithClass:newModelClass json:@[[jsonArrayData objectAtIndex:idx]]];
+        [mArr addObjectsFromArray:newModelArr];
     }];
     
     return mArr;
