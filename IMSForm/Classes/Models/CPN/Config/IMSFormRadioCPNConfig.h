@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormRadioCPNConfig : IMSFormCPNConfig
-
+@property (nonatomic, assign) BOOL deselect;// 是否取消选择； 默认为no，不可以取消
 @end
 
 NS_ASSUME_NONNULL_END

@@ -145,9 +145,9 @@
 
 - (void)buttonAction:(UIButton *)button {
     
-    [self.model.valueList removeAllObjects];
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
-    if (button.selected) {
+    
+    if (button.selected && radioModel.cpnConfig.deselect) {
         IMSFormSelect *selectModel = radioModel.cpnConfig.dataSource[button.tag];
         selectModel.selected = button.selected = NO;
         if (self.didUpdateFormModelBlock) {
@@ -156,6 +156,9 @@
         return;
     }
     
+    if (button.selected) return;
+    
+    [self.model.valueList removeAllObjects];
     for (int i = 0; i < self.buttonArrayM.count; ++i) {
         UIButton *allButton = self.buttonArrayM[i];
         IMSFormSelect *selectModel = radioModel.cpnConfig.dataSource[i];
