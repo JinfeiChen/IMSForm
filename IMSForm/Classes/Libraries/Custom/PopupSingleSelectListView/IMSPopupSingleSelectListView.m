@@ -42,7 +42,7 @@
         self.hidden = NO;
         self.contentView.y = IMS_SCREEN_HEIGHT - self.contentView.height;
     } completion:^(BOOL finished) {
-        [self.mainTableView reloadData];
+        
     }];
     if (self.didFinishedShowAndHideBlock) {
         self.didFinishedShowAndHideBlock(YES);
@@ -100,6 +100,8 @@
             self.lastIndexPath = nil;
         }
     }
+    
+    [self.mainTableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate

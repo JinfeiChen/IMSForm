@@ -216,7 +216,6 @@
     @weakify(self);
     [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
         @strongify(self);
-        NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
         // update value
         self.contentLabel.text = selectedModel.isSelected ? (selectedModel.value?:@"N/A") : @"";
         // update model valueList
