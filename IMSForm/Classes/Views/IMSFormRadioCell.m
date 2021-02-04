@@ -151,7 +151,7 @@
         IMSFormSelect *deselectModel = radioModel.cpnConfig.dataSource[button.tag];
         deselectModel.selected = button.selected = NO;
         if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, deselectModel);
+            self.didUpdateFormModelBlock(self, self.model, [deselectModel yy_modelToJSONObject]);
         }
         return;
     }
@@ -164,7 +164,7 @@
         IMSFormSelect *selectModel = radioModel.cpnConfig.dataSource[i];
         selectModel.selected =  allButton.selected = (button.tag == allButton.tag);
         if (selectModel.selected) {
-            [self.model.valueList addObject:selectModel];
+            [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
             if (self.didUpdateFormModelBlock) {
                 self.didUpdateFormModelBlock(self, self.model, selectModel);
             }

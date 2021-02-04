@@ -11,6 +11,7 @@
 @interface IMSFormInputTagCell ()<UITextFieldDelegate,IMSTagViewDelegate>
 @property (strong, nonatomic) UITextField *textField; /**< <#property#> */
 @property (nonatomic, strong) IMSTagView *tagView;
+@property (nonatomic, strong) NSMutableArray *valueListM;
 @end
 
 @implementation IMSFormInputTagCell
@@ -100,14 +101,14 @@
 #pragma mark - Private Methods
 - (void)updateTagViewDataSource
 {
-    NSMutableArray *titleArrayM = [NSMutableArray array];
+    self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
     
-    for (IMSFormSelect *model in self.model.valueList) {
-        [titleArrayM addObject:model.label?:model.value];
+    NSMutableArray *titleArrayM = [NSMutableArray array];
+    for (IMSFormSelect *model in  self.valueListM) {
+        [titleArrayM addObject:model.label ?: (model.value ?: @"N/A")];
     }
     self.tagView.dataArray = titleArrayM;
 }
-
 
 #pragma mark -textFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason  API_AVAILABLE(ios(10.0)) {
@@ -130,10 +131,11 @@
     
     IMSFormSelect *addModel = [[IMSFormSelect alloc]init];
     addModel.label = addModel.param = textField.text;
-    [self.model.valueList addObject:addModel];
+    [self.valueListM addObject:addModel];
+    self.model.valueList = [self.valueListM yy_modelToJSONObject];
     
     if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, addModel);
+        self.didUpdateFormModelBlock(self, self.model, [addModel yy_modelToJSONObject]);
     }
     
     [self updateTagViewDataSource];
@@ -147,14 +149,16 @@
 #pragma mark - RATagViewDelegate
 - (void)tagView:(IMSTagView *)tagView didSelectAtIndex:(NSInteger)index {
     
-    IMSFormSelect *deleteModel = [self.model.valueList objectAtIndex:index];
-    [self.model.valueList removeObjectAtIndex:index];
+    // delete
+    IMSFormSelect *deleteModel = [self.valueListM objectAtIndex:index];
+    [self.valueListM removeObjectAtIndex:index];
+    self.model.valueList = [self.valueListM yy_modelToJSONObject];
 
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, deleteModel);
-    }
-    
     [self updateTagViewDataSource];
+    
+    if (self.didUpdateFormModelBlock) {
+        self.didUpdateFormModelBlock(self, self.model, [deleteModel yy_modelToJSONObject]);
+    }
     
     [self.form.tableView beginUpdates];
     [self.form.tableView endUpdates];
@@ -189,6 +193,13 @@
         _tagView.delegate = self;
     }
     return _tagView;
+}
+
+- (NSMutableArray *)valueListM {
+    if (_valueListM == nil) {
+        _valueListM = [[NSMutableArray alloc] init];
+    }
+    return _valueListM;
 }
 
 @end
