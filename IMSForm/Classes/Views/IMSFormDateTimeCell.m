@@ -110,6 +110,10 @@
     [DatePickerView showDatePickerWithTitle:@"Select" dateType:mode defaultSelValue:defaultString minDate:minDate maxDate:maxDate isAutoSelect:NO themeColor:nil resultBlock:^(NSString * _Nonnull selectValue) {
         @strongify(self)
         self.textField.text = self.model.value = self.model.param = selectValue;
+        // call back
+        if (self.didUpdateFormModelBlock) {
+            self.didUpdateFormModelBlock(self, self.model, selectValue);
+        }
     }];
     return NO;
 }

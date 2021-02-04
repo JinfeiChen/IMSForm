@@ -110,6 +110,10 @@
 
 
 #pragma mark -textFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason  API_AVAILABLE(ios(10.0)) {
+    textField.text = @"";
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self keyboardReturn:textField];
     return YES;
@@ -124,9 +128,13 @@
         }
     }
     
-    IMSFormSelect *model = [[IMSFormSelect alloc]init];
-    model.label = model.param = textField.text;
-    [self.model.valueList addObject:model];
+    IMSFormSelect *addModel = [[IMSFormSelect alloc]init];
+    addModel.label = addModel.param = textField.text;
+    [self.model.valueList addObject:addModel];
+    
+    if (self.didUpdateFormModelBlock) {
+        self.didUpdateFormModelBlock(self, self.model, addModel);
+    }
     
     [self updateTagViewDataSource];
     
@@ -139,7 +147,12 @@
 #pragma mark - RATagViewDelegate
 - (void)tagView:(IMSTagView *)tagView didSelectAtIndex:(NSInteger)index {
     
+    IMSFormSelect *deleteModel = [self.model.valueList objectAtIndex:index];
     [self.model.valueList removeObjectAtIndex:index];
+
+    if (self.didUpdateFormModelBlock) {
+        self.didUpdateFormModelBlock(self, self.model, deleteModel);
+    }
     
     [self updateTagViewDataSource];
     

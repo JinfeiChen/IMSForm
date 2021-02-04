@@ -229,11 +229,13 @@
         }
 
         cascaderModel.cpnConfig.isMultiple ? [self updateTagViewDataSource] : [self updateContentLable];
+        
+        // call back
+        if (self.didUpdateFormModelBlock) {
+            self.didUpdateFormModelBlock(self, self.model, selectedModel);
+        }
+        
     }];
-//    // call back
-//    if (self.customDidSelectedBlock) {
-//        self.customDidSelectedBlock(self, self.model, nil);
-//    }
 }
 
 - (void)dealStatus:(NSArray *)allDataSource andHaveDataSource:(NSArray *)haveDataSource {
