@@ -77,6 +77,13 @@
 
 
 
+- (void)cascaderCellDidSelect:(UITableViewCell *)cell andCellModel:(IMSFormModel *)cellModel andIndexPath:(NSIndexPath *)indexPath andSelectModel: (id)object {
+    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%@", cellModel);
+    NSLog(@"%@",indexPath);
+    NSLog(@"%@", object);
+}
+
 #pragma mark - UITableViewDelegate/UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) UILabel *placeholderLabel;
 @property (nonatomic, strong) IMSTagView *tagView;
+@property (nonatomic, strong) NSMutableArray *valueListM;
 @end
 
 @implementation IMSFormCascaderCell
@@ -136,15 +137,17 @@
 #pragma mark - Private Methods
 - (void)updateTagViewDataSource
 {
-    NSMutableArray *titleArrayM = [NSMutableArray array];
     
-    for (IMSFormSelect *model in self.model.valueList) {
+    self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
+    
+    NSMutableArray *titleArrayM = [NSMutableArray array];
+    for (IMSFormSelect *model in self.valueListM) {
         [titleArrayM addObject:model.value?:@"N/A"];
     }
     
     self.tagView.dataArray = titleArrayM;
     
-    BOOL hasData = self.model.valueList && self.model.valueList.count > 0;
+    BOOL hasData = self.valueListM && self.valueListM.count > 0;
     
     self.placeholderLabel.hidden = hasData;
      
@@ -156,9 +159,9 @@
 
 - (void)updateContentLable {
     
-    IMSFormSelect *formSelect = self.model.valueList.firstObject;
+    IMSFormSelect *formSelect = self.valueListM.firstObject;
     
-    BOOL hasData = self.model.valueList && self.model.valueList.count > 0;
+    BOOL hasData = self.valueListM && self.valueListM.count > 0;
     
     self.placeholderLabel.hidden = hasData;
      
@@ -170,28 +173,24 @@
 #pragma mark - RATagViewDelegate
 - (void)tagView:(IMSTagView *)tagView didSelectAtIndex:(NSInteger)index
 {
+    
+    IMSFormSelect *deleteModel = [self.valueListM objectAtIndex:index];
     // delete
-    [self.model.valueList removeObjectAtIndex:index];
+    [self.valueListM removeObjectAtIndex:index];
+    
+    self.model.valueList = [self.valueListM yy_modelToJSONObject];
     
     // update tagview datasource
     [self updateTagViewDataSource];
     
+    // call back
+    if (self.didUpdateFormModelBlock) {
+        self.didUpdateFormModelBlock(self, self.model, [deleteModel yy_modelToJSONObject]);
+    }
+    
     [self.form.tableView beginUpdates];
     [self.form.tableView endUpdates];
     
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
-    
-    BOOL hasData = self.model.valueList && self.model.valueList.count > 0;
-    self.placeholderLabel.hidden = hasData;
-    self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
-    
-    for (int i = 0; i < self.model.valueList.count; ++i) {
-        IMSFormSelect *model = self.model.valueList[i];
-        NSLog(@"%@",model.value);
-    }
 }
 
 - (void)clickAction:(id)sender
@@ -201,7 +200,7 @@
     // MARK: Show multiple select list view
     IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
     IMSPopupTreeSelectListView *listView = [[IMSPopupTreeSelectListView alloc]init];
-    [self dealStatus:cascaderModel.cpnConfig.dataSource andHaveDataSource:cascaderModel.valueList];// 重置按钮状态
+    [self dealStatus:cascaderModel.cpnConfig.dataSource andHaveDataSource:self.valueListM];// 重置按钮状态
     listView.isMultiple = cascaderModel.cpnConfig.isMultiple;
     listView.dataArray = cascaderModel.cpnConfig.dataSource;
     listView.maxCount = cascaderModel.cpnConfig.maxCount;
@@ -222,19 +221,20 @@
         if (isAdd) {
             if (cascaderModel.cpnConfig.isMultiple == NO) [self.model.valueList removeAllObjects];
             cascaderModel.cpnConfig.didSelectedCount ++ ;
-            [self.model.valueList addObject:selectedModel];
+            [self.valueListM addObject:selectedModel];
         }else {
             cascaderModel.cpnConfig.didSelectedCount -- ;
-            [self.model.valueList removeObject:selectedModel];
+            [self.valueListM removeObject:selectedModel];
         }
+        
+        self.model.valueList = [self.valueListM yy_modelToJSONObject];
 
         cascaderModel.cpnConfig.isMultiple ? [self updateTagViewDataSource] : [self updateContentLable];
         
         // call back
         if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, selectedModel);
+            self.didUpdateFormModelBlock(self, self.model, [selectedModel yy_modelToJSONObject]);
         }
-        
     }];
 }
 
@@ -313,6 +313,13 @@
         _contentLabel.backgroundColor = [UIColor clearColor];
     }
     return _contentLabel;
+}
+
+- (NSMutableArray *)valueListM {
+    if (_valueListM == nil) {
+        _valueListM = [[NSMutableArray alloc] init];
+    }
+    return _valueListM;
 }
 
 @end
