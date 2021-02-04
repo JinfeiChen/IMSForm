@@ -45,7 +45,6 @@
 
 - (void)tapAction:(UITapGestureRecognizer *)tapGesture
 {
-    NSLog(@"asdf");
     self.selected = !self.isSelected;
 //    [self updateArrowButtonAnimation];
     
@@ -83,7 +82,7 @@
 {
     if (!_textLabel) {
         _textLabel = [[UILabel alloc] init];
-        _textLabel.text = @"Http://";
+        _textLabel.text = @"N/A";
         _textLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightRegular];
     }
     return _textLabel;

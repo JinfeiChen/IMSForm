@@ -26,6 +26,17 @@
         _minValue = @"";
         _maxValue = @"";
         [self buildView];
+        
+        __weak __typeof__(self) weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
+            __typeof__(self) strongSelf = weakSelf;
+            if (note.object == strongSelf.minTextField || note.object == strongSelf.maxTextField) {
+                // call back
+                if (strongSelf.didUpdateFormModelBlock) {
+                    strongSelf.didUpdateFormModelBlock(strongSelf, strongSelf.model, nil);
+                }
+            }
+        }];
     }
     return self;
 }
@@ -188,11 +199,6 @@
         _maxValue = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
     }
     self.model.value = [@[_minValue, _maxValue] componentsJoinedByString:@";"];
-    
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
 
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -231,11 +237,6 @@
         self.maxValue = @"";
     }
     self.model.value = [@[_minValue, _maxValue] componentsJoinedByString:@";"];
-    
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {

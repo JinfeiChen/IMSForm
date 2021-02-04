@@ -9,6 +9,14 @@
 
 @implementation IMSFormCurrencyModel
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        self.value = @"0";
+    }
+    return self;
+}
+
 @synthesize cpnConfig = _cpnConfig;
 
 - (IMSFormCurrencyCPNConfig *)cpnConfig

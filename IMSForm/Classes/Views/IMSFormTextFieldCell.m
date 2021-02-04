@@ -31,6 +31,17 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self buildView];
+        
+        __weak __typeof__(self) weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
+            __typeof__(self) strongSelf = weakSelf;
+            if (note.object == strongSelf.textField) {
+                // call back
+                if (strongSelf.didUpdateFormModelBlock) {
+                    strongSelf.didUpdateFormModelBlock(strongSelf, strongSelf.model, nil);
+                }
+            }
+        }];
     }
     return self;
 }
@@ -113,9 +124,6 @@
         [self buildBodyViewSubViews];
         
     }
-    
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
 }
 
 - (void)buildBodyViewSubViews
@@ -211,11 +219,6 @@
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     self.model.value = str;
     
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
-    
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
@@ -239,11 +242,6 @@
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     self.model.value = @"";
-    
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -292,42 +290,10 @@
     
     if (model.cpnConfig.prefixUnit) {
         self.prefixLabel.text = model.cpnConfig.prefixUnit;
-        
-//        YYLabel *contentL = [[YYLabel alloc] init];
-//        //计算标题文本尺寸
-//        NSMutableAttributedString *titleAttri = [[NSMutableAttributedString alloc] initWithString:model.cpnConfig.prefixUnit];
-//        CGSize maxSize = CGSizeMake(MAXFLOAT, kIMSFormDefaultHeight);
-//        YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:maxSize text:titleAttri];
-//        contentL.textLayout = layout;
-//        CGFloat prefixUnitWidth = layout.textBoundingSize.width;
-//        [self.textField setValue:[NSNumber numberWithFloat:(prefixUnitWidth + 8)] forKey:@"paddingLeft"];
-//
-//        if (![self.bodyView.subviews containsObject:self.prefixLabel]) {
-//            [self.bodyView addSubview:self.prefixLabel];
-//        }
-//        [self.prefixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.left.bottom.mas_equalTo(self.textField);
-//        }];
     }
     
     if (model.cpnConfig.suffixUnit) {
         self.suffixLabel.text = model.cpnConfig.suffixUnit;
-        
-//        YYLabel *contentL = [[YYLabel alloc] init];
-//        //计算标题文本尺寸
-//        NSMutableAttributedString *titleAttri = [[NSMutableAttributedString alloc] initWithString:model.cpnConfig.suffixUnit];
-//        CGSize maxSize = CGSizeMake(MAXFLOAT, kIMSFormDefaultHeight);
-//        YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:maxSize text:titleAttri];
-//        contentL.textLayout = layout;
-//        CGFloat prefixUnitWidth = layout.textBoundingSize.width;
-////        [self.textField setValue:[NSNumber numberWithFloat:(prefixUnitWidth + 8)] forKey:@"paddingRight"];
-//
-//        if (![self.bodyView.subviews containsObject:self.suffixLabel]) {
-//            [self.bodyView addSubview:self.suffixLabel];
-//        }
-//        [self.suffixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.right.bottom.mas_equalTo(self.textField);
-//        }];
     }
     
     [self layoutIfNeeded];
