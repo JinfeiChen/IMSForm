@@ -22,6 +22,17 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self buildView];
+        
+        __weak __typeof__(self) weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
+            __typeof__(self) strongSelf = weakSelf;
+            if (note.object == strongSelf.textField) {
+                // call back
+                if (strongSelf.didUpdateFormModelBlock) {
+                    strongSelf.didUpdateFormModelBlock(strongSelf, strongSelf.model, nil);
+                }
+            }
+        }];
     }
     return self;
 }
@@ -111,8 +122,6 @@
         make.right.mas_equalTo(self.increaseButton.mas_left).offset(-10);
     }];
 
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -133,11 +142,6 @@
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
-
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
 
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -165,11 +169,6 @@
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     self.model.value = @"";
-
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
 
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {

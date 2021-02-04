@@ -252,9 +252,8 @@
     @weakify(self);
     [self.multipleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull selectedDataArray, IMSFormSelect * _Nonnull selectedModel, BOOL isAdd, NSString * _Nonnull tipString) {
         @strongify(self);
-        NSLog(@"%@, %@, isAdd = %d, tip = %@", selectedDataArray, [selectedModel yy_modelToJSONObject], isAdd, tipString);
         // update model's valueList
-        self.model.valueList = selectedDataArray;
+        self.model.valueList = [selectedDataArray mutableCopy];
         // update valueModelArray
         self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSPopupMultipleSelectModel class] json:selectedDataArray];
         // update tagview datasource

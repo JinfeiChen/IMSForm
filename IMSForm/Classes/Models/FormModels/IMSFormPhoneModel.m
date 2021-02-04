@@ -9,6 +9,14 @@
 
 @implementation IMSFormPhoneModel
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        self.value = @"";
+    }
+    return self;
+}
+
 @synthesize cpnConfig = _cpnConfig;
 
 - (IMSFormPhoneCPNConfig *)cpnConfig

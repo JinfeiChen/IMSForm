@@ -9,6 +9,12 @@
 
 @implementation IMSFormSelect
 
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{
+        @"param" : @[@"id",@"Id",@"value"]
+    };
+}
+
 + (NSDictionary *)modelContainerPropertyGenericClass {
     // value should be Class or Class name.
     return @{

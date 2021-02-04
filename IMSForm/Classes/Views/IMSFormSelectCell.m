@@ -31,10 +31,9 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
         [self.bodyView addGestureRecognizer:tap];
-        
+
         [self buildView];
     }
     return self;
@@ -49,28 +48,27 @@
     [self.contentView addSubview:self.bodyView];
     [self.bodyView addSubview:self.arrowButton];
     [self.bodyView addSubview:self.placeholderLabel];
-    
+
     [self updateUI];
 }
 
 - (void)updateUI
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
-    
+
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
-    
+
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
-    
+
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
-    
+
     self.arrowButton.hidden = self.model.isEditable ? NO : YES;
-    
+
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
-        
         [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(spacing);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
@@ -88,7 +86,6 @@
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
     } else {
-        
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
@@ -105,15 +102,14 @@
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
     }
-    
+
     [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.right.equalTo(self.bodyView);
         make.centerY.equalTo(self.bodyView);
         make.width.equalTo(self.model.isEditable ? @40 : @0);
     }];
-    
+
     if (self.model) {
-        
         [self.contentLabel setHidden:NO];
         if (![self.bodyView.subviews containsObject:self.contentLabel]) {
             [self.bodyView addSubview:self.contentLabel];
@@ -123,14 +119,13 @@
             make.left.equalTo(self.bodyView).offset(10);
             make.right.equalTo(self.arrowButton.mas_left);
         }];
-        
+
         [self.placeholderLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.bodyView).offset(10);
             make.top.bottom.equalTo(self.bodyView);
             make.height.mas_equalTo(kIMSFormDefaultHeight);
             make.right.equalTo(self.arrowButton.mas_left).offset(-10);
         }];
-        
     }
 }
 
@@ -139,20 +134,20 @@
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
 {
     [super setModel:model form:form];
-    
+
     [self updateUI];
-    
+
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
-    
+
     self.infoLabel.text = model.info;
-    
+
     self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:model.valueList];
-    
+
     for (IMSFormSelect *model in self.valueModelArray) {
         self.contentLabel.text = model.value ? : @"N/A";
     }
-    
+
     [self updatePlaceholder];
     [self updateArrowButtonAnimation];
 }
@@ -172,11 +167,10 @@
 {
     self.placeholderLabel.hidden = (self.model.valueList && self.model.valueList.count > 0) ? YES : NO;
     self.placeholderLabel.text = (self.model.valueList && self.model.valueList.count > 0) ? @"" : (self.model.placeholder ? : @"Please Select");
-    
+
     if (self.model.valueList.count == 0) {
         self.contentLabel.text = @"";
     }
-    
 }
 
 - (void)updateArrowButtonAnimation
@@ -197,7 +191,7 @@
     if (!self.model) {
         return;
     }
-    
+
     // MARK: Show single select list view
     IMSPopupSingleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:NO];
     if (type == IMSPopupSingleSelectListViewCellType_Custom) {
@@ -212,33 +206,33 @@
     } else {
         [self.singleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type];
     }
-    
+
     @weakify(self);
-    [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+    [self.singleSelectListView setDidSelectedBlock:^(NSArray *_Nonnull dataArray, IMSFormSelect *_Nonnull selectedModel) {
         @strongify(self);
         // update value
-        self.contentLabel.text = selectedModel.isSelected ? (selectedModel.value?:@"N/A") : @"";
+        self.contentLabel.text = selectedModel.isSelected ? (selectedModel.value ? : @"N/A") : @"";
         // update model valueList
-        self.model.valueList = selectedModel.isSelected ? @[[selectedModel yy_modelToJSONObject]] : @[];
+        self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
         // update select datasource
         self.model.cpnConfig.dataSource = dataArray;
-        
+
         [self updatePlaceholder];
     }];
-    
+
     [self.singleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
         @strongify(self);
         self.model.selected = isShow;
         [self updateArrowButtonAnimation];
-        
+
         // call back
         if (!isShow && self.didUpdateFormModelBlock) {
             self.didUpdateFormModelBlock(self, self.model, nil);
         }
     }];
-    
+
     self.singleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
-    
+
     [self.singleSelectListView showView];
 }
 
