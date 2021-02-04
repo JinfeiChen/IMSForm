@@ -148,10 +148,10 @@
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
     
     if (button.selected && radioModel.cpnConfig.deselect) {
-        IMSFormSelect *selectModel = radioModel.cpnConfig.dataSource[button.tag];
-        selectModel.selected = button.selected = NO;
+        IMSFormSelect *deselectModel = radioModel.cpnConfig.dataSource[button.tag];
+        deselectModel.selected = button.selected = NO;
         if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, selectModel);
+            self.didUpdateFormModelBlock(self, self.model, deselectModel);
         }
         return;
     }
@@ -168,9 +168,6 @@
             if (self.didUpdateFormModelBlock) {
                 self.didUpdateFormModelBlock(self, self.model, selectModel);
             }
-//            if (self.customDidSelectedBlock) {
-//                self.customDidSelectedBlock(self, self.model, selectModel);
-//            }
         }
     }
 }
