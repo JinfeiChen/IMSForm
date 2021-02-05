@@ -13,6 +13,7 @@
 {
     if (self = [super init]) {
         
+        self.enable = YES;
         self.visible = YES;
         self.editable = YES;
         self.required = NO;

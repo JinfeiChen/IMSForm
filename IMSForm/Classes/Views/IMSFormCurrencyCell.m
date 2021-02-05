@@ -293,6 +293,13 @@
 
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
+    
+    // default value
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected = YES"];
+    NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];
+    }
 
     CGFloat value = MAX(self.model.value.floatValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);

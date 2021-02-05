@@ -124,9 +124,6 @@
         make.top.right.bottom.equalTo(self.bodyView).offset(0);
         make.left.mas_equalTo(self.lineLabel.mas_right).offset(spacing);
     }];
-    
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - Private Methods
@@ -155,9 +152,13 @@
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
-    NSArray *valueArr = [model.value componentsSeparatedByString:@";"];
-    CGFloat minValue = [valueArr.firstObject floatValue];
-    CGFloat maxValue = [valueArr.lastObject floatValue];
+    CGFloat minValue = MAX(CGFLOAT_MIN, self.model.cpnConfig.min);
+    CGFloat maxValue = MIN(CGFLOAT_MAX, self.model.cpnConfig.max);
+    if (model.value && [model.value containsString:@";"]) {
+        NSArray *valueArr = [model.value componentsSeparatedByString:@";"];
+        minValue = [valueArr.firstObject floatValue];
+        maxValue = [valueArr.lastObject floatValue];
+    }
     
     minValue = MAX(minValue, self.model.cpnConfig.min);
     minValue = MIN(minValue, self.model.cpnConfig.max);

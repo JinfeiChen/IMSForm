@@ -51,7 +51,11 @@
 
 - (void)setTitle:(NSString *)title required:(BOOL)required
 {
-    NSString *text = [NSString stringWithFormat:@"%@%@", required ? @"* " : @"", title];
+    NSString *targetTitle = title;
+    if (!targetTitle) {
+        targetTitle = self.model.customTitle ? : self.model.title;
+    }
+    NSString *text = [NSString stringWithFormat:@"%@%@", required ? @"* " : @"", ((targetTitle&&targetTitle.length>0)?targetTitle:@"N/A")];
     NSMutableAttributedString *mAttr = [[NSMutableAttributedString alloc] initWithString:text];
     [mAttr addAttributes:@{
 //         NSFontAttributeName: [UIFont systemFontOfSize:16.0],
@@ -83,7 +87,7 @@
 
 - (void)validate
 {
-    BOOL result = [IMSFormValidateManager validateFormDataSource:@[self.model]];
+//    BOOL result = [IMSFormValidateManager validateFormDataSource:@[self.model]];
     // TODO: 更新样式和提示内容
 }
 

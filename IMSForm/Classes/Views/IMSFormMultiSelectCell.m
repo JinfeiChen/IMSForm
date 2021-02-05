@@ -149,12 +149,33 @@
     
     self.infoLabel.text = model.info;
     
-    self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:model.valueList];
+    // default value
+    NSArray *allArray = [self findChildItemsWithCPNConfigDataSource:self.model.cpnConfig.dataSource];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
+    NSArray *resultArray = [allArray filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        self.model.valueList = [NSMutableArray arrayWithArray:resultArray];
+    }
+    self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList];
     
     [self updateTagViewDataSource];
     
     [self updatePlaceholder];
     [self updateArrowButtonAnimation];
+}
+
+- (NSArray *)findChildItemsWithCPNConfigDataSource:(NSArray *)dataSource
+{
+    NSMutableArray *all = [NSMutableArray array];
+    for (NSDictionary *dict in dataSource) {
+        NSArray *child = [dict valueForKey:@"child"];
+        if (child && [child isKindOfClass:[NSArray class]] && child.count > 0) {
+            [all addObjectsFromArray:[self findChildItemsWithCPNConfigDataSource:child]];
+        } else {
+            [all addObject:dict];
+        }
+    }
+    return all;
 }
 
 #pragma mark - Private Methods

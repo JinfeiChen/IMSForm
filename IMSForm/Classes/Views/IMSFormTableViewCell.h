@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param required 是否必填
  @@return void
  */
-- (void)setTitle:(NSString *)title required:(BOOL)required;
+- (void)setTitle:(NSString * _Nullable)title required:(BOOL)required;
 
 // 根据输入类型获取键盘类型
 - (UIKeyboardType)keyboardWithTextType:(IMSFormTextType)textType;

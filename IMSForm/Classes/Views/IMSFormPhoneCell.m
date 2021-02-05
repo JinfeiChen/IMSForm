@@ -255,6 +255,13 @@
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
+    // default value
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected = YES"];
+    NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];
+    }
+    
     self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
     self.textField.placeholder = model.placeholder ? : @"Please enter";
     
@@ -284,8 +291,6 @@
     if (self.model.cpnConfig.suffixUnit) {
         self.suffixLabel.text = self.model.cpnConfig.suffixUnit;
     }
-    
-//    [self layoutIfNeeded];
 }
 
 #pragma mark - Getters
