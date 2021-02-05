@@ -97,7 +97,6 @@
     
     if (dataModelSource.count && !self.buttonArrayM.count) {
         for (int i = 0; i < dataModelSource.count; ++i) {
-            //            IMSFormSelect *selectModel = dataModelSource[i];
             UIButton *button = [[UIButton alloc]init];
             button.tag = i;
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -133,25 +132,27 @@
         }
     }
     
+    [self.model.valueList removeAllObjects];
     for (int i = 0; i < dataModelSource.count; ++i) {
         IMSFormSelect *selectModel = dataModelSource[i];
         UIButton *button = self.buttonArrayM[i];
-        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?:selectModel.value] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateNormal];
         [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateSelected];
         button.backgroundColor = self.bodyView.backgroundColor;
         button.selected = selectModel.selected;
+        if (selectModel.selected) [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
     }
 }
 
 - (void)buttonAction:(UIButton *)button {
     
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
-    
     if (button.selected && radioModel.cpnConfig.deselect) {
+        [self.model.valueList removeAllObjects];
         IMSFormSelect *deselectModel = radioModel.cpnConfig.dataSource[button.tag];
         deselectModel.selected = button.selected = NO;
         if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, [deselectModel yy_modelToJSONObject]);
+            self.didUpdateFormModelBlock(self, self.model, nil);
         }
         return;
     }
@@ -166,7 +167,7 @@
         if (selectModel.selected) {
             [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
             if (self.didUpdateFormModelBlock) {
-                self.didUpdateFormModelBlock(self, self.model, selectModel);
+                self.didUpdateFormModelBlock(self, self.model, nil);
             }
         }
     }

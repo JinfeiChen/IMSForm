@@ -117,6 +117,7 @@
     [self setTitle:model.title required:model.isRequired];
     
     self.textView.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
+    
     self.textView.placeholderText = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;

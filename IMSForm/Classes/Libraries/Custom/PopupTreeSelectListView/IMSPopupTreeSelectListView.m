@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) IMSPopupTreeTabView *mainTableView;
+@property (nonatomic, assign) NSInteger didSelectedCount;// 已经选择的数量
 @end
 
 @implementation IMSPopupTreeSelectListView
@@ -76,6 +77,13 @@
     self.mainTableView.dataArray = dataArray;
 }
 
+- (void)setSeleceDataSource:(NSMutableArray *)seleceDataSource {
+    
+    _seleceDataSource = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:seleceDataSource].mutableCopy;
+    
+    self.didSelectedCount = _seleceDataSource.count;
+}
+
 - (void)dealData {
     [self didSelectedBlock:self.mainTableView andFirstShow:YES];
 }
@@ -86,6 +94,16 @@
     [tabView setDidSelectItemBlock:^(BOOL isShowChildView, IMSFormSelect * _Nonnull didSelectDataModel,NSString *treeTabViewTitleString) {
         @strongify(self)
         @strongify(tabView)
+        
+        if (self.isMultiple == NO) {
+            for (IMSFormSelect *allModel in tabView.dataArray) {
+                if (allModel != didSelectDataModel) {
+                    allModel.selected = NO;
+                    [self eachInDataSource:allModel.child andRelust:NO];
+                }
+            }
+        }
+        
         if (isShowChildView) {
             didSelectDataModel.selected = YES;
             IMSPopupTreeTabView *treeView = [[IMSPopupTreeTabView alloc]initWithFrame:CGRectMake(IMS_SCREEN_WIDTH, CGRectGetMaxY(self.tipLabel.frame), IMS_SCREEN_WIDTH, TableViewHeight)];
@@ -106,7 +124,7 @@
             [self didSelectedBlock:treeView andFirstShow:NO];
         }else { // 选择
             didSelectDataModel.selected = !didSelectDataModel.selected;
-            if (didSelectDataModel.selected && self.maxCount > 0) { // add
+            if (didSelectDataModel.selected && self.maxCount > 0) {
                 self.didSelectedCount ++ ;
                 if (self.didSelectedCount > self.maxCount) { // 超过最大数 label震动
                     self.didSelectedCount = self.maxCount;
@@ -120,24 +138,37 @@
                     [self.tipLabel.layer addAnimation:shake forKey:@"shakeAnimation"];
                     return;
                 }
-            }else if (!didSelectDataModel.selected && self.maxCount > 0) { // sub
+            }else if (!didSelectDataModel.selected && self.maxCount > 0) {
                 self.didSelectedCount --;
             }
             
-            if (self.isMultiple == NO) {
-                for (IMSFormSelect *allModel in tabView.dataArray) {
-                    if (allModel != didSelectDataModel) {
-                        allModel.selected = NO;
-                    }
-                }
+            if (self.isMultiple == YES && didSelectDataModel.selected) { // add
+                [self.seleceDataSource addObject:didSelectDataModel];
+            }else if (self.isMultiple == YES && !didSelectDataModel.selected ) { // sub
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"value contains %@",didSelectDataModel.value];
+                [self.seleceDataSource removeObjectsInArray:[self.seleceDataSource filteredArrayUsingPredicate:predicate]];
+            }
+            
+            if (self.isMultiple == NO ) {
+                [self.seleceDataSource removeAllObjects];
+                if (didSelectDataModel.selected) [self.seleceDataSource addObject:didSelectDataModel];
             }
             
             self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)",self.didSelectedCount,self.didSelectedCount > 1 ? @"items" : @"item",self.maxCount];
             if (self.didSelectedBlock) {
-                self.didSelectedBlock(didSelectDataModel, didSelectDataModel.selected, self.tipLabel.text);
+                self.didSelectedBlock([self.seleceDataSource yy_modelToJSONObject],didSelectDataModel, self.tipLabel.text);
             }
         }
     }];
+}
+
+- (void)eachInDataSource:(NSArray *)dataSource andRelust:(BOOL)result {
+    for (IMSFormSelect *model in dataSource) {
+        model.selected = result;
+        if (model.selected == NO && model.child.count) {
+            [self eachInDataSource:model.child andRelust:result];
+        }
+    }
 }
 
 #pragma mark - lazy laod

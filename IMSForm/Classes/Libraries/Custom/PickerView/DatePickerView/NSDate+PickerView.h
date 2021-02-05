@@ -55,6 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable  NSString *)pv_getDateString:(NSDate *)date format:(NSString *)format;
 /** 日期和字符串之间的转换：NSString --> NSDate */
 + (nullable  NSDate *)pv_getDate:(NSString *)dateString format:(NSString *)format;
+// 时间戳和字符串之间的转换 long long --> NSString
++ (nullable NSString *)pv_getDateStringForTime:(long long )time format:(NSString *)format;
 /** 获取某个月的天数（通过年月求每月天数）*/
 + (NSUInteger)pv_getDaysInYear:(NSInteger)year month:(NSInteger)month;
 

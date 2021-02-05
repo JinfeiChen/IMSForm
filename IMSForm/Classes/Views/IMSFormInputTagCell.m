@@ -94,14 +94,22 @@
     
     self.infoLabel.text = model.info;
     
+    // 默认值
+    [model.valueList removeAllObjects];
+    for (IMSFormSelect *selectModel in model.cpnConfig.dataSource) {
+        if (selectModel.selected) {
+            [model.valueList addObject:[selectModel yy_modelToJSONObject]];
+        }
+    }
+    
+    self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
+
     [self updateTagViewDataSource];
 
 }
 
 #pragma mark - Private Methods
-- (void)updateTagViewDataSource
-{
-    self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
+- (void)updateTagViewDataSource {
     
     NSMutableArray *titleArrayM = [NSMutableArray array];
     for (IMSFormSelect *model in  self.valueListM) {
@@ -122,7 +130,7 @@
 
 - (void)keyboardReturn:(UITextField *)textField {
     if (textField.text.length == 0) return;
-    for (IMSFormSelect *model in self.model.valueList) {
+    for (IMSFormSelect *model in self.valueListM) {
         if ([textField.text.lowercaseString isEqualToString:model.label.lowercaseString])  {
              textField.text = @"";
              return;
@@ -130,12 +138,12 @@
     }
     
     IMSFormSelect *addModel = [[IMSFormSelect alloc]init];
-    addModel.label = addModel.param = textField.text;
+    addModel.label = addModel.value = textField.text;
     [self.valueListM addObject:addModel];
     self.model.valueList = [self.valueListM yy_modelToJSONObject];
     
     if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, [addModel yy_modelToJSONObject]);
+        self.didUpdateFormModelBlock(self, self.model, nil);
     }
     
     [self updateTagViewDataSource];
@@ -150,14 +158,13 @@
 - (void)tagView:(IMSTagView *)tagView didSelectAtIndex:(NSInteger)index {
     
     // delete
-    IMSFormSelect *deleteModel = [self.valueListM objectAtIndex:index];
     [self.valueListM removeObjectAtIndex:index];
     self.model.valueList = [self.valueListM yy_modelToJSONObject];
 
     [self updateTagViewDataSource];
     
     if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, [deleteModel yy_modelToJSONObject]);
+        self.didUpdateFormModelBlock(self, self.model, nil);
     }
     
     [self.form.tableView beginUpdates];

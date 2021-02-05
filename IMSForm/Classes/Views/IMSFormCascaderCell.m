@@ -122,6 +122,8 @@
     
     IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
     
+    self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
+    
     if (cascaderModel.cpnConfig.isMultiple) {
         self.tagView.hidden = NO;
         self.contentLabel.hidden = YES;
@@ -130,19 +132,15 @@
     }else {
         self.tagView.hidden = YES;
         self.contentLabel.hidden = NO;
-        
         [self updateContentLable];
     }
 }
 #pragma mark - Private Methods
-- (void)updateTagViewDataSource
-{
-    
-    self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
+- (void)updateTagViewDataSource {
     
     NSMutableArray *titleArrayM = [NSMutableArray array];
     for (IMSFormSelect *model in self.valueListM) {
-        [titleArrayM addObject:model.value?:@"N/A"];
+        [titleArrayM addObject:model.label ?: (model.value ?: @"N/A")];
     }
     
     self.tagView.dataArray = titleArrayM;
@@ -167,17 +165,14 @@
      
     self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
     
-    self.contentLabel.text = formSelect.value ?: @"";
+    self.contentLabel.text = formSelect.label ?: (formSelect.value ?: @"");
 }
 
 #pragma mark - RATagViewDelegate
 - (void)tagView:(IMSTagView *)tagView didSelectAtIndex:(NSInteger)index
 {
-    
-    IMSFormSelect *deleteModel = [self.valueListM objectAtIndex:index];
     // delete
     [self.valueListM removeObjectAtIndex:index];
-    
     self.model.valueList = [self.valueListM yy_modelToJSONObject];
     
     // update tagview datasource
@@ -185,7 +180,7 @@
     
     // call back
     if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, [deleteModel yy_modelToJSONObject]);
+        self.didUpdateFormModelBlock(self, self.model, nil);
     }
     
     [self.form.tableView beginUpdates];
@@ -204,7 +199,7 @@
     listView.isMultiple = cascaderModel.cpnConfig.isMultiple;
     listView.dataArray = cascaderModel.cpnConfig.dataSource;
     listView.maxCount = cascaderModel.cpnConfig.maxCount;
-    listView.didSelectedCount = cascaderModel.cpnConfig.didSelectedCount;
+    listView.seleceDataSource = cascaderModel.valueList;
     
     @weakify(self);
     [listView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
@@ -215,25 +210,18 @@
     
     [listView showView];
     
-    [listView setDidSelectedBlock:^(IMSFormSelect * _Nonnull selectedModel, BOOL isAdd, NSString *tipString) {
+    [listView setDidSelectedBlock:^(NSMutableArray *selectDataSource, IMSFormSelect * _Nonnull selectedModel, NSString *tipString) {
         @strongify(self);
         
-        if (isAdd) {
-            if (cascaderModel.cpnConfig.isMultiple == NO) [self.model.valueList removeAllObjects];
-            cascaderModel.cpnConfig.didSelectedCount ++ ;
-            [self.valueListM addObject:selectedModel];
-        }else {
-            cascaderModel.cpnConfig.didSelectedCount -- ;
-            [self.valueListM removeObject:selectedModel];
-        }
+        self.model.valueList = selectDataSource;
         
-        self.model.valueList = [self.valueListM yy_modelToJSONObject];
+        self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
 
         cascaderModel.cpnConfig.isMultiple ? [self updateTagViewDataSource] : [self updateContentLable];
         
         // call back
         if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, [selectedModel yy_modelToJSONObject]);
+            self.didUpdateFormModelBlock(self, self.model, nil);
         }
     }];
 }
@@ -242,6 +230,7 @@
     
     for (int i = 0; i < allDataSource.count; ++i) {
         IMSFormSelect *dataModel = allDataSource[i];
+        dataModel.selected = NO;
         for (IMSFormSelect *valueListModel in haveDataSource) {
             if ([dataModel.value isEqualToString:valueListModel.value]) {
                 dataModel.selected = YES;

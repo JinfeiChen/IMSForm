@@ -173,6 +173,22 @@ static const NSCalendarUnit unitFlags = (NSCalendarUnitYear | NSCalendarUnitMont
     return destDate;
 }
 
+#pragma mark - 时间戳和字符串之间的转换 long long --> NSString
+// 时间戳变为格式时间
+// 如果服务器返回的是13位字符串，需要除以1000，否则显示不正确(13位其实代表的是毫秒，需要除以1000)
++ (NSString *)pv_getDateStringForTime:(long long )time format:(NSString *)format {
+    
+    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:time];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    
+    [formatter setDateFormat:format];
+    
+    NSString *timeString = [formatter stringFromDate:date];
+    
+    return timeString;
+}
+
 #pragma mark - 算法1：获取某个月的天数（通过年月求每月天数）
 + (NSUInteger)pv_getDaysInYear:(NSInteger)year month:(NSInteger)month {
     BOOL isLeapYear = year % 4 == 0 ? (year % 100 == 0 ? (year % 400 == 0 ? YES : NO) : YES) : NO;

@@ -83,17 +83,19 @@
 }
 
 - (void)radioCellDidSelect:(UITableViewCell *)cell andCellModel:(IMSFormModel *)cellModel andIndexPath:(NSIndexPath *)indexPath andSelectModel: (IMSFormSelect *)selectModel {
-    NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%@", cellModel);
-    NSLog(@"%@",indexPath);
-    NSLog(@"%@", selectModel);
+    NSLog(@"%@", cellModel.valueList);
 }
 
 - (void)cascaderCellDidSelect:(UITableViewCell *)cell andCellModel:(IMSFormModel *)cellModel andIndexPath:(NSIndexPath *)indexPath andSelectModel: (id)object {
     NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%@", cellModel);
-    NSLog(@"%@",indexPath);
-    NSLog(@"%@", object);
+    NSLog(@"%@", cellModel.valueList);
+
+}
+
+- (void)inputTagCellDidSelect:(UITableViewCell *)cell andCellModel:(IMSFormModel *)cellModel andIndexPath:(NSIndexPath *)indexPath andSelectModel: (id)object {
+    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%@", cellModel.valueList);
+
 }
 
 #pragma mark - UITableViewDelegate/UITableViewDataSource

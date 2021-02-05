@@ -40,7 +40,6 @@
 
 - (void)updateUI
 {
-
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
     
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
@@ -78,8 +77,6 @@
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
     
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - Private Methods
@@ -101,25 +98,27 @@
         dateFormat = @"yyyy-MM-dd HH:mm:ss";
     }
 
-    NSString *defaultString = self.model.value;
-    if (!self.model.value || self.model.value.length == 0) {
+    NSString *defaultString = textField.text;
+    if (textField.text.length == 0) {
         defaultString = [NSDate pv_getDateString:[NSDate date] format:dateFormat];
     }
 
     @weakify(self)
     [DatePickerView showDatePickerWithTitle:@"Select" dateType:mode defaultSelValue:defaultString minDate:minDate maxDate:maxDate isAutoSelect:NO themeColor:nil resultBlock:^(NSString * _Nonnull selectValue) {
         @strongify(self)
-        self.textField.text = self.model.value = self.model.param = selectValue;
+        self.textField.text = selectValue;
+        // 转换时间戳
+        self.model.value = [NSString stringWithFormat:@"%f",[[NSDate pv_getDate:selectValue format:dateFormat] timeIntervalSince1970]];
+        NSLog(@"%@",self.model.value);
         // call back
         if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, selectValue);
+            self.didUpdateFormModelBlock(self, self.model, nil);
         }
     }];
     return NO;
 }
 
 #pragma mark - Public Methods
-
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
 {
     [super setModel:model form:form];
@@ -129,14 +128,23 @@
     [self setTitle:model.title required:model.isRequired];
     self.infoLabel.text = model.info;
     self.textField.placeholder = model.placeholder ? : @"Please Select";
-    self.textField.text = model.value;
     
     IMSFormDateTimeModel *dateTimeModel = (IMSFormDateTimeModel *)model;
-    
-    if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_Date]) {
-        [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_date"] forState:UIControlStateNormal];
-    }else {
+    NSString *dateFormat = @"";
+    if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_Time]) {
+        dateFormat = @"HH:mm";
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];
+    }else if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_Date]) {
+        dateFormat = @"yyyy-MM-dd";
+        [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];
+    }else if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_DateTime]) {
+        dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_date"] forState:UIControlStateNormal];
+    }
+    // 时间戳转成对应的值
+    // 如果服务器返回的是13位字符串，需要除以1000，否则显示不正确(13位其实代表的是毫秒，需要除以1000)
+    if (model.value.length) {
+       self.textField.text = [NSDate pv_getDateStringForTime:model.value.doubleValue format:dateFormat];
     }
 }
 
@@ -147,8 +155,6 @@
         _textField = [[UITextField alloc] init];
         _textField.font = [UIFont systemFontOfSize:12];
         _textField.delegate = self;
-//        [_textField rounded:4 width:.5 color: HEXCOLOR(0xD6DCDF)];
-//        _textField.backgroundColor = [UIColor whiteColor];
         _textField.returnKeyType = UIReturnKeyDone;
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
         leftView.backgroundColor = [UIColor whiteColor];
