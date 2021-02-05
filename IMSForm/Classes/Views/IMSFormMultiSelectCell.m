@@ -280,10 +280,15 @@
         // update tagview datasource
         [self updateTagViewDataSource];
         
-        [self updatePlaceholder];
-        
         [self.form.tableView beginUpdates];
         [self.form.tableView endUpdates];
+        
+        // call back
+        if (self.didUpdateFormModelBlock) {
+            self.didUpdateFormModelBlock(self, self.model, nil);
+        }
+        
+        [self updatePlaceholder];
         
     }];
     

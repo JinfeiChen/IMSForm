@@ -222,6 +222,11 @@
         self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
         // update select datasource
         self.model.cpnConfig.dataSource = dataArray;
+        
+        // call back
+        if (self.didUpdateFormModelBlock) {
+            self.didUpdateFormModelBlock(self, self.model, nil);
+        }
 
         [self updatePlaceholder];
     }];
