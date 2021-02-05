@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IMSForm'
-  s.version          = '1.0.13'
+  s.version          = '1.0.14'
   s.summary          = 'IMSForm 为开发者准备的APP端表单组件库.'
 
 # This description is used to generate tags and improve search results.
