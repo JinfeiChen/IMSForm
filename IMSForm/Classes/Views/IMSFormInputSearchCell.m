@@ -178,6 +178,19 @@
     self.textField.placeholder = @"Please enter";
 }
 
+- (IMSPopupSingleSelectListViewCellType)cellTypeWithSelectItemType:(NSString *)selectItemType
+{
+    if ([selectItemType isEqualToString:IMSFormSelectItemType_Contact]) {
+        return IMSPopupSingleSelectListViewCellType_Contact;
+    }
+    else if ([selectItemType isEqualToString:IMSFormSelectItemType_Custom]) {
+        return IMSPopupSingleSelectListViewCellType_Custom;
+    }
+    else {
+        return IMSPopupSingleSelectListViewCellType_Default;
+    }
+}
+
 #pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
@@ -213,28 +226,71 @@
     
     if (self.textField.text.length <= 0) {
         NSLog(@"please input some text first");
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"please input some text first"];
+        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please input some text first"];
         return;
     }
     
     self.model.value = self.textField.text;
     
     if (self.form) {
-        if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customInputSearchWithFormModel:completation:")]) {
+        
+        // MARK: 判断是否已自定义selectListView，并获取
+        if ([self.model.cpnConfig.selectItemType isEqualToString:IMSFormSelectItemType_Custom]) {
             
+            SEL listViewSelector = NSSelectorFromString(@"customInputSearchSelectListView");
+            if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:listViewSelector]) {
+                IMSPopupSingleSelectListView *customListView = [self.form.uiDelegate performSelector:listViewSelector];
+                if (customListView && [customListView isKindOfClass:[IMSPopupSingleSelectListView class]]) {
+                    self.singleSelectListView = customListView;
+                    self.singleSelectListView.cellType = IMSPopupSingleSelectListViewCellType_Custom;
+                }
+            } else {
+                self.singleSelectListView.cellType = [self cellTypeWithSelectItemType:IMSFormSelectItemType_Default];
+            }
+            
+        } else {
+            self.singleSelectListView.cellType = [self cellTypeWithSelectItemType:self.model.cpnConfig.selectItemType];
+        }
+        
+        
+        // MARK: 获取搜索结果数据
+        SEL searchSelector = NSSelectorFromString(self.model.cpnConfig.searchSelectorString);
+        if (!searchSelector) {
+            [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Undeclared search method"];
+            return;
+        }
+        if (self.form.dataDelegate && [self.form.dataDelegate respondsToSelector:searchSelector]) {
             @weakify(self);
-            [self.form.uiDelegate customInputSearchWithFormModel:self.model completation:^(IMSPopupSingleSelectListView * _Nonnull selectListView, NSArray * _Nonnull dataArray) {
+            void(^searchCompletedBlock)(NSArray *dataArray) = ^(NSArray *dataArray) {
                 @strongify(self);
                 
-                self.singleSelectListView = selectListView;
-                [self.singleSelectListView setDataArray:dataArray type:IMSPopupSingleSelectListViewCellType_Custom];
+                NSLog(@"search result: %@", dataArray);
+                // MARK: 注意 - custom的selectListView，为适应不同的数据模型拓展，dataArray需要在外面转换 [IMSFormSelect, IMSChildFormSelect, ...] 才能回传，否则无法显示
+                [self.singleSelectListView setDataArray:dataArray type:self.singleSelectListView.cellType];
                 
                 [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
                     
                     // update value
-                    self.textField.text = selectedModel.value;
-                    // update model valueList
-                    self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
+                    if ([self.model.cpnConfig.selectItemType isEqualToString:IMSFormSelectItemType_Contact]) {
+                        IMSPopupSingleSelectContactModel *newSelectedModel = (IMSPopupSingleSelectContactModel *)selectedModel;
+                        self.textField.text = newSelectedModel.name ? : (newSelectedModel.label ? : (newSelectedModel.value ? : @"N/A"));
+                        // update model valueList
+                        self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
+                    }
+                    else if ([self.model.cpnConfig.selectItemType isEqualToString:IMSFormSelectItemType_Custom]) {
+                        if (selectedModel && [selectedModel isKindOfClass:[NSDictionary class]]) {
+                            IMSFormSelect *newSelectedModel = [IMSFormSelect yy_modelWithDictionary:selectedModel];
+                            self.textField.text = newSelectedModel.label ? : (newSelectedModel.value ? : @"N/A");
+                        }
+                        // update model valueList
+                        self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[selectedModel]] : [NSMutableArray array];
+                    }
+                    else {
+                        self.textField.text = selectedModel.label ? : (selectedModel.value ? : @"N/A");
+                        // update model valueList
+                        self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
+                    }
+                    
                     
                     // call back
                     if (self.didUpdateFormModelBlock) {
@@ -243,10 +299,17 @@
                     
                 }];
                 
+                self.singleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+                
                 [self.singleSelectListView showView];
                 
-            }];
+            };
+            [self.form.dataDelegate performSelector:searchSelector withObject:searchCompletedBlock];
+            
+        } else {
+            [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data search method"];
         }
+        
     }
 }
 
@@ -294,7 +357,7 @@
 }
 
 - (IMSPopupSingleSelectListView *)singleSelectListView {
-    if (_singleSelectListView == nil) {
+    if (!_singleSelectListView) {
         _singleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
     }
     return _singleSelectListView;

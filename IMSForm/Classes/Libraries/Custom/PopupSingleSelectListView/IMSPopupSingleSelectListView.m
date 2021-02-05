@@ -71,7 +71,11 @@
     switch (type) {
         case IMSPopupSingleSelectListViewCellType_Custom:
         {
-            self.dataArray = dataArray;
+            NSMutableArray *mArr = [NSMutableArray array];
+            for (NSDictionary *dict in dataArray) {
+                [mArr addObject:[NSMutableDictionary dictionaryWithDictionary:dict]];
+            }
+            self.dataArray = mArr;
         }
             break;
         case IMSPopupSingleSelectListViewCellType_Contact:
@@ -88,17 +92,41 @@
             break;
     }
     
-    for (int i = 0; i < self.dataArray.count; i++) {
-        IMSFormSelect *obj = self.dataArray[i];
-        if (obj.isSelected) {
-            self.lastIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
-            if (self.lastIndexPath.row < [self.mainTableView numberOfRowsInSection:0]) {
-                [self.mainTableView scrollToRowAtIndexPath:self.lastIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+    switch (type) {
+        case IMSPopupSingleSelectListViewCellType_Custom:
+        {
+            for (int i = 0; i < self.dataArray.count; i++) {
+                NSDictionary *obj = self.dataArray[i];
+                NSNumber *selected = [obj valueForKey:@"selected"];
+                if (selected) {
+                    self.lastIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                    if (self.lastIndexPath.row < [self.mainTableView numberOfRowsInSection:0]) {
+                        [self.mainTableView scrollToRowAtIndexPath:self.lastIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+                    }
+                    break;
+                } else {
+                    self.lastIndexPath = nil;
+                }
             }
-            break;
-        } else {
-            self.lastIndexPath = nil;
         }
+            break;
+            
+        default:
+        {
+            for (int i = 0; i < self.dataArray.count; i++) {
+                IMSFormSelect *obj = self.dataArray[i];
+                if (obj.isSelected) {
+                    self.lastIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                    if (self.lastIndexPath.row < [self.mainTableView numberOfRowsInSection:0]) {
+                        [self.mainTableView scrollToRowAtIndexPath:self.lastIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+                    }
+                    break;
+                } else {
+                    self.lastIndexPath = nil;
+                }
+            }
+        }
+            break;
     }
     
     [self.mainTableView reloadData];
@@ -142,18 +170,40 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    for (IMSFormSelect *obj in self.dataArray) {
-        obj.selected = NO;
-    }
-    IMSFormSelect *model = self.dataArray[indexPath.row];
-    model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
-    if (self.didSelectedBlock) {
-        self.didSelectedBlock([self.dataArray yy_modelToJSONObject], model);
-    }
-    self.lastIndexPath = [self.lastIndexPath isEqual:indexPath] ? nil : indexPath;
+    switch (self.cellType) {
+        case IMSPopupSingleSelectListViewCellType_Custom:
+        {
+            for (NSMutableDictionary *obj in self.dataArray) {
+                [obj setValue:@(NO) forKey:@"selected"];
+            }
+            NSMutableDictionary *dict = self.dataArray[indexPath.row];
+            [dict setValue:@([self.lastIndexPath isEqual:indexPath] ? NO : YES) forKey:@"selected"];
+            if (self.didSelectedBlock) {
+                self.didSelectedBlock(self.dataArray, [IMSFormSelect yy_modelWithDictionary:dict]);
+            }
+            self.lastIndexPath = [self.lastIndexPath isEqual:indexPath] ? nil : indexPath;
 
-    [tableView reloadData];
-    [self hiddenView];
+            [tableView reloadData];
+            [self hiddenView];
+        }
+            break;
+        default:
+        {
+            for (IMSFormSelect *obj in self.dataArray) {
+                obj.selected = NO;
+            }
+            IMSFormSelect *model = self.dataArray[indexPath.row];
+            model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
+            if (self.didSelectedBlock) {
+                self.didSelectedBlock([self.dataArray yy_modelToJSONObject], model);
+            }
+            self.lastIndexPath = [self.lastIndexPath isEqual:indexPath] ? nil : indexPath;
+
+            [tableView reloadData];
+            [self hiddenView];
+        }
+            break;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {

@@ -72,12 +72,12 @@
 
 - (void)setModel:(IMSPopupSingleSelectContactModel *)model {
     _model = model;
-    self.nameLabel.text = [IMSFormValidateManager isEmpty:model.name] ? @"-" : model.name;
+    self.nameLabel.text = [IMSFormValidateManager isEmpty:model.name] ? @"N/A" : model.name;
     if (![IMSFormValidateManager isEmpty:model.role]) {
-        self.roleLabel.text = model.role;
+        self.roleLabel.text = model.role ? : @"N/A";
     }
-    self.phoneLabel.text = [IMSFormValidateManager isEmpty:model.phone] ? @"-" : model.phone;
-    self.infoLabel.text = [IMSFormValidateManager isEmpty:model.info] ? @"-" : model.info;
+    self.phoneLabel.text = [IMSFormValidateManager isEmpty:model.phone] ? @"N/A" : model.phone;
+    self.infoLabel.text = [IMSFormValidateManager isEmpty:model.info] ? @"N/A" : model.info;
     self.selectButton.selected = model.selected;
     self.selectButton.tintColor = self.tintColor;
 }

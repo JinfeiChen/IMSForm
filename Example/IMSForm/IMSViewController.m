@@ -153,24 +153,36 @@
     return nil;
 }
 
-- (void)customInputSearchWithFormModel:(IMSFormModel *)formModel completation:(nonnull void (^)(IMSPopupSingleSelectListView * _Nullable, NSArray * _Nonnull))callback
+- (IMSPopupSingleSelectListView *)customInputSearchSelectListView
 {
-    // 这里的json数据可通过服务器获取，再转换成IMSFormSelect类型的对象数组
-    NSArray *dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:@[
-        @{
-            @"value" : @"value1"
-        },
-        @{
-            @"value" : @"value2"
-        }
-    ]];
-    if (callback) {
-        IMSCustomInpuSearchListView *selectListView = [[IMSCustomInpuSearchListView alloc] init];
-        callback(selectListView, dataArray);
-    }
+    return [[IMSCustomInpuSearchListView alloc] init];
 }
 
 #pragma mark - IMSFormManagerDataDelegate
+
+- (void)testInputSearch:(nonnull void (^)(NSArray * _Nonnull))callback
+{
+    NSArray *resultArray = @[
+        @{
+            @"id" : @"id1",
+            @"label" : @"value1 label",
+            @"value" : @"value1"
+        },
+        @{
+            @"id" : @"id2",
+            @"label" : @"value2 label",
+            @"value" : @"value2",
+            
+            @"name" : @"姓名",
+            @"phone" : @"手机号",
+            @"role" : @"职位",
+            @"info" : @"个人简介"
+        }
+    ];
+    if (callback) {
+        callback(resultArray);
+    }
+}
 
 #pragma mark - Actions
 

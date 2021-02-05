@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-- (void)customInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void(^)(IMSPopupSingleSelectListView * _Nullable selectListView, NSArray *dataArray))callback;
+- (IMSPopupSingleSelectListView *)customInputSearchSelectListView;
 
 @end
 
