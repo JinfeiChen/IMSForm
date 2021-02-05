@@ -13,7 +13,7 @@
 
 @property (nonatomic, strong) UIView *searchView;
 @property (strong, nonatomic) IMSPopupSingleSelectListView *singleSelectListView; /**< <#property#> */
-@property (strong, nonatomic) UIButton *appendButton; /**< <#property#> */
+@property (strong, nonatomic) UIButton *searchButton; /**< <#property#> */
 
 @end
 
@@ -54,9 +54,9 @@
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     self.textField.backgroundColor = self.bodyView.backgroundColor;
-    self.appendButton.enabled = self.model.isEditable;
+    self.searchButton.enabled = self.model.isEditable;
     
-    self.appendButton.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    self.searchButton.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
     
     if (self.model.isEditable) {
         self.textField.keyboardType = [self keyboardWithTextType:self.model.cpnConfig.textType];
@@ -132,11 +132,6 @@
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     self.model.value = str;
     
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
-    
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
@@ -155,16 +150,14 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    
+    [self searchButtonAction:self.searchButton];
+    
     return YES;
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     self.model.value = @"";
-    
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -223,13 +216,11 @@
             @weakify(self);
             [self.form.uiDelegate customInputSearchWithFormModel:self.model completation:^(IMSPopupSingleSelectListView * _Nonnull selectListView, NSArray * _Nonnull dataArray) {
                 @strongify(self);
-                NSLog(@"listView = %@, dataArray = %@", selectListView, dataArray);
                 
                 self.singleSelectListView = selectListView;
                 [self.singleSelectListView setDataArray:dataArray type:IMSPopupSingleSelectListViewCellType_Custom];
                 
                 [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
-                    NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
                     
                     // update value
                     self.textField.text = selectedModel.value;
@@ -267,7 +258,7 @@
 //        _textField.leftView = leftView;
 //        _textField.leftViewMode = UITextFieldViewModeAlways;
 
-        [self.searchView addSubview:self.appendButton];
+        [self.searchView addSubview:self.searchButton];
         _textField.rightView = self.searchView;
         _textField.rightViewMode = UITextFieldViewModeAlways;
     }
@@ -282,15 +273,15 @@
     return _searchView;
 }
 
-- (UIButton *)appendButton
+- (UIButton *)searchButton
 {
-    if (!_appendButton) {
+    if (!_searchButton) {
         UIButton *rightButton = [[UIButton alloc]initWithFrame:self.searchView.bounds];
         [rightButton addTarget:self action:@selector(searchButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [rightButton setImage:[UIImage bundleImageWithNamed:@"search"] forState:UIControlStateNormal];
-        _appendButton = rightButton;
+        _searchButton = rightButton;
     }
-    return _appendButton;
+    return _searchButton;
 }
 
 - (IMSPopupSingleSelectListView *)singleSelectListView {

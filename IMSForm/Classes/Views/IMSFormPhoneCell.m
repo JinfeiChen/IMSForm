@@ -29,6 +29,17 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self buildView];
+        
+        __weak __typeof__(self) weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
+            __typeof__(self) strongSelf = weakSelf;
+            if (note.object == strongSelf.textField) {
+                // call back
+                if (strongSelf.didUpdateFormModelBlock) {
+                    strongSelf.didUpdateFormModelBlock(strongSelf, strongSelf.model, nil);
+                }
+            }
+        }];
     }
     return self;
 }
@@ -110,15 +121,11 @@
         [self buildBodyViewSubViews];
         
     }
-    
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
 }
 
 - (void)buildBodyViewSubViews
 {
     // prefixView
-//    if (self.model.cpnConfig.dataSource) {
         if (![self.bodyView.subviews containsObject:self.prefixView]) {
             [self.bodyView addSubview:self.prefixView];
         }
@@ -128,10 +135,7 @@
         }];
         [self.prefixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
         self.prefixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
-//    } else {
-//        [self.prefixView removeFromSuperview];
-//    }
-    
+
     [self.ctnView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.bodyView);
         make.left.mas_equalTo(self.model.cpnConfig.dataSource ? self.prefixView.mas_right : self.bodyView).offset(0);
@@ -186,9 +190,9 @@
     self.model.value = str;
     
     // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
+//    if (self.didUpdateFormModelBlock) {
+//        self.didUpdateFormModelBlock(self, self.model, nil);
+//    }
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -215,9 +219,9 @@
     self.model.value = @"";
     
     // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
+//    if (self.didUpdateFormModelBlock) {
+//        self.didUpdateFormModelBlock(self, self.model, nil);
+//    }
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -264,7 +268,7 @@
         if (self.model.cpnConfig.dataSource && self.model.cpnConfig.dataSource.count > 0) {
             IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.cpnConfig.dataSource firstObject]];
             self.prefixView.textLabel.text = selectedModel.label;
-            self.model.valueList = @[[selectedModel yy_modelToJSONObject]];
+            self.model.valueList = [@[[selectedModel yy_modelToJSONObject]] mutableCopy];
         } else {
             self.prefixView.textLabel.text = @"N/A";
         }

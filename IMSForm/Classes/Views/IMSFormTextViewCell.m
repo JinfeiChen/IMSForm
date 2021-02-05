@@ -167,11 +167,6 @@
     NSString *str = [textView.text stringByReplacingCharactersInRange:range withString:text];
     self.model.value = str;
     
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
-    
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];

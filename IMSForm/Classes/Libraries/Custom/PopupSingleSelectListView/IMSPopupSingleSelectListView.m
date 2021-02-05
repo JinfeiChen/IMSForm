@@ -142,7 +142,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%@ == %@", self.lastIndexPath, indexPath);
     for (IMSFormSelect *obj in self.dataArray) {
         obj.selected = NO;
     }

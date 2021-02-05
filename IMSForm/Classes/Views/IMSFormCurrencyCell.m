@@ -29,6 +29,23 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self buildView];
+
+        __weak __typeof__(self) weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
+            __typeof__(self) strongSelf = weakSelf;
+            if (note.object == strongSelf.textField) {
+                
+                CGFloat value = MAX(strongSelf.model.value.floatValue, strongSelf.model.cpnConfig.min);
+                value = MIN(value, strongSelf.model.cpnConfig.max);
+                strongSelf.textField.text = [NSString getRoundFloat:value withPrecisionNum:strongSelf.model.cpnConfig.precision];
+                strongSelf.textField.placeholder = strongSelf.model.placeholder ? : @"Please enter";
+                
+                // call back
+                if (strongSelf.didUpdateFormModelBlock) {
+                    strongSelf.didUpdateFormModelBlock(strongSelf, strongSelf.model, nil);
+                }
+            }
+        }];
     }
     return self;
 }
@@ -161,22 +178,17 @@
     if (!self.model.isEditable) {
         return NO;
     }
-    
+
     // limit number precision
     if (![self validateNumberWithTextField:textField changeRange:range withString:string]) {
         return NO;
     }
-    
+
     BOOL returnKey = [string rangeOfString:@"\n"].location != NSNotFound;
 
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
-
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
 
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -201,11 +213,6 @@
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     self.model.value = @"";
-
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
 
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -283,7 +290,7 @@
     [super setModel:model form:form];
 
     [self updateUI];
-    
+
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
 
@@ -302,7 +309,7 @@
         if (self.model.cpnConfig && self.model.cpnConfig.dataSource.count > 0) {
             IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.cpnConfig.dataSource firstObject]];
             self.suffixView.textLabel.text = selectedModel.label;
-            self.model.valueList = @[[selectedModel yy_modelToJSONObject]];
+            self.model.valueList = [@[[selectedModel yy_modelToJSONObject]] mutableCopy];
         } else {
             self.suffixView.textLabel.text = @"N/A";
         }

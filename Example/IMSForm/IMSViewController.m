@@ -68,17 +68,10 @@
 
 #pragma mark - FormTableViewCell Events
 
-- (void)didUpdatedMyFormModel:(IMSFormModel *)model indexPath:(NSIndexPath *)indexPath
+- (void)didUpdatedFormTableViewCell:(IMSFormTableViewCell *)cell model:(IMSFormModel *)model indexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%@", model);
-    NSLog(@"%@", indexPath);
-}
-
-- (void)customDidSelectedMyFormModel:(IMSFormModel *)model indexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%@", model);
+    NSLog(@"%@", [model yy_modelToJSONObject]);
     NSLog(@"%@", indexPath);
 }
 
@@ -89,7 +82,6 @@
 - (void)cascaderCellDidSelect:(UITableViewCell *)cell andCellModel:(IMSFormModel *)cellModel andIndexPath:(NSIndexPath *)indexPath andSelectModel: (id)object {
     NSLog(@"%s", __FUNCTION__);
     NSLog(@"%@", cellModel.valueList);
-
 }
 
 - (void)inputTagCellDidSelect:(UITableViewCell *)cell andCellModel:(IMSFormModel *)cellModel andIndexPath:(NSIndexPath *)indexPath andSelectModel: (id)object {
