@@ -58,7 +58,7 @@
     
     [self updateUI];
     
-    self.contentLabel.text = model.title;
+    self.contentLabel.text = model.title ? : @"N/A";
 }
 
 #pragma mark - Getters

@@ -189,7 +189,16 @@
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
-    self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
+    // default value
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected = YES"];
+    NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];
+        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
+        self.model.value = selectedModel.label ? : (selectedModel.value ? : @"N/A");
+    }
+    
+    self.textField.text = [self.model.value substringWithRange:NSMakeRange(0, MIN(self.model.value.length, self.model.cpnConfig.lengthLimit))];
     
     self.textField.placeholder = model.placeholder ? : @"Please enter";
     
@@ -225,7 +234,7 @@
                     // update value
                     self.textField.text = selectedModel.value;
                     // update model valueList
-                    self.model.valueList = selectedModel.isSelected ? @[[selectedModel yy_modelToJSONObject]] : @[];
+                    self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
                     
                     // call back
                     if (self.didUpdateFormModelBlock) {

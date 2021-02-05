@@ -21,10 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=isRequired) BOOL required; /**< 是否必需 */
 @property (assign, nonatomic, getter=isSelected) BOOL selected; /**< 是否为选中状态 */
 
-@property (copy, nonatomic) NSString *label; /**< 用于数据显示, e.g. 用户信息表中 name */
-@property (copy, nonatomic) NSString *customLabel; /**< 用于自定义数据显示, e.g. 用户信息表中 name 的自定义显示 customName */
+@property (copy, nonatomic) NSString *label; /**< 用于组件数据显示, e.g. 用户信息表中 name */
+@property (copy, nonatomic) NSString *customLabel; /**< 用于组件自定义数据显示, e.g. 用户信息表中 name 的自定义显示 customName */
 
-@property (copy, nonatomic) NSString *value; /**< 用于数据存储, e.g. 用户信息表中 name 的值 raptor man */
+@property (copy, nonatomic) NSString *value; /**< 用于数据存储, e.g. 用户信息表中 name 的值 userId */
 
 @end
 

@@ -113,7 +113,7 @@
     
     self.infoLabel.text = model.info;
     
-    self.mySwitch.on = [model.value boolValue];
+    self.mySwitch.on = [model.value intValue];
 }
 
 #pragma mark - Actions

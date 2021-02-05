@@ -254,7 +254,8 @@
     _selectedPhotos = [NSMutableArray array];
     NSArray *valueList = model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
-        [[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxImagesLimit))] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+        NSRange range = NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxImagesLimit));
+        [[valueList subarrayWithRange:range] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
             if (![IMSFormValidateManager isURL:obj]) {
                 NSLog(@"图片地址不是合法的URL");
             }
