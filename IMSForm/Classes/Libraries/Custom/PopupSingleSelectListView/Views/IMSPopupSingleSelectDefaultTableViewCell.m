@@ -62,6 +62,11 @@
     self.nameLabel.text = model.label ? : (model.value ? : @"-");
     self.selectButton.selected = model.selected;
     self.selectButton.tintColor = self.tintColor;
+    
+    UIColor *color = model.enable ? [UIColor darkTextColor] : IMS_HEXCOLOR(0xA4ABBF);
+    self.nameLabel.textColor = color;
+    self.selectButton.tintColor = model.enable ? self.tintColor : [UIColor lightGrayColor];
+    self.selectButton.hidden = !model.enable;
 }
 
 #pragma mark - Getters

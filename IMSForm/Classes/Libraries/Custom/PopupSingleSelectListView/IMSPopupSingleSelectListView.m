@@ -140,6 +140,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (self.cellType) {
+        case IMSPopupSingleSelectListViewCellType_Custom:
+        {
+            return [self customTableView:tableView cellForRowAtIndexPath:indexPath];
+        }
+            break;
         case IMSPopupSingleSelectListViewCellType_Contact:
         {
             IMSPopupSingleSelectContactModel *model = (IMSPopupSingleSelectContactModel *)self.dataArray[indexPath.row];
@@ -147,11 +152,6 @@
             cell.tintColor = self.tintColor;
             cell.model = model;
             return cell;
-        }
-            break;
-        case IMSPopupSingleSelectListViewCellType_Custom:
-        {
-            return [self customTableView:tableView cellForRowAtIndexPath:indexPath];
         }
             break;
             
@@ -173,10 +173,14 @@
     switch (self.cellType) {
         case IMSPopupSingleSelectListViewCellType_Custom:
         {
+            NSMutableDictionary *dict = (NSMutableDictionary *)self.dataArray[indexPath.row];
+            NSNumber *enable = [dict valueForKey:@"enable"];
+            if (enable && ![enable boolValue]) {
+                return;
+            }
             for (NSMutableDictionary *obj in self.dataArray) {
                 [obj setValue:@(NO) forKey:@"selected"];
             }
-            NSMutableDictionary *dict = self.dataArray[indexPath.row];
             [dict setValue:@([self.lastIndexPath isEqual:indexPath] ? NO : YES) forKey:@"selected"];
             if (self.didSelectedBlock) {
                 self.didSelectedBlock(self.dataArray, [IMSFormSelect yy_modelWithDictionary:dict]);
@@ -189,10 +193,13 @@
             break;
         default:
         {
+            IMSFormSelect *model = (IMSFormSelect *)self.dataArray[indexPath.row];
+            if (model && !model.isEnable) {
+                return;
+            }
             for (IMSFormSelect *obj in self.dataArray) {
                 obj.selected = NO;
             }
-            IMSFormSelect *model = self.dataArray[indexPath.row];
             model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
             if (self.didSelectedBlock) {
                 self.didSelectedBlock([self.dataArray yy_modelToJSONObject], model);
