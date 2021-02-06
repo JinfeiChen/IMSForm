@@ -184,25 +184,25 @@
     [self.contentView addSubview:self.infoLabel];
     [self.contentView addSubview:self.bodyView];
     [self.bodyView addSubview:self.collectionView];
-    
+
     [self updateUI];
 }
 
 - (void)updateUI
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
-    
+
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
-    
+
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
-    
+
     CGFloat spacing = self.model.cpnStyle.spacing;
-    
+
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     self.collectionView.backgroundColor = self.bodyView.backgroundColor;
-    
+
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
         make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
@@ -218,11 +218,11 @@
         make.left.right.mas_equalTo(self.bodyView);
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
-    
+
     [self.collectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.bodyView).with.insets(UIEdgeInsetsZero);
     }];
-    
+
 //    [self.form.tableView beginUpdates];
 //    [self.form.tableView endUpdates];
 }
@@ -242,14 +242,14 @@
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
 {
     [super setModel:model form:form];
-    
+
     [self updateUI];
-    
+
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
-    
+
     self.infoLabel.text = model.info;
-    
+
     // MARK: update _selectedPhotos
     _selectedPhotos = [NSMutableArray array];
     NSArray *valueList = model.valueList;
@@ -258,11 +258,12 @@
         [[valueList subarrayWithRange:range] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
             if (![IMSFormValidateManager isURL:obj]) {
                 NSLog(@"图片地址不是合法的URL");
+            } else {
+                [_selectedPhotos addObject:[NSURL URLWithString:obj]];
             }
-            [_selectedPhotos addObject:[NSURL URLWithString:obj]];
         }];
     }
-    
+
     [self.collectionView reloadData];
 }
 
@@ -279,19 +280,23 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CJFFormTBImageUpload001CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CJFFormTBImageUpload001CollectionViewCell class]) forIndexPath:indexPath];
+    cell.videoImageView.image = nil;
     cell.videoImageView.hidden = YES;
     cell.videoURL = nil;
+    cell.imageView.image = nil;
     cell.imageView.backgroundColor = [UIColor colorWithWhite:1.000 alpha:0.500];
     if (indexPath.item == _selectedPhotos.count) {
         cell.imageView.image = nil;
         cell.imageView.image = [UIImage bundleImageWithNamed:@"AlbumAddBtn.png"];
         cell.deleteBtn.hidden = YES;
         cell.gifLable.hidden = YES;
-    } else {
+    }
+    else {
         id photo = _selectedPhotos[indexPath.item];
         if ([photo isKindOfClass:[UIImage class]]) {
             cell.imageView.image = photo;
-        } else if ([photo isKindOfClass:[NSURL class]]) {
+        }
+        else if ([photo isKindOfClass:[NSURL class]]) {
             NSURL *URL = (NSURL *)photo;
             NSString *suffix = [[URL.absoluteString.lowercaseString componentsSeparatedByString:@"."] lastObject];
             if (suffix && [self.videoSuffixs containsObject:suffix]) {
@@ -299,7 +304,8 @@
             } else {
                 [self configImageView:cell.imageView URL:(NSURL *)photo completion:nil];
             }
-        } else if ([photo isKindOfClass:[PHAsset class]]) {
+        }
+        else if ([photo isKindOfClass:[PHAsset class]]) {
             [[TZImageManager manager] getPhotoWithAsset:photo photoWidth:100 completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
                 NSLog(@"info: %@", info);
                 cell.imageView.image = photo;
@@ -314,19 +320,19 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.item == _selectedPhotos.count) {
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.item == _selectedPhotos.count) { // 添加新照片或视频
         TZImagePickerController *imagePickerVc = [self createTZImagePickerController];
         imagePickerVc.isSelectOriginalPhoto = NO;
         [imagePickerVc setDidFinishPickingPhotosWithInfosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto, NSArray<NSDictionary *> *infos) {
-//            NSLog(@"photos: %@, assets: %@, info: %@", photos, assets, infos);
-            
-            if (self.didUpdateFormModelBlock) {
-                self.didUpdateFormModelBlock(self, self.model, photos);
-            }
+//            NSLog(@"photos: %@, assets: %@, isSelectOriginalPhoto: %d, info: %@", photos, assets, isSelectOriginalPhoto, infos);
+
+            [self uploadPhotos:photos];
         }];
         [[self viewController] presentViewController:imagePickerVc animated:YES completion:nil];
-    } else { // preview photos or video / 预览照片或者视频
+    }
+    else { // preview photos or video / 预览照片或者视频
         TZImagePickerController *imagePickerVc = [self createTZImagePickerController];
         imagePickerVc.maxImagesCount = 1;
         imagePickerVc.showSelectBtn = NO;
@@ -406,7 +412,7 @@
     // 再对collectionView进行布局
     self.collectionView.frame = CGRectMake(0, 0, targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right, 44);
     [self.collectionView layoutIfNeeded];
-    
+
     _margin = 10;
     _itemWH = (targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.model.cpnConfig.rowImages - 1) * _margin - 2 * _margin) / self.model.cpnConfig.rowImages;
     self.flowLayout.itemSize = CGSizeMake(_itemWH, _itemWH);
@@ -419,13 +425,13 @@
     YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:maxSize text:titleAttri];
     contentL.textLayout = layout;
     CGFloat titleHeight = layout.textBoundingSize.height;
-    
+
     NSMutableAttributedString *infoAttri = [[NSMutableAttributedString alloc] initWithString:self.model.info];
     maxSize = CGSizeMake(targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right, MAXFLOAT);
     layout = [YYTextLayout layoutWithContainerSize:maxSize text:infoAttri];
     contentL.textLayout = layout;
     CGFloat infoHeight = layout.textBoundingSize.height;
-    
+
     // 由于这里collection的高度是动态的，这里cell的高度我们根据collection来计算
     CGSize collectionSize = self.collectionView.collectionViewLayout.collectionViewContentSize;
     CGFloat contentHeight = collectionSize.height + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom + infoHeight + self.model.cpnStyle.spacing + 5;
@@ -469,73 +475,83 @@
     }
 }
 
+- (void)uploadPhotos:(NSArray <UIImage *> *)photos
+{
+    // MARK: 获取上传结果数据
+    SEL selector = NSSelectorFromString(self.model.cpnConfig.imageUploadSelectorString);
+    if (!selector) {
+        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Undeclared image upload method"];
+        return;
+    }
+    if (self.form.dataDelegate && [self.form.dataDelegate respondsToSelector:selector]) {
+        @weakify(self);
+        void(^uploadBlock)(NSArray <NSString *> *dataArray) = ^(NSArray <NSString *> *dataArray) {
+            @strongify(self);
+            
+            NSLog(@"upload result: %@", dataArray);
+            
+            [dataArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (![IMSFormValidateManager isURL:obj]) {
+                    NSLog(@"图片地址不是合法的URL");
+                } else {
+                    [_selectedPhotos addObject:[NSURL URLWithString:obj]];
+                }
+            }];
+            NSRange range = NSMakeRange(0, MIN(_selectedPhotos.count, self.model.cpnConfig.maxImagesLimit));
+            _selectedPhotos = [[_selectedPhotos subarrayWithRange:range] mutableCopy];
+            
+            [self.collectionView reloadData];
+            [self.form.tableView beginUpdates];
+            [self.form.tableView endUpdates];
+            
+            // update model valueList
+            NSMutableArray *mArr = [NSMutableArray array];
+            for (NSURL *url in _selectedPhotos) {
+                [mArr addObject:url.absoluteString];
+            }
+            self.model.valueList = mArr;
+
+            // call back
+            if (self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
+            
+        };
+        [self.form.dataDelegate performSelector:selector withObject:photos withObject:uploadBlock];
+        
+    } else {
+        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data image upload method"];
+    }
+}
+
 #pragma mark - Actions
 
 - (void)deleteBtnClik:(UIButton *)sender {
-    if ([self collectionView:self.collectionView numberOfItemsInSection:0] <= _selectedPhotos.count) { // 没有+号按钮的时候
-        [_selectedPhotos removeObjectAtIndex:sender.tag];
+
+    [_selectedPhotos removeObjectAtIndex:sender.tag];
+    [_collectionView performBatchUpdates:^{
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:sender.tag inSection:0];
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        
+    } completion:^(BOOL finished) {
+        
         [self.collectionView reloadData];
         [self.form.tableView beginUpdates];
         [self.form.tableView endUpdates];
         
-        // update model value
-//        NSError *localError = nil;
-//        NSData *jsonData = [self.model.value dataUsingEncoding:NSUTF8StringEncoding];
-//        NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-//        if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-//            NSMutableArray *mArr = [NSMutableArray arrayWithArray:jsonObject];
-//            [mArr removeObjectAtIndex:sender.tag];
-//            self.model.value = [mArr yy_modelToJSONString];
-//        }
-        NSArray *valueList = self.model.valueList;
-        if (valueList && [valueList isKindOfClass:[NSArray class]]) {
-            NSMutableArray *mArr = [NSMutableArray arrayWithArray:valueList];
-            [mArr removeObjectAtIndex:sender.tag];
-            self.model.value = [mArr copy];
+        // update model valueList
+        NSMutableArray *mArr = [NSMutableArray array];
+        for (NSURL *url in self.selectedPhotos) {
+            [mArr addObject:url.absoluteString];
         }
-        
+        self.model.valueList = mArr;
+
         // call back
         if (self.didUpdateFormModelBlock) {
             self.didUpdateFormModelBlock(self, self.model, nil);
         }
-        
-        return;
-    }
-    
-    [_selectedPhotos removeObjectAtIndex:sender.tag];
-    [_collectionView performBatchUpdates:^{
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:sender.tag inSection:0];
-        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-    } completion:^(BOOL finished) {
-        [self.collectionView reloadData];
-        [self.form.tableView beginUpdates];
-        [self.form.tableView endUpdates];
-        
-        if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, nil);
-        }
     }];
-    
-    // update model value
-//    NSError *localError = nil;
-//    NSData *jsonData = [self.model.value dataUsingEncoding:NSUTF8StringEncoding];
-//    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingMutableContainers error:&localError];
-//    if (!localError && [jsonObject isKindOfClass:[NSArray class]]) {
-//        NSMutableArray *mArr = [NSMutableArray arrayWithArray:jsonObject];
-//        [mArr removeObjectAtIndex:sender.tag];
-//        self.model.value = [mArr yy_modelToJSONString];
-//    }
-    NSArray *valueList = self.model.valueList;
-    if (valueList && [valueList isKindOfClass:[NSArray class]]) {
-        NSMutableArray *mArr = [NSMutableArray arrayWithArray:valueList];
-        [mArr removeObjectAtIndex:sender.tag];
-        self.model.valueList = [mArr copy];
-    }
-    
-    // call back
-    if (self.didUpdateFormModelBlock) {
-        self.didUpdateFormModelBlock(self, self.model, nil);
-    }
 }
 
 #pragma mark - Getters

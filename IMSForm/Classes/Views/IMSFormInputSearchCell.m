@@ -304,7 +304,7 @@
                 [self.singleSelectListView showView];
                 
             };
-            [self.form.dataDelegate performSelector:searchSelector withObject:searchCompletedBlock];
+            [self.form.dataDelegate performSelector:searchSelector withObject:self.textField.text withObject:searchCompletedBlock];
             
         } else {
             [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data search method"];

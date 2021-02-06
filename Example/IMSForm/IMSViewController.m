@@ -160,8 +160,10 @@
 
 #pragma mark - IMSFormManagerDataDelegate
 
-- (void)testInputSearch:(nonnull void (^)(NSArray * _Nonnull))callback
+- (void)testSearchInput:(NSString *)text completed:(nonnull void (^)(NSArray * _Nonnull))callback
 {
+    NSLog(@"%@", text);
+    
     NSArray *resultArray = @[
         @{
             @"id" : @"id1",
@@ -181,6 +183,33 @@
     ];
     if (callback) {
         callback(resultArray);
+    }
+}
+
+- (void)testUploadImages:(NSArray <UIImage *> *)photos completed:(void (^)(NSArray <NSString *>*))callback
+{
+    NSLog(@"%@", photos);
+    
+    if (callback) {
+        NSArray *uploadResult = @[
+            @"http://www.tupian.com/images/Pages3_1.jpg"
+        ];
+        callback(uploadResult);
+    }
+}
+
+- (void)testUploadFile:(NSDictionary *)fileData completed:(void (^)(NSArray <NSDictionary *> *))callback
+{
+    NSLog(@"%@", fileData);
+    
+    if (callback) {
+        NSArray *uploadResult = @[
+            @{
+                @"name" : @"http://www.tupian.com/images/Pages3_1.jpg",
+                @"id" : @"fileIdentifier"
+            }
+        ];
+        callback(uploadResult);
     }
 }
 
