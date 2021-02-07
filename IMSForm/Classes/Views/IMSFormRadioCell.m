@@ -149,28 +149,36 @@
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
     if (button.selected && radioModel.cpnConfig.deselect) {
         [self.model.valueList removeAllObjects];
-        IMSFormSelect *deselectModel = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:radioModel.cpnConfig.dataSource][button.tag];
-        deselectModel.selected = button.selected = NO;
+        NSMutableArray *deselectArrayM = [NSMutableArray arrayWithArray:radioModel.cpnConfig.dataSource];
+        NSMutableDictionary *deselectDataDict = [NSMutableDictionary dictionaryWithDictionary:radioModel.cpnConfig.dataSource[button.tag]];
+        button.selected = NO;
+        [deselectDataDict setValue:@(NO) forKey:@"selected"];
         if (self.didUpdateFormModelBlock) {
             self.didUpdateFormModelBlock(self, self.model, nil);
         }
+        [deselectArrayM replaceObjectAtIndex:button.tag withObject:deselectDataDict];
+        radioModel.cpnConfig.dataSource = deselectArrayM;
         return;
     }
     
     if (button.selected) return;
     
     [self.model.valueList removeAllObjects];
+    NSMutableArray *selectArrayM = [NSMutableArray array];
     for (int i = 0; i < self.buttonArrayM.count; ++i) {
         UIButton *allButton = self.buttonArrayM[i];
-        IMSFormSelect *selectModel = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:radioModel.cpnConfig.dataSource][i];
-        selectModel.selected =  allButton.selected = (button.tag == allButton.tag);
-        if (selectModel.selected) {
-            [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
+        NSMutableDictionary *selectDataDictM = [NSMutableDictionary dictionaryWithDictionary:radioModel.cpnConfig.dataSource[i]];
+        allButton.selected = (button.tag == allButton.tag);
+        [selectDataDictM setValue:@(allButton.selected) forKey:@"selected"];
+        [selectArrayM addObject:selectDataDictM];
+        if ( allButton.selected) {
+            [self.model.valueList addObject:selectDataDictM];
             if (self.didUpdateFormModelBlock) {
                 self.didUpdateFormModelBlock(self, self.model, nil);
             }
         }
     }
+    radioModel.cpnConfig.dataSource = selectArrayM;
 }
 
 - (NSMutableArray *)buttonArrayM {
