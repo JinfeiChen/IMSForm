@@ -8,6 +8,7 @@
 #import "IMSFormFileCell.h"
 
 #import <IMSForm/IMSFormManager.h>
+#import <IMSForm/IMSFormNetworking.h>
 
 #define kFormTBFileRowHeight 35.0
 
@@ -103,6 +104,8 @@
 @interface IMSFormFileCell () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSMutableArray *listArray; /**< <#property#> */
+
+@property (strong, nonatomic) IMSFormNetworking *sessionManager; /**< <#property#> */
 
 @end
 
@@ -205,12 +208,12 @@
         @weakify(self);
         void(^uploadBlock)(NSArray <NSDictionary *> *dataArray) = ^(NSArray <NSDictionary *> *dataArray) {
             @strongify(self);
-            
+
             NSLog(@"upload result: %@", dataArray);
             if (!dataArray || ![dataArray isKindOfClass:[NSArray class]]) {
                 return;
             }
-            
+
             // MARK: add new files
             for (NSDictionary *dict in dataArray) {
                 [self.listArray addObject:dict];
@@ -218,22 +221,22 @@
             self.listArray = [[self.listArray subarrayWithRange:NSMakeRange(0, MIN(self.listArray.count, self.model.cpnConfig.maxFilesLimit))] mutableCopy];
             self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
             [self updateMyConstraints];
-            
+
             [self.listTableView reloadData];
             [self.form.tableView beginUpdates];
             [self.form.tableView endUpdates];
-            
+
             // update model valueList
             self.model.valueList = [self.listArray copy];
-            
+
             // call back
             if (self.didUpdateFormModelBlock) {
                 self.didUpdateFormModelBlock(self, self.model, nil);
             }
-            
+
         };
         [self.form.dataDelegate performSelector:selector withObject:fileData withObject:uploadBlock];
-        
+
     } else {
         [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data file upload method"];
     }
@@ -363,6 +366,7 @@
             [obj setObject:error forKey:@"error"];
         }
         
+        // 上传方法外置
         [self uploadFile:obj];
     };
     
@@ -428,6 +432,14 @@
         _filePicker = [[IMSFilePicker alloc] init];
     }
     return _filePicker;
+}
+
+- (IMSFormNetworking *)sessionManager
+{
+    if (!_sessionManager) {
+        _sessionManager = [[IMSFormNetworking alloc] init];
+    }
+    return _sessionManager;
 }
 
 @end

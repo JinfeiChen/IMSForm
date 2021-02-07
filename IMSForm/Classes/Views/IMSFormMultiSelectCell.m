@@ -298,9 +298,9 @@
         [self updateArrowButtonAnimation];
         
         // call back
-        if (!isShow && self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, nil);
-        }
+//        if (!isShow && self.didUpdateFormModelBlock) {
+//            self.didUpdateFormModelBlock(self, self.model, nil);
+//        }
     }];
     
     self.multipleSelectListView.maxCount = self.model.cpnConfig.multipleLimit;

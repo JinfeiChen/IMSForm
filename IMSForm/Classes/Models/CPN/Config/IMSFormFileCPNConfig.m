@@ -13,6 +13,7 @@
 {
     if (self = [super init]) {
         _maxFilesLimit = 20;
+        _fileUploadSelectorString = @"IMSForm_UploadFile:completed:";
     }
     return self;
 }
