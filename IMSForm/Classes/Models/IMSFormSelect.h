@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 //@property (copy, nonatomic) NSString *label; /**< <#property#> */
 //@property (copy, nonatomic) NSString *value; /**< <#property#> */
 
-@property (nonatomic, copy) NSString *title; /**< 分区标题 */
+@property (nonatomic, copy) NSString *groupTitle; /**< 分区标题 */
 
 @property (copy, nonatomic) NSString *field; /**< <#property#> */
 @property (strong, nonatomic) id param; /**< <#property#>   */

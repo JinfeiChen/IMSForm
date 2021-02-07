@@ -278,7 +278,7 @@
 {
     IMSFormFileSubCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSFormFileSubCell class])];
     NSDictionary *modelDict = self.listArray[indexPath.row];
-    cell.myTitleLabel.text = [NSString stringWithFormat:@"%@", [modelDict valueForKey:@"name"]];
+    cell.myTitleLabel.text = [NSString stringWithFormat:@"%@", [modelDict valueForKey:@"name"] ? : @"N/A"];
     cell.deleteBtn.hidden = !self.model.isEditable;
     cell.contentView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     cell.deleteBlock = ^(UIButton *button) {

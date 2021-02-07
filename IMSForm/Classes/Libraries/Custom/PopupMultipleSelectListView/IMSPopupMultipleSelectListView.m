@@ -255,7 +255,7 @@
     if (self.isGroup) {
         IMSFormSelect *sectionModel = self.dataArray[section];
         IMSPopupMultipleSelectTableViewSectionHeaderView *headerView = [[IMSPopupMultipleSelectTableViewSectionHeaderView alloc]init];
-        [headerView setupData:sectionModel.title andBackColor:[UIColor whiteColor] andTitleColor:IMS_HEXCOLOR(0xA4ABBF) andTitleFont:[UIFont systemFontOfSize:16]];
+        [headerView setupData:sectionModel.groupTitle andBackColor:[UIColor whiteColor] andTitleColor:IMS_HEXCOLOR(0xA4ABBF) andTitleFont:[UIFont systemFontOfSize:16]];
         return headerView;
     }
     return nil;

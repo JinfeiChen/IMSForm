@@ -13,29 +13,23 @@
 #import <IMSForm/IMSFormValidateManager.h>
 #import <IMSForm/IMSFormUIManager.h>
 
-//#import <IMSForm/IMSPopupSingleSelectListView.h>
-//#import <IMSForm/IMSPopupMultipleSelectListView.h>
 #import <IMSForm/IMSFormManagerUIDelegate.h>
 #import <IMSForm/IMSFormManagerDataDelegate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-//@protocol IMSFormManagerDelegate <NSObject>
-//
-//@optional
-//
-//- (IMSPopupSingleSelectListView *)customSingleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义单选列表视图
-//- (IMSPopupMultipleSelectListView *)customMultipleSelectListViewWithFormModel:(IMSFormModel *)formModel; // 自定义多选列表视图
-//- (void)testInputSearchWithFormModel:(IMSFormModel *)formModel completation:(void(^)(NSArray *dataArray))callback;
-//
-//@end
-
 @interface IMSFormManager : IMSFormObject
+/**<
+ 表单UI代理对象
+ single/multiple select list view 组件的代理方法 自定义列表 在此对象中实现
+ */
+@property (weak, nonatomic) id<IMSFormManagerUIDelegate> uiDelegate;
 
-//@property (weak, nonatomic) id<IMSFormManagerDelegate> delegate __attribute__((deprecated("Use -uiDelegate."))); /**< <#property#> */
-
-@property (weak, nonatomic) id<IMSFormManagerUIDelegate> uiDelegate; /**< <#property#> */
-@property (weak, nonatomic) id<IMSFormManagerDataDelegate> dataDelegate; /**< <#property#> */
+/**<
+ 表单Data代理对象
+ inputSearch/imageUpload/fileUpload 组件的代理方法 搜索/图片上传/文件上传 都在此对象中实现
+ */
+@property (weak, nonatomic) id<IMSFormManagerDataDelegate> dataDelegate;
 
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
 @property (strong, nonatomic) NSArray <IMSFormModel *> *dataSource; /**< 表单数据源 */

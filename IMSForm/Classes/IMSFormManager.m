@@ -14,7 +14,6 @@
     if (self = [super init]) {
         _tableView = tableView;
         _dataSource = [IMSFormDataManager formDataArrayWithJSON:[IMSFormDataManager readLocalJSONFileWithName:jsonName]];
-        // TODO: Sort dataSource
     }
     return self;
 }
