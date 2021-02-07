@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface IMSFormManager : IMSFormObject
 /**<
  表单UI代理对象
- single/multiple select list view 组件的代理方法 自定义列表 在此对象中实现
+ inputSearch/single/multiple select list view 组件的代理方法 自定义列表 在此对象中实现
  */
 @property (weak, nonatomic) id<IMSFormManagerUIDelegate> uiDelegate;
 

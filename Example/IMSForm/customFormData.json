@@ -6,5 +6,47 @@
         "info" : "这是自定义字段的说明/提示文字",
         
         "field" : "name"
+    },
+    
+    {
+        "type" : "IMSFormComponentType_FileUpload",
+
+        "title" : "File",
+        
+        "valueList" : [
+            {
+                "name" : "jklaskjdlfkajldjfk.pdf",
+                "id" : "fileIdentifier1"
+            },
+            {
+                "name" : "12978394h.pdf",
+                "id" : "fileIdentifier2"
+            }
+        ],
+        
+        "cpnConfig" : {
+            "maxFilesLimit" : 3
+        },
+
+        "defaultSelectorString" : "didUpdatedFormTableViewCell:model:indexPath:"
+    },
+
+    {
+        "type" : "IMSFormComponentType_ImageUpload",
+
+        "title" : "Image",
+        
+        "valueList" : [
+            "http://www.tupian.com/images/Pages2_1.jpg",
+            "http://www.tupian.com/images/Pages4_1.jpg",
+            "http://www.tupian.com/images/Pages2_1.jpg",
+            "http://www.tupian.com/images/Pages4_1.jpg"
+        ],
+        
+        "cpnConfig" : {
+            "maxImagesLimit" : 8
+        },
+
+        "defaultSelectorString" : "didUpdatedFormTableViewCell:model:indexPath:"
     }
 ]

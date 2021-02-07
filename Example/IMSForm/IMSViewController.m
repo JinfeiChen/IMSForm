@@ -186,6 +186,33 @@
     }
 }
 
+- (void)IMSForm_UploadFile:(NSDictionary *)fileData completed:(void (^)(NSArray<NSDictionary *> * _Nonnull))callback
+{
+    NSLog(@"%@", fileData);
+    
+    if (callback) {
+        NSArray *uploadResult = @[
+            @{
+                @"name" : @"http://www.tupian.com/images/Pages3_1.jpg",
+                @"id" : @"fileIdentifier"
+            }
+        ];
+        callback(uploadResult);
+    }
+}
+
+- (void)IMSForm_UploadImages:(NSArray<UIImage *> *)photos completed:(void (^)(NSArray<NSString *> * _Nonnull))callback
+{
+    NSLog(@"%@", photos);
+    
+    if (callback) {
+        NSArray *uploadResult = @[
+            @"http://www.tupian.com/images/Pages3_1.jpg"
+        ];
+        callback(uploadResult);
+    }
+}
+
 - (void)testUploadImages:(NSArray <UIImage *> *)photos completed:(void (^)(NSArray <NSString *>*))callback
 {
     NSLog(@"%@", photos);

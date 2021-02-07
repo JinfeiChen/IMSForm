@@ -14,6 +14,7 @@
     if (self = [super init]) {
         _maxImagesLimit = 20;
         _rowImages = 4;
+        _imageUploadSelectorString = @"IMSForm_UploadImages:completed:";
     }
     return self;
 }

@@ -93,7 +93,15 @@ if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
 
 如需要单独设置组件颜色，可在cpnStyle中配置 tintHexColor，单独设置的优先级高于全局。
 
-### Form JSON Data
+### 表单Data代理对象 id<IMSFormManagerDataDelegate>
+
+inputSearch/imageUpload/fileUpload 组件的代理方法 搜索/图片上传/文件上传 都在此对象中实现
+
+### 表单UI代理对象 id<IMSFormManagerUIDelegate>
+
+inputSearch/single/multiple select list view 组件的代理方法 自定义列表 在此对象中实现
+
+### Form JSON data example
 
 ```
 [
@@ -388,7 +396,7 @@ if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
                     },
                     "failure" : {
                         "title" : "周董说：",
-                        "message" : "Fuck you!"
+                        "message" : "Oops! 失败了"
                     }
                 }
             ]
@@ -634,7 +642,7 @@ if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
             "dataSource" : [
                 {
                     "value" : "section1",
-                    "title" : "Section 1",
+                    "groupTitle" : "Section 1",
                     "child" : [
                         {
                             "value" : "value11",
@@ -650,7 +658,7 @@ if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
                 },
                 {
                     "value" : "section2",
-                    "title" : "Section 2",
+                    "groupTitle" : "Section 2",
                     "child" : [
                         {
                             "value" : "value21",
