@@ -16,11 +16,4 @@
     return self;
 }
 
-+ (NSDictionary *)modelContainerPropertyGenericClass {
-    // value should be Class or Class name.
-    return @{
-        @"dataSource" : [IMSFormSelect class]
-    };
-}
-
 @end

@@ -195,9 +195,9 @@
     // MARK: Show multiple select list view
     IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
     IMSPopupTreeSelectListView *listView = [[IMSPopupTreeSelectListView alloc]init];
-    [self dealStatus:cascaderModel.cpnConfig.dataSource andHaveDataSource:self.valueListM];// 重置按钮状态
+    [self dealStatus:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:cascaderModel.cpnConfig.dataSource] andHaveDataSource:self.valueListM];// 重置按钮状态
     listView.isMultiple = cascaderModel.cpnConfig.isMultiple;
-    listView.dataArray = cascaderModel.cpnConfig.dataSource;
+    listView.dataArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:cascaderModel.cpnConfig.dataSource];
     listView.maxCount = cascaderModel.cpnConfig.maxCount;
     listView.seleceDataSource = cascaderModel.valueList;
     

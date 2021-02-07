@@ -8,10 +8,5 @@
 #import "IMSFormRadioCPNConfig.h"
 
 @implementation IMSFormRadioCPNConfig
-+ (NSDictionary *)modelContainerPropertyGenericClass {
-    // value should be Class or Class name.
-    return @{
-        @"dataSource" : [IMSFormSelect class]
-    };
-}
+
 @end
