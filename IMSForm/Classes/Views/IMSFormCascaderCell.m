@@ -85,16 +85,16 @@
         make.right.equalTo(self.arrowButton.mas_left);
     }];
     
-    [self.placeholderLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.bodyView).offset(10);
         make.top.equalTo(self.bodyView);
-        make.height.equalTo(@40);
+        make.height.greaterThanOrEqualTo(@40);
         make.right.equalTo(self.arrowButton.mas_left).offset(-10);
         make.bottom.equalTo(self.bodyView).priority(500);
     }];
     
-    [self.contentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.placeholderLabel);
+    [self.placeholderLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.contentLabel);
     }];
     
 //    [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
@@ -165,7 +165,7 @@
      
     self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
     
-    self.contentLabel.text = formSelect.label ?: (formSelect.value ?: @"");
+    self.contentLabel.text = self.model.label ?: @"";
 }
 
 #pragma mark - RATagViewDelegate
@@ -210,8 +210,10 @@
     
     [listView showView];
     
-    [listView setDidSelectedBlock:^(NSMutableArray *selectDataSource, IMSFormSelect * _Nonnull selectedModel, NSString *tipString) {
+    [listView setDidSelectedBlock:^(NSMutableArray *selectDataSource, IMSFormSelect * _Nonnull selectedModel, NSString *contentLabel) {
         @strongify(self);
+        
+        self.model.label = contentLabel;
         
         self.model.valueList = selectDataSource;
         
@@ -298,7 +300,7 @@
         _contentLabel = [[UILabel alloc] init];
         _contentLabel.textColor = IMS_HEXCOLOR(0x565465);
         _contentLabel.font = [UIFont systemFontOfSize:12];
-        _contentLabel.numberOfLines = 0;
+        _contentLabel.numberOfLines = 2;
         _contentLabel.backgroundColor = [UIColor clearColor];
     }
     return _contentLabel;

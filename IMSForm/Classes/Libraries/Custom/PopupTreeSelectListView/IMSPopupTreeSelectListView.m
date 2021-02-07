@@ -111,9 +111,9 @@
             treeView.dataArray = didSelectDataModel.child;
             NSMutableString *titleMutString = [[NSMutableString alloc]init];
             if (isfirstShow == NO) {
-                [titleMutString appendFormat:@"%@ > %@",treeTabViewTitleString,didSelectDataModel.value];
+                [titleMutString appendFormat:@"%@ > %@",treeTabViewTitleString,didSelectDataModel.label ?: didSelectDataModel.value];
             }else {
-                [titleMutString appendString:didSelectDataModel.value];
+                [titleMutString appendString:didSelectDataModel.label ?: didSelectDataModel.value];
             }
             [treeView show:YES andTitle:titleMutString];
             for (IMSFormSelect *allModel in tabView.dataArray) {
@@ -156,7 +156,7 @@
             
             self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)",self.didSelectedCount,self.didSelectedCount > 1 ? @"items" : @"item",self.maxCount];
             if (self.didSelectedBlock) {
-                self.didSelectedBlock([self.seleceDataSource yy_modelToJSONObject],didSelectDataModel, self.tipLabel.text);
+                self.didSelectedBlock([self.seleceDataSource yy_modelToJSONObject],didSelectDataModel, [NSString stringWithFormat:@"%@ %@ %@",treeTabViewTitleString ?: @"", treeTabViewTitleString ? @">":@"", didSelectDataModel.label ?: didSelectDataModel.value]);
             }
         }
     }];
