@@ -269,7 +269,7 @@
                 [self.singleSelectListView setDataArray:dataArray type:self.singleSelectListView.cellType];
                 
                 [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
-                    
+                    @strongify(self);
                     // update value
                     if ([self.model.cpnConfig.selectItemType isEqualToString:IMSFormSelectItemType_Contact]) {
                         IMSPopupSingleSelectContactModel *newSelectedModel = (IMSPopupSingleSelectContactModel *)selectedModel;

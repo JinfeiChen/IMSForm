@@ -165,7 +165,7 @@
      
     self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
     
-    self.contentLabel.text = self.model.label ?: @"";
+    self.contentLabel.text = self.model.value ?: @"";
 }
 
 #pragma mark - RATagViewDelegate
@@ -213,7 +213,7 @@
     [listView setDidSelectedBlock:^(NSMutableArray *selectDataSource, IMSFormSelect * _Nonnull selectedModel, NSString *contentLabel) {
         @strongify(self);
         
-        self.model.label = contentLabel;
+        self.model.value = contentLabel;
         
         self.model.valueList = selectDataSource;
         
