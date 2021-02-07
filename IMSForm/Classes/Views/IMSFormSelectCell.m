@@ -142,7 +142,13 @@
 
     self.infoLabel.text = model.info;
 
-    self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:model.valueList];
+    // default value
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected = YES"];
+    NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];
+    }
+    self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList];
 
     for (IMSFormSelect *model in self.valueModelArray) {
         self.contentLabel.text = model.value ? : @"N/A";
@@ -216,6 +222,11 @@
         self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
         // update select datasource
         self.model.cpnConfig.dataSource = dataArray;
+        
+        // call back
+        if (self.didUpdateFormModelBlock) {
+            self.didUpdateFormModelBlock(self, self.model, nil);
+        }
 
         [self updatePlaceholder];
     }];

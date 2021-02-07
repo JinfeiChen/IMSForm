@@ -64,7 +64,7 @@
         self.nameLabel.textColor = IMS_HEXCOLOR(0xA4ABBF);
         self.selectButton.hidden = YES;
     } else {
-        self.nameLabel.textColor = [UIColor blackColor];
+        self.nameLabel.textColor = [UIColor darkTextColor];
         self.selectButton.hidden = NO;
         self.selectButton.selected = model.isSelected;
     }

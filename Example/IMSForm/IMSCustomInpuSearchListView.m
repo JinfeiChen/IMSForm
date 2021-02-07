@@ -17,8 +17,8 @@
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: identifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    IMSFormSelect *model = self.dataArray[indexPath.row];
-    cell.textLabel.text = model.value;
+    IMSFormSelect *model = [IMSFormSelect yy_modelWithDictionary:self.dataArray[indexPath.row]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld - %@", indexPath.row + 1, model.label ? : (model.value ? : @"N/A")];
     return cell;
 }
 

@@ -72,14 +72,23 @@
 
 - (void)setModel:(IMSPopupSingleSelectContactModel *)model {
     _model = model;
-    self.nameLabel.text = [IMSFormValidateManager isEmpty:model.name] ? @"-" : model.name;
+
+    self.nameLabel.text = [IMSFormValidateManager isEmpty:model.name] ? @"N/A" : model.name;
     if (![IMSFormValidateManager isEmpty:model.role]) {
-        self.roleLabel.text = model.role;
+        self.roleLabel.text = model.role ? : @"N/A";
     }
-    self.phoneLabel.text = [IMSFormValidateManager isEmpty:model.phone] ? @"-" : model.phone;
-    self.infoLabel.text = [IMSFormValidateManager isEmpty:model.info] ? @"-" : model.info;
+    self.phoneLabel.text = [IMSFormValidateManager isEmpty:model.phone] ? @"N/A" : model.phone;
+    self.infoLabel.text = [IMSFormValidateManager isEmpty:model.info] ? @"N/A" : model.info;
     self.selectButton.selected = model.selected;
     self.selectButton.tintColor = self.tintColor;
+    
+    UIColor *color = model.enable ? [UIColor darkTextColor] : IMS_HEXCOLOR(0xA4ABBF);
+    self.nameLabel.textColor = color;
+    self.roleLabel.textColor = color;
+    self.phoneLabel.textColor = color;
+    self.infoLabel.textColor = color;
+    self.selectButton.tintColor = model.enable ? self.tintColor : [UIColor lightGrayColor];
+    self.selectButton.hidden = !model.enable;
 }
 
 #pragma mark - Getters

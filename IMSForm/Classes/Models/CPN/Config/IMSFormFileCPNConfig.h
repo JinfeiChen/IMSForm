@@ -13,6 +13,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSInteger maxFilesLimit; /**< 最大文件数量, default 20 */
 
+/**<
+ 搜索方法名，需要在外界实现具体
+ 方法格式：exampleUpload:exampleResultBlock:
+ e.g.
+ - (void)testUploadFile:(NSDictionary *)fileData completed:(void (^)(NSArray <NSDictionary *> *))callback
+ callback 的回传参数为 文件信息字典数组 e.g. [{"name":"http://www.baidu.com/file/1234.pdf"},...]
+ */
+@property (copy, nonatomic) NSString *fileUploadSelectorString;
+
 @end
 
 NS_ASSUME_NONNULL_END

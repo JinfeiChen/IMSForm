@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormSelectCPNConfig : IMSFormCPNConfig
 
+@property (assign, nonatomic, getter=isGroup) BOOL group; /**< 是否分组显示 */
 @property (assign, nonatomic, readonly) NSInteger multipleLimit; /**< 最多选择数量, default 始终为1 */
 
 /**

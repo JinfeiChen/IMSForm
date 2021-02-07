@@ -193,6 +193,52 @@
     self.infoLabel.text = @"";
 }
 
+- (void)uploadFile:(NSDictionary *)fileData
+{
+    // MARK: 获取上传结果数据
+    SEL selector = NSSelectorFromString(self.model.cpnConfig.fileUploadSelectorString);
+    if (!selector) {
+        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Undeclared file upload method"];
+        return;
+    }
+    if (self.form.dataDelegate && [self.form.dataDelegate respondsToSelector:selector]) {
+        @weakify(self);
+        void(^uploadBlock)(NSArray <NSDictionary *> *dataArray) = ^(NSArray <NSDictionary *> *dataArray) {
+            @strongify(self);
+            
+            NSLog(@"upload result: %@", dataArray);
+            if (!dataArray || ![dataArray isKindOfClass:[NSArray class]]) {
+                return;
+            }
+            
+            // MARK: add new files
+            for (NSDictionary *dict in dataArray) {
+                [self.listArray addObject:dict];
+            }
+            self.listArray = [[self.listArray subarrayWithRange:NSMakeRange(0, MIN(self.listArray.count, self.model.cpnConfig.maxFilesLimit))] mutableCopy];
+            self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+            [self updateMyConstraints];
+            
+            [self.listTableView reloadData];
+            [self.form.tableView beginUpdates];
+            [self.form.tableView endUpdates];
+            
+            // update model valueList
+            self.model.valueList = [self.listArray copy];
+            
+            // call back
+            if (self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
+            
+        };
+        [self.form.dataDelegate performSelector:selector withObject:fileData withObject:uploadBlock];
+        
+    } else {
+        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data file upload method"];
+    }
+}
+
 #pragma mark - Public Methods
 
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
@@ -206,10 +252,12 @@
 
     self.infoLabel.text = model.info;
     
+    self.listArray = [NSMutableArray array];
     NSArray *valueList = self.model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
         [self.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxFilesLimit))]];
     }
+    
     if (self.model.isEditable) {
         self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
     } else {
@@ -234,15 +282,17 @@
     cell.deleteBtn.hidden = !self.model.isEditable;
     cell.contentView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     cell.deleteBlock = ^(UIButton *button) {
-        // delete file
+        
+        // MARK: delete file
         [self.listArray removeObjectAtIndex:indexPath.row];
         self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
         [self updateMyConstraints];
+        
         [self.listTableView reloadData];
         [self.form.tableView beginUpdates];
         [self.form.tableView endUpdates];
         
-        // update model value
+        // update model valueList
         self.model.valueList = [self.listArray copy];
         
         // call back
@@ -297,7 +347,7 @@
     @weakify(self);
     self.filePicker.documentPickerFinishedBlock = ^(NSData * _Nonnull fileData, NSURL * _Nonnull fileURL, NSString * _Nonnull fileName, NSError * _Nullable error) {
         @strongify(self);
-        NSLog(@"fileData: %@, fileName: %@, fileURL: %@, error: %@", fileData, fileName, fileURL, error);
+//        NSLog(@"fileData: %@, fileName: %@, fileURL: %@, error: %@", fileData, fileName, fileURL, error);
         
         NSMutableDictionary *obj = [NSMutableDictionary dictionary];
         if (fileData) {
@@ -313,10 +363,7 @@
             [obj setObject:error forKey:@"error"];
         }
         
-        // call back
-        if (self.didUpdateFormModelBlock) {
-            self.didUpdateFormModelBlock(self, self.model, obj);
-        }
+        [self uploadFile:obj];
     };
     
 }
