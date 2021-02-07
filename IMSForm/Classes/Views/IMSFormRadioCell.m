@@ -86,7 +86,7 @@
     
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)model;
     
-    NSArray *dataModelSource = radioModel.cpnConfig.dataSource;
+    NSArray *dataModelSource = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:radioModel.cpnConfig.dataSource];
     
     if (dataModelSource.count != self.buttonArrayM.count) {
         for (UIButton *button in self.buttonArrayM) {
@@ -149,7 +149,7 @@
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)self.model;
     if (button.selected && radioModel.cpnConfig.deselect) {
         [self.model.valueList removeAllObjects];
-        IMSFormSelect *deselectModel = radioModel.cpnConfig.dataSource[button.tag];
+        IMSFormSelect *deselectModel = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:radioModel.cpnConfig.dataSource][button.tag];
         deselectModel.selected = button.selected = NO;
         if (self.didUpdateFormModelBlock) {
             self.didUpdateFormModelBlock(self, self.model, nil);
@@ -162,7 +162,7 @@
     [self.model.valueList removeAllObjects];
     for (int i = 0; i < self.buttonArrayM.count; ++i) {
         UIButton *allButton = self.buttonArrayM[i];
-        IMSFormSelect *selectModel = radioModel.cpnConfig.dataSource[i];
+        IMSFormSelect *selectModel = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:radioModel.cpnConfig.dataSource][i];
         selectModel.selected =  allButton.selected = (button.tag == allButton.tag);
         if (selectModel.selected) {
             [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
