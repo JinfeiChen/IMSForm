@@ -7,7 +7,27 @@
 
 #import "IMSFormModel.h"
 
+@interface IMSFormModel ()
+
+@property (strong, nonatomic) NSDictionary *tempDict; /**< <#property#> */
+
+@end
+
 @implementation IMSFormModel
+
+- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic
+{
+    _tempDict = dic; 
+    return YES;
+}
+
+- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {
+    if ([dic valueForKey:@"tempDict"]) {
+        [dic addEntriesFromDictionary:[dic valueForKey:@"tempDict"]];
+        [dic removeObjectForKey:@"tempDict"];
+    }
+    return YES;
+}
 
 - (instancetype)init
 {

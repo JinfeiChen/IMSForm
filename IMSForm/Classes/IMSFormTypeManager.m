@@ -140,7 +140,11 @@
         IMSFormComponentType_FileUpload : @"IMSFormFileModel",
         IMSFormComponentType_ImageUpload : @"IMSFormImageModel",
         IMSFormComponentType_InputSearch : @"IMSFormInputSearchModel",
+        
+        IMSFormComponentType_DatePicker : @"IMSFormDateTimeModel",
         IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeModel",
+        IMSFormComponentType_TimePicker : @"IMSFormDateTimeModel",
+        
         IMSFormComponentType_Radio : @"IMSFormRadioModel",
         IMSFormComponentType_Cascader : @"IMSFormCascaderModel",
         IMSFormComponentType_Currency : @"IMSFormCurrencyModel",
@@ -167,7 +171,11 @@
         IMSFormComponentType_FileUpload : @"IMSFormFileCell",
         IMSFormComponentType_ImageUpload : @"IMSFormImageCell",
         IMSFormComponentType_InputSearch : @"IMSFormInputSearchCell",
+        
+        IMSFormComponentType_DatePicker : @"IMSFormDateTimeCell",
         IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeCell",
+        IMSFormComponentType_TimePicker : @"IMSFormDateTimeCell",
+        
         IMSFormComponentType_Radio : @"IMSFormRadioCell",
         IMSFormComponentType_Cascader : @"IMSFormCascaderCell",
         IMSFormComponentType_Currency : @"IMSFormCurrencyCell",

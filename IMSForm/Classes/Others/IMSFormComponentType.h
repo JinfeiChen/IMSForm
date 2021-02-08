@@ -65,7 +65,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Transfer;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ColorPicker;
 
 // Date and time picker component
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DatePicker; // added
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker; // added
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TimePicker; // added
 
 // Input Search
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; // added
