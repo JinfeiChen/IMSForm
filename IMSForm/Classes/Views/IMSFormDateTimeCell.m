@@ -136,10 +136,10 @@
         [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];
     }else if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_Date]) {
         dateFormat = @"yyyy-MM-dd";
-        [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];
+        [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_date"] forState:UIControlStateNormal];
     }else if ([dateTimeModel.cpnConfig.datePickerType isEqualToString:IMSFormDateTimeType_DateTime]) {
         dateFormat = @"yyyy-MM-dd HH:mm:ss";
-        [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_date"] forState:UIControlStateNormal];
+        [self.iconButton setImage:[UIImage bundleImageWithNamed:@"ic_time"] forState:UIControlStateNormal];
     }
     // 时间戳转成对应的值
     // 如果服务器返回的是13位字符串，需要除以1000，否则显示不正确(13位其实代表的是毫秒，需要除以1000)
