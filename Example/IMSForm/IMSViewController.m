@@ -71,7 +71,7 @@
 - (void)didUpdatedFormTableViewCell:(IMSFormTableViewCell *)cell model:(IMSFormModel *)model indexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%@", [model yy_modelToJSONObject]);
+    NSLog(@"%@", [cell.model.valueList yy_modelToJSONObject]);
     NSLog(@"%@", indexPath);
 }
 
@@ -201,13 +201,17 @@
     }
 }
 
-- (void)IMSForm_UploadImages:(NSArray<UIImage *> *)photos completed:(void (^)(NSArray<NSString *> * _Nonnull))callback
+- (void)IMSForm_UploadImages:(NSArray<UIImage *> *)photos completed:(nonnull void (^)(NSArray<NSDictionary *> * _Nonnull))callback
 {
     NSLog(@"%@", photos);
     
     if (callback) {
         NSArray *uploadResult = @[
-            @"http://www.tupian.com/images/Pages3_1.jpg"
+            @{
+                @"url" : @"http://www.tupian.com/images/Pages3_1.jpg",
+                @"name" : @"Page3_1.jpg",
+                @"id" : @"adafdsf"
+            }
         ];
         callback(uploadResult);
     }
@@ -219,7 +223,11 @@
     
     if (callback) {
         NSArray *uploadResult = @[
-            @"http://www.tupian.com/images/Pages3_1.jpg"
+            @{
+                @"url" : @"http://www.tupian.com/images/Pages3_1.jpg",
+                @"name" : @"Page3_1.jpg",
+                @"id" : @"adafdsf"
+            }
         ];
         callback(uploadResult);
     }
