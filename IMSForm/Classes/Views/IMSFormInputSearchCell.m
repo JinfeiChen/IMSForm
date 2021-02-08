@@ -203,16 +203,13 @@
     [self setTitle:model.title required:model.isRequired];
     
     // default value
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected = YES"];
-    NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
-    if (resultArray && resultArray.count > 0) {
-        self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];
-        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
-        self.model.value = selectedModel.label ? : (selectedModel.value ? : @"N/A");
+    if (self.model.valueList && self.model.valueList.count > 0) {
+        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:self.model.valueList.firstObject];
+        self.textField.text = [selectedModel.label ? : (selectedModel.value ? : @"") substringWithRange:NSMakeRange(0, MIN(self.model.value.length, self.model.cpnConfig.lengthLimit))];
+    }else {
+        self.textField.text = @"";
     }
-    
-    self.textField.text = [self.model.value substringWithRange:NSMakeRange(0, MIN(self.model.value.length, self.model.cpnConfig.lengthLimit))];
-    
+
     self.textField.placeholder = model.placeholder ? : @"Please enter";
     
     self.infoLabel.text = model.info;
