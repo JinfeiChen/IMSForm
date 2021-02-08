@@ -71,7 +71,9 @@
 - (void)didUpdatedFormTableViewCell:(IMSFormTableViewCell *)cell model:(IMSFormModel *)model indexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%@", [cell.model.valueList yy_modelToJSONObject]);
+    NSLog(@"%@", [cell.model.valueList yy_modelToJSONObject]); // 推荐方式
+    NSLog(@"%@", [cell.model yy_modelToJSONObject]);
+    NSLog(@"%@", [model yy_modelToJSONObject]);
     NSLog(@"%@", indexPath);
 }
 

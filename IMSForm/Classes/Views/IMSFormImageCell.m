@@ -491,14 +491,14 @@
 
             NSLog(@"upload result: %@", dataArray);
 
-            [dataArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            for (NSDictionary *obj in dataArray) {
                 NSString *urlStr = [obj valueForKey:@"url"];
                 if (![IMSFormValidateManager isURL:urlStr]) {
                     NSLog(@"图片地址不是合法的URL");
                 } else {
                     [self.selectedPhotos addObject:[NSURL URLWithString:urlStr]];
                 }
-            }];
+            }
             NSRange range = NSMakeRange(0, MIN(self.selectedPhotos.count, self.model.cpnConfig.maxImagesLimit));
             self.selectedPhotos = [[self.selectedPhotos subarrayWithRange:range] mutableCopy];
 
@@ -576,5 +576,7 @@
     }
     return _collectionView;
 }
+
+
 
 @end
