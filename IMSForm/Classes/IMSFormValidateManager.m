@@ -112,14 +112,14 @@
         if ([obj respondsToSelector:sel]) {
             BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model);
             if (!result) {
-                desc = [NSString stringWithFormat:@"%@ %@: %@", model.title, @"Verification failed".ims_localizable, model.value];
+                desc = [NSString stringWithFormat:@"%@ %@: %@", model.title, @"Verification failed".ims_localizable, model];
             }
         }
         // 尝试执行类对象的方法
         else if ([cls respondsToSelector:sel]) {
             BOOL result = ((BOOL(*)(id, SEL, IMSFormModel *))objc_msgSend)(cls, sel, model);
             if (!result) {
-                desc = [NSString stringWithFormat:@"%@ %@: %@", model.title, @"Verification failed".ims_localizable, model.value];
+                desc = [NSString stringWithFormat:@"%@ %@: %@", model.title, @"Verification failed".ims_localizable, model];
             }
         } else {
             desc = [NSString stringWithFormat:@"%@: %@", @"Unimplemented verification method".ims_localizable, NSStringFromSelector(sel)];

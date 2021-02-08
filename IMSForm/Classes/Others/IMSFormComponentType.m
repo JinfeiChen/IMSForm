@@ -43,7 +43,9 @@ NSString *const IMSFormComponentType_Transfer = @"IMSFormComponentType_Transfer"
 
 NSString *const IMSFormComponentType_ColorPicker = @"IMSFormComponentType_ColorPicker";
 
+NSString *const IMSFormComponentType_DatePicker = @"IMSFormComponentType_DatePicker";
 NSString *const IMSFormComponentType_DateTimePicker = @"IMSFormComponentType_DateTimePicker";
+NSString *const IMSFormComponentType_TimePicker = @"IMSFormComponentType_TimePicker";
 
 NSString *const IMSFormComponentType_InputSearch = @"IMSFormComponentType_InputSearch";
 

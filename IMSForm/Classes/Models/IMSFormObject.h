@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *value; /**< 用于数据存储, e.g. 用户信息表中 name 的值 userId */
 
+@property (copy, nonatomic) NSString *mark; /**< 备注 */
+
 @end
 
 NS_ASSUME_NONNULL_END
