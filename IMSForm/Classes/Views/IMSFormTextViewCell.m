@@ -70,7 +70,7 @@
         }];
         [self.textView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
-            make.height.mas_equalTo(80);
+            make.height.mas_equalTo(100);
         }];
         [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
         [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -92,7 +92,7 @@
         }];
         [self.textView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
-            make.height.mas_equalTo(80);
+            make.height.mas_equalTo(100);
         }];
         [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
@@ -164,8 +164,10 @@
     BOOL returnKey = [text rangeOfString: @"\n"].location != NSNotFound;
     
     // update model value
-    NSString *str = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    self.model.value = str;
+    if (textView.text && textView.text.length > 0) {
+        NSString *str = [textView.text stringByReplacingCharactersInRange:range withString:text];
+        self.model.value = str;
+    }
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {

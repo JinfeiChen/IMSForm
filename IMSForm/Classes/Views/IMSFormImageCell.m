@@ -255,11 +255,12 @@
     NSArray *valueList = model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
         NSRange range = NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxImagesLimit));
-        [[valueList subarrayWithRange:range] enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            if (![IMSFormValidateManager isURL:obj]) {
+        [[valueList subarrayWithRange:range] enumerateObjectsUsingBlock:^(NSDictionary *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+            NSString *urlStr = [obj valueForKey:@"url"];
+            if (![IMSFormValidateManager isURL:urlStr]) {
                 NSLog(@"图片地址不是合法的URL");
             } else {
-                [_selectedPhotos addObject:[NSURL URLWithString:obj]];
+                [_selectedPhotos addObject:[NSURL URLWithString:urlStr]];
             }
         }];
     }
@@ -485,37 +486,36 @@
     }
     if (self.form.dataDelegate && [self.form.dataDelegate respondsToSelector:selector]) {
         @weakify(self);
-        void(^uploadBlock)(NSArray <NSString *> *dataArray) = ^(NSArray <NSString *> *dataArray) {
+        void(^uploadBlock)(NSArray <NSDictionary *> *dataArray) = ^(NSArray <NSDictionary *> *dataArray) {
             @strongify(self);
-            
+
             NSLog(@"upload result: %@", dataArray);
-            
-            [dataArray enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (![IMSFormValidateManager isURL:obj]) {
+
+            [dataArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *urlStr = [obj valueForKey:@"url"];
+                if (![IMSFormValidateManager isURL:urlStr]) {
                     NSLog(@"图片地址不是合法的URL");
                 } else {
-                    [_selectedPhotos addObject:[NSURL URLWithString:obj]];
+                    [self.selectedPhotos addObject:[NSURL URLWithString:urlStr]];
                 }
             }];
-            NSRange range = NSMakeRange(0, MIN(_selectedPhotos.count, self.model.cpnConfig.maxImagesLimit));
-            _selectedPhotos = [[_selectedPhotos subarrayWithRange:range] mutableCopy];
-            
+            NSRange range = NSMakeRange(0, MIN(self.selectedPhotos.count, self.model.cpnConfig.maxImagesLimit));
+            self.selectedPhotos = [[self.selectedPhotos subarrayWithRange:range] mutableCopy];
+
+            // update model valueList
+            NSMutableArray *mArr = [NSMutableArray arrayWithArray:self.model.valueList];
+            [mArr addObjectsFromArray:dataArray];
+            self.model.valueList = mArr;
+
             [self.collectionView reloadData];
             [self.form.tableView beginUpdates];
             [self.form.tableView endUpdates];
-            
-            // update model valueList
-            NSMutableArray *mArr = [NSMutableArray array];
-            for (NSURL *url in _selectedPhotos) {
-                [mArr addObject:url.absoluteString];
-            }
-            self.model.valueList = mArr;
 
             // call back
             if (self.didUpdateFormModelBlock) {
                 self.didUpdateFormModelBlock(self, self.model, nil);
             }
-            
+
         };
         [self.form.dataDelegate performSelector:selector withObject:photos withObject:uploadBlock];
         
@@ -536,16 +536,14 @@
         
     } completion:^(BOOL finished) {
         
+        // update model valueList
+        NSMutableArray *mArr = [NSMutableArray arrayWithArray:self.model.valueList];
+        [mArr removeObjectAtIndex:sender.tag];
+        self.model.valueList = mArr;
+        
         [self.collectionView reloadData];
         [self.form.tableView beginUpdates];
         [self.form.tableView endUpdates];
-        
-        // update model valueList
-        NSMutableArray *mArr = [NSMutableArray array];
-        for (NSURL *url in self.selectedPhotos) {
-            [mArr addObject:url.absoluteString];
-        }
-        self.model.valueList = mArr;
 
         // call back
         if (self.didUpdateFormModelBlock) {

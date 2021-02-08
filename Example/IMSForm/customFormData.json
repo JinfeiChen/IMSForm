@@ -37,10 +37,11 @@
         "title" : "Image",
         
         "valueList" : [
-            "http://www.tupian.com/images/Pages2_1.jpg",
-            "http://www.tupian.com/images/Pages4_1.jpg",
-            "http://www.tupian.com/images/Pages2_1.jpg",
-            "http://www.tupian.com/images/Pages4_1.jpg"
+            {
+                "url" : "http://www.tupian.com/images/Pages4_1.jpg",
+                "name" : "Pages2_2.jpg",
+                "id" : "image002"
+            }
         ],
         
         "cpnConfig" : {
