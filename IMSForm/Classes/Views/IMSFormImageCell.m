@@ -275,7 +275,8 @@
     if (_selectedPhotos.count >= self.model.cpnConfig.maxImagesLimit) {
         return _selectedPhotos.count;
     }
-    return self.model.editable ? _selectedPhotos.count + 1 : _selectedPhotos.count;
+//    return self.model.editable ? _selectedPhotos.count + 1 : _selectedPhotos.count;
+    return _selectedPhotos.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath

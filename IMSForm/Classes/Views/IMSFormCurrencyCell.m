@@ -77,9 +77,9 @@
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
 
-    if (self.model.isEditable) {
-        self.textField.keyboardType = [self keyboardWithTextType:IMSFormTextType_Money];
-    }
+//    if (self.model.isEditable) {
+//        self.textField.keyboardType = [self keyboardWithTextType:IMSFormTextType_Money];
+//    }
 
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
@@ -344,7 +344,7 @@
         _textField = [[UITextField alloc] init];
         _textField.placeholder = @"Please enter";
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _textField.keyboardType = UIKeyboardTypeDefault;
+        _textField.keyboardType = UIKeyboardTypeNumberPad;
         _textField.delegate = self;
         _textField.font = [UIFont systemFontOfSize:12];
     }
