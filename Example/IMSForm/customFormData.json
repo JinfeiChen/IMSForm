@@ -5,24 +5,13 @@
         "title" : "Name(custom)",
         "info" : "这是自定义字段的说明/提示文字",
         
-        "field" : "name"
+        "field" : "Name"
     },
     
     {
         "type" : "IMSFormComponentType_FileUpload",
 
         "title" : "File",
-        
-        "valueList" : [
-            {
-                "name" : "jklaskjdlfkajldjfk.pdf",
-                "id" : "fileIdentifier1"
-            },
-            {
-                "name" : "12978394h.pdf",
-                "id" : "fileIdentifier2"
-            }
-        ],
         
         "cpnConfig" : {
             "maxFilesLimit" : 3
@@ -35,14 +24,6 @@
         "type" : "IMSFormComponentType_ImageUpload",
 
         "title" : "Image",
-        
-        "valueList" : [
-            {
-                "url" : "http://www.tupian.com/images/Pages4_1.jpg",
-                "name" : "Pages2_2.jpg",
-                "id" : "image002"
-            }
-        ],
         
         "cpnConfig" : {
             "maxImagesLimit" : 8

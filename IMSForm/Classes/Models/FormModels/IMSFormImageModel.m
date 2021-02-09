@@ -9,6 +9,17 @@
 
 @implementation IMSFormImageModel
 
+#pragma mark - Setters
+
+- (void)setValueList:(NSMutableArray *)valueList
+{
+    [super setValueList:valueList];
+    
+    
+}
+
+#pragma mark - Getters
+
 @synthesize cpnConfig = _cpnConfig;
 
 - (IMSFormImagesCPNConfig *)cpnConfig

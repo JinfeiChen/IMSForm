@@ -143,7 +143,7 @@
     self.infoLabel.text = model.info;
 
     // update default value
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected = YES"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
     NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
     if (resultArray && resultArray.count > 0) {
         self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];

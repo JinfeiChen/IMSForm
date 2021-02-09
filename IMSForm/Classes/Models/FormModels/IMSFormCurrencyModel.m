@@ -42,11 +42,6 @@
 
 #pragma mark - Getters
 
-//- (NSMutableArray *)valueList
-//{
-//
-//}
-
 @synthesize cpnConfig = _cpnConfig;
 
 - (IMSFormCurrencyCPNConfig *)cpnConfig

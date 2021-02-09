@@ -100,9 +100,6 @@
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
     }
-    
-//    [self.form.tableView beginUpdates];
-//    [self.form.tableView endUpdates];
 }
 
 #pragma mark - Public Methods
@@ -117,7 +114,8 @@
     [self setTitle:model.title required:model.isRequired];
     
     // update default value
-    self.textView.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
+    NSRange range = NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit));
+    self.textView.text = [model.value substringWithRange:range];
     
     self.textView.placeholderText = model.placeholder ? : @"Please enter";
     
@@ -151,37 +149,41 @@
     }
 }
 
-- (BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if (!self.model.isEditable) {
-        return NO;
-    }
-    
-    // length limit
-    NSUInteger oldLength = [textView.text length];
-    NSUInteger replacementLength = [text length];
-    NSUInteger rangeLength = range.length;
-    NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    BOOL returnKey = [text rangeOfString: @"\n"].location != NSNotFound;
-    
-    // update model value
-    if (textView.text && textView.text.length > 0) {
-        NSString *str = [textView.text stringByReplacingCharactersInRange:range withString:text];
-        self.model.value = str;
-    }
-    
-    // text type limit, change 触发校验
-    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
-        [self validate];
-    }
-    
-    // 回车结束编辑
-//    if ([text isEqualToString:@"\n"]) {
-//        [textView resignFirstResponder];
+//- (BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+//{
+//    if (!self.model.isEditable) {
 //        return NO;
 //    }
-    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
-}
+//    
+//    if (![textView isFirstResponder]) {
+//        return NO;
+//    }
+//    
+//    // length limit
+//    NSUInteger oldLength = [textView.text length];
+//    NSUInteger replacementLength = [text length];
+//    NSUInteger rangeLength = range.length;
+//    NSUInteger newLength = oldLength - rangeLength + replacementLength;
+//    BOOL returnKey = [text rangeOfString: @"\n"].location != NSNotFound;
+//    
+//    // update model value
+//    if (textView.text && textView.text.length > 0) {
+//        NSString *str = [textView.text stringByReplacingCharactersInRange:range withString:text];
+//        self.model.value = str;
+//    }
+//    
+//    // text type limit, change 触发校验
+//    if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
+//        [self validate];
+//    }
+//    
+//    // 回车结束编辑
+////    if ([text isEqualToString:@"\n"]) {
+////        [textView resignFirstResponder];
+////        return NO;
+////    }
+//    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
+//}
 
 #pragma mark - Getters
 
