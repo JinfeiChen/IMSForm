@@ -145,6 +145,8 @@
     // 如果服务器返回的是13位字符串，需要除以1000，否则显示不正确(13位其实代表的是毫秒，需要除以1000)
     if (model.value.length) {
        self.textField.text = [NSDate pv_getDateStringForTime:model.value.doubleValue format:dateFormat];
+    }else {
+        self.textField.text = @"";
     }
 }
 
