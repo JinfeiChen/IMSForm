@@ -94,14 +94,6 @@
     
     self.infoLabel.text = model.info;
     
-    // 默认值
-    [model.valueList removeAllObjects];
-    for (IMSFormSelect *selectModel in model.cpnConfig.dataSource) {
-        if (selectModel.selected) {
-            [model.valueList addObject:[selectModel yy_modelToJSONObject]];
-        }
-    }
-    
     self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
 
     [self updateTagViewDataSource];
@@ -138,7 +130,7 @@
     }
     
     IMSFormSelect *addModel = [[IMSFormSelect alloc]init];
-    addModel.label = addModel.value = textField.text;
+    addModel.param = addModel.label = addModel.value = textField.text;
     [self.valueListM addObject:addModel];
     self.model.valueList = [self.valueListM yy_modelToJSONObject];
     

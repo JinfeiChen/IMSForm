@@ -74,12 +74,6 @@
     }
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return nil;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.01;
-}
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (self.isShowTabHeader) {
         return self.tabHeaderView;
@@ -91,7 +85,7 @@
    if (self.isShowTabHeader) {
         return 40;
     }
-    return 0.01;
+    return 0.0;
 }
 
 #pragma mark - lazy load
@@ -99,8 +93,9 @@
     if (_mainTableView == nil) {
         _mainTableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
         _mainTableView.showsVerticalScrollIndicator = NO;
+        _mainTableView.showsHorizontalScrollIndicator = NO;
         _mainTableView.backgroundColor = [UIColor whiteColor];
-//        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _mainTableView.delegate = self;
         _mainTableView.dataSource = self;
         _mainTableView.bounces = NO;

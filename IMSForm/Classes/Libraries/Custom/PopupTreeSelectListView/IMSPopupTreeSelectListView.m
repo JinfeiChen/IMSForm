@@ -148,15 +148,17 @@
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"value contains %@",didSelectDataModel.value];
                 [self.seleceDataSource removeObjectsInArray:[self.seleceDataSource filteredArrayUsingPredicate:predicate]];
             }
-            
+        
+            NSString *titleLabelText = [NSString stringWithFormat:@"%@ %@ %@",treeTabViewTitleString ?: @"", treeTabViewTitleString ? @">":@"", didSelectDataModel.label ?: didSelectDataModel.value];
             if (self.isMultiple == NO ) {
                 [self.seleceDataSource removeAllObjects];
                 if (didSelectDataModel.selected) [self.seleceDataSource addObject:didSelectDataModel];
+                if (!didSelectDataModel.selected) titleLabelText = @"";
             }
             
             self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)",self.didSelectedCount,self.didSelectedCount > 1 ? @"items" : @"item",self.maxCount];
             if (self.didSelectedBlock) {
-                self.didSelectedBlock([self.seleceDataSource yy_modelToJSONObject],didSelectDataModel, [NSString stringWithFormat:@"%@ %@ %@",treeTabViewTitleString ?: @"", treeTabViewTitleString ? @">":@"", didSelectDataModel.label ?: didSelectDataModel.value]);
+                self.didSelectedBlock([self.seleceDataSource yy_modelToJSONObject],didSelectDataModel, titleLabelText);
             }
         }
     }];

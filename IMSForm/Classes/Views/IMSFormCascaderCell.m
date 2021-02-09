@@ -120,8 +120,14 @@
     
     self.arrowButton.hidden = model.isEditable ? NO : YES;
     
+//     默认值
     IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
-    
+    NSMutableArray *setupArrayM = [NSMutableArray array];
+    NSMutableString *titleString = [NSMutableString string];
+    BOOL isStop = NO;
+    [self setupData:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:cascaderModel.cpnConfig.dataSource] andArrayM:setupArrayM andTitleString:titleString andTip:YES andStop:isStop];
+    self.model.label = titleString;
+    self.model.valueList = [setupArrayM yy_modelToJSONObject];
     self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
     
     if (cascaderModel.cpnConfig.isMultiple) {
@@ -157,7 +163,7 @@
 
 - (void)updateContentLable {
     
-    IMSFormSelect *formSelect = self.valueListM.firstObject;
+//    IMSFormSelect *formSelect = self.valueListM.firstObject;
     
     BOOL hasData = self.valueListM && self.valueListM.count > 0;
     
@@ -165,7 +171,8 @@
      
     self.placeholderLabel.text = hasData ? @"" : (self.model.placeholder ? : @"Please Select");
     
-    self.contentLabel.text = self.model.value ?: @"";
+    self.contentLabel.text = self.model.label ?: @"";
+    
 }
 
 #pragma mark - RATagViewDelegate
@@ -213,7 +220,7 @@
     [listView setDidSelectedBlock:^(NSMutableArray *selectDataSource, IMSFormSelect * _Nonnull selectedModel, NSString *contentLabel) {
         @strongify(self);
         
-        self.model.value = contentLabel;
+        self.model.label = contentLabel;
         
         self.model.valueList = selectDataSource;
         
@@ -243,6 +250,35 @@
         }
         if (i < allDataSource.count - 1) {
             [self dealStatus:dataModel.child andHaveDataSource:haveDataSource];
+        }
+    }
+}
+
+/*
+
+ */
+
+- (void)setupData:(NSArray *)allDataSource andArrayM:(NSMutableArray *)arrayM andTitleString:(NSMutableString *)titleString andTip:(BOOL)tip andStop:(BOOL)isStop {
+    
+    for (int i = 0; i < allDataSource.count; ++i) {
+        if (isStop == NO) {
+    
+            IMSFormSelect * _Nonnull dataModel = allDataSource [i];
+            
+            if (dataModel.selected && !dataModel.child.count) {
+                [arrayM addObject:dataModel];
+                IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
+                if (!cascaderModel.cpnConfig.isMultiple) {
+                    [titleString setString:dataModel.label ?: dataModel.value];
+                    isStop = YES;
+                    return;
+                }
+            }else {
+                if (i < allDataSource.count - 1) {
+                    [self setupData:dataModel.child andArrayM:arrayM andTitleString:titleString andTip:NO andStop:isStop];
+                }
+            }
+            
         }
     }
 }
