@@ -7,9 +7,9 @@
 
 #import "IMSFormDateTimeType.h"
 
-NSString *const IMSFormDateTimeType_Time = @"IMSFormDateTimeType_Time";
+NSString *const IMSFormDateTimeType_Time = @"time";
 
-NSString *const IMSFormDateTimeType_Date = @"IMSFormDateTimeType_Date";
+NSString *const IMSFormDateTimeType_Date = @"date";
 
-NSString *const IMSFormDateTimeType_DateTime = @"IMSFormDateTimeType_DateTime";
+NSString *const IMSFormDateTimeType_DateTime = @"datetime";
 
