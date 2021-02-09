@@ -116,6 +116,7 @@
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
+    // update default value
     self.textView.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
     
     self.textView.placeholderText = model.placeholder ? : @"Please enter";

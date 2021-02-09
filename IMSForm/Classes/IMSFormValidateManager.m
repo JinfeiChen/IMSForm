@@ -68,7 +68,7 @@
             break;
         }
         
-        if (model.isRequired && model.isEditable && model.isVisible) {
+        if (model.isEnable && model.isRequired && model.isEditable && model.isVisible) {
             if (model.cpnRule) {
                 for (id obj in model.cpnRule.validators) {
                     

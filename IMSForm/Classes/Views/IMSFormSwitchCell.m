@@ -113,6 +113,7 @@
     
     self.infoLabel.text = model.info;
     
+    // update default value
     self.mySwitch.on = [model.value intValue];
 }
 

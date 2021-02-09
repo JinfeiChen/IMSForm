@@ -15,19 +15,22 @@
 
 @implementation IMSFormModel
 
-//- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic
-//{
-//    _tempDict = dic; 
-//    return YES;
-//}
-//
-//- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {
-//    if ([dic valueForKey:@"tempDict"]) {
-//        [dic addEntriesFromDictionary:[dic valueForKey:@"tempDict"]];
-//        [dic removeObjectForKey:@"tempDict"];
-//    }
-//    return YES;
-//}
+- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic
+{
+    _tempDict = dic;
+    return YES;
+}
+
+- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {
+    if ([dic valueForKey:@"tempDict"]) {
+        NSMutableDictionary *A = [NSMutableDictionary dictionaryWithDictionary:dic];
+        NSMutableDictionary *B = [NSMutableDictionary dictionaryWithDictionary:[dic valueForKey:@"tempDict"]];
+        [B addEntriesFromDictionary:A];
+        [dic addEntriesFromDictionary:B];
+        [dic removeObjectForKey:@"tempDict"];
+    }
+    return YES;
+}
 
 - (instancetype)init
 {

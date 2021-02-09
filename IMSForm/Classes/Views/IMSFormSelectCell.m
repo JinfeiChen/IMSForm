@@ -142,7 +142,7 @@
 
     self.infoLabel.text = model.info;
 
-    // default value
+    // update default value
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected = YES"];
     NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
     if (resultArray && resultArray.count > 0) {
@@ -167,6 +167,7 @@
     self.infoLabel.text = @"";
     self.valueModelArray = @[];
     self.contentLabel.text = @"";
+    _singleSelectListView = nil;
 }
 
 - (void)updatePlaceholder

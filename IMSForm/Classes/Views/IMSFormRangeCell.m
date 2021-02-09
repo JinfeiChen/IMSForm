@@ -152,6 +152,7 @@
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
+    // update default value
     CGFloat minValue = MAX(CGFLOAT_MIN, self.model.cpnConfig.min);
     CGFloat maxValue = MIN(CGFLOAT_MAX, self.model.cpnConfig.max);
     if (model.value && [model.value containsString:@";"]) {

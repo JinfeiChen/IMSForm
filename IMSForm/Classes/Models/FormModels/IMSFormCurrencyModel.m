@@ -12,10 +12,40 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.value = @"0";
+        self.value = @"0.0";
     }
     return self;
 }
+
+#pragma mark - Setters
+
+- (void)setValueList:(NSMutableArray *)valueList
+{
+    [super setValueList:valueList];
+    
+    if (valueList && valueList.count == 1) {
+        NSDictionary *modelDict = valueList.firstObject;
+        IMSFormSelect *defaultSelect = [IMSFormSelect yy_modelWithDictionary:modelDict];
+        NSMutableArray *newDataSource = [NSMutableArray array];
+        for (NSDictionary *dict in self.cpnConfig.dataSource) {
+            NSMutableDictionary *mDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+            IMSFormSelect *obj = [IMSFormSelect yy_modelWithDictionary:dict];
+            [mDict setValue:@(NO) forKey:@"selected"];
+            if ([defaultSelect.identifier isEqualToString:obj.identifier]) {
+                [mDict setValue:@(YES) forKey:@"selected"];
+            }
+            [newDataSource addObject:mDict];
+        }
+        self.cpnConfig.dataSource = newDataSource;
+    }
+}
+
+#pragma mark - Getters
+
+//- (NSMutableArray *)valueList
+//{
+//
+//}
 
 @synthesize cpnConfig = _cpnConfig;
 

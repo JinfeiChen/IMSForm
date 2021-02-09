@@ -103,8 +103,6 @@
 
 @interface IMSFormFileCell () <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) NSMutableArray *listArray; /**< <#property#> */
-
 @property (strong, nonatomic) IMSFormNetworking *sessionManager; /**< <#property#> */
 
 @end
@@ -183,7 +181,7 @@
 - (void)updateMyConstraints
 {
     [self.listTableView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.addButton.mas_bottom).offset(self.listArray.count > 0 ? self.model.cpnStyle.spacing : 0);
+        make.top.mas_equalTo(self.addButton.mas_bottom).offset(self.model.listArray.count > 0 ? self.model.cpnStyle.spacing : 0);
     }];
 }
 
@@ -216,10 +214,10 @@
 
             // MARK: add new files
             for (NSDictionary *dict in dataArray) {
-                [self.listArray addObject:dict];
+                [self.model.listArray addObject:dict];
             }
-            self.listArray = [[self.listArray subarrayWithRange:NSMakeRange(0, MIN(self.listArray.count, self.model.cpnConfig.maxFilesLimit))] mutableCopy];
-            self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+            self.model.listArray = [[self.model.listArray subarrayWithRange:NSMakeRange(0, MIN(self.model.listArray.count, self.model.cpnConfig.maxFilesLimit))] mutableCopy];
+            self.addButton.enabled = (self.model.listArray.count < self.model.cpnConfig.maxFilesLimit);
             [self updateMyConstraints];
 
             [self.listTableView reloadData];
@@ -227,7 +225,7 @@
             [self.form.tableView endUpdates];
 
             // update model valueList
-            self.model.valueList = [self.listArray copy];
+            self.model.valueList = [self.model.listArray copy];
 
             // call back
             if (self.didUpdateFormModelBlock) {
@@ -255,14 +253,15 @@
 
     self.infoLabel.text = model.info;
     
-    self.listArray = [NSMutableArray array];
+    // update default value
+    self.model.listArray = [NSMutableArray array];
     NSArray *valueList = self.model.valueList;
     if (valueList && [valueList isKindOfClass:[NSArray class]]) {
-        [self.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxFilesLimit))]];
+        [self.model.listArray addObjectsFromArray:[valueList subarrayWithRange:NSMakeRange(0, MIN(valueList.count, self.model.cpnConfig.maxFilesLimit))]];
     }
     
     if (self.model.isEditable) {
-        self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+        self.addButton.enabled = (self.model.listArray.count < self.model.cpnConfig.maxFilesLimit);
     } else {
         self.addButton.enabled = NO;
     }
@@ -274,21 +273,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return MIN(self.listArray.count, self.model.cpnConfig.maxFilesLimit);
+    return MIN(self.model.listArray.count, self.model.cpnConfig.maxFilesLimit);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IMSFormFileSubCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSFormFileSubCell class])];
-    NSDictionary *modelDict = self.listArray[indexPath.row];
+    NSDictionary *modelDict = self.model.listArray[indexPath.row];
     cell.myTitleLabel.text = [NSString stringWithFormat:@"%@", [modelDict valueForKey:@"name"] ? : @"N/A"];
     cell.deleteBtn.hidden = !self.model.isEditable;
     cell.contentView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     cell.deleteBlock = ^(UIButton *button) {
         
         // MARK: delete file
-        [self.listArray removeObjectAtIndex:indexPath.row];
-        self.addButton.enabled = (self.listArray.count < self.model.cpnConfig.maxFilesLimit);
+        [self.model.listArray removeObjectAtIndex:indexPath.row];
+        self.addButton.enabled = (self.model.listArray.count < self.model.cpnConfig.maxFilesLimit);
         [self updateMyConstraints];
         
         [self.listTableView reloadData];
@@ -296,7 +295,7 @@
         [self.form.tableView endUpdates];
         
         // update model valueList
-        self.model.valueList = [self.listArray copy];
+        self.model.valueList = [self.model.listArray copy];
         
         // call back
         if (self.didUpdateFormModelBlock) {
@@ -331,9 +330,9 @@
     contentL.textLayout = layout;
     CGFloat infoHeight = layout.textBoundingSize.height;
     
-    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.listArray.count > 0) ? 2 : 1) + 5;
+    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.model.listArray.count > 0) ? 2 : 1) + 5;
     CGFloat buttonHeight = kIMSFormDefaultHeight;
-    NSInteger count = MIN(self.listArray.count, self.model.cpnConfig.maxFilesLimit);
+    NSInteger count = MIN(self.model.listArray.count, self.model.cpnConfig.maxFilesLimit);
     CGFloat contentViewHeight = kFormTBFileRowHeight * count + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.listTableView.contentInset.top + self.listTableView.contentInset.bottom + spacingHeight + buttonHeight + infoHeight;
     return CGSizeMake(targetSize.width, contentViewHeight);
 }
@@ -342,7 +341,7 @@
 
 - (void)addButtonAction:(UIButton *)button
 {
-    if (self.listArray.count >= self.model.cpnConfig.maxFilesLimit) {
+    if (self.model.listArray.count >= self.model.cpnConfig.maxFilesLimit) {
         return;
     }
     
@@ -373,14 +372,6 @@
 }
 
 #pragma mark - Getters
-
-- (NSMutableArray *)listArray
-{
-    if (!_listArray) {
-        _listArray = [NSMutableArray array];
-    }
-    return _listArray;
-}
 
 - (UITableView *)listTableView
 {
