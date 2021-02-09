@@ -12,6 +12,7 @@
 @property (strong, nonatomic) UITextField *textField; /**< <#property#> */
 @property (nonatomic, strong) IMSTagView *tagView;
 @property (nonatomic, strong) NSMutableArray *valueListM;
+@property (nonatomic, strong) UIButton *arrowButton;
 @end
 
 @implementation IMSFormInputTagCell
@@ -32,6 +33,7 @@
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.infoLabel];
     [self.contentView addSubview:self.bodyView];
+    [self.bodyView addSubview:self.arrowButton];
     [self.bodyView addSubview:self.tagView];
     [self.bodyView addSubview:self.textField];
     [self updateUI];
@@ -65,10 +67,17 @@
         make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
     }];
     
+    [self.arrowButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.bodyView);
+        make.top.equalTo(self.bodyView).offset(5);
+        make.width.equalTo(self.model.isEditable ? @30 : @0);
+        make.height.equalTo(@30);
+    }];
+    
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bodyView).offset(5);
         make.left.equalTo(self.bodyView).offset(10);
-        make.right.equalTo(self.bodyView);
+        make.right.equalTo(self.arrowButton.mas_left);
         make.height.mas_equalTo(30);
     }];
     
@@ -111,8 +120,15 @@
 }
 
 #pragma mark -textFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.model.selected = YES;
+    [self updateArrowButton];
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason  API_AVAILABLE(ios(10.0)) {
     textField.text = @"";
+    self.model.selected = NO;
+    [self updateArrowButton];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -163,6 +179,19 @@
     [self.form.tableView endUpdates];
 }
 
+- (void)updateArrowButton
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        if (self.model.isSelected) {
+            self.arrowButton.transform = CGAffineTransformMakeRotation(M_PI_2);
+        } else {
+            self.arrowButton.transform = CGAffineTransformIdentity;
+        }
+    }];
+}
+
+
+
 #pragma mark - lazy load
 - (UITextField *)textField
 {
@@ -199,6 +228,15 @@
         _valueListM = [[NSMutableArray alloc] init];
     }
     return _valueListM;
+}
+
+- (UIButton *)arrowButton {
+    if (_arrowButton == nil) {
+        _arrowButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_arrowButton setImage:[UIImage bundleImageWithNamed:@"search_next"] forState:UIControlStateNormal];
+        _arrowButton.userInteractionEnabled = NO;
+    }
+    return _arrowButton;
 }
 
 @end
