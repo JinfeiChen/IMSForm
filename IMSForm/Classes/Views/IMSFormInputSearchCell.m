@@ -205,7 +205,8 @@
     // default value
     if (self.model.valueList && self.model.valueList.count > 0) {
         IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:self.model.valueList.firstObject];
-        self.textField.text = [selectedModel.label ? : (selectedModel.value ? : @"") substringWithRange:NSMakeRange(0, MIN(self.model.value.length, self.model.cpnConfig.lengthLimit))];
+        NSString *defaultSting = selectedModel.label ? : (selectedModel.value ? : @"");
+        self.textField.text = [defaultSting substringWithRange:NSMakeRange(0, MIN(defaultSting.length, self.model.cpnConfig.lengthLimit))];
     }else {
         self.textField.text = @"";
     }

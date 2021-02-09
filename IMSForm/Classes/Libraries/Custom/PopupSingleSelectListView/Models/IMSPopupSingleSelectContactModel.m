@@ -20,6 +20,11 @@
     };
 }
 
+- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {
+    dic[@"label"] = _name;
+    return YES;
+}
+
 + (NSDictionary *)modelContainerPropertyGenericClass {
     // value should be Class or Class name.
     return @{
