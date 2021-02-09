@@ -66,6 +66,85 @@
                 }
             ] mutableCopy];
         }
+        else if ([model.field isEqualToString:@"Phone"]) {
+            model.value = @"12345678";
+            model.valueList = [@[
+                @{
+                    @"value" : @"+86"
+                }
+            ] mutableCopy];
+        }
+        else if ([model.field isEqualToString:@"File"]) {
+            model.valueList = [@[
+                @{
+                    @"url" : @"http://www.baidu.com/jklaskjdlfkajldjfk.pdf",
+                    @"name" : @"jklaskjdlfkajldjfk.pdf",
+                    @"id" : @"fileIdentifier1"
+                },
+                @{
+                    @"url" : @"http://www.baidu.com/jklaskjdlfkajldjfk.pdf",
+                    @"name" : @"12978394h.pdf",
+                    @"id" : @"fileIdentifier2"
+                }
+            ] mutableCopy];
+        }
+        else if ([model.field isEqualToString:@"Image"]) {
+            model.valueList = [@[
+                @{
+                    @"url" : @"http://www.tupian.com/images/Pages2_1.jpg",
+                    @"name" : @"Pages2_1.jpg",
+                    @"id" : @"image001"
+                },
+                @{
+                    @"url" : @"http://www.tupian.com/images/Pages4_1.jpg",
+                    @"name" : @"Pages2_2.jpg",
+                    @"id" : @"image002"
+                }
+            ] mutableCopy];
+        }
+        else if ([model.field isEqualToString:@"SingleSelect"]) {
+            model.valueList = [@[
+                @{
+                    @"value" : @"value2"
+                }
+            ] mutableCopy];
+        }
+        else if ([model.field isEqualToString:@"MultipleSelect"]) {
+            model.valueList = [@[
+                @{
+                    @"value" : @"value11"
+                },
+                @{
+                    @"value" : @"value21"
+                }
+            ] mutableCopy];
+        }
+        else if ([model.field isEqualToString:@"Search"]) {
+            model.valueList = [@[
+                @{
+                    @"label" : @"label2",
+                    @"value" : @"value2"
+                }
+            ] mutableCopy];
+        }
+        else if ([model.field isEqualToString:@"Name"]) {
+            model.value = @"待修改的姓名";
+        }
+        else if ([model.field isEqualToString:@"Desc"]) {
+            model.value = @"待修改的描述内容";
+        }
+        else if ([model.field isEqualToString:@"Number"]) {
+            model.value = @"123";
+        }
+        else if ([model.field isEqualToString:@"Switch"]) {
+            model.value = @"1";
+        }
+        else if ([model.field isEqualToString:@"Slider"]) {
+            model.value = @"5";
+        }
+        else if ([model.field isEqualToString:@"Range"]) {
+            model.value = @"1234;5678";
+        }
     }
     
     for (IMSFormModel *model in self.form.dataSource) {
