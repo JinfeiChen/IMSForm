@@ -106,7 +106,7 @@
     self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
 
     [self updateTagViewDataSource];
-
+    
 }
 
 #pragma mark - Private Methods
