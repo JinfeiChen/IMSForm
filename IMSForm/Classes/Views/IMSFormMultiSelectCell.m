@@ -187,6 +187,7 @@
     self.infoLabel.text = @"";
     self.valueModelArray = @[];
     self.tagView.dataArray = @[];
+    _multipleSelectListView = nil;
 }
 
 - (void)updatePlaceholder

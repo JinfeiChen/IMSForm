@@ -193,13 +193,10 @@
             break;
         default:
         {
-            IMSFormSelect *model = (IMSFormSelect *)self.dataArray[indexPath.row];
-            if (model && !model.isEnable) {
-                return;
-            }
             for (IMSFormSelect *obj in self.dataArray) {
                 obj.selected = NO;
             }
+            IMSFormSelect *model = (IMSFormSelect *)self.dataArray[indexPath.row];
             model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
             if (self.didSelectedBlock) {
                 self.didSelectedBlock([self.dataArray yy_modelToJSONObject], model);

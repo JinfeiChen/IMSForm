@@ -134,6 +134,8 @@
     [self.sliderView setMaxFractionDigitsDisplayed:self.model.cpnConfig.precision];
     self.sliderView.minimumValue = self.model.cpnConfig.min;
     self.sliderView.maximumValue = self.model.cpnConfig.max;
+    
+    // update default value
     CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);
     self.sliderView.value = value;

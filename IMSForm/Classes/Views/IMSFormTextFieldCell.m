@@ -273,6 +273,7 @@
     [self clearReuseData];
     [self setTitle:nil required:model.isRequired];
     
+    // update default value
     self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
     self.textField.placeholder = model.placeholder ? : @"Please enter";
     

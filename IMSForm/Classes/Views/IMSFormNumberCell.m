@@ -202,6 +202,7 @@
 
     self.infoLabel.text = model.info;
 
+    // update default value
     CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);
     self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.model.cpnConfig.precision];

@@ -202,7 +202,7 @@
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
     
-    // default value
+    // update default value
     if (self.model.valueList && self.model.valueList.count > 0) {
         IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:self.model.valueList.firstObject];
         NSString *defaultSting = selectedModel.label ? : (selectedModel.value ? : @"");

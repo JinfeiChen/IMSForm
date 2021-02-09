@@ -9,6 +9,8 @@
 
 @implementation IMSFormFileModel
 
+#pragma mark - Getters
+
 @synthesize cpnConfig = _cpnConfig;
 
 - (IMSFormFileCPNConfig *)cpnConfig
@@ -17,6 +19,14 @@
         _cpnConfig = [[IMSFormFileCPNConfig alloc] init];
     }
     return _cpnConfig;
+}
+
+- (NSMutableArray *)listArray
+{
+    if (!_listArray) {
+        _listArray = [NSMutableArray array];
+    }
+    return _listArray;
 }
 
 @end

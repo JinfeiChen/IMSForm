@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) IMSFormFileCPNConfig *cpnConfig; /**< <#property#> */
 
+@property (strong, nonatomic) NSMutableArray *listArray; /**< <#property#> */
+
 @end
 
 NS_ASSUME_NONNULL_END

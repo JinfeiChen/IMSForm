@@ -56,6 +56,17 @@
 
     self.form.dataSource = [IMSFormDataManager sortFormDataArray:dataSource byOrder:nil];
     
+    // MARK: 设置默认值 或 Edit模式的赋值
+    for (IMSFormModel *model in self.form.dataSource) {
+        if ([model.field isEqualToString:@"Currency"]) {
+            model.value = @"12.34";
+            model.valueList = [@[
+                @{
+                    @"value" : @"CNY"
+                }
+            ] mutableCopy];
+        }
+    }
     
 //    NSArray *jsonArray = [IMSFormDataManager readLocalJSONFileWithName:@"customField"];
 //    NSArray *targetArray = [IMSFormConverter convertJsonArray:jsonArray];
