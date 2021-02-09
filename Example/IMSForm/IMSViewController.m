@@ -68,11 +68,50 @@
         }
     }
     
-//    NSArray *jsonArray = [IMSFormDataManager readLocalJSONFileWithName:@"customField"];
-//    NSArray *targetArray = [IMSFormConverter convertJsonArray:jsonArray];
-//    NSLog(@"%@", targetArray);
-//
-//    self.form.dataSource = [IMSFormDataManager formDataArrayWithJSON:targetArray];
+    for (IMSFormModel *model in self.form.dataSource) {
+        if ([model.field isEqualToString:@"radio"]) {
+//            model.value = @"12.34";
+            model.valueList = [@[
+                @{
+                    @"value" : @"value3"
+                }
+            ] mutableCopy];
+        }
+    }
+    
+    for (IMSFormModel *model in self.form.dataSource) {
+        if ([model.field isEqualToString:@"InputTag"]) {
+//            model.value = @"12.34";
+            model.valueList = [@[
+                @{
+                    @"value" : @"value3"
+                },
+                @{
+                    @"value" : @"value2"
+                },
+                @{
+                    @"value" : @"value1"
+                },
+                @{
+                    @"value" : @"value4"
+                }
+            ] mutableCopy];
+        }
+    }
+    
+    for (IMSFormModel *model in self.form.dataSource) {
+        if ([model.field isEqualToString:@"cascader"]) {
+//            model.value = @"12.34";
+            model.valueList = [@[
+                @{
+                    @"value" : @"value1-3-1"
+                },
+                @{
+                    @"value" : @"value1-3-2"
+                }
+            ] mutableCopy];
+        }
+    }
     
     [self.form.tableView reloadData];
 }
@@ -280,6 +319,8 @@
 - (IBAction)submitAction:(UIBarButtonItem *)sender
 {
     [self.form submit:^(NSError * _Nonnull error) {
+        
+        NSLog(@"%@",self.form.dataSource);
         if (!error) {
             NSLog(@"校验通过");
             [IMSDropHUD showAlertWithType:IMSFormMessageType_Success message:@"校验通过"];
@@ -287,6 +328,8 @@
             NSLog(@"校验未通过");
             [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"校验未通过: %@", error.localizedDescription]];
         }
+        
+        
     }];
 }
 

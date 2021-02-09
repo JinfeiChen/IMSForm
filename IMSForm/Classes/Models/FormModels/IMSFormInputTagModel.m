@@ -9,4 +9,8 @@
 
 @implementation IMSFormInputTagModel
 
+- (void)setValueList:(NSMutableArray *)valueList {
+    [super setValueList:valueList];
+}
+
 @end
