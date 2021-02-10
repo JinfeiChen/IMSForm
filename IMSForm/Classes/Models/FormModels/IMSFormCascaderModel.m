@@ -57,7 +57,7 @@
                 dataModel.selected = NO;
             }
         }
-        if (i < dataSource.count - 1) {
+        if (i <= dataSource.count - 1 && dataModel.child.count) {
             [self dealDefualValue:dataModel.child andHaveDataSource:haveDataSource];
         }
     }

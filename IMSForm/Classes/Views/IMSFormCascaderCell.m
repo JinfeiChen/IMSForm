@@ -248,7 +248,7 @@
                 dataModel.selected = NO;
             }
         }
-        if (i < allDataSource.count - 1) {
+        if (i <= allDataSource.count - 1 && dataModel.child.count) {
             [self dealStatus:dataModel.child andHaveDataSource:haveDataSource];
         }
     }
@@ -274,7 +274,7 @@
                     return;
                 }
             }else {
-                if (i < allDataSource.count - 1) {
+                if (i <= allDataSource.count - 1 && dataModel.child.count) {
                     [self setupData:dataModel.child andArrayM:arrayM andTitleString:titleString andTip:NO andStop:isStop];
                 }
             }
