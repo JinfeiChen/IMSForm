@@ -14,8 +14,8 @@
 
 - (void)setValueList:(NSMutableArray *)valueList
 {
-    [super setValueList:valueList];
     
+    NSMutableArray *valueListM = [[NSMutableArray alloc]init];
     if (valueList && valueList.count == 1) {
         NSDictionary *modelDict = valueList.firstObject;
         IMSFormSelect *defaultSelect = [IMSFormSelect yy_modelWithDictionary:modelDict];
@@ -26,11 +26,13 @@
             [mDict setValue:@(NO) forKey:@"selected"];
             if ([defaultSelect.identifier isEqualToString:obj.identifier]) {
                 [mDict setValue:@(YES) forKey:@"selected"];
+                [valueListM addObject:mDict];
             }
             [newDataSource addObject:mDict];
         }
         self.cpnConfig.dataSource = newDataSource;
     }
+    [super setValueList:valueListM];
 }
 
 #pragma mark - Getters

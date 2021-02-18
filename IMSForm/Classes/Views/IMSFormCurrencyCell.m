@@ -35,7 +35,7 @@
             __typeof__(self) strongSelf = weakSelf;
             if (note.object == strongSelf.textField) {
                 
-                CGFloat value = MAX(strongSelf.model.value.floatValue, strongSelf.model.cpnConfig.min);
+                double value = MAX(strongSelf.model.value.doubleValue, strongSelf.model.cpnConfig.min);
                 value = MIN(value, strongSelf.model.cpnConfig.max);
                 strongSelf.textField.text = [NSString getRoundFloat:value withPrecisionNum:strongSelf.model.cpnConfig.precision];
                 strongSelf.textField.placeholder = strongSelf.model.placeholder ? : @"Please enter";
@@ -188,14 +188,14 @@
 
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:[str doubleValue] withPrecisionNum:self.model.cpnConfig.precision];
 
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
     }
 
-    return ([str floatValue] >= self.model.cpnConfig.min && [str floatValue] <= self.model.cpnConfig.max) || returnKey;
+    return ([str doubleValue] >= self.model.cpnConfig.min && [str doubleValue] <= self.model.cpnConfig.max) || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
@@ -224,7 +224,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    self.model.value = [NSString getRoundFloat:[textField.text floatValue] withPrecisionNum:self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:[textField.text doubleValue] withPrecisionNum:self.model.cpnConfig.precision];
     textField.text = self.model.value;
 }
 
@@ -301,7 +301,7 @@
         self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];
     }
 
-    CGFloat value = MAX(self.model.value.floatValue, self.model.cpnConfig.min);
+    double value = MAX(self.model.value.doubleValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);
     self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.model.cpnConfig.precision];
     self.textField.placeholder = model.placeholder ? : @"Please enter";

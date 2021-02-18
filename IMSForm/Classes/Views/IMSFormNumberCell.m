@@ -141,14 +141,14 @@
 
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    self.model.value = [NSString getRoundFloat:[str floatValue] withPrecisionNum:self.model.cpnConfig.precision];
+    self.model.value = [NSString getRoundFloat:[str doubleValue] withPrecisionNum:self.model.cpnConfig.precision];
 
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
     }
 
-    return ([str floatValue] >= self.model.cpnConfig.min && [str floatValue] <= self.model.cpnConfig.max) || returnKey;
+    return ([str doubleValue] >= self.model.cpnConfig.min && [str doubleValue] <= self.model.cpnConfig.max) || returnKey;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
@@ -203,7 +203,7 @@
     self.infoLabel.text = model.info;
 
     // update default value
-    CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
+    double value = MAX(model.value.doubleValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);
     self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.model.cpnConfig.precision];
 }
@@ -212,8 +212,8 @@
 
 - (void)decreaseButtonAction:(UIButton *)button
 {
-    CGFloat current = [self.textField.text floatValue];
-    CGFloat result = MAX((current - self.model.cpnConfig.increment), self.model.cpnConfig.min);
+    double current = [self.textField.text doubleValue];
+    double result = MAX((current - self.model.cpnConfig.increment), self.model.cpnConfig.min);
     self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.model.cpnConfig.precision];
 
     // update model value
@@ -232,8 +232,8 @@
 
 - (void)increaseButtonAction:(UIButton *)button
 {
-    CGFloat current = [self.textField.text floatValue];
-    CGFloat result = MIN((current + self.model.cpnConfig.increment), self.model.cpnConfig.max);
+    double current = [self.textField.text doubleValue];
+    double result = MIN((current + self.model.cpnConfig.increment), self.model.cpnConfig.max);
     self.textField.text = [NSString getRoundFloat:result withPrecisionNum:self.model.cpnConfig.precision];
 
     // update model value

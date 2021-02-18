@@ -15,7 +15,7 @@
         _lengthLimit = 100;
         _precision = 2;
         _min = 0;
-        _max = 10000000000;
+        _max = 10000000000000.0;
     }
     return self;
 }
