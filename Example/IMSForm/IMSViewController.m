@@ -182,9 +182,9 @@
         if ([model.field isEqualToString:@"cascader"]) {
 //            model.value = @"12.34";
             model.valueList = [@[
-                @{
-                    @"value" : @"value1-3-1"
-                },
+//                @{
+//                    @"value" : @"value1-3-1"
+//                },
                 @{
                     @"value" : @"value1-3-2"
                 }
