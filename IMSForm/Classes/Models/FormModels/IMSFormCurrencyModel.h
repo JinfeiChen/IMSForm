@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormCurrencyModel : IMSFormModel
 
+@property (copy, nonatomic) NSString *price_identifier; /**< <#property#> */
+@property (copy, nonatomic) NSString *currency_identifier; /**< <#property#> */
+
 @property (strong, nonatomic) IMSFormCurrencyCPNConfig *cpnConfig; /**< <#property#> */
 
 @end
