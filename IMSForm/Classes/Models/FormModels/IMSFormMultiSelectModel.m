@@ -24,7 +24,7 @@
         mValueList = [[self filterSelectedDataSource:self.cpnConfig.dataSource] mutableCopy];
     }
     
-    [super setValueList:mValueList];
+    [super setValueList:(mValueList.count>0)?mValueList:valueList];
 }
 
 - (NSArray *)deselectedDataSource:(NSArray *)dataSource

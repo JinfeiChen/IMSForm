@@ -76,7 +76,7 @@
 }
 
 - (NSMutableArray *)valueList {
-    if (_valueList == nil) {
+    if (!_valueList) {
         _valueList = [[NSMutableArray alloc] init];
     }
     return _valueList;
