@@ -330,7 +330,7 @@
     contentL.textLayout = layout;
     CGFloat infoHeight = layout.textBoundingSize.height;
     
-    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.model.listArray.count > 0) ? 2 : 1) + 5;
+    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.model.listArray.count > 0) ? 2 : 1) + 10;
     CGFloat buttonHeight = kIMSFormDefaultHeight;
     NSInteger count = MIN(self.model.listArray.count, self.model.cpnConfig.maxFilesLimit);
     CGFloat contentViewHeight = kFormTBFileRowHeight * count + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.listTableView.contentInset.top + self.listTableView.contentInset.bottom + spacingHeight + buttonHeight + infoHeight;

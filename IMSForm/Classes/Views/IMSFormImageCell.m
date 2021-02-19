@@ -436,7 +436,7 @@
 
     // 由于这里collection的高度是动态的，这里cell的高度我们根据collection来计算
     CGSize collectionSize = self.collectionView.collectionViewLayout.collectionViewContentSize;
-    CGFloat contentHeight = collectionSize.height + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom + infoHeight + self.model.cpnStyle.spacing + 5;
+    CGFloat contentHeight = collectionSize.height + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom + infoHeight + self.model.cpnStyle.spacing + 10;
     return CGSizeMake(targetSize.width, contentHeight);
 }
 

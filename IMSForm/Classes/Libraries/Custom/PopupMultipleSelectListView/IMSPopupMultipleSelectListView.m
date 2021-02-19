@@ -49,7 +49,7 @@
         self.hidden = NO;
         if (self.maxCount > 0) {
             self.tipLabel.hidden = NO;
-            self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)", self.didSelectedCount, self.didSelectedCount > 1 ? @"items" : @"item", self.maxCount];
+            [self updateTipLabelText];
             self.tipLabel.height = 44;
         } else {
             self.tipLabel.hidden = YES;
@@ -218,11 +218,10 @@
 
     if (model.isSelected) {
         self.didSelectedCount++;
-        self.tipLabel.text =  [NSString stringWithFormat:@"%ld %@ selected(maximum %ld)", (long)self.didSelectedCount, self.didSelectedCount > 1 ? @"items" : @"item", (long)self.maxCount];
     } else {
         self.didSelectedCount--;
-        self.tipLabel.text =  [NSString stringWithFormat:@"%ld %@ selected(maximum %ld)", (long)self.didSelectedCount, self.didSelectedCount > 1 ? @"items" : @"item", (long)self.maxCount];
     }
+    [self updateTipLabelText];
 
     NSMutableArray *mArr = [NSMutableArray array];
     for (IMSFormSelect *obj in self.dataArray) {
@@ -273,6 +272,16 @@
 }
 
 #pragma mark - Private Methods
+
+- (void)updateTipLabelText
+{
+    // maxCount
+    // -1 表示不限制最大选择数
+    // 0 表示不能选择
+    // n 表示限制选择数
+    NSString *tip = (self.maxCount > 0) ? [NSString stringWithFormat:@"(maximum %zd)", self.maxCount] : @"";
+    self.tipLabel.text = [NSString stringWithFormat:@"%zd %@ selected%@", self.didSelectedCount, self.didSelectedCount > 1 ? @"items" : @"item", tip];
+}
 
 - (NSString *)customClassStringOfTableViewCellModel
 {

@@ -79,7 +79,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Currency; // a
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Phone; // added
 
 // Phone
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputTag; // 
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputTag; // added
 
 #pragma mark - Readonly
 
