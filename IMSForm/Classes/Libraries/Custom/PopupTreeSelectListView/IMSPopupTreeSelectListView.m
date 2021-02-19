@@ -37,7 +37,7 @@
     [self.superview bringSubviewToFront:self];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.hidden = NO;
-        if (self.maxCount > 0) {
+        if (self.maxCount >= 0) {
             self.tipLabel.hidden = NO;
             self.tipLabel.text =  [NSString stringWithFormat:@"%zd %@ selected(maximum %zd)",self.didSelectedCount,self.didSelectedCount > 1 ? @"items" : @"item",self.maxCount];
             self.tipLabel.height = 44;
@@ -124,7 +124,7 @@
             [self didSelectedBlock:treeView andFirstShow:NO];
         }else { // 选择
             didSelectDataModel.selected = !didSelectDataModel.selected;
-            if (didSelectDataModel.selected && self.maxCount > 0) {
+            if (didSelectDataModel.selected && self.maxCount >= 0) {
                 self.didSelectedCount ++ ;
                 if (self.didSelectedCount > self.maxCount) { // 超过最大数 label震动
                     self.didSelectedCount = self.maxCount;
@@ -138,7 +138,7 @@
                     [self.tipLabel.layer addAnimation:shake forKey:@"shakeAnimation"];
                     return;
                 }
-            }else if (!didSelectDataModel.selected && self.maxCount > 0) {
+            }else if (!didSelectDataModel.selected && self.maxCount >= 0) {
                 self.didSelectedCount --;
             }
             
