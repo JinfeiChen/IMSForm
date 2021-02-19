@@ -29,8 +29,11 @@
         
         self.cpnConfig.dataSource = [array yy_modelToJSONObject];
     }
-    
-    [super setValueList:[valueListM yy_modelToJSONObject]];
+    if (valueListM.count) {
+        [super setValueList:[valueListM yy_modelToJSONObject]];
+    }else {
+        [super setValueList:valueList];
+    }
 }
 
 - (NSArray *)dealDefualValue:(NSArray *)dataSource andFormSelectModel:(IMSFormSelect *)selectModel andHaveDataSource:(NSArray *)haveDataSource andValueListM:(NSMutableArray *)valueListM andTitleArrayM:(NSMutableArray *)titleArrayM {
