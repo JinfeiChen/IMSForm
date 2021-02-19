@@ -93,7 +93,7 @@
                 @{
                     @"url" : @"http://www.tupian.com/images/Pages2_1.jpg",
                     @"name" : @"Pages2_1.jpg",
-                    @"id" : @"image001"
+                    @"id" : @"images/Pages2_1.jpg"
                 },
                 @{
                     @"url" : @"http://www.tupian.com/images/Pages4_1.jpg",

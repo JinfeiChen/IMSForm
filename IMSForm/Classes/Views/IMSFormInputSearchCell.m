@@ -130,7 +130,7 @@
     
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    self.model.value = str;
+//    self.model.value = str;
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -157,7 +157,7 @@
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-    self.model.value = @"";
+//    self.model.value = @"";
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -227,7 +227,7 @@
         return;
     }
     
-    self.model.value = self.textField.text;
+//    self.model.value = self.textField.text;
     
     if (self.form) {
         
