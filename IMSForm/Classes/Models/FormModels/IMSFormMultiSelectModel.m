@@ -14,15 +14,17 @@
 
 - (void)setValueList:(NSMutableArray *)valueList
 {
-    [super setValueList:valueList];
-    
+    NSMutableArray *mValueList = [NSMutableArray array];
     if (valueList && valueList.count > 0) {
         self.cpnConfig.dataSource = [self deselectedDataSource:self.cpnConfig.dataSource];
         for (NSDictionary *modelDict in valueList) {
             IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:modelDict];
             self.cpnConfig.dataSource = [self updateDataSource:self.cpnConfig.dataSource identifier:selectedModel.identifier];
         }
+        mValueList = [[self filterSelectedDataSource:self.cpnConfig.dataSource] mutableCopy];
     }
+    
+    [super setValueList:mValueList];
 }
 
 - (NSArray *)deselectedDataSource:(NSArray *)dataSource
@@ -56,6 +58,23 @@
             }
         }
         [newDataSource addObject:mObj];
+    }
+    return newDataSource;
+}
+
+- (NSArray *)filterSelectedDataSource:(NSArray *)dataSource
+{
+    NSMutableArray *newDataSource = [NSMutableArray array];
+    for (NSDictionary *obj in dataSource) {
+        IMSFormSelect *model = [IMSFormSelect yy_modelWithDictionary:obj];
+        if (model.child && model.child.count > 0) {
+            NSArray *child = [self filterSelectedDataSource:[obj valueForKey:@"child"]];
+            [newDataSource addObjectsFromArray:child];
+        } else {
+            if (model.selected) {
+                [newDataSource addObject:obj];
+            }
+        }
     }
     return newDataSource;
 }

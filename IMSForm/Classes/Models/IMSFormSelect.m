@@ -31,20 +31,17 @@
 - (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic
 {
     _tempDict = dic;
-    if ([dic valueForKey:@"value"]) {
-        _param = [dic valueForKey:@"value"];
-    }
-    else if ([dic valueForKey:@"Value"]) {
-        _param = [dic valueForKey:@"Value"];
-    }
-    else if ([dic valueForKey:@"id"]) {
+    if (!_param && [dic valueForKey:@"id"]) {
         _param = [dic valueForKey:@"id"];
     }
-    else if ([dic valueForKey:@"Id"]) {
+    if (!_param && [dic valueForKey:@"Id"]) {
         _param = [dic valueForKey:@"Id"];
     }
-    else {
-        
+    if (!_param && [dic valueForKey:@"value"]) {
+        _param = [dic valueForKey:@"value"];
+    }
+    if (!_param && [dic valueForKey:@"Value"]) {
+        _param = [dic valueForKey:@"Value"];
     }
     self.identifier = _param;
     return YES;
