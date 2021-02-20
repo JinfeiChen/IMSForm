@@ -210,7 +210,7 @@
     self.infoLabel.text = @"";
     self.valueModelArray = @[];
     self.tagView.dataArray = @[];
-    _multipleSelectListView = nil;
+//    _multipleSelectListView = nil;
 }
 
 - (void)updatePlaceholder
@@ -277,6 +277,8 @@
     if (!self.model) {
         return;
     }
+    
+    _multipleSelectListView = [[IMSPopupMultipleSelectListView alloc] initWithFrame:CGRectZero];
 
     // MARK: Show multiple select list view
     IMSPopupMultipleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:YES];
@@ -386,12 +388,12 @@
     return _tagView;
 }
 
-- (IMSPopupMultipleSelectListView *)multipleSelectListView
-{
-    if (!_multipleSelectListView) {
-        _multipleSelectListView = [[IMSPopupMultipleSelectListView alloc] initWithFrame:CGRectZero];
-    }
-    return _multipleSelectListView;
-}
+//- (IMSPopupMultipleSelectListView *)multipleSelectListView
+//{
+//    if (!_multipleSelectListView) {
+//        _multipleSelectListView = [[IMSPopupMultipleSelectListView alloc] initWithFrame:CGRectZero];
+//    }
+//    return _multipleSelectListView;
+//}
 
 @end
