@@ -12,6 +12,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _isMultiple = YES;
+        _maxCount = -1;
     }
     return self;
 }

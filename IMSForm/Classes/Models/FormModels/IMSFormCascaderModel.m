@@ -23,12 +23,12 @@
    
     NSMutableArray *valueListM = [[NSMutableArray alloc]init];
     NSMutableArray *titleArrayM = [[NSMutableArray alloc]init];
-    if (valueList && valueList.count) {
-        NSArray *defaultSelectArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:valueList];
-      NSArray *array = [self dealDefualValue:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.cpnConfig.dataSource] andFormSelectModel:nil andHaveDataSource:defaultSelectArray andValueListM:valueListM andTitleArrayM:titleArrayM];
-        
-        self.cpnConfig.dataSource = [array yy_modelToJSONObject];
-    }
+    
+    NSArray *defaultSelectArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:valueList];
+    
+    NSArray *array = [self dealDefualValue:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.cpnConfig.dataSource] andFormSelectModel:nil andHaveDataSource:defaultSelectArray andValueListM:valueListM andTitleArrayM:titleArrayM];
+      self.cpnConfig.dataSource = [array yy_modelToJSONObject];
+    
     if (valueListM.count) {
         [super setValueList:[valueListM yy_modelToJSONObject]];
     }else {
@@ -38,16 +38,24 @@
 
 - (NSArray *)dealDefualValue:(NSArray *)dataSource andFormSelectModel:(IMSFormSelect *)selectModel andHaveDataSource:(NSArray *)haveDataSource andValueListM:(NSMutableArray *)valueListM andTitleArrayM:(NSMutableArray *)titleArrayM {
     
-    if (selectModel == nil) [titleArrayM removeAllObjects];
-    if (selectModel) [titleArrayM addObject:selectModel.label];
+    // 清空所有
+    if (selectModel == nil || [titleArrayM containsObject:selectModel.label ?: selectModel.value]) [titleArrayM removeAllObjects];
+    if (selectModel) [titleArrayM addObject:selectModel.label ?: selectModel.value];
+    
     for (int i = 0; i < dataSource.count; ++i) {
         IMSFormSelect *dataModel = dataSource[i];
         dataModel.selected = NO;
         for (IMSFormSelect *valueListModel in haveDataSource) {
             if ([dataModel.value isEqualToString:valueListModel.value]) {
                 dataModel.selected = YES;
-                [titleArrayM addObject:dataModel.label];
-               if(self.cpnConfig.isMultiple == NO) self.label = [titleArrayM componentsJoinedByString:@" > "];
+                [titleArrayM addObject:selectModel.label ?: selectModel.value];
+                if(self.cpnConfig.isMultiple == NO) {
+                    if (titleArrayM.count > 1) {
+                        self.label = [titleArrayM componentsJoinedByString:@" > "];
+                    }else {
+                        self.label = titleArrayM.firstObject;
+                    }
+                }
                 [valueListM addObject:dataModel];
                 break;
             }else {
