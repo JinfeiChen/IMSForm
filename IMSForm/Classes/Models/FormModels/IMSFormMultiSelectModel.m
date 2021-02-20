@@ -14,9 +14,9 @@
 
 - (void)setValueList:(NSMutableArray *)valueList
 {
+    self.cpnConfig.dataSource = [self deselectedDataSource:self.cpnConfig.dataSource];
     NSMutableArray *mValueList = [NSMutableArray array];
     if (valueList && valueList.count > 0) {
-        self.cpnConfig.dataSource = [self deselectedDataSource:self.cpnConfig.dataSource];
         for (NSDictionary *modelDict in valueList) {
             IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:modelDict];
             self.cpnConfig.dataSource = [self updateDataSource:self.cpnConfig.dataSource identifier:selectedModel.identifier];
