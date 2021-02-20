@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormCascaderCPNConfig : IMSFormCPNConfig
 @property (nonatomic, assign) BOOL isMultiple;// 是否多项，默认多选
-@property (nonatomic, assign) NSInteger maxCount;//最大限制数量; -1 为无限大；
+@property (nonatomic, assign) NSInteger maxCount;//最大限制数量; 默认-1 为无限大；
 @property (nonatomic, assign) NSInteger didSelectedCount;// 已经选择的数量
 
 @end

@@ -123,10 +123,7 @@
 //     默认值
     IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
     NSMutableArray *setupArrayM = [NSMutableArray array];
-    NSMutableString *titleString = [NSMutableString string];
-    BOOL isStop = NO;
-    [self setupData:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:cascaderModel.cpnConfig.dataSource] andArrayM:setupArrayM andTitleString:titleString andTip:YES andStop:isStop];
-    self.model.label = titleString;
+    [self setupData:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:cascaderModel.cpnConfig.dataSource] andArrayM:setupArrayM];
     self.model.valueList = [setupArrayM yy_modelToJSONObject];
     self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
     
@@ -258,27 +255,16 @@
 
  */
 
-- (void)setupData:(NSArray *)allDataSource andArrayM:(NSMutableArray *)arrayM andTitleString:(NSMutableString *)titleString andTip:(BOOL)tip andStop:(BOOL)isStop {
+- (void)setupData:(NSArray *)allDataSource andArrayM:(NSMutableArray *)arrayM {
     
     for (int i = 0; i < allDataSource.count; ++i) {
-        if (isStop == NO) {
-    
-            IMSFormSelect * _Nonnull dataModel = allDataSource [i];
-            
-            if (dataModel.selected && !dataModel.child.count) {
-                [arrayM addObject:dataModel];
-                IMSFormCascaderModel *cascaderModel = (IMSFormCascaderModel *)self.model;
-                if (!cascaderModel.cpnConfig.isMultiple) {
-                    [titleString setString:dataModel.label ?: dataModel.value];
-                    isStop = YES;
-                    return;
-                }
-            }else {
-                if (i <= allDataSource.count - 1 && dataModel.child.count) {
-                    [self setupData:dataModel.child andArrayM:arrayM andTitleString:titleString andTip:NO andStop:isStop];
-                }
+        IMSFormSelect * _Nonnull dataModel = allDataSource [i];
+        if (dataModel.selected && !dataModel.child.count) {
+            [arrayM addObject:dataModel];
+        }else {
+            if (i <= allDataSource.count - 1 && dataModel.child.count) {
+                [self setupData:dataModel.child andArrayM:arrayM];
             }
-            
         }
     }
 }

@@ -40,7 +40,7 @@
         self.cpnConfig.dataSource = newDataSource;
     }
     
-    [super setValueList:valueListM.count ? valueListM : valueList]
+    [super setValueList:valueListM.count ? valueListM : valueList];
     
 }
 
