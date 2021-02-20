@@ -47,11 +47,12 @@
     [self.superview bringSubviewToFront:self];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.hidden = NO;
-        if (self.maxCount > 0) {
+        if (self.maxCount != 0) {
             self.tipLabel.hidden = NO;
             [self updateTipLabelText];
             self.tipLabel.height = 44;
-        } else {
+        }
+        else {
             self.tipLabel.hidden = YES;
             self.tipLabel.height = 10;
         }
@@ -266,7 +267,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (self.isGroup) {
-        return 44;
+        return 44.0;
     }
     return 0.01;
 }
