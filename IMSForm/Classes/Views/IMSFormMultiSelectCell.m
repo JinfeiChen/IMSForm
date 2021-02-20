@@ -37,8 +37,31 @@
         [self.bodyView addGestureRecognizer:tap];
         
         [self buildView];
+        
+        [self addObserver:self forKeyPath:@"model.cpnConfig.dataSource" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    NSLog(@"keyPath = %@, object = %@", keyPath, object);
+    
+    // TEMP: Test
+    IMSPopupMultipleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:YES];
+    if (type == IMSPopupMultipleSelectListViewCellType_Custom) {
+        if (!_multipleSelectListView) {
+            if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customMultipleSelectListViewWithFormModel:")]) {
+                _multipleSelectListView = [self.form.uiDelegate customMultipleSelectListViewWithFormModel:self.model];
+                [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type selectedDataArray:self.model.valueList];
+            }
+        }
+        if (!self.form || !_multipleSelectListView) {
+            [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:IMSPopupMultipleSelectListViewCellType_Default selectedDataArray:self.model.valueList];
+        }
+    } else {
+        [self.multipleSelectListView setDataArray:self.model.cpnConfig.dataSource type:type selectedDataArray:self.model.valueList];
+    }
 }
 
 #pragma mark - UI
