@@ -75,7 +75,7 @@
 
     self.nameLabel.text = [IMSFormValidateManager isEmpty:model.name] ? @"N/A" : model.name;
     if (![IMSFormValidateManager isEmpty:model.role]) {
-        self.roleLabel.text = model.role ? : @"N/A";
+        self.roleLabel.text = [NSString stringWithFormat:@" %@ ", (model.role ? : @"N/A")];
     }
     self.phoneLabel.text = [IMSFormValidateManager isEmpty:model.phone] ? @"N/A" : model.phone;
     self.infoLabel.text = [IMSFormValidateManager isEmpty:model.info] ? @"N/A" : model.info;
@@ -83,10 +83,11 @@
     self.selectButton.tintColor = self.tintColor;
     
     UIColor *color = model.enable ? [UIColor darkTextColor] : IMS_HEXCOLOR(0xA4ABBF);
+    UIColor *color2 = model.enable ? [UIColor lightGrayColor] : IMS_HEXCOLOR(0xA4ABBF);
     self.nameLabel.textColor = color;
-    self.roleLabel.textColor = color;
-    self.phoneLabel.textColor = color;
-    self.infoLabel.textColor = color;
+    self.roleLabel.textColor = color2;
+    self.phoneLabel.textColor = color2;
+    self.infoLabel.textColor = color2;
     self.selectButton.tintColor = model.enable ? self.tintColor : [UIColor lightGrayColor];
     self.selectButton.hidden = !model.enable;
 }
@@ -96,7 +97,7 @@
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont systemFontOfSize:14];
+        _nameLabel.font = [UIFont systemFontOfSize:12];
         _nameLabel.textColor = [UIColor blackColor];
         _nameLabel.numberOfLines = 0;
     }
@@ -107,7 +108,7 @@
     if (_phoneLabel == nil) {
         _phoneLabel = [[UILabel alloc] init];
         _phoneLabel.numberOfLines = 0;
-        _phoneLabel.font = [UIFont systemFontOfSize:13];
+        _phoneLabel.font = [UIFont systemFontOfSize:11];
         _phoneLabel.textColor = self.roleLabel.textColor;
     }
     return _phoneLabel;
@@ -118,7 +119,7 @@
         _infoLabel = [[UILabel alloc] init];
         _infoLabel.numberOfLines = 2;
         _infoLabel.textColor = self.roleLabel.textColor;
-        _infoLabel.font = [UIFont systemFontOfSize:13];
+        _infoLabel.font = [UIFont systemFontOfSize:11];
         _infoLabel.numberOfLines = 0;
     }
     return _infoLabel;

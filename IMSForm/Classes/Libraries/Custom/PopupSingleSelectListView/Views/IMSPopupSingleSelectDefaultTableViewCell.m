@@ -74,7 +74,7 @@
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont systemFontOfSize:14];
+        _nameLabel.font = [UIFont systemFontOfSize:12];
         _nameLabel.textColor = [UIColor blackColor];
         _nameLabel.numberOfLines = 0;
     }
