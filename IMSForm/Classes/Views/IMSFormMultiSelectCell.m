@@ -299,6 +299,20 @@
         @strongify(self);
         // update model's valueList
         self.model.valueList = [selectedDataArray mutableCopy];
+        // update cpnConfig.dataSource
+        NSMutableArray *newDataSource = [NSMutableArray array];
+        for (NSDictionary *obj in self.model.cpnConfig.dataSource) {
+            NSMutableDictionary *mObj = [NSMutableDictionary dictionaryWithDictionary:obj];
+            NSString *objID = [obj valueForKey:@"value"];
+            for (NSDictionary *dict in selectedDataArray) {
+                NSString *selID = [dict valueForKey:@"value"];
+                if ([objID isEqualToString:selID]) {
+                    [mObj setValue:@(YES) forKey:@"selected"];
+                }
+            }
+            [newDataSource addObject:mObj];
+        }
+        self.model.cpnConfig.dataSource = newDataSource;
         // update valueModelArray
         self.valueModelArray = [NSArray yy_modelArrayWithClass:[IMSPopupMultipleSelectModel class] json:selectedDataArray];
         // update tagview datasource

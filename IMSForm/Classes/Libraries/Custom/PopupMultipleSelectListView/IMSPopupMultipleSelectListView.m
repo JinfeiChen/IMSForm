@@ -192,7 +192,7 @@
     if (!model.isEnable) return;
     
     if (!model.isSelected) {
-        if (self.didSelectedCount >= self.maxCount) { // 超过最大数 label震动
+        if (self.didSelectedCount >= self.maxCount && self.maxCount >= 0) { // 超过最大数 label震动
             CABasicAnimation *shake = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
             shake.fromValue = [NSNumber numberWithFloat:-5];
             shake.toValue = [NSNumber numberWithFloat:5];
