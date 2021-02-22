@@ -21,12 +21,13 @@
 
 - (void)setValueList:(NSMutableArray *)valueList {
    
+    self.label = @"";
     NSMutableArray *valueListM = [[NSMutableArray alloc]init];
     NSMutableArray *titleArrayM = [[NSMutableArray alloc]init];
-    
+    BOOL subTip = YES;
     NSArray *defaultSelectArray = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:valueList];
     
-    NSArray *array = [self dealDefualValue:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.cpnConfig.dataSource] andFormSelectModel:nil andHaveDataSource:defaultSelectArray andValueListM:valueListM andTitleArrayM:titleArrayM];
+    NSArray *array = [self dealDefualValue:[NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.cpnConfig.dataSource] andFormSelectModel:nil andHaveDataSource:defaultSelectArray andValueListM:valueListM andTitleArrayM:titleArrayM andSubTip:subTip];
       self.cpnConfig.dataSource = [array yy_modelToJSONObject];
     
     if (valueListM.count) {
@@ -36,19 +37,29 @@
     }
 }
 
-- (NSArray *)dealDefualValue:(NSArray *)dataSource andFormSelectModel:(IMSFormSelect *)selectModel andHaveDataSource:(NSArray *)haveDataSource andValueListM:(NSMutableArray *)valueListM andTitleArrayM:(NSMutableArray *)titleArrayM {
+- (NSArray *)dealDefualValue:(NSArray *)dataSource andFormSelectModel:(IMSFormSelect *)selectModel andHaveDataSource:(NSArray *)haveDataSource andValueListM:(NSMutableArray *)valueListM andTitleArrayM:(NSMutableArray *)titleArrayM andSubTip:(BOOL)subTip {
     
-    // 清空所有
-    if (selectModel == nil || [titleArrayM containsObject:selectModel.label ?: selectModel.value]) [titleArrayM removeAllObjects];
-    if (selectModel) [titleArrayM addObject:selectModel.label ?: selectModel.value];
+    NSLog(@"{ selectModel==>%@,\n titleArrayM ==> %@}",selectModel,titleArrayM);
     
+    if (subTip && titleArrayM.count > 1) {
+        [titleArrayM removeLastObject];
+    }
+    
+    if (selectModel) {
+        [titleArrayM addObject:selectModel.label ?: selectModel.value];
+    }
+
     for (int i = 0; i < dataSource.count; ++i) {
+        // 清空所有
+        if (selectModel == nil) [titleArrayM removeAllObjects];
+        
         IMSFormSelect *dataModel = dataSource[i];
         dataModel.selected = NO;
         for (IMSFormSelect *valueListModel in haveDataSource) {
             if ([dataModel.value isEqualToString:valueListModel.value]) {
                 dataModel.selected = YES;
-                [titleArrayM addObject:selectModel.label ?: selectModel.value];
+                subTip = NO;
+                [titleArrayM addObject:dataModel.label ?: dataModel.value];
                 if(self.cpnConfig.isMultiple == NO) {
                     if (titleArrayM.count > 1) {
                         self.label = [titleArrayM componentsJoinedByString:@" > "];
@@ -63,7 +74,7 @@
             }
         }
         if (i <= dataSource.count - 1 && dataModel.child.count) {
-            [self dealDefualValue:dataModel.child andFormSelectModel:dataModel andHaveDataSource:haveDataSource andValueListM:valueListM andTitleArrayM:titleArrayM];
+            [self dealDefualValue:dataModel.child andFormSelectModel:dataModel andHaveDataSource:haveDataSource andValueListM:valueListM andTitleArrayM:titleArrayM andSubTip:subTip];
         }
     }
     
