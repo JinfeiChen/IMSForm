@@ -6,6 +6,7 @@
 //
 
 #import "CJFTableView.h"
+#import <IMSForm/NSString+Extension.h>
 
 @implementation CJFTableView
 
@@ -13,7 +14,7 @@
 {
     if (!_noDataPlaceholderView) {
         _noDataPlaceholderView = [CJFTableNoDataView nibView];
-        _noDataPlaceholderView.title = @"No data";
+        _noDataPlaceholderView.title = @"No data".ims_localizable;
         _noDataPlaceholderView.imageName = @"img_no_data";
     }
     return _noDataPlaceholderView;
@@ -23,8 +24,8 @@
 {
     if (!_errorNetworkPlaceholderView) {
         _errorNetworkPlaceholderView = [CJFTableErrorNetworkView nibView];
-        _errorNetworkPlaceholderView.title = @"Network error";
-        _errorNetworkPlaceholderView.btnTitle = @"Refresh";
+        _errorNetworkPlaceholderView.title = @"Network error".ims_localizable;
+        _errorNetworkPlaceholderView.btnTitle = @"Refresh".ims_localizable;
         _errorNetworkPlaceholderView.imageName = @"img_network_error";
         _errorNetworkPlaceholderView.clickHandler = ^(UIButton * _Nonnull sender) {
 //            @strongify(self);

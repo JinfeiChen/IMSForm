@@ -9,3 +9,7 @@
 "JSON decoding failed" = "[en] JSON decoding failed";
 "Verification failed" = "Verification failed";
 "No validator found" = "No validator found";
+
+"No data" = "No data";
+"Network error" = "Network error";
+"Refresh" = "Refresh";
