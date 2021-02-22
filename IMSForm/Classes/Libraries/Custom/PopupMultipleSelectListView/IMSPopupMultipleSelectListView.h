@@ -8,6 +8,7 @@
 
 #import <IMSForm/IMSFormView.h>
 
+#import <IMSForm/CJFTableView.h>
 #import <IMSForm/IMSPopupMultipleSelectModel.h>
 
 NS_ASSUME_NONNULL_BEGIN

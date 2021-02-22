@@ -8,6 +8,7 @@
 
 #import <IMSForm/IMSFormView.h>
 
+#import <IMSForm/CJFTableView.h>
 #import <IMSForm/IMSPopupSingleSelectDefaultTableViewCell.h>
 #import <IMSForm/IMSPopupSingleSelectContactTableViewCell.h>
 
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSPopupSingleSelectListView : IMSFormView
 
-@property (nonatomic, strong) UITableView *mainTableView;
+@property (nonatomic, strong) CJFTableView *mainTableView;
 @property (strong, nonatomic) NSArray <IMSFormSelect *> *dataArray; /**< <#property#> */
 @property (assign, nonatomic) IMSPopupSingleSelectListViewCellType cellType; /**< <#property#> */
 

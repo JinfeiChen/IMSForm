@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CJFTableNoDataView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T5g-aU-VLi">
+                    <rect key="frame" x="20" y="343.5" width="374" height="219"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_placeholder_01" translatesAutoresizingMaskIntoConstraints="NO" id="kRR-f5-M5U">
+                            <rect key="frame" x="117" y="0.0" width="140" height="140"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="140" id="Svs-NX-eZz"/>
+                                <constraint firstAttribute="height" constant="140" id="byc-yj-lwg"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data is empty, please try again." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVG-ag-eFi">
+                            <rect key="frame" x="0.0" y="150" width="374" height="18"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="18" id="oyc-Z1-Mn2"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.38823529411764707" green="0.40784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GqO-U2-O8s">
+                            <rect key="frame" x="112" y="183" width="150" height="36"/>
+                            <color key="backgroundColor" red="0.039215686270000001" green="0.62745098040000002" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="150" id="0gn-dT-f6O"/>
+                                <constraint firstAttribute="height" constant="36" id="MWD-gI-b4b"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                            <state key="normal" title="Refresh">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="18"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="clickAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="StL-Nw-sUv"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="kRR-f5-M5U" firstAttribute="centerX" secondItem="T5g-aU-VLi" secondAttribute="centerX" id="1kF-6K-CjL"/>
+                        <constraint firstItem="kRR-f5-M5U" firstAttribute="top" secondItem="T5g-aU-VLi" secondAttribute="top" id="53P-cl-A1c"/>
+                        <constraint firstItem="gVG-ag-eFi" firstAttribute="centerX" secondItem="T5g-aU-VLi" secondAttribute="centerX" id="BHU-GV-ebC"/>
+                        <constraint firstAttribute="bottom" secondItem="GqO-U2-O8s" secondAttribute="bottom" id="Bai-9R-57l"/>
+                        <constraint firstItem="gVG-ag-eFi" firstAttribute="top" secondItem="kRR-f5-M5U" secondAttribute="bottom" constant="10" id="LXn-BW-c6z"/>
+                        <constraint firstItem="GqO-U2-O8s" firstAttribute="top" secondItem="gVG-ag-eFi" secondAttribute="bottom" constant="15" id="ORs-FH-vlK"/>
+                        <constraint firstItem="GqO-U2-O8s" firstAttribute="centerX" secondItem="T5g-aU-VLi" secondAttribute="centerX" id="c4C-vi-u4a"/>
+                        <constraint firstAttribute="trailing" secondItem="gVG-ag-eFi" secondAttribute="trailing" id="gEY-Cx-vKo"/>
+                        <constraint firstItem="gVG-ag-eFi" firstAttribute="leading" secondItem="T5g-aU-VLi" secondAttribute="leading" id="knB-ZZ-7tU"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="T5g-aU-VLi" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="64V-gj-mnn"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="T5g-aU-VLi" secondAttribute="trailing" constant="20" id="Qip-NM-TrU"/>
+                <constraint firstItem="T5g-aU-VLi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="gft-XG-KWm"/>
+                <constraint firstItem="T5g-aU-VLi" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="wzF-ea-86k"/>
+            </constraints>
+            <connections>
+                <outlet property="button" destination="GqO-U2-O8s" id="QDV-Ag-Z5c"/>
+                <outlet property="imageView" destination="kRR-f5-M5U" id="GRu-Lc-5fR"/>
+                <outlet property="titleLabel" destination="gVG-ag-eFi" id="LDe-rt-Cvy"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="79.6875"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="img_placeholder_01" width="240" height="237"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -294,7 +294,8 @@
         }
     ];
     if (callback) {
-        callback(resultArray);
+        callback(nil);
+//        callback(resultArray);
     }
 }
 

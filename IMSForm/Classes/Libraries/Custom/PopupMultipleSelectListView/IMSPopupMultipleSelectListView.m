@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UILabel *tipLabel;
-@property (nonatomic, strong) UITableView *mainTableView;
+@property (nonatomic, strong) CJFTableView *mainTableView;
 
 @property (nonatomic, assign) BOOL isGroup; // 是否以组的形式显示,默认为不是
 @property (strong, nonatomic) NSArray *selectedDataArray; /**< 已选中列表 */
@@ -81,7 +81,11 @@
 
 - (void)setDataArray:(NSArray *)dataArray type:(IMSPopupMultipleSelectListViewCellType)cellType selectedDataArray:(nonnull NSArray *)selectedDataArray
 {
-    if (!dataArray || dataArray.count == 0) {
+    if (!dataArray || dataArray.count == 0) { // 空数据处理
+        if (!self.dataArray || self.dataArray.count == 0) {
+            self.mainTableView.placeholderStyle = CJFTableViewPlaceholderStyle_NoData;
+        }
+        [self.mainTableView reloadData];
         return;
     }
     _cellType = cellType;
@@ -342,9 +346,9 @@
     return _tipLabel;
 }
 
-- (UITableView *)mainTableView {
+- (CJFTableView *)mainTableView {
     if (_mainTableView == nil) {
-        _mainTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tipLabel.frame), IMS_SCREEN_WIDTH, IMS_SCREEN_HEIGHT * 0.4) style:UITableViewStyleGrouped];
+        _mainTableView = [[CJFTableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tipLabel.frame), IMS_SCREEN_WIDTH, IMS_SCREEN_HEIGHT * 0.4) style:UITableViewStyleGrouped];
         _mainTableView.showsVerticalScrollIndicator = NO;
         _mainTableView.estimatedRowHeight = 44;
         _mainTableView.showsHorizontalScrollIndicator = NO;
@@ -355,6 +359,30 @@
         [_mainTableView registerClass:[IMSPopupMultipleSelectTableViewCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupMultipleSelectTableViewCell class])];
     }
     return _mainTableView;
+}
+
+- (UIView *)placeholderView
+{
+    switch (self.mainTableView.placeholderStyle) {
+        case CJFTableViewPlaceholderStyle_Default:
+        {
+            return [UIView new];
+        }
+            break;
+        case CJFTableViewPlaceholderStyle_NoData:
+        {
+            return self.mainTableView.noDataPlaceholderView;
+        }
+            break;
+        case CJFTableViewPlaceholderStyle_ErrorNetWork:
+        {
+            return self.mainTableView.errorNetworkPlaceholderView;
+        }
+            break;
+        default:
+            return nil;
+            break;
+    }
 }
 
 @end

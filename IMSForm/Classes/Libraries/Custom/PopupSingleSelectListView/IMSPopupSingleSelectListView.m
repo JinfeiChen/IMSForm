@@ -63,9 +63,14 @@
 
 - (void)setDataArray:(NSArray *)dataArray type:(IMSPopupSingleSelectListViewCellType)type
 {
-    if (!dataArray || dataArray.count == 0) {
+    if (!dataArray || dataArray.count == 0) { // 空数据的处理
+        if (!self.dataArray || self.dataArray.count == 0) {
+            self.mainTableView.placeholderStyle = CJFTableViewPlaceholderStyle_NoData;
+        }
+        [self.mainTableView reloadData];
         return;
     }
+    
     _cellType = type;
     
     switch (type) {
@@ -128,7 +133,6 @@
         }
             break;
     }
-    
     [self.mainTableView reloadData];
 }
 
@@ -241,9 +245,9 @@
 }
 
 #pragma mark - lazy laod
-- (UITableView *)mainTableView {
+- (CJFTableView *)mainTableView {
     if (_mainTableView == nil) {
-        _mainTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, IMS_SCREEN_WIDTH, IMS_SCREEN_HEIGHT * 0.4) style:UITableViewStyleGrouped];
+        _mainTableView = [[CJFTableView alloc] initWithFrame:CGRectMake(0, 10, IMS_SCREEN_WIDTH, IMS_SCREEN_HEIGHT * 0.4) style:UITableViewStyleGrouped];
         _mainTableView.showsVerticalScrollIndicator = YES;
         _mainTableView.showsHorizontalScrollIndicator = NO;
         _mainTableView.backgroundColor = [UIColor whiteColor];
@@ -263,6 +267,30 @@
         _contentView.backgroundColor = [UIColor whiteColor];
     }
     return _contentView;
+}
+
+- (UIView *)placeholderView
+{
+    switch (self.mainTableView.placeholderStyle) {
+        case CJFTableViewPlaceholderStyle_Default:
+        {
+            return [UIView new];
+        }
+            break;
+        case CJFTableViewPlaceholderStyle_NoData:
+        {
+            return self.mainTableView.noDataPlaceholderView;
+        }
+            break;
+        case CJFTableViewPlaceholderStyle_ErrorNetWork:
+        {
+            return self.mainTableView.errorNetworkPlaceholderView;
+        }
+            break;
+        default:
+            return nil;
+            break;
+    }
 }
 
 @end

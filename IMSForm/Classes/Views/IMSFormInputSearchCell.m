@@ -25,6 +25,21 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self buildView];
+        
+        __weak __typeof__(self) weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
+            __typeof__(self) strongSelf = weakSelf;
+            if (note.object == strongSelf.textField) {
+                // update valueList
+                if (strongSelf.model.valueList && strongSelf.model.valueList.count > 0) {
+                    IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:self.model.valueList.firstObject];
+                    NSString *selectedText = selectedModel.label ? : (selectedModel.value ? : @"");
+                    if (![strongSelf.textField.text isEqualToString:selectedText]) {
+                        self.model.valueList = [NSMutableArray array];
+                    }
+                }
+            }
+        }];
     }
     return self;
 }
@@ -128,10 +143,6 @@
     NSUInteger newLength = oldLength - rangeLength + replacementLength;
     BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
     
-    // update model value
-    NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-//    self.model.value = str;
-    
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
@@ -157,7 +168,8 @@
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-//    self.model.value = @"";
+    // clear valueList
+    self.model.valueList = [NSMutableArray array];
     
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
@@ -206,7 +218,7 @@
     if (self.model.valueList && self.model.valueList.count > 0) {
         IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:self.model.valueList.firstObject];
         self.textField.text = selectedModel.label ? : (selectedModel.value ? : @"");
-    }else {
+    } else {
         self.textField.text = @"";
     }
 

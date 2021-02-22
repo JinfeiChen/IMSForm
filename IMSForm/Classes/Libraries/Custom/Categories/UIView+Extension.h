@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGPoint origin;
 @property (nonatomic, assign) CGFloat bottom;
 
++ (instancetype)nibView;
+
 - (UIViewController *)viewController;
 
 @end

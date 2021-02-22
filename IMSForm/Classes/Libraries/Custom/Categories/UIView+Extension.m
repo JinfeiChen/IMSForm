@@ -7,6 +7,7 @@
 //
 
 #import "UIView+Extension.h"
+#import <IMSForm/NSBundle+ims.h>
 
 @implementation UIView (Extension)
 
@@ -128,7 +129,21 @@
     return CGRectGetMinY(frame) + CGRectGetHeight(frame);
 }
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // 使用设置frame起作用的代码, 取消autoresizing布局
+    self.autoresizingMask = UIViewAutoresizingNone;
+}
 
++ (instancetype)nibView
+{
+    for (id subView in [[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil]) {
+        if ([subView isKindOfClass:[self class]]) {
+            return subView;
+        }
+    }
+    return [[[self class] alloc] init];
+}
 
 - (UIViewController *)viewController
 {
