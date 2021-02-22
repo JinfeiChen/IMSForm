@@ -71,6 +71,7 @@
         return;
     }
     
+    self.mainTableView.placeholderStyle = CJFTableViewPlaceholderStyle_Default;
     _cellType = type;
     
     switch (type) {

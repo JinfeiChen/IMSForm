@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		376D396125E3AB6B0064B4D9 /* usage.html in Resources */ = {isa = PBXBuildFile; fileRef = 376D396025E3AB6B0064B4D9 /* usage.html */; };
+		376D396525E3ACBC0064B4D9 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 376D396425E3ACBC0064B4D9 /* WebKit.framework */; };
 		37805E48259DBFDE00548119 /* formData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805E47259DBFDE00548119 /* formData.json */; };
 		37805EBF25A3151E00548119 /* IMSMyValidateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37805EBE25A3151E00548119 /* IMSMyValidateManager.m */; };
 		37805EE125A44F9000548119 /* customFormData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805EE025A44F8E00548119 /* customFormData.json */; };
@@ -49,6 +51,8 @@
 		374A2AA225B1842200796992 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		374A2AA325B1842200796992 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		374A2AA425B1842200796992 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		376D396025E3AB6B0064B4D9 /* usage.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = usage.html; sourceTree = "<group>"; };
+		376D396425E3ACBC0064B4D9 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		37805E47259DBFDE00548119 /* formData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = formData.json; sourceTree = "<group>"; };
 		37805EBD25A3151E00548119 /* IMSMyValidateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSMyValidateManager.h; sourceTree = "<group>"; };
 		37805EBE25A3151E00548119 /* IMSMyValidateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSMyValidateManager.m; sourceTree = "<group>"; };
@@ -101,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				376D396525E3ACBC0064B4D9 /* WebKit.framework in Frameworks */,
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
@@ -182,6 +187,7 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				376D396425E3ACBC0064B4D9 /* WebKit.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -221,6 +227,7 @@
 				6003F59B195388D20070C39A /* IMSForm-Prefix.pch */,
 				37805EE025A44F8E00548119 /* customFormData.json */,
 				37805E47259DBFDE00548119 /* formData.json */,
+				376D396025E3AB6B0064B4D9 /* usage.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -338,6 +345,7 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				37805E48259DBFDE00548119 /* formData.json in Resources */,
+				376D396125E3AB6B0064B4D9 /* usage.html in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				379C06D625B83D65000ABA8D /* customField.json in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,

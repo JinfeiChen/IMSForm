@@ -88,6 +88,8 @@
         [self.mainTableView reloadData];
         return;
     }
+    
+    self.mainTableView.placeholderStyle = CJFTableViewPlaceholderStyle_Default;
     _cellType = cellType;
     _isGroup = [self isTwoDimensionArray:dataArray];
     

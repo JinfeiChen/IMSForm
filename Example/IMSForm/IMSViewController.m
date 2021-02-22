@@ -294,8 +294,8 @@
         }
     ];
     if (callback) {
-//        callback(nil); // test no data
-        callback(resultArray);
+        callback(nil); // test no data
+//        callback(resultArray);
     }
 }
 
