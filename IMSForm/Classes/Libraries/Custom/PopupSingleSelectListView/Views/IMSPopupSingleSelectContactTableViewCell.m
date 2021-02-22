@@ -73,7 +73,7 @@
 - (void)setModel:(IMSPopupSingleSelectContactModel *)model {
     _model = model;
 
-    self.nameLabel.text = [IMSFormValidateManager isEmpty:model.name] ? @"N/A" : model.name;
+    self.nameLabel.text = [IMSFormValidateManager isEmpty:model.name] ? @"N/A" : (model.name ? : model.label);
     if (![IMSFormValidateManager isEmpty:model.role]) {
         self.roleLabel.text = [NSString stringWithFormat:@" %@ ", (model.role ? : @"N/A")];
     }
