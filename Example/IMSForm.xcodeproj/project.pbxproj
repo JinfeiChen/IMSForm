@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		376D396125E3AB6B0064B4D9 /* usage.html in Resources */ = {isa = PBXBuildFile; fileRef = 376D396025E3AB6B0064B4D9 /* usage.html */; };
 		376D396525E3ACBC0064B4D9 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 376D396425E3ACBC0064B4D9 /* WebKit.framework */; };
+		376D396A25E3B28F0064B4D9 /* IMSUsageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376D396925E3B28F0064B4D9 /* IMSUsageViewController.m */; };
 		37805E48259DBFDE00548119 /* formData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805E47259DBFDE00548119 /* formData.json */; };
 		37805EBF25A3151E00548119 /* IMSMyValidateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37805EBE25A3151E00548119 /* IMSMyValidateManager.m */; };
 		37805EE125A44F9000548119 /* customFormData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805EE025A44F8E00548119 /* customFormData.json */; };
@@ -53,6 +54,8 @@
 		374A2AA425B1842200796992 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		376D396025E3AB6B0064B4D9 /* usage.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = usage.html; sourceTree = "<group>"; };
 		376D396425E3ACBC0064B4D9 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		376D396825E3B28F0064B4D9 /* IMSUsageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSUsageViewController.h; sourceTree = "<group>"; };
+		376D396925E3B28F0064B4D9 /* IMSUsageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSUsageViewController.m; sourceTree = "<group>"; };
 		37805E47259DBFDE00548119 /* formData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = formData.json; sourceTree = "<group>"; };
 		37805EBD25A3151E00548119 /* IMSMyValidateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSMyValidateManager.h; sourceTree = "<group>"; };
 		37805EBE25A3151E00548119 /* IMSMyValidateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSMyValidateManager.m; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* IMSViewController.h */,
 				6003F5A6195388D20070C39A /* IMSViewController.m */,
+				376D396825E3B28F0064B4D9 /* IMSUsageViewController.h */,
+				376D396925E3B28F0064B4D9 /* IMSUsageViewController.m */,
 				37805EBD25A3151E00548119 /* IMSMyValidateManager.h */,
 				37805EBE25A3151E00548119 /* IMSMyValidateManager.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
@@ -454,6 +459,7 @@
 			files = (
 				6003F59E195388D20070C39A /* IMSAppDelegate.m in Sources */,
 				37D7EE9C25B03CA00042E8DD /* IMSCustomInpuSearchListView.m in Sources */,
+				376D396A25E3B28F0064B4D9 /* IMSUsageViewController.m in Sources */,
 				379C06D725B83D65000ABA8D /* IMSFormConverter.m in Sources */,
 				379C06D825B83D65000ABA8D /* IMSFormConvertModel.m in Sources */,
 				37805EBF25A3151E00548119 /* IMSMyValidateManager.m in Sources */,
