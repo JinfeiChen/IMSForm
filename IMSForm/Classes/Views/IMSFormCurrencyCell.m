@@ -344,7 +344,7 @@
         _textField = [[UITextField alloc] init];
         _textField.placeholder = @"Please enter";
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _textField.keyboardType = UIKeyboardTypeNumberPad;
+        _textField.keyboardType = UIKeyboardTypeDecimalPad;
         _textField.delegate = self;
         _textField.font = [UIFont systemFontOfSize:12];
     }
