@@ -10,6 +10,7 @@
 #import "IMSFormRadioModel.h"
 
 @interface IMSFormRadioCell ()
+@property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) NSMutableArray *buttonArrayM;
 @end
 
@@ -30,6 +31,7 @@
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.infoLabel];
     [self.contentView addSubview:self.bodyView];
+    
     
     [self updateUI];
 }
@@ -88,59 +90,74 @@
     
     NSArray *dataModelSource = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:radioModel.cpnConfig.dataSource];
     
-    if (dataModelSource.count != self.buttonArrayM.count) {
+    if (dataModelSource.count  <= 0) {
         for (UIButton *button in self.buttonArrayM) {
             [button removeFromSuperview];
         }
         [self.buttonArrayM removeAllObjects];
-    }
-    
-    if (dataModelSource.count && !self.buttonArrayM.count) {
-        for (int i = 0; i < dataModelSource.count; ++i) {
-            UIButton *button = [[UIButton alloc]init];
-            button.tag = i;
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-normal"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-            [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
-            button.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:model.cpnStyle.tintHexColor]);
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-            button.backgroundColor = [UIColor whiteColor];
-            button.titleLabel.font = [UIFont systemFontOfSize:12];
-            
-            [self.bodyView addSubview:button];
-            [self.buttonArrayM addObject:button];
+        [self.bodyView addSubview:self.tipLabel];
+        [self.tipLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.bodyView);
+            make.height.equalTo(@40);
+        }];
+        
+    }else {
+        [self.tipLabel removeFromSuperview];
+        
+        if (dataModelSource.count != self.buttonArrayM.count) {
+            for (UIButton *button in self.buttonArrayM) {
+                [button removeFromSuperview];
+            }
+            [self.buttonArrayM removeAllObjects];
         }
         
-        UIView *lastView = self.bodyView;
-        for (int i = 0; i < self.buttonArrayM.count; ++i) {
-            UIButton *button = self.buttonArrayM[i];
-            
-            [button mas_makeConstraints:^(MASConstraintMaker *make) {
-                if (i == 0) {
-                    make.top.equalTo(lastView);
-                }else {
-                    make.top.equalTo(lastView.mas_bottom);
-                }
-                make.left.equalTo(self.bodyView).offset(10);
-                make.right.equalTo(self.bodyView);
-                make.height.mas_equalTo(40);
-                if (i == self.buttonArrayM.count - 1) make.bottom.equalTo(self.bodyView);
+        if (dataModelSource.count && !self.buttonArrayM.count) {
+            for (int i = 0; i < dataModelSource.count; ++i) {
+                UIButton *button = [[UIButton alloc]init];
+                button.tag = i;
+                button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+                [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-normal"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+                [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+                button.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:model.cpnStyle.tintHexColor]);
+                [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+                button.backgroundColor = [UIColor whiteColor];
+                button.titleLabel.font = [UIFont systemFontOfSize:12];
                 
-            }];
-            lastView = button;
+                [self.bodyView addSubview:button];
+                [self.buttonArrayM addObject:button];
+            }
+            
+            UIView *lastView = self.bodyView;
+            for (int i = 0; i < self.buttonArrayM.count; ++i) {
+                UIButton *button = self.buttonArrayM[i];
+                
+                [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                    if (i == 0) {
+                        make.top.equalTo(lastView);
+                    }else {
+                        make.top.equalTo(lastView.mas_bottom);
+                    }
+                    make.left.equalTo(self.bodyView).offset(10);
+                    make.right.equalTo(self.bodyView);
+                    make.height.mas_equalTo(40);
+                    if (i == self.buttonArrayM.count - 1) make.bottom.equalTo(self.bodyView);
+                    
+                }];
+                lastView = button;
+            }
         }
-    }
-    
-    [self.model.valueList removeAllObjects];
-    for (int i = 0; i < dataModelSource.count; ++i) {
-        IMSFormSelect *selectModel = dataModelSource[i];
-        UIButton *button = self.buttonArrayM[i];
-        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateNormal];
-        [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateSelected];
-        button.backgroundColor = self.bodyView.backgroundColor;
-        button.selected = selectModel.selected;
-        if (selectModel.selected) [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
+        
+        [self.model.valueList removeAllObjects];
+        for (int i = 0; i < dataModelSource.count; ++i) {
+            IMSFormSelect *selectModel = dataModelSource[i];
+            UIButton *button = self.buttonArrayM[i];
+            [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateNormal];
+            [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateSelected];
+            button.backgroundColor = self.bodyView.backgroundColor;
+            button.selected = selectModel.selected;
+            if (selectModel.selected) [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
+        }
     }
 }
 
@@ -186,6 +203,17 @@
         _buttonArrayM = [[NSMutableArray alloc] init];
     }
     return _buttonArrayM;
+}
+
+- (UILabel *)tipLabel {
+    if (_tipLabel == nil) {
+        _tipLabel = [[UILabel alloc] init];
+        _tipLabel.font = [UIFont systemFontOfSize:12];
+        _tipLabel.text = @"No Data";
+        _tipLabel.textColor = [UIColor grayColor];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _tipLabel;
 }
 
 @end
