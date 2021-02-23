@@ -68,8 +68,14 @@
             break;
         }
 
-        if (model.isEnable && model.isRequired && model.isEditable && model.isVisible) {
+        if (model.isEnable && model.isEditable && model.isVisible) {
             if (model.cpnRule) {
+                if (model.isRequired) {
+                    // 必选项一定校验非空，自动添加非空校验
+                    NSMutableArray *mArr = [NSMutableArray arrayWithArray:model.cpnRule.validators];
+                    [mArr addObject:@"IMSFormModelNotEmptyValidator"];
+                    model.cpnRule.validators = mArr;
+                }
                 for (id obj in model.cpnRule.validators) {
                     if (error) {
                         break;

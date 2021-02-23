@@ -273,27 +273,32 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (_selectedPhotos.count >= self.model.cpnConfig.maxImagesLimit) {
-        return _selectedPhotos.count;
+        return self.model.cpnConfig.maxImagesLimit;
     }
-//    return self.model.editable ? _selectedPhotos.count + 1 : _selectedPhotos.count;
     return _selectedPhotos.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CJFFormTBImageUpload001CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CJFFormTBImageUpload001CollectionViewCell class]) forIndexPath:indexPath];
-    cell.videoImageView.image = nil;
-    cell.videoImageView.hidden = YES;
-    cell.videoURL = nil;
-    cell.imageView.image = nil;
-    cell.imageView.backgroundColor = [UIColor colorWithWhite:1.000 alpha:0.500];
+    
     if (indexPath.item == _selectedPhotos.count) {
-        cell.imageView.image = nil;
+        CJFFormTBImageUpload001CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AlbumAddBtn" forIndexPath:indexPath];
         cell.imageView.image = [UIImage bundleImageWithNamed:@"AlbumAddBtn.png"];
+        cell.videoImageView.hidden = YES;
         cell.deleteBtn.hidden = YES;
         cell.gifLable.hidden = YES;
+        return cell;
     }
     else {
+        CJFFormTBImageUpload001CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CJFFormTBImageUpload001CollectionViewCell class]) forIndexPath:indexPath];
+        cell.videoImageView.image = nil;
+        cell.videoImageView.hidden = YES;
+        cell.videoURL = nil;
+        cell.imageView.image = nil;
+        cell.imageView.hidden = NO;
+        cell.imageView.backgroundColor = [UIColor colorWithWhite:1.000 alpha:0.500];
+        cell.deleteBtn.hidden = NO;
+        cell.gifLable.hidden = NO;
         id photo = _selectedPhotos[indexPath.item];
         if ([photo isKindOfClass:[UIImage class]]) {
             cell.imageView.image = photo;
@@ -315,11 +320,12 @@
         }
         cell.asset = _selectedPhotos[indexPath.item];
         cell.deleteBtn.hidden = !self.model.isEditable;
+        cell.deleteBtn.tag = indexPath.item;
+        [cell.deleteBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+        [cell.deleteBtn addTarget:self action:@selector(deleteBtnClik:) forControlEvents:UIControlEventTouchUpInside];
+        cell.deleteBtn.enabled = self.model.isEditable;
+        return cell;
     }
-    cell.deleteBtn.tag = indexPath.item;
-    [cell.deleteBtn addTarget:self action:@selector(deleteBtnClik:) forControlEvents:UIControlEventTouchUpInside];
-    cell.deleteBtn.enabled = self.model.isEditable;
-    return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -574,6 +580,7 @@
         _collectionView.scrollEnabled = NO;
 
         [_collectionView registerClass:[CJFFormTBImageUpload001CollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([CJFFormTBImageUpload001CollectionViewCell class])];
+        [_collectionView registerClass:[CJFFormTBImageUpload001CollectionViewCell class] forCellWithReuseIdentifier:@"AlbumAddBtn"];
     }
     return _collectionView;
 }

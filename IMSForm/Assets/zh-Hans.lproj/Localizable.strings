@@ -6,11 +6,11 @@
   
 */
 
-"JSON decoding failed" = "JSON 解码失败";
-"Verification failed" = "校验失败";
-"No validator found" = "找不到校验器";
-"Unimplemented verification method" = "未实现校验方法";
-
-"No data" = "空数据";
-"Network error" = "网络异常";
-"Refresh" = "刷新";
+//"JSON decoding failed" = "JSON 解码失败";
+//"Verification failed" = "校验失败";
+//"No validator found" = "找不到校验器";
+//"Unimplemented verification method" = "未实现校验方法";
+//
+//"No data" = "空数据";
+//"Network error" = "网络异常";
+//"Refresh" = "刷新";
