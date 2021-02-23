@@ -12,22 +12,16 @@
 
 #pragma mark - custom validators
 
-- (BOOL)isNotEmpty:(IMSFormModel *)model
+- (NSError *)isNotEmpty:(IMSFormModel *)model
 {
     BOOL result = [IMSFormValidateManager isNotEmpty:model.value];
-    if (!result) {
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 不能为空", model.title]];
-    }
-    return result;
+    return result ? nil : [NSError errorWithDomain:@"IMSMyValidateManager_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"%@ 不能为空", model.title]}];
 }
 
-- (BOOL)isEmail:(IMSFormModel *)model
+- (NSError *)isEmail:(IMSFormModel *)model
 {
     BOOL result = [IMSFormValidateManager isEmail:model.value];
-    if (!result) {
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@ 邮箱地址不合法", model.title]];
-    }
-    return result;
+    return result ? nil : [NSError errorWithDomain:@"IMSMyValidateManager_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"%@ 邮箱地址不合法", model.title]}];
 }
 
 @end

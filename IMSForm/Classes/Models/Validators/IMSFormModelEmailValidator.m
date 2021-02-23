@@ -9,9 +9,10 @@
 
 @implementation IMSFormModelEmailValidator
 
-- (BOOL)validateFormModel:(IMSFormModel *)formModel
+- (NSError *)validateFormModel:(IMSFormModel *)formModel
 {
-    return [IMSFormValidateManager isEmail:formModel.value];
+    BOOL result = [IMSFormValidateManager isEmail:formModel.value];
+    return result ? nil : [NSError errorWithDomain:@"IMSFormModelEmailValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : @"Please enter the correct e-mail address".ims_localizable}];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <IMSForm/IMSFormModelValidator.h>
+#import <IMSForm/NSString+Extension.h>
 
 @implementation IMSFormValidateManager
 
@@ -62,34 +63,29 @@
 + (NSError *)validateFormDataSource:(NSArray<IMSFormModel *> *)dataArray
 {
     NSError *error = nil;
-    for (IMSFormModel * _Nonnull model in dataArray) {
-        
+    for (IMSFormModel *_Nonnull model in dataArray) {
         if (error) {
             break;
         }
-        
+
         if (model.isEnable && model.isRequired && model.isEditable && model.isVisible) {
             if (model.cpnRule) {
                 for (id obj in model.cpnRule.validators) {
-                    
                     if (error) {
                         break;
                     }
-                    
+
                     if ([obj isKindOfClass:[IMSFormModelValidator class]]) {
-                        
                         IMSFormModelValidator *validator = (IMSFormModelValidator *)obj;
                         Class cls = NSClassFromString(validator.className);
                         SEL sel = NSSelectorFromString([NSMutableString stringWithFormat:@"%@:", validator.selectorName]);
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
                         if (error) {
                             NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
-                            error = validator.failure.message ? [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey : validator.failure.message}] : error;
+                            error = validator.failure.message ? [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey: validator.failure.message }] : error;
                             return error;
                         }
-                        
                     } else if ([obj isKindOfClass:[NSString class]]) {
-                        
                         Class cls = NSClassFromString(obj);
                         SEL sel = NSSelectorFromString(@"validateFormModel:");
                         error = [self callValidatorWithClass:cls selector:sel formModel:model];
@@ -97,9 +93,8 @@
                             NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
                             return error;
                         }
-                        
-                    } else {}
-                    
+                    } else {
+                    }
                 }
             }
         }
@@ -116,27 +111,20 @@
     id obj = [[cls alloc] init];
     if (!desc && (!cls || !obj)) {
         desc = [NSString stringWithFormat:@"%@: %@", @"No validator found".ims_localizable, NSStringFromClass(cls)];
+        error = [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey: desc }];
     }
     // 尝试执行实例对象的方法
     if (!desc) {
         if ([obj respondsToSelector:sel]) {
-            BOOL result = ((BOOL(*)(id, SEL, id))objc_msgSend)(obj, sel, model);
-            if (!result) {
-                desc = [NSString stringWithFormat:@"%@ %@", model.title, @" Verification failed".ims_localizable];
-            }
+            error = ((NSError * (*)(id, SEL, id))objc_msgSend)(obj, sel, model);
         }
         // 尝试执行类对象的方法
         else if ([cls respondsToSelector:sel]) {
-            BOOL result = ((BOOL(*)(id, SEL, IMSFormModel *))objc_msgSend)(cls, sel, model);
-            if (!result) {
-                desc = [NSString stringWithFormat:@"%@ %@", model.title, @" Verification failed".ims_localizable];
-            }
+            error = ((NSError * (*)(id, SEL, IMSFormModel *))objc_msgSend)(cls, sel, model);
         } else {
             desc = [NSString stringWithFormat:@"%@: %@", @"Unimplemented verification method".ims_localizable, NSStringFromSelector(sel)];
+            error = [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey: desc }];
         }
-    }
-    if (desc) {
-        error = [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey : desc}];
     }
     return error;
 }

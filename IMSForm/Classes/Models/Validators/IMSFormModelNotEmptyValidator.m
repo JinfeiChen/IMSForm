@@ -10,8 +10,9 @@
 
 @implementation IMSFormModelNotEmptyValidator
 
-- (BOOL)validateFormModel:(IMSFormModel *)formModel
+- (NSError *)validateFormModel:(IMSFormModel *)formModel
 {
+    BOOL result = YES;
     if (
         [formModel.type isEqualToString:IMSFormComponentType_Select] ||
         [formModel.type isEqualToString:IMSFormComponentType_MultiSelect] ||
@@ -22,7 +23,7 @@
         [formModel.type isEqualToString:IMSFormComponentType_InputTag] ||
         [formModel.type isEqualToString:IMSFormComponentType_InputSearch]
         ) {
-        return formModel.valueList && (formModel.valueList.count > 0) && [formModel.valueList isKindOfClass:[NSArray class]];
+        result = (formModel.valueList && (formModel.valueList.count > 0) && [formModel.valueList isKindOfClass:[NSArray class]]);
     }
     else if (
              [formModel.type isEqualToString:IMSFormComponentType_TextField] ||
@@ -35,11 +36,12 @@
              [formModel.type isEqualToString:IMSFormComponentType_Slider] ||
              [formModel.type isEqualToString:IMSFormComponentType_DateTimePicker]
              ) {
-        return formModel.value && (formModel.value.length != 0) && [formModel.value isKindOfClass:[NSString class]];
+        result = (formModel.value && (formModel.value.length != 0) && [formModel.value isKindOfClass:[NSString class]]);
     }
     else {
-        return formModel.value && (formModel.value.length != 0) && [formModel.value isKindOfClass:[NSString class]];
+        result = (formModel.value && (formModel.value.length != 0) && [formModel.value isKindOfClass:[NSString class]]);
     }
+    return result ? nil : [NSError errorWithDomain:@"IMSFormModelNotEmptyValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : @"The content cannot be empty".ims_localizable}];
 }
 
 @end

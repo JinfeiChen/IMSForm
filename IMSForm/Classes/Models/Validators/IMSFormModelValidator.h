@@ -9,6 +9,7 @@
 #import <IMSForm/IMSFormModelValidateDelegate.h>
 #import <IMSForm/IMSFormValidateManager.h>
 #import <IMSForm/IMSFormMessage.h>
+#import <IMSForm/NSString+Extension.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *className; /**< 校验器对应的类名 */
 @property (copy, nonatomic) NSString *selectorName; /**< 校验方法名 */
 
-@property (strong, nonatomic) IMSFormMessage *success; /**< <#property#> */
-@property (strong, nonatomic) IMSFormMessage *failure; /**< <#property#> */
+@property (strong, nonatomic) IMSFormMessage *success; /**< 自定义提示内容 */
+@property (strong, nonatomic) IMSFormMessage *failure; /**< 自定义提示内容 */
 
 @end
 

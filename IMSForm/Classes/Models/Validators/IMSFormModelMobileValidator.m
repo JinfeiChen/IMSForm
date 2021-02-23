@@ -9,9 +9,10 @@
 
 @implementation IMSFormModelMobileValidator
 
-- (BOOL)validateFormModel:(IMSFormModel *)formModel
+- (NSError *)validateFormModel:(IMSFormModel *)formModel
 {
-    return [IMSFormValidateManager isMobile:formModel.value];
+    BOOL result = [IMSFormValidateManager isMobile:formModel.value];
+    return result ? nil : [NSError errorWithDomain:@"IMSFormModelMobileValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : @"Please enter the correct phone number".ims_localizable}];
 }
 
 @end

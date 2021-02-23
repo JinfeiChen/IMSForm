@@ -16,16 +16,16 @@
     };
 }
 
-- (BOOL)validateFormModel:(IMSFormModel *)formModel
+- (NSError *)validateFormModel:(IMSFormModel *)formModel
 {
     // 请在子类中实现具体的检验
-    return YES;
+    return nil;
 }
 
-- (BOOL)validateFormModel:(IMSFormModel *)formModel keyPath:(NSString *)keyPath
+- (NSError *)validateFormModel:(IMSFormModel *)formModel keyPath:(NSString *)keyPath
 {
     // 请在子类中实现具体的检验
-    return YES;
+    return nil;
 }
 
 @end
