@@ -377,10 +377,10 @@
         NSLog(@"%@", self.form.dataSource);
         if (!error) {
             NSLog(@"校验通过");
-            [IMSDropHUD showAlertWithType:IMSFormMessageType_Success message:@"校验通过"];
+            [IMSDropHUD showAlertWithType:IMSFormMessageType_Success message:@"Success"];
         } else {
             NSLog(@"校验未通过");
-            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"校验未通过: %@", error.localizedDescription]];
+            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:[NSString stringWithFormat:@"%@", error.localizedDescription]];
         }
     }];
 }

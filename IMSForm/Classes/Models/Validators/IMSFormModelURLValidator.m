@@ -12,7 +12,8 @@
 - (NSError *)validateFormModel:(IMSFormModel *)formModel
 {
     BOOL result = [IMSFormValidateManager isURL:formModel.value];
-    return result ? nil : [NSError errorWithDomain:@"IMSFormModelURLValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : @"Please enter the correct URL address".ims_localizable}];
+    NSString *desc = [NSString stringWithFormat:@"[%@] - %@", formModel.title, @"Please enter the correct URL address".ims_localizable];
+    return result ? nil : [NSError errorWithDomain:@"IMSFormModelURLValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : desc}];
 }
 
 @end
