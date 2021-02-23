@@ -74,6 +74,7 @@
                     // 必选项一定校验非空，自动添加非空校验
                     NSMutableArray *mArr = [NSMutableArray arrayWithArray:model.cpnRule.validators];
                     [mArr addObject:@"IMSFormModelNotEmptyValidator"];
+                    mArr = [mArr valueForKeyPath:@"@distinctUnionOfObjects.self"]; //去重
                     model.cpnRule.validators = mArr;
                 }
                 for (id obj in model.cpnRule.validators) {

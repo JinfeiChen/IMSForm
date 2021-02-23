@@ -41,7 +41,8 @@
     else {
         result = (formModel.value && (formModel.value.length != 0) && [formModel.value isKindOfClass:[NSString class]]);
     }
-    return result ? nil : [NSError errorWithDomain:@"IMSFormModelNotEmptyValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : @"The content cannot be empty".ims_localizable}];
+    NSString *desc = [NSString stringWithFormat:@"[%@] - %@", formModel.title, @"The content cannot be empty".ims_localizable];
+    return result ? nil : [NSError errorWithDomain:@"IMSFormModelNotEmptyValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : desc}];
 }
 
 @end

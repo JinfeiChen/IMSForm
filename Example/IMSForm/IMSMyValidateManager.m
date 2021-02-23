@@ -15,13 +15,13 @@
 - (NSError *)isNotEmpty:(IMSFormModel *)model
 {
     BOOL result = [IMSFormValidateManager isNotEmpty:model.value];
-    return result ? nil : [NSError errorWithDomain:@"IMSMyValidateManager_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"%@ 不能为空", model.title]}];
+    return result ? nil : [NSError errorWithDomain:@"IMSMyValidateManager_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"[%@] - 不能为空", model.title]}];
 }
 
 - (NSError *)isEmail:(IMSFormModel *)model
 {
     BOOL result = [IMSFormValidateManager isEmail:model.value];
-    return result ? nil : [NSError errorWithDomain:@"IMSMyValidateManager_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"%@ 邮箱地址不合法", model.title]}];
+    return result ? nil : [NSError errorWithDomain:@"IMSMyValidateManager_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"[%@] - 邮箱地址不合法", model.title]}];
 }
 
 @end

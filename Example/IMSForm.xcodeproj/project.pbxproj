@@ -10,6 +10,7 @@
 		376D396125E3AB6B0064B4D9 /* usage.html in Resources */ = {isa = PBXBuildFile; fileRef = 376D396025E3AB6B0064B4D9 /* usage.html */; };
 		376D396525E3ACBC0064B4D9 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 376D396425E3ACBC0064B4D9 /* WebKit.framework */; };
 		376D396A25E3B28F0064B4D9 /* IMSUsageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 376D396925E3B28F0064B4D9 /* IMSUsageViewController.m */; };
+		376D39B025E4F8D90064B4D9 /* IMSFormModelHKPhoneValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 376D39AE25E4F8D80064B4D9 /* IMSFormModelHKPhoneValidator.m */; };
 		37805E48259DBFDE00548119 /* formData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805E47259DBFDE00548119 /* formData.json */; };
 		37805EBF25A3151E00548119 /* IMSMyValidateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37805EBE25A3151E00548119 /* IMSMyValidateManager.m */; };
 		37805EE125A44F9000548119 /* customFormData.json in Resources */ = {isa = PBXBuildFile; fileRef = 37805EE025A44F8E00548119 /* customFormData.json */; };
@@ -56,6 +57,8 @@
 		376D396425E3ACBC0064B4D9 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		376D396825E3B28F0064B4D9 /* IMSUsageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSUsageViewController.h; sourceTree = "<group>"; };
 		376D396925E3B28F0064B4D9 /* IMSUsageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSUsageViewController.m; sourceTree = "<group>"; };
+		376D39AE25E4F8D80064B4D9 /* IMSFormModelHKPhoneValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMSFormModelHKPhoneValidator.m; sourceTree = "<group>"; };
+		376D39AF25E4F8D80064B4D9 /* IMSFormModelHKPhoneValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMSFormModelHKPhoneValidator.h; sourceTree = "<group>"; };
 		37805E47259DBFDE00548119 /* formData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = formData.json; sourceTree = "<group>"; };
 		37805EBD25A3151E00548119 /* IMSMyValidateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMSMyValidateManager.h; sourceTree = "<group>"; };
 		37805EBE25A3151E00548119 /* IMSMyValidateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMSMyValidateManager.m; sourceTree = "<group>"; };
@@ -130,6 +133,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		376D39B325E4F8DE0064B4D9 /* CustomValidators */ = {
+			isa = PBXGroup;
+			children = (
+				376D39AF25E4F8D80064B4D9 /* IMSFormModelHKPhoneValidator.h */,
+				376D39AE25E4F8D80064B4D9 /* IMSFormModelHKPhoneValidator.m */,
+				37805EBD25A3151E00548119 /* IMSMyValidateManager.h */,
+				37805EBE25A3151E00548119 /* IMSMyValidateManager.m */,
+			);
+			name = CustomValidators;
+			sourceTree = "<group>";
+		};
 		379C06D025B83D65000ABA8D /* IMSFormModelConverter */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +218,7 @@
 		6003F593195388D20070C39A /* Example for IMSForm */ = {
 			isa = PBXGroup;
 			children = (
+				376D39B325E4F8DE0064B4D9 /* CustomValidators */,
 				379C06D025B83D65000ABA8D /* IMSFormModelConverter */,
 				37D7EA9E25AD4AA10042E8DD /* PopupSelectListView */,
 				6003F59C195388D20070C39A /* IMSAppDelegate.h */,
@@ -213,8 +228,6 @@
 				6003F5A6195388D20070C39A /* IMSViewController.m */,
 				376D396825E3B28F0064B4D9 /* IMSUsageViewController.h */,
 				376D396925E3B28F0064B4D9 /* IMSUsageViewController.m */,
-				37805EBD25A3151E00548119 /* IMSMyValidateManager.h */,
-				37805EBE25A3151E00548119 /* IMSMyValidateManager.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -459,6 +472,7 @@
 			files = (
 				6003F59E195388D20070C39A /* IMSAppDelegate.m in Sources */,
 				37D7EE9C25B03CA00042E8DD /* IMSCustomInpuSearchListView.m in Sources */,
+				376D39B025E4F8D90064B4D9 /* IMSFormModelHKPhoneValidator.m in Sources */,
 				376D396A25E3B28F0064B4D9 /* IMSUsageViewController.m in Sources */,
 				379C06D725B83D65000ABA8D /* IMSFormConverter.m in Sources */,
 				379C06D825B83D65000ABA8D /* IMSFormConvertModel.m in Sources */,
