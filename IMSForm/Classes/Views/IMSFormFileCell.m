@@ -322,7 +322,7 @@
     CGSize maxSize = CGSizeMake(targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right, MAXFLOAT);
     YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:maxSize text:titleAttri];
     contentL.textLayout = layout;
-    CGFloat titleHeight = layout.textBoundingSize.height;
+    CGFloat titleHeight = layout.textBoundingSize.height < 15 ? layout.textBoundingSize.height : 15;
     
     NSMutableAttributedString *infoAttri = [[NSMutableAttributedString alloc] initWithString:self.model.info];
     maxSize = CGSizeMake(targetSize.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right, MAXFLOAT);
