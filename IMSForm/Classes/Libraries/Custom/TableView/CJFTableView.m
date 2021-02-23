@@ -35,4 +35,30 @@
     return _errorNetworkPlaceholderView;
 }
 
+#pragma mark - Private Methods
+
+- (UIView *)placeholderView
+{
+    switch (self.placeholderStyle) {
+        case CJFTableViewPlaceholderStyle_Default:
+        {
+            return [UIView new];
+        }
+            break;
+        case CJFTableViewPlaceholderStyle_NoData:
+        {
+            return self.noDataPlaceholderView;
+        }
+            break;
+        case CJFTableViewPlaceholderStyle_ErrorNetWork:
+        {
+            return self.errorNetworkPlaceholderView;
+        }
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+
 @end

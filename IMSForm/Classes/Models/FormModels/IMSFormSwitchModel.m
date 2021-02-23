@@ -9,6 +9,15 @@
 
 @implementation IMSFormSwitchModel
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.value = @"0";
+    }
+    return self;
+}
+
 @synthesize cpnStyle = _cpnStyle;
 
 - (IMSFormSwitchCPNStyle *)cpnStyle

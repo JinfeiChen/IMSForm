@@ -58,7 +58,7 @@
     UILabel *alertMsg = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(alertIMGV.frame) + spacing, IMS_STATUSBAR_HEIGHT, self.frame.size.width - CGRectGetMaxX(alertIMGV.frame) - spacing * 2, IMS_NAVIGATION_CONTENT_HEIGHT)];
     alertMsg.textColor = [UIColor whiteColor];
     alertMsg.textAlignment = NSTextAlignmentLeft;
-    alertMsg.font = [UIFont systemFontOfSize:14.f weight:UIFontWeightMedium];
+    alertMsg.font = [UIFont systemFontOfSize:12.f weight:UIFontWeightMedium];
     alertMsg.numberOfLines = 2;
     [self addSubview:alertMsg];
     self.pointLB = alertMsg;

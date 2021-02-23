@@ -52,6 +52,11 @@ void swizzMethod(SEL oriSel, SEL newSel)
     if (self.delegate && [self.delegate respondsToSelector:@selector(placeholderView)]) {
         UIView *placeholderView = [self.delegate performSelector:@selector(placeholderView)];
         self.backgroundView = placeholderView?:[UIView new];
+    } else {
+        if ([self respondsToSelector:@selector(placeholderView)]) {
+            UIView *placeholderView = [self performSelector:@selector(placeholderView)];
+            self.backgroundView = placeholderView?:[UIView new];
+        }
     }
 }
 
@@ -66,5 +71,7 @@ void swizzMethod(SEL oriSel, SEL newSel)
 {
     return [objc_getAssociatedObject(self, @selector(placeholderStyle)) intValue];
 }
+
+
 
 @end

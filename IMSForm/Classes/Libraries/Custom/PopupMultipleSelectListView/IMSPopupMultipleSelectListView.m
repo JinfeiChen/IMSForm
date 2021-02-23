@@ -82,9 +82,8 @@
 - (void)setDataArray:(NSArray *)dataArray type:(IMSPopupMultipleSelectListViewCellType)cellType selectedDataArray:(nonnull NSArray *)selectedDataArray
 {
     if (!dataArray || dataArray.count == 0) { // 空数据处理
-        if (!self.dataArray || self.dataArray.count == 0) {
-            self.mainTableView.placeholderStyle = CJFTableViewPlaceholderStyle_NoData;
-        }
+        self.dataArray = @[];
+        self.mainTableView.placeholderStyle = CJFTableViewPlaceholderStyle_NoData;
         [self.mainTableView reloadData];
         return;
     }
@@ -363,28 +362,29 @@
     return _mainTableView;
 }
 
-- (UIView *)placeholderView
-{
-    switch (self.mainTableView.placeholderStyle) {
-        case CJFTableViewPlaceholderStyle_Default:
-        {
-            return [UIView new];
-        }
-            break;
-        case CJFTableViewPlaceholderStyle_NoData:
-        {
-            return self.mainTableView.noDataPlaceholderView;
-        }
-            break;
-        case CJFTableViewPlaceholderStyle_ErrorNetWork:
-        {
-            return self.mainTableView.errorNetworkPlaceholderView;
-        }
-            break;
-        default:
-            return nil;
-            break;
-    }
-}
+// MARK: 可实现此方法自定义noDataView/errorNetworkView
+//- (UIView *)placeholderView
+//{
+//    switch (self.mainTableView.placeholderStyle) {
+//        case CJFTableViewPlaceholderStyle_Default:
+//        {
+//            return [UIView new];
+//        }
+//            break;
+//        case CJFTableViewPlaceholderStyle_NoData:
+//        {
+//            return self.mainTableView.noDataPlaceholderView;
+//        }
+//            break;
+//        case CJFTableViewPlaceholderStyle_ErrorNetWork:
+//        {
+//            return self.mainTableView.errorNetworkPlaceholderView;
+//        }
+//            break;
+//        default:
+//            return nil;
+//            break;
+//    }
+//}
 
 @end
