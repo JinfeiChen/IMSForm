@@ -52,6 +52,7 @@
     [self.contentView addSubview:self.infoLabel];
     [self.contentView addSubview:self.bodyView];
     [self.bodyView addSubview:self.textField];
+    [self.bodyView addSubview:self.searchButton];
     
     [self updateUI];
 }
@@ -91,8 +92,14 @@
             make.right.mas_equalTo(self.bodyView.mas_left).mas_offset(-self.model.cpnStyle.spacing);
             make.width.mas_lessThanOrEqualTo(150);
         }];
+        [self.searchButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.bottom.mas_equalTo(self.bodyView).mas_offset(0);
+            make.width.mas_equalTo(60);
+        }];
         [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 0));
+            make.left.mas_equalTo(self.bodyView).mas_offset(10);
+            make.top.bottom.mas_equalTo(self.bodyView).mas_offset(0);
+            make.right.mas_equalTo(self.searchButton.mas_left).mas_offset(-10);
             make.height.mas_equalTo(kIMSFormDefaultHeight);
         }];
         [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
@@ -113,8 +120,14 @@
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         }];
+        [self.searchButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.bottom.mas_equalTo(self.bodyView).mas_offset(0);
+            make.width.mas_equalTo(60);
+        }];
         [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 0));
+            make.left.mas_equalTo(self.bodyView).mas_offset(10);
+            make.top.bottom.mas_equalTo(self.bodyView).mas_offset(0);
+            make.right.mas_equalTo(self.searchButton.mas_left).mas_offset(-10);
             make.height.mas_equalTo(kIMSFormDefaultHeight);
         }];
         [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -339,9 +352,9 @@
 //        _textField.leftView = leftView;
 //        _textField.leftViewMode = UITextFieldViewModeAlways;
 
-        [self.searchView addSubview:self.searchButton];
-        _textField.rightView = self.searchView;
-        _textField.rightViewMode = UITextFieldViewModeAlways;
+//        [self.searchView addSubview:self.searchButton];
+//        _textField.rightView = self.searchView;
+//        _textField.rightViewMode = UITextFieldViewModeAlways;
     }
     return _textField;
 }

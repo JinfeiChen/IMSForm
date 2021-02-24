@@ -186,7 +186,7 @@
     self.titleLabel.text = @"";
     self.infoLabel.text = @"";
     self.textField.text = @"";
-    self.textField.placeholder = @"";
+    self.textField.placeholder = @"Please enter".ims_localizable;
 }
 
 #pragma mark - Public Methods
@@ -206,6 +206,7 @@
     double value = MAX(model.value.doubleValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);
     self.textField.text = [NSString getRoundFloat:value withPrecisionNum:self.model.cpnConfig.precision];
+    self.textField.placeholder = model.placeholder ? : @"Please enter";
 }
 
 #pragma mark - Actions
