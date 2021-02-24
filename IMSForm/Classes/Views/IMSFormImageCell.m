@@ -332,6 +332,7 @@
 {
     if (indexPath.item == _selectedPhotos.count) { // 添加新照片或视频
         TZImagePickerController *imagePickerVc = [self createTZImagePickerController];
+        imagePickerVc.maxImagesCount = self.model.cpnConfig.maxImagesLimit - _selectedPhotos.count;
         imagePickerVc.isSelectOriginalPhoto = NO;
         [imagePickerVc setDidFinishPickingPhotosWithInfosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto, NSArray<NSDictionary *> *infos) {
 //            NSLog(@"photos: %@, assets: %@, isSelectOriginalPhoto: %d, info: %@", photos, assets, isSelectOriginalPhoto, infos);
@@ -512,7 +513,7 @@
             // update model valueList
             NSMutableArray *mArr = [NSMutableArray arrayWithArray:self.model.valueList];
             [mArr addObjectsFromArray:dataArray];
-            self.model.valueList = mArr;
+            self.model.valueList = [[mArr subarrayWithRange:range] mutableCopy];
 
             [self.collectionView reloadData];
             [self.form.tableView beginUpdates];
