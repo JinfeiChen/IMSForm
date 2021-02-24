@@ -13,7 +13,7 @@
 - (NSError *)validateFormModel:(IMSFormModel *)formModel 
 {
     if (![formModel.type isEqualToString:IMSFormComponentType_Phone]) {
-        return [NSError errorWithDomain:@"IMSFormModelHKPhoneValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : @"The calibrator or or component is abnormal"}];
+        return [NSError errorWithDomain:@"IMSFormModelHKPhoneValidator_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : @"The calibrator or component is abnormal"}];
     }
     
     BOOL result = YES;
