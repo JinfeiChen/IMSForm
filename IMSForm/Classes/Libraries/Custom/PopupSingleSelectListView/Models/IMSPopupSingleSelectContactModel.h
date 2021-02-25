@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *role;
 @property (nonatomic, copy) NSString *info;
 
+/**
+ name - role
+ phone
+ info
+ */
 
 @end
 

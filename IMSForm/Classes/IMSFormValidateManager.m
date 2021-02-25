@@ -70,37 +70,51 @@
 
         if (model.isEnable && model.isEditable && model.isVisible) {
             if (model.cpnRule) {
+                /**
+                 必填项：无论是否设置校验器，都自动添加非空校验器；
+                 非必填项：空数据（未输入任何内容）时，不执行任何校验；数据不为空&设置了校验器，则执行校验；
+                 */
+                BOOL executeValidate = YES;
                 if (model.isRequired) {
                     // 必选项一定校验非空，自动添加非空校验
                     NSMutableArray *mArr = [NSMutableArray arrayWithArray:model.cpnRule.validators];
                     [mArr addObject:@"IMSFormModelNotEmptyValidator"];
                     mArr = [mArr valueForKeyPath:@"@distinctUnionOfObjects.self"]; //去重
                     model.cpnRule.validators = mArr;
-                }
-                for (id obj in model.cpnRule.validators) {
-                    if (error) {
-                        break;
+                } else {
+                    Class cls = NSClassFromString(@"IMSFormModelNotEmptyValidator");
+                    SEL sel = NSSelectorFromString(@"validateFormModel:");
+                    NSError *emptyError = [self callValidatorWithClass:cls selector:sel formModel:model];
+                    if (emptyError) {
+                        executeValidate = NO;
                     }
+                }
+                if (executeValidate) {
+                    for (id obj in model.cpnRule.validators) {
+                        if (error) {
+                            break;
+                        }
 
-                    if ([obj isKindOfClass:[IMSFormModelValidator class]]) {
-                        IMSFormModelValidator *validator = (IMSFormModelValidator *)obj;
-                        Class cls = NSClassFromString(validator.className);
-                        SEL sel = NSSelectorFromString([NSMutableString stringWithFormat:@"%@:", validator.selectorName]);
-                        error = [self callValidatorWithClass:cls selector:sel formModel:model];
-                        if (error) {
-                            NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
-                            error = validator.failure.message ? [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey: validator.failure.message }] : error;
-                            return error;
+                        if ([obj isKindOfClass:[IMSFormModelValidator class]]) {
+                            IMSFormModelValidator *validator = (IMSFormModelValidator *)obj;
+                            Class cls = NSClassFromString(validator.className);
+                            SEL sel = NSSelectorFromString([NSMutableString stringWithFormat:@"%@:", validator.selectorName]);
+                            error = [self callValidatorWithClass:cls selector:sel formModel:model];
+                            if (error) {
+                                NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
+                                error = validator.failure.message ? [NSError errorWithDomain:@"IMSFormModelValidatorError" code:-999 userInfo:@{ NSLocalizedDescriptionKey: validator.failure.message }] : error;
+                                return error;
+                            }
+                        } else if ([obj isKindOfClass:[NSString class]]) {
+                            Class cls = NSClassFromString(obj);
+                            SEL sel = NSSelectorFromString(@"validateFormModel:");
+                            error = [self callValidatorWithClass:cls selector:sel formModel:model];
+                            if (error) {
+                                NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
+                                return error;
+                            }
+                        } else {
                         }
-                    } else if ([obj isKindOfClass:[NSString class]]) {
-                        Class cls = NSClassFromString(obj);
-                        SEL sel = NSSelectorFromString(@"validateFormModel:");
-                        error = [self callValidatorWithClass:cls selector:sel formModel:model];
-                        if (error) {
-                            NSLog(@"%@: %@", @"Verification failed".ims_localizable, error.localizedDescription);
-                            return error;
-                        }
-                    } else {
                     }
                 }
             }
