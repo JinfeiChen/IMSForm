@@ -66,8 +66,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ColorPicker;
 
 // Date and time picker component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DatePicker; // added
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker; // added
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TimePicker; // added
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker; // added
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimeRangePicker;
 
 // Input Search
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; // added
@@ -80,6 +81,10 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Phone; // adde
 
 // Phone
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputTag; // added
+
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_MultiTextField;
+
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageControls;
 
 #pragma mark - Readonly
 

@@ -44,8 +44,9 @@ NSString *const IMSFormComponentType_Transfer = @"IMSFormComponentType_Transfer"
 NSString *const IMSFormComponentType_ColorPicker = @"IMSFormComponentType_ColorPicker";
 
 NSString *const IMSFormComponentType_DatePicker = @"IMSFormComponentType_DatePicker";
-NSString *const IMSFormComponentType_DateTimePicker = @"IMSFormComponentType_DateTimePicker";
 NSString *const IMSFormComponentType_TimePicker = @"IMSFormComponentType_TimePicker";
+NSString *const IMSFormComponentType_DateTimePicker = @"IMSFormComponentType_DateTimePicker";
+NSString *const IMSFormComponentType_DateTimeRangePicker = @"IMSFormComponentType_DateTimeRangePicker";
 
 NSString *const IMSFormComponentType_InputSearch = @"IMSFormComponentType_InputSearch";
 
@@ -54,6 +55,10 @@ NSString *const IMSFormComponentType_Currency = @"IMSFormComponentType_Currency"
 NSString *const IMSFormComponentType_Phone = @"IMSFormComponentType_Phone";
 
 NSString *const IMSFormComponentType_InputTag = @"IMSFormComponentType_InputTag";
+
+NSString *const IMSFormComponentType_MultiTextField = @"IMSFormComponentType_MultiTextField";
+
+NSString *const IMSFormComponentType_ImageControls = @"IMSFormComponentType_ImageControls";
 
 #pragma mark - Readonly
 

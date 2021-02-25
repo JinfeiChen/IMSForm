@@ -18,6 +18,7 @@
 
 #import <IMSForm/IMSFormModel.h>
 #import <IMSForm/NSString+Extension.h>
+#import <IMSForm/UIImage+Bundle.h>
 
 #define kIMSFormDefaultHeight 40.0
 
