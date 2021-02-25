@@ -158,13 +158,15 @@
                                        @"value": @"value4"
                                    }
                                ] mutableCopy];
-        } else if ([model.field isEqualToString:@"radio"]) {
-            model.valueList = [@[
-                                   @{
-                                       @"value": @"value3"
-                                   }
-                               ] mutableCopy];
-        } else {
+        }
+//        else if ([model.field isEqualToString:@"radio"]) {
+//            model.valueList = [@[
+//                                   @{
+//                                       @"value": @"value3"
+//                                   }
+//                               ] mutableCopy];
+//        }
+        else {
         }
     }
 
