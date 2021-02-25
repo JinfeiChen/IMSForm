@@ -9,6 +9,15 @@
 
 @implementation IMSFormMultiTextFieldModel
 
+#pragma mark - Setters
+
+- (void)setValueList:(NSMutableArray *)valueList
+{
+    [super setValueList:valueList];
+    
+    
+}
+
 @synthesize cpnConfig = _cpnConfig;
 
 - (IMSFormMultiTextFieldCPNConfig *)cpnConfig
@@ -18,13 +27,5 @@
     }
     return _cpnConfig;
 }
-
-//- (NSMutableArray *)listArray
-//{
-//    if (!_listArray) {
-//        _listArray = [NSMutableArray array];
-//    }
-//    return _listArray;
-//}
 
 @end

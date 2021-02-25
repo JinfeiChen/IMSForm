@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) IMSFormMultiTextFieldCPNConfig *cpnConfig; /**< <#property#> */
 
-//@property (strong, nonatomic) NSMutableArray *listArray; /**< <#property#> */
-
 @end
 
 NS_ASSUME_NONNULL_END

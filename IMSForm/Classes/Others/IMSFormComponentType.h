@@ -82,9 +82,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Phone; // adde
 // Phone
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputTag; // added
 
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_MultiTextField;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_MultiTextField; // added
 
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageControls;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageControls; // added
 
 #pragma mark - Readonly
 

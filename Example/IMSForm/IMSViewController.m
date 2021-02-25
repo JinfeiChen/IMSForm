@@ -164,6 +164,14 @@
                                        @"value": @"value3"
                                    }
                                ] mutableCopy];
+        } else if ([model.field isEqualToString:@"ImageControls"]) {
+            model.valueList = [@[
+                                   @{
+                                       @"url": @"http://www.tupian.com/images/Pages2_1.jpg",
+                                       @"name": @"Pages2_1.jpg",
+                                       @"id": @"image001"
+                                   }
+                               ] mutableCopy];
         } else {
         }
     }
