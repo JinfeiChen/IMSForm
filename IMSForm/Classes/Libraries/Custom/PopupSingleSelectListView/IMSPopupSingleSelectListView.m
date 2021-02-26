@@ -83,6 +83,11 @@
             self.dataArray = mArr;
         }
             break;
+        case IMSPopupSingleSelectListViewCellType_Location:
+        {
+            self.dataArray = [NSArray yy_modelArrayWithClass:[IMSPopupSingleSelectLocationModel class] json:dataArray];
+        }
+            break;
         case IMSPopupSingleSelectListViewCellType_Contact:
         {
             self.dataArray = [NSArray yy_modelArrayWithClass:[IMSPopupSingleSelectContactModel class] json:dataArray];
@@ -147,6 +152,15 @@
         case IMSPopupSingleSelectListViewCellType_Custom:
         {
             return [self customTableView:tableView cellForRowAtIndexPath:indexPath];
+        }
+            break;
+        case IMSPopupSingleSelectListViewCellType_Location:
+        {
+            IMSPopupSingleSelectLocationModel *model = (IMSPopupSingleSelectLocationModel *)self.dataArray[indexPath.row];
+            IMSPopupSingleSelectLocationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSPopupSingleSelectLocationTableViewCell class])];
+            cell.tintColor = self.tintColor;
+            cell.model = model;
+            return cell;
         }
             break;
         case IMSPopupSingleSelectListViewCellType_Contact:
@@ -255,6 +269,7 @@
         _mainTableView.dataSource = self;
         _mainTableView.estimatedRowHeight = 70;
         _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_mainTableView registerClass:[IMSPopupSingleSelectLocationTableViewCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupSingleSelectLocationTableViewCell class])];
         [_mainTableView registerClass:[IMSPopupSingleSelectContactTableViewCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupSingleSelectContactTableViewCell class])];
         [_mainTableView registerClass:[IMSPopupSingleSelectDefaultTableViewCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupSingleSelectDefaultTableViewCell class])];
     }

@@ -11,4 +11,6 @@ NSString *const IMSFormSelectItemType_Default = @"default";
 
 NSString *const IMSFormSelectItemType_Contact = @"contact";
 
+NSString *const IMSFormSelectItemType_Location = @"location";
+
 NSString *const IMSFormSelectItemType_Custom = @"custom";
