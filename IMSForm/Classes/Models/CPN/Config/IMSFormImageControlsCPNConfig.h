@@ -7,6 +7,27 @@
 
 #import <IMSForm/IMSFormCPNConfig.h>
 
+/**
+ Example:
+ 
+ "cpnConfig" : {
+     "maxImagesLimit" : 10,
+     "rowImages" : 5,
+     "dataSource" : [
+         {
+             "url": "http://www.tupian.com/images/Pages2_1.jpg",
+             "name": "Pages2_1.jpg",
+             "id": "image001"
+         },
+         {
+             "url": "http://www.tupian.com/images/Pages4_1.jpg",
+             "name": "Pages4_1.jpg",
+             "id": "image002"
+         }
+     ]
+ }
+ */
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormImageControlsCPNConfig : IMSFormCPNConfig

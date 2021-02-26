@@ -7,6 +7,16 @@
 
 #import <IMSForm/IMSFormCPNConfig.h>
 
+/**
+ Example:
+ 
+ "cpnConfig" : {
+     "datePickerType" : "datetime",
+     "startPlaceholder" : "Start Date",
+     "endPlaceholder" : "End Date"
+ }
+ */
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormDateTimeRangeCPNConfig : IMSFormCPNConfig

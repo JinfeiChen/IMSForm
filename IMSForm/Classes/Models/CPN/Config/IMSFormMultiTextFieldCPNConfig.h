@@ -7,6 +7,15 @@
 
 #import <IMSForm/IMSFormCPNConfig.h>
 
+/**
+ Example:
+ 
+ "cpnConfig" : {
+     "maxLimit" : 5,
+     "addButtonTitle" : "Add New"
+ }
+ */
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IMSFormMultiTextFieldCPNConfig : IMSFormCPNConfig
