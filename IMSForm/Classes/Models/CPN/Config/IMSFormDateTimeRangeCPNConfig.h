@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) long maxDate; // maxDate 表示自今天往前/后推n天作为日历控件的最大日期，往前设置为负数，往后设置为正数，通常设置为正数
 @property (nonatomic, strong) IMSFormDateTimeType datePickerType; /**< 模式 */
 
+@property (copy, nonatomic) NSString *startPlaceholder; /**< default "Start Date" */
+@property (copy, nonatomic) NSString *endPlaceholder; /**< default "End Date" */
+
 @end
 
 NS_ASSUME_NONNULL_END

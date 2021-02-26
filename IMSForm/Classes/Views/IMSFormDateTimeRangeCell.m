@@ -189,8 +189,8 @@
 
     [self setTitle:model.title required:model.isRequired];
     self.infoLabel.text = model.info;
-    self.startTextField.placeholder = model.placeholder ? : @"Please Select";
-    self.endTextField.placeholder = model.placeholder ? : @"Please Select";
+    self.startTextField.placeholder = model.cpnConfig.startPlaceholder ? : @"Please Select";
+    self.endTextField.placeholder = model.cpnConfig.endPlaceholder ? : @"Please Select";
     
     // reset minDate & maxDate, 防止 minDate > maxDate
     double min = model.cpnConfig.minDate;
