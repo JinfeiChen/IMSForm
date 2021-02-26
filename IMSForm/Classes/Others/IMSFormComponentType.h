@@ -68,7 +68,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ColorPicker;
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DatePicker; // added
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TimePicker; // added
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker; // added
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimeRangePicker;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimeRangePicker; // added
 
 // Input Search
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; // added
