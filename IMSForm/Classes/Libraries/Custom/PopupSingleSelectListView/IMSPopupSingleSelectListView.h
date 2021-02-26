@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 在子类中实现此方法可实现cell自定义, model则需实现IMSFormSelect子类
 //- (UITableViewCell *)customTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
+@property (nonatomic, copy) void (^didSelectedLocationBlock)(NSArray *dataArray, IMSFormSelect *selectedModel, NSIndexPath *indexPath);
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -32,7 +32,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Number; // add
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Range; // added
 
 // Map component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map; // added
 
 // Cascader component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Cascader;//added

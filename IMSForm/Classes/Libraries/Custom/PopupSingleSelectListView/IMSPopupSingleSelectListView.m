@@ -209,6 +209,22 @@
             [self hiddenView];
         }
             break;
+        case IMSPopupSingleSelectListViewCellType_Location:
+        {
+            for (IMSFormSelect *obj in self.dataArray) {
+                obj.selected = NO;
+            }
+            IMSFormSelect *model = (IMSFormSelect *)self.dataArray[indexPath.row];
+            model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
+            if (self.didSelectedLocationBlock) {
+                self.didSelectedLocationBlock([self.dataArray yy_modelToJSONObject], model, indexPath);
+            }
+            self.lastIndexPath = [self.lastIndexPath isEqual:indexPath] ? nil : indexPath;
+
+            [tableView reloadData];
+            [self hiddenView];
+        }
+            break;
         default:
         {
             for (IMSFormSelect *obj in self.dataArray) {

@@ -12,6 +12,53 @@
 
 #import <IMSForm/IMSPopupSingleSelectListView.h>
 
+// MARK: 自定义大头针
+//自定义 LPAnnotation
+@interface LPAnnotation : NSObject <MKAnnotation>
+
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *subtitle;
+@property (nonatomic, copy) NSString *icon;
+
+@end
+
+@implementation LPAnnotation
+
+@end
+
+//自定义 LPAnnotationView
+@interface LPAnnotationView : MKAnnotationView
+
+@end
+
+@implementation LPAnnotationView
+
++ (instancetype)annotationViewWithMapView:(MKMapView *)mapView
+{
+    LPAnnotationView *annotaionView = (LPAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"id"];
+    if (!annotaionView) {
+        annotaionView = [[LPAnnotationView alloc]initWithAnnotation:nil reuseIdentifier:@"id"];
+    }
+    return annotaionView;
+}
+
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithAnnotation:annotation reuseIdentifier:@"id"]) {
+        self.canShowCallout = YES;
+    }
+    return self;
+}
+
+- (void)setAnnotation:(LPAnnotation *)annotation
+{
+    [super setAnnotation:annotation];
+    self.image = [UIImage imageNamed:annotation.icon];
+}
+
+@end
+
 @interface IMSFormMapCell () <UITextFieldDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) IMSPopupSingleSelectListView *singleSelectListView; /**< <#property#> */
@@ -25,7 +72,9 @@
 @property (assign, nonatomic) CLLocationCoordinate2D coords;
 @property (strong, nonatomic) MKLocalSearchRequest *localSearchRequest; /**< <#property#> */
 
-@property (copy, nonatomic) void(^localSearchCompletion)(NSArray *dataArray, NSError *error); /**< <#property#> */
+@property (copy, nonatomic) void (^ localSearchCompletion)(NSArray *dataArray, NSError *error); /**< <#property#> */
+
+@property (strong, nonatomic) NSArray<MKMapItem *> *mapItems;  /**< 临时存储位置探索结果 */
 
 @end
 
@@ -37,7 +86,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self buildView];
-        
+
         __weak __typeof__(self) weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
             __typeof__(self) strongSelf = weakSelf;
@@ -66,27 +115,27 @@
     [self.bodyView addSubview:self.searchButton];
     [self.bodyView addSubview:self.textField];
     [self.contentView addSubview:self.mapView];
-    
+
     [self updateUI];
 }
 
 - (void)updateUI
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
-    
+
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
-    
+
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
-    
+
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     self.textField.backgroundColor = self.bodyView.backgroundColor;
     self.searchButton.enabled = self.model.isEditable;
-    
+
     self.searchButton.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
-    
+
     CGFloat spacing = self.model.cpnStyle.spacing;
     // 只支持竖向布局
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -110,7 +159,7 @@
         make.left.right.mas_equalTo(self.bodyView);
         make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
     }];
-    
+
     [self.searchButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.right.bottom.mas_equalTo(self.bodyView).mas_offset(0);
         make.width.mas_equalTo(60);
@@ -128,16 +177,15 @@
 - (void)setModel:(IMSFormMapModel *)model form:(nonnull IMSFormManager *)form
 {
     [super setModel:model form:form];
-    
+
     [self updateUI];
-    
+
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
 
     self.infoLabel.text = model.info;
-    
+
     // update default value
-    
 }
 
 #pragma mark - Private Methods
@@ -155,10 +203,16 @@
 {
     if ([selectItemType isEqualToString:IMSFormSelectItemType_Custom]) {
         return IMSPopupSingleSelectListViewCellType_Custom;
-    }
-    else {
+    } else {
         return IMSPopupSingleSelectListViewCellType_Location;
     }
+}
+
+// 返回用户当前的位置
+- (void)reLocationUserLocation
+{
+    MKCoordinateRegion region = MKCoordinateRegionMake(self.mapView.userLocation.location.coordinate, self.mapView.region.span);
+    [self.mapView setRegion:region animated:NO];
 }
 
 #pragma mark - Map
@@ -182,6 +236,8 @@
         _locationManager.delegate = self;
         //设置定位精度
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        //设置距离筛选器
+        _locationManager.distanceFilter = 1000.0f;
         [_locationManager requestAlwaysAuthorization];
         //启动跟踪定位
         [_locationManager startUpdatingLocation];
@@ -203,10 +259,9 @@
             [self issueLocalSearchLookup:self.textField.text usingPlacemarksArray:placemarks];
         }
     }];
-    
-    // MARK: 返回我的位置 方式二
-    MKCoordinateRegion region =  MKCoordinateRegionMake(self.mapView.userLocation.location.coordinate, self.mapView.region.span);
-    [self.mapView setRegion:region animated:YES];
+
+    // MARK: 返回我的位置
+    [self reLocationUserLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error;
@@ -223,9 +278,11 @@
     self.coords = location.coordinate;
 
     // Set the size (local/span) of the region (address, w/e) we want to get search results for.
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.6250, 0.6250);
-    MKCoordinateRegion region = MKCoordinateRegionMake(self.coords, span);
-    [self.mapView setRegion:region animated:NO];
+//    MKCoordinateSpan span = MKCoordinateSpanMake(0.6250, 0.6250);
+//    MKCoordinateRegion region = MKCoordinateRegionMake(self.coords, span);
+//    [self.mapView setRegion:region animated:YES];
+    MKCoordinateRegion region = MKCoordinateRegionMake(self.mapView.userLocation.location.coordinate, self.mapView.region.span);
+//    [self.mapView setRegion:region animated:NO];
 
     // Create the search request
     self.localSearchRequest = [[MKLocalSearchRequest alloc] init];
@@ -236,13 +293,12 @@
     self.localSearch = [[MKLocalSearch alloc] initWithRequest:self.localSearchRequest];
 
     [self.localSearch startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
-        
         self.searchButton.enabled = YES;
-        
+
         if (error) {
             NSLog(@"查询无结果");
             if (self.localSearchCompletion) {
-                self.localSearchCompletion(nil, [NSError errorWithDomain:@"IMSFormMapLocalSearch_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey : error.localizedDescription }]);
+                self.localSearchCompletion(nil, [NSError errorWithDomain:@"IMSFormMapLocalSearch_Error" code:-999 userInfo:@{ NSLocalizedDescriptionKey: error.localizedDescription }]);
             }
             return;
         } else {
@@ -250,6 +306,7 @@
             // We are here because we have data!  Yay..  a whole 10 records of it too *flex*
             // Do whatever with it here...
             NSLog(@"Results: %@", [response mapItems]);
+            self.mapItems = [response mapItems];
             for (MKMapItem *mapItem in response.mapItems) {
                 // Show pins, pix, w/e...
                 // Other properties includes: phoneNumber, placemark, url, etc.
@@ -260,21 +317,35 @@
                 NSLog(@"Placemark Address: %@", [placemark addressDictionary]);
                 MKCoordinateRegion boundingRegion = [response boundingRegion];
                 NSLog(@"Bounds: %f %f", boundingRegion.span.latitudeDelta, boundingRegion.span.longitudeDelta);
-                
+                NSLog(@"Center: %f %f", boundingRegion.center.latitude, boundingRegion.center.longitude);
+
                 NSMutableDictionary *mDict = [NSMutableDictionary dictionaryWithDictionary:[placemark addressDictionary]];
-                [mDict setValue:[NSString stringWithFormat:@"%@", [mapItem phoneNumber]?:@""] forKey:@"Phone"];
-                [mDict setValue:[NSString stringWithFormat:@"%@", [mapItem url]?:@""] forKey:@"URL"];
+                [mDict setValue:[NSString stringWithFormat:@"%@", [mapItem phoneNumber] ? : @""] forKey:@"Phone"];
+                [mDict setValue:[NSString stringWithFormat:@"%@", [mapItem url] ? : @""] forKey:@"URL"];
                 [resultArray addObject:mDict];
             }
-            MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
-            MKCoordinateRegion region = MKCoordinateRegionMake(self.coords, span);
-            [self.mapView setRegion:region animated:NO];
-            
+
             if (self.localSearchCompletion) {
                 self.localSearchCompletion(resultArray, nil);
             }
         }
     }];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id )annotation
+{
+    MKPinAnnotationView *pinView = nil;
+    static NSString *defaultPinID = @"com.invasivecode.pin";
+    pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
+    if (pinView == nil) {
+        pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
+        pinView.pinColor = MKPinAnnotationColorRed;
+        pinView.canShowCallout = YES;
+        pinView.animatesDrop = YES;
+        [self.mapView.userLocation setTitle:@"欧陆经典"];
+        [self.mapView.userLocation setSubtitle:@"vsp"];
+    }
+    return pinView;
 }
 
 #pragma mark - UITextFieldDelegate
@@ -284,21 +355,20 @@
     if (!self.model.isEditable) {
         return NO;
     }
-    
+
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason
 {
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
+
     [self searchButtonAction:self.searchButton];
-    
+
     return YES;
 }
 
@@ -306,7 +376,10 @@
 {
     // clear valueList
     self.model.valueList = [NSMutableArray array];
-    
+
+    // MARK: 返回我的位置
+    [self reLocationUserLocation];
+
     return YES;
 }
 
@@ -315,52 +388,61 @@
 - (void)searchButtonAction:(UIButton *)sender
 {
     [self.textField endEditing:YES];
-    
+
     if (self.textField.text.length <= 0) {
         NSLog(@"please input some text first");
         [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please input some text first"];
         return;
     }
-    
+
     if (self.form) {
-        
         self.singleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
         self.singleSelectListView.cellType = IMSPopupSingleSelectListViewCellType_Location;
-        
+
         @weakify(self);
         self.localSearchCompletion = ^(NSArray *dataArray, NSError *error) {
             @strongify(self);
-            
+
             NSLog(@"search result: %@", dataArray);
             // MARK: 注意 - custom的selectListView，为适应不同的数据模型拓展，dataArray需要在外面转换 [IMSFormSelect, IMSChildFormSelect, ...] 才能回传，否则无法显示
             [self.singleSelectListView setDataArray:dataArray type:self.singleSelectListView.cellType];
-            
-            [self.singleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+
+            [self.singleSelectListView setDidSelectedLocationBlock:^(NSArray *_Nonnull dataArray, IMSFormSelect *_Nonnull selectedModel, NSIndexPath *_Nonnull indexPath) {
                 @strongify(self);
                 IMSPopupSingleSelectLocationModel *newSelectedModel = (IMSPopupSingleSelectLocationModel *)selectedModel;
                 // update value
                 self.textField.text = [NSString stringWithFormat:@"%@", newSelectedModel.FormattedAddressLines ? newSelectedModel.FormattedAddressLines.firstObject : @"N/A"];
                 // update model valueList
                 self.model.valueList = selectedModel.isSelected ? [NSMutableArray arrayWithArray:@[[selectedModel yy_modelToJSONObject]]] : [NSMutableArray array];
-                
+
                 // call back
                 if (self.didUpdateFormModelBlock) {
                     self.didUpdateFormModelBlock(self, self.model, nil);
                 }
-                
+
+                // MARK: 定位到选中的位置
+                MKMapItem *mapItem = [self.mapItems objectAtIndex:indexPath.row];
+                MKCoordinateSpan span = MKCoordinateSpanMake(self.mapView.region.span.latitudeDelta * 0.001, self.mapView.region.span.longitudeDelta * 0.001);
+                MKCoordinateRegion region = MKCoordinateRegionMake(mapItem.placemark.location.coordinate, span);
+                [self.mapView setRegion:region animated:NO];
+
+                // MARK: 放置大头针
+                LPAnnotation *ann = [[LPAnnotation alloc] init];
+                ann.title = mapItem.placemark.name;
+                ann.subtitle = self.textField.text;
+                ann.coordinate = mapItem.placemark.location.coordinate;
+                [self.mapView addAnnotation:ann];
             }];
-            
+
             self.singleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
-            
+
             [self.singleSelectListView showView];
-            
         };
-        
+
         // 开始搜索
         [self locan];
-        
+
         self.searchButton.enabled = NO;
-        
     }
 }
 
