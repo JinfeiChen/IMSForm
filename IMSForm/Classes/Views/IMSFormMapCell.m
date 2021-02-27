@@ -59,7 +59,7 @@
 
 @end
 
-@interface IMSFormMapCell () <UITextFieldDelegate, CLLocationManagerDelegate>
+@interface IMSFormMapCell () <UITextFieldDelegate, CLLocationManagerDelegate, MKMapViewDelegate>
 
 @property (strong, nonatomic) IMSPopupSingleSelectListView *singleSelectListView; /**< <#property#> */
 
@@ -74,7 +74,9 @@
 
 @property (copy, nonatomic) void (^ localSearchCompletion)(NSArray *dataArray, NSError *error); /**< <#property#> */
 
-@property (strong, nonatomic) NSArray<MKMapItem *> *mapItems;  /**< 临时存储位置探索结果 */
+@property (strong, nonatomic) NSArray<MKMapItem *> *mapItems;  /**< 临时存储位置探索结果列表 */
+@property (strong, nonatomic) MKMapItem *selectedMapItem; /**< 当前选中的位置对象 */
+@property (strong, nonatomic) LPAnnotation *annotation; /**< 大头针 */
 
 @end
 
@@ -186,6 +188,7 @@
     self.infoLabel.text = model.info;
 
     // update default value
+    
 }
 
 #pragma mark - Private Methods
@@ -211,9 +214,28 @@
 // 返回用户当前的位置
 - (void)reLocationUserLocation
 {
-    MKCoordinateRegion region = MKCoordinateRegionMake(self.mapView.userLocation.location.coordinate, self.mapView.region.span);
-    [self.mapView setRegion:region animated:NO];
+    if (!self.selectedMapItem) {
+        MKCoordinateRegion region = MKCoordinateRegionMake(self.mapView.userLocation.location.coordinate, self.mapView.region.span);
+        [self.mapView setRegion:region animated:NO];
+    }
 }
+
+// MARK: 显示位置和显示区域
+- (void)locateToLatitude:(CGFloat)JingDu longitude:(CGFloat)WeiDu
+{
+    // 设置地图中心的经、纬度
+    CLLocationCoordinate2D center = { JingDu, WeiDu };
+    // 设置地图显示的范围，
+    MKCoordinateSpan span;
+    // 地图显示范围越小，细节越清楚
+    span.latitudeDelta = 0.01;
+    span.longitudeDelta = 0.01;
+    // 创建MKCoordinateRegion对象，该对象代表了地图的显示中心和显示范围。
+    MKCoordinateRegion region = { center, span };
+    // 设置当前地图的显示中心和显示范围
+    [self.mapView setRegion:region animated:YES];
+}
+
 
 #pragma mark - Map
 
@@ -243,6 +265,8 @@
         [_locationManager startUpdatingLocation];
     }
 }
+
+#pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
@@ -332,20 +356,67 @@
     }];
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id )annotation
+//- (MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id )annotation
+//{
+//    MKPinAnnotationView *pinView = nil;
+//    static NSString *defaultPinID = @"com.invasivecode.pin";
+//    pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
+//    if (pinView == nil) {
+//        pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
+//        pinView.pinColor = MKPinAnnotationColorRed;
+//        pinView.canShowCallout = YES;
+//        pinView.animatesDrop = YES;
+//        [self.mapView.userLocation setTitle:@"标题，这里一般放位置名称"];
+//        [self.mapView.userLocation setSubtitle:@"副标题，这里一般放位置地址信息"];
+//    }
+//    return pinView;
+//}
+
+#pragma mark - MKMapViewDelegate
+
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
 {
-    MKPinAnnotationView *pinView = nil;
-    static NSString *defaultPinID = @"com.invasivecode.pin";
-    pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
-    if (pinView == nil) {
-        pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
-        pinView.pinColor = MKPinAnnotationColorRed;
-        pinView.canShowCallout = YES;
-        pinView.animatesDrop = YES;
-        [self.mapView.userLocation setTitle:@"欧陆经典"];
-        [self.mapView.userLocation setSubtitle:@"vsp"];
-    }
-    return pinView;
+    NSLog(@"地图控件的显示区域将要发生改变！");
+}
+
+// MKMapViewDelegate协议中的方法，当MKMapView显示区域改变完成时激发该方法
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    NSLog(@"地图控件的显示区域完成了改变！");
+}
+
+// MKMapViewDelegate协议中的方法，当MKMapView开始加载数据时激发该方法
+- (void)mapViewWillStartLoadingMap:(MKMapView *)mapView
+{
+    NSLog(@"地图控件开始加载地图数据！");
+}
+
+// MKMapViewDelegate协议中的方法，当MKMapView加载数据完成时激发该方法
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
+{
+    NSLog(@"地图控件加载地图数据完成！");
+}
+
+// MKMapViewDelegate协议中的方法，当MKMapView加载数据失败时激发该方法
+- (void)mapViewDidFailLoadingMap:(MKMapView *)mapView
+                       withError:(NSError *)error
+{
+    NSLog(@"地图控件加载地图数据发生错误，错误信息 %@！", error);
+}
+
+// MKMapViewDelegate协议中的方法，当MKMapView开始渲染地图时激发该方法
+- (void)mapViewWillStartRenderingMap:(MKMapView *)mapView
+{
+    NSLog(@"地图控件开始渲染地图！");
+}
+
+// MKMapViewDelegate协议中的方法，当MKMapView渲染地图完成时激发该方法
+- (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered
+{
+    NSLog(@"地图控件渲染地图完成！");
+    
+    
+    [self reLocationUserLocation];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -378,6 +449,7 @@
     self.model.valueList = [NSMutableArray array];
 
     // MARK: 返回我的位置
+    self.selectedMapItem = nil;
     [self reLocationUserLocation];
 
     return YES;
@@ -392,6 +464,8 @@
     if (self.textField.text.length <= 0) {
         NSLog(@"please input some text first");
         [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please input some text first"];
+        self.selectedMapItem = nil;
+        [self reLocationUserLocation];
         return;
     }
 
@@ -404,6 +478,10 @@
             @strongify(self);
 
             NSLog(@"search result: %@", dataArray);
+            
+            // 移除大头针
+            [self.mapView removeAnnotation:self.annotation];
+            
             // MARK: 注意 - custom的selectListView，为适应不同的数据模型拓展，dataArray需要在外面转换 [IMSFormSelect, IMSChildFormSelect, ...] 才能回传，否则无法显示
             [self.singleSelectListView setDataArray:dataArray type:self.singleSelectListView.cellType];
 
@@ -422,12 +500,12 @@
 
                 // MARK: 定位到选中的位置
                 MKMapItem *mapItem = [self.mapItems objectAtIndex:indexPath.row];
-                MKCoordinateSpan span = MKCoordinateSpanMake(self.mapView.region.span.latitudeDelta * 0.001, self.mapView.region.span.longitudeDelta * 0.001);
-                MKCoordinateRegion region = MKCoordinateRegionMake(mapItem.placemark.location.coordinate, span);
-                [self.mapView setRegion:region animated:NO];
+                self.selectedMapItem = mapItem;
+                [self locateToLatitude:mapItem.placemark.location.coordinate.latitude longitude:mapItem.placemark.location.coordinate.longitude];
 
                 // MARK: 放置大头针
                 LPAnnotation *ann = [[LPAnnotation alloc] init];
+                self.annotation = ann;
                 ann.title = mapItem.placemark.name;
                 ann.subtitle = self.textField.text;
                 ann.coordinate = mapItem.placemark.location.coordinate;
@@ -452,6 +530,12 @@
 {
     if (!_mapView) {
         _mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
+        // 设置地图类型
+        _mapView.mapType = MKMapTypeStandard;
+        // 设置地图可缩放
+        _mapView.zoomEnabled = YES;
+        // 设置地图可滚动
+        _mapView.scrollEnabled = YES;
         //显示指南针
         _mapView.showsCompass = YES;
         //显示比例尺
@@ -464,6 +548,7 @@
         _mapView.showsUserLocation = YES;
         //显示感兴趣的东西
         _mapView.showsPointsOfInterest = YES;
+        _mapView.delegate = self;
     }
     return _mapView;
 }
