@@ -13,4 +13,6 @@ FOUNDATION_EXPORT IMSFormSelectItemType const IMSFormSelectItemType_Default;
 
 FOUNDATION_EXPORT IMSFormSelectItemType const IMSFormSelectItemType_Contact;
 
+FOUNDATION_EXPORT IMSFormSelectItemType const IMSFormSelectItemType_Location;
+
 FOUNDATION_EXPORT IMSFormSelectItemType const IMSFormSelectItemType_Custom;

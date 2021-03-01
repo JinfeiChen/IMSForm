@@ -118,6 +118,7 @@
         _infoLabel = [[UILabel alloc] init];
         _infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
         _infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
+        _infoLabel.numberOfLines = 5;
     }
     return _infoLabel;
 }

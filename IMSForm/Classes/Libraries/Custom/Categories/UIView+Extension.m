@@ -7,6 +7,7 @@
 //
 
 #import "UIView+Extension.h"
+#import <objc/runtime.h>
 #import <IMSForm/NSBundle+ims.h>
 
 @implementation UIView (Extension)
@@ -156,6 +157,42 @@
     }while (responder);
 
     return nil;
+}
+
+@end
+
+static NSString *cjfRoundBorderLayerKey = @"cjfRoundBorderLayerKey"; //圆角边框key
+
+@implementation UIView (Corner)
+
+- (void)setRoundBorderLayer:(CAShapeLayer *)roundBorderLayer
+{
+    objc_setAssociatedObject(self, &cjfRoundBorderLayerKey, roundBorderLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (CAShapeLayer *)roundBorderLayer
+{
+    return objc_getAssociatedObject(self, &cjfRoundBorderLayerKey);
+}
+
+- (void)borderWithCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
+{
+    if (self.roundBorderLayer) {
+        [self.roundBorderLayer removeFromSuperlayer];
+    }
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:cornerRadii];
+    path.lineCapStyle = kCGLineCapButt;
+    path.lineJoinStyle = kCGLineJoinMiter;
+    CAShapeLayer *mask = [[CAShapeLayer alloc] init];
+    mask.lineWidth = borderWidth;
+    mask.lineCap = kCALineCapSquare;
+    // 带边框则两个颜色不要设置成一样即可
+    mask.strokeColor = borderColor.CGColor;
+    mask.fillColor = [UIColor clearColor].CGColor;
+    mask.path = path.CGPath;
+    self.roundBorderLayer = mask;
+    [self.roundBorderLayer removeFromSuperlayer];
+    [self.layer addSublayer:mask];
 }
 
 @end

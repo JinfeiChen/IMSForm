@@ -142,14 +142,19 @@
         IMSFormComponentType_InputSearch : @"IMSFormInputSearchModel",
         
         IMSFormComponentType_DatePicker : @"IMSFormDateTimeModel",
-        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeModel",
         IMSFormComponentType_TimePicker : @"IMSFormDateTimeModel",
+        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeModel",
+        IMSFormComponentType_DateTimeRangePicker : @"IMSFormDateTimeRangeModel",
         
         IMSFormComponentType_Radio : @"IMSFormRadioModel",
         IMSFormComponentType_Cascader : @"IMSFormCascaderModel",
         IMSFormComponentType_Currency : @"IMSFormCurrencyModel",
         IMSFormComponentType_Phone : @"IMSFormPhoneModel",
         IMSFormComponentType_InputTag : @"IMSFormInputTagModel",
+        
+        IMSFormComponentType_MultiTextField : @"IMSFormMultiTextFieldModel",
+        IMSFormComponentType_ImageControls : @"IMSFormImageControlsModel",
+        IMSFormComponentType_Map : @"IMSFormMapModel",
         
         IMSFormComponentType_SectionHeader : @"IMSFormSectionHeaderModel",
         IMSFormComponentType_SectionFooter : @"IMSFormSectionFooterModel"
@@ -173,8 +178,13 @@
         IMSFormComponentType_InputSearch : @"IMSFormInputSearchCell",
         
         IMSFormComponentType_DatePicker : @"IMSFormDateTimeCell",
-        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeCell",
         IMSFormComponentType_TimePicker : @"IMSFormDateTimeCell",
+        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeCell",
+        IMSFormComponentType_DateTimeRangePicker : @"IMSFormDateTimeRangeCell",
+        
+        IMSFormComponentType_MultiTextField : @"IMSFormMultiTextFieldCell",
+        IMSFormComponentType_ImageControls : @"IMSFormImageControlsCell",
+        IMSFormComponentType_Map : @"IMSFormMapCell",
         
         IMSFormComponentType_Radio : @"IMSFormRadioCell",
         IMSFormComponentType_Cascader : @"IMSFormCascaderCell",
