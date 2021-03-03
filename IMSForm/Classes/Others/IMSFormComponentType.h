@@ -11,6 +11,9 @@
 // Custom string enumeration
 typedef NSString *IMSFormComponentType NS_STRING_ENUM;
 
+// Not available component
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Unavailable;
+
 #pragma mark - Edit
 
 // Single line text input component

@@ -7,6 +7,8 @@
 
 #import "IMSFormComponentType.h"
 
+NSString *const IMSFormComponentType_Unavailable = @"IMSFormComponentType_Unavailable";
+
 #pragma mark - Edit
 
 NSString *const IMSFormComponentType_TextField = @"IMSFormComponentType_TextField";

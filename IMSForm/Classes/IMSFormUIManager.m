@@ -11,6 +11,7 @@
 
 + (IMSFormTableViewCell *)safe_dequeueReusableCellWithType:(IMSFormComponentType)type tableView:(UITableView *)tableView
 {
+    type = (type && type.length > 0) ? type : IMSFormComponentType_Unavailable;
     if (!tableView) {
         return [[IMSFormTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([IMSFormTableViewCell class])];
     }

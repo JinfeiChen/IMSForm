@@ -82,6 +82,17 @@ if ([cpnType isEqualToString:IMSFormComponentType_Example]) {
 
 ## Usage
 
+### 表单用到的UITableView设置
+
+```C
+// Optional
+_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+_tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+// Required
+_tableView.estimatedRowHeight = 100;
+_tableView.rowHeight = UITableViewAutomaticDimension;
+```
+
 ### 全局配置表单主题色
 
 在工程的info.plist文件中添加
