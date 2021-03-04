@@ -471,7 +471,10 @@
     cell.deleteBtn.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     cell.prefixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
     cell.suffixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    
+    @weakify(self);
     cell.deleteBlock = ^(UIButton *button) {
+        @strongify(self);
         
         // MARK: delete file
         [self.model.valueList removeObjectAtIndex:indexPath.row];
@@ -491,6 +494,7 @@
         cell.model.value = textField.text;
     };
     cell.didSelectedAtPrefixViewBlock = ^(id data) {
+        @strongify(self);
         
         self.prefixSingleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
         if (!self->_prefixSingleSelectListView) {
@@ -500,9 +504,7 @@
         }
         [self.prefixSingleSelectListView setDataArray:cell.model.cpnConfig.prefixDataSource type:IMSPopupSingleSelectListViewCellType_Default];
         
-        @weakify(self);
         [self.prefixSingleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
-            @strongify(self);
             NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
             
             cell.model.cpnConfig.prefixDataSource = dataArray;
@@ -512,7 +514,6 @@
         }];
         
         [self.prefixSingleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
-            @strongify(self);
             // update model value
             cell.prefixView.selected = isShow;
             
@@ -528,6 +529,7 @@
         
     };
     cell.didSelectedAtSuffixViewBlock = ^(id data) {
+        @strongify(self);
         
         self.suffixSingleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
         if (!self->_suffixSingleSelectListView) {
@@ -537,9 +539,7 @@
         }
         [self.suffixSingleSelectListView setDataArray:cell.model.cpnConfig.suffixDataSource type:IMSPopupSingleSelectListViewCellType_Default];
         
-        @weakify(self);
         [self.suffixSingleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
-            @strongify(self);
             NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
             
             cell.model.cpnConfig.suffixDataSource = dataArray;
@@ -549,7 +549,6 @@
         }];
         
         [self.suffixSingleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
-            @strongify(self);
             // update model value
             cell.suffixView.selected = isShow;
             
