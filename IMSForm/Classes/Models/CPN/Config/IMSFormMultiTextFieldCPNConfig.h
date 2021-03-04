@@ -12,7 +12,33 @@
  
  "cpnConfig" : {
      "maxLimit" : 5,
-     "addButtonTitle" : "Add New"
+     "addButtonTitle" : "Add Car Park",
+     "prefixDataSource" : [
+         {
+             "label" : "China",
+             "value" : "+86"
+         },
+         {
+             "label" : "America",
+             "value" : "+00",
+             "selected" : 1
+         },
+         {
+             "label" : "HongKong",
+             "value" : "+852"
+         }
+     ],
+     "suffixDataSource" : [
+         {
+             "label" : "China",
+             "value" : "CNY"
+         },
+         {
+             "label" : "America",
+             "value" : "USD",
+             "selected" : 1
+         }
+     ]
  }
  */
 
@@ -22,6 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSInteger maxLimit; /**< max numbers limit of textfield */
 @property (copy, nonatomic) NSString *addButtonTitle; /**< <#property#> */
+
+@property (strong, nonatomic) NSArray *prefixDataSource; /**< <#property#> */
+@property (strong, nonatomic) NSArray *suffixDataSource; /**< <#property#> */
+
+@property (copy, nonatomic) NSString *prefixCustomSelector; /**< <#property#> */
+@property (copy, nonatomic) NSString *suffixCustomSelector; /**< <#property#> */
 
 @end
 

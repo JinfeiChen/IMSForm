@@ -8,6 +8,9 @@
 #import "IMSFormMultiTextFieldCell.h"
 #import <IMSForm/IMSFormManager.h>
 
+#import <IMSForm/IMSFormSelectView.h>
+#import <IMSForm/IMSPopupSingleSelectListView.h>
+
 #define kFormTBMultiTextFieldItemHeight 40.0
 
 @interface IMSFormMultiTextFieldItemCell : IMSFormTableViewCell <UITextFieldDelegate>
@@ -16,15 +19,38 @@
 @property (strong, nonatomic) UITextField *textField;
 @property (copy, nonatomic) void (^ deleteBlock)(UIButton *button); /**< <#property#> */
 @property (copy, nonatomic) void (^ didEndEditingBlock)(UITextField *textField); /**< <#property#> */
+@property (copy, nonatomic) void (^ didSelectedAtPrefixViewBlock)(id data); /**< <#property#> */
+@property (copy, nonatomic) void (^ didSelectedAtSuffixViewBlock)(id data); /**< <#property#> */
+
+@property (strong, nonatomic) IMSFormSelectView *prefixView; /**< <#property#> */
+@property (strong, nonatomic) IMSFormSelectView *suffixView; /**< <#property#> */
+@property (nonatomic, strong) IMSPopupSingleSelectListView *prefixSingleSelectListView; /**< <#property#> */
+@property (nonatomic, strong) IMSPopupSingleSelectListView *suffixSingleSelectListView; /**< <#property#> */
+
+@property (strong, nonatomic) UIView *ctnView; /**< <#property#> */
+@property (strong, nonatomic) UILabel *prefixLabel; /**< <#property#> */
+@property (strong, nonatomic) UILabel *suffixLabel; /**< <#property#> */
+
+@property (assign, nonatomic) BOOL showPrefixView; /**< <#property#> */
+@property (assign, nonatomic) BOOL showSuffixView; /**< <#property#> */
+
+@property (copy, nonatomic) NSString *prefixUnit; /**< <#property#> */
+@property (copy, nonatomic) NSString *suffixUnit; /**< <#property#> */
+
+@property (strong, nonatomic) IMSFormSelect *selectedPrefixModel; /**< <#property#> */
+@property (strong, nonatomic) IMSFormSelect *selectedSuffixModel; /**< <#property#> */
+
+@property (strong, nonatomic) IMSFormMultiTextFieldModel *model; /**< <#property#> */
 
 @end
 
 @implementation IMSFormMultiTextFieldItemCell
 
+@synthesize model = _model;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self buildView];
         
         __weak __typeof__(self) weakSelf = self;
@@ -32,8 +58,8 @@
             __typeof__(self) strongSelf = weakSelf;
             if (note.object == strongSelf.textField) {
                 // call back
-                if (strongSelf.didEndEditingBlock) {
-                    strongSelf.didEndEditingBlock(strongSelf.textField);
+                if (self.didEndEditingBlock) {
+                    self.didEndEditingBlock(self.textField);
                 }
             }
         }];
@@ -41,23 +67,111 @@
     return self;
 }
 
+#pragma mark - UI
+
 - (void)buildView
 {
-    CGFloat spacing = 10.0;
-    
     [self.contentView addSubview:self.deleteBtn];
-    [self.deleteBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kFormTBMultiTextFieldItemHeight, kFormTBMultiTextFieldItemHeight));
-        make.top.bottom.right.mas_equalTo(self.contentView).offset(0);
-    }];
+    [self.contentView addSubview:self.bodyView];
+    [self.bodyView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.bodyView addSubview:self.ctnView];
+    [self.ctnView addSubview:self.textField];
     
-    [self.contentView addSubview:self.textField];
-    [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.contentView).offset(spacing);
+    [self updateUI];
+}
+
+- (void)updateUI
+{
+    CGFloat spacing = self.model.cpnStyle.spacing;
+
+    [self.deleteBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kFormTBMultiTextFieldItemHeight-5, kFormTBMultiTextFieldItemHeight-5));
+        make.top.mas_equalTo(self.contentView).offset(2.5);
+        make.bottom.right.mas_equalTo(self.contentView).offset(-2.5);
+        make.right.mas_equalTo(self.contentView).offset(0);
+    }];
+
+    [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.contentView).offset(0);
         make.right.mas_equalTo(self.deleteBtn.mas_left).offset(-5);
         make.centerY.mas_equalTo(self.contentView);
-        make.height.mas_equalTo(kFormTBMultiTextFieldItemHeight-10);
+        make.height.mas_equalTo(kFormTBMultiTextFieldItemHeight - 5);
     }];
+        
+    [self buildBodyViewSubViews];
+
+}
+
+- (void)buildBodyViewSubViews
+{
+    // prefixView
+    if (self.showPrefixView) {
+        if (![self.bodyView.subviews containsObject:self.prefixView]) {
+            [self.bodyView addSubview:self.prefixView];
+        }
+        [self.prefixView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.bottom.mas_equalTo(self.bodyView);
+            make.width.mas_lessThanOrEqualTo(100);
+        }];
+        [self.prefixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    } else {
+        [self.prefixView removeFromSuperview];
+    }
+    
+    // suffixView
+    if (self.showSuffixView) {
+        if (![self.bodyView.subviews containsObject:self.suffixView]) {
+            [self.bodyView addSubview:self.suffixView];
+        }
+        [self.suffixView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.bottom.mas_equalTo(self.bodyView);
+            make.width.mas_lessThanOrEqualTo(100);
+        }];
+        [self.suffixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    } else {
+        [self.suffixView removeFromSuperview];
+    }
+    
+    [self.ctnView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(self.bodyView);
+        make.left.mas_equalTo(self.showPrefixView ? self.prefixView.mas_right : self.bodyView).offset(0);
+        make.right.mas_equalTo(self.showSuffixView ? self.suffixView.mas_left : self.bodyView).offset(0);
+    }];
+    
+    if (self.prefixUnit) {
+        if (![self.ctnView.subviews containsObject:self.prefixLabel]) {
+            [self.ctnView addSubview:self.prefixLabel];
+        }
+        [self.prefixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.mas_equalTo(self.ctnView);
+            make.left.mas_equalTo(self.ctnView).offset(10);
+        }];
+    } else {
+        [self.prefixLabel removeFromSuperview];
+    }
+
+    if (self.suffixUnit) {
+        if (![self.ctnView.subviews containsObject:self.suffixLabel]) {
+            [self.ctnView addSubview:self.suffixLabel];
+        }
+        [self.suffixLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.mas_equalTo(self.ctnView);
+            make.right.mas_equalTo(self.ctnView).offset(-10);
+        }];
+    } else {
+        [self.suffixLabel removeFromSuperview];
+    }
+
+    // textField
+    [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(self.ctnView).offset(0);
+        make.left.mas_equalTo(self.prefixUnit ? self.prefixLabel.mas_right : self.ctnView).offset(5);
+        make.right.mas_equalTo(self.suffixUnit ? self.suffixLabel.mas_left : self.ctnView).offset(-5);
+        make.height.mas_equalTo(kIMSFormDefaultHeight);
+    }];
+    [self.textField setContentHuggingPriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
+    [self.textField setContentCompressionResistancePriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
+    
 }
 
 #pragma mark - UITextFieldDelegate
@@ -76,6 +190,19 @@
     return YES;
 }
 
+#pragma mark - Private Methods
+
+// 清除重用数据
+- (void)clearReuseData
+{
+    self.titleLabel.text = @"";
+    self.infoLabel.text = @"";
+    self.textField.text = @"";
+    self.textField.placeholder = @"Please enter";
+}
+
+#pragma mark - Public Methods
+
 #pragma mark - Actions
 
 - (void)deleteBtnAction:(UIButton *)button
@@ -83,6 +210,39 @@
     if (self.deleteBlock) {
         self.deleteBlock(button);
     }
+}
+
+#pragma mark - Setters
+
+- (void)setModel:(IMSFormMultiTextFieldModel *)model
+{
+    _model = model;
+    
+    self.textField.text = [NSString stringWithFormat:@"%@", model.label ? : @""];
+    
+    // prefix
+    self.showPrefixView = (model.cpnConfig.prefixDataSource && model.cpnConfig.prefixDataSource.count > 0);
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
+    NSArray *resultArray = [model.cpnConfig.prefixDataSource filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
+        self.selectedPrefixModel = selectedModel;
+        self.prefixView.textLabel.text = selectedModel.label;
+    }
+    
+    // suffix
+    self.showSuffixView = (model.cpnConfig.suffixDataSource && model.cpnConfig.suffixDataSource.count > 0);
+    
+    predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
+    resultArray = [model.cpnConfig.suffixDataSource filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
+        self.selectedSuffixModel = selectedModel;
+        self.suffixView.textLabel.text = selectedModel.label;
+    }
+    
+    [self updateUI];
 }
 
 #pragma mark - Getters
@@ -100,12 +260,76 @@
     return _textField;
 }
 
+- (IMSFormSelectView *)prefixView
+{
+    if (!_prefixView) {
+        _prefixView = [[IMSFormSelectView alloc] init];
+        @weakify(self);
+        _prefixView.didSelectBlock = ^(id  _Nonnull obj) {
+            @strongify(self);
+            [self.textField endEditing:YES];
+            
+            if (self.didSelectedAtPrefixViewBlock) {
+                self.didSelectedAtPrefixViewBlock(nil);
+            }
+        };
+    }
+    return _prefixView;
+}
+
+- (IMSFormSelectView *)suffixView
+{
+    if (!_suffixView) {
+        _suffixView = [[IMSFormSelectView alloc] init];
+        @weakify(self);
+        _suffixView.didSelectBlock = ^(id  _Nonnull obj) {
+            @strongify(self);
+            [self.textField endEditing:YES];
+            
+            if (self.didSelectedAtSuffixViewBlock) {
+                self.didSelectedAtSuffixViewBlock(nil);
+            }
+        };
+    }
+    return _suffixView;
+}
+
+- (UILabel *)prefixLabel {
+    if (_prefixLabel == nil) {
+        _prefixLabel = [[UILabel alloc] init];
+        _prefixLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+        _prefixLabel.font = [UIFont systemFontOfSize:12];
+        _prefixLabel.backgroundColor = [UIColor clearColor];
+    }
+    return _prefixLabel;
+}
+
+- (UILabel *)suffixLabel {
+    if (_suffixLabel == nil) {
+        _suffixLabel = [[UILabel alloc] init];
+        _suffixLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+        _suffixLabel.font = [UIFont systemFontOfSize:12];
+        _suffixLabel.backgroundColor = [UIColor clearColor];
+    }
+    return _suffixLabel;
+}
+
+- (UIView *)ctnView
+{
+    if (!_ctnView) {
+        _ctnView = [[UIView alloc] init];
+    }
+    return _ctnView;
+}
+
 - (UIButton *)deleteBtn
 {
     if (!_deleteBtn) {
         _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_deleteBtn setImage:[UIImage bundleImageWithNamed:@"search_clean"] forState:UIControlStateNormal];
         [_deleteBtn addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        _deleteBtn.layer.cornerRadius = kIMSFormDefaultHeight / 2;
+        _deleteBtn.layer.masksToBounds = YES;
     }
     return _deleteBtn;
 }
@@ -113,7 +337,12 @@
 @end
 
 
+
+
 @interface IMSFormMultiTextFieldCell () <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) IMSPopupSingleSelectListView *prefixSingleSelectListView; /**< <#property#> */
+@property (nonatomic, strong) IMSPopupSingleSelectListView *suffixSingleSelectListView; /**< <#property#> */
 
 @end
 
@@ -154,6 +383,9 @@
     
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.contentView.backgroundColor;
+    self.bodyView.layer.cornerRadius = 0.0;
+    self.bodyView.layer.masksToBounds = YES;
+    self.listTableView.backgroundColor = self.contentView.backgroundColor;
     [self.addButton setBackgroundColor:self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor];
     
     CGFloat spacing = self.model.cpnStyle.spacing;
@@ -230,10 +462,15 @@
 {
     IMSFormMultiTextFieldItemCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSFormMultiTextFieldItemCell class])];
     NSDictionary *modelDict = self.model.valueList[indexPath.row];
-    cell.textField.text = [NSString stringWithFormat:@"%@", [modelDict valueForKey:@"value"] ? : @"N/A"];
+    cell.model = [IMSFormMultiTextFieldModel yy_modelWithDictionary:modelDict];
+    
     cell.textField.placeholder = self.model.placeholder;
     cell.deleteBtn.hidden = !self.model.isEditable;
-    cell.contentView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    cell.contentView.backgroundColor = self.bodyView.backgroundColor;
+    cell.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    cell.deleteBtn.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    cell.prefixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    cell.suffixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
     cell.deleteBlock = ^(UIButton *button) {
         
         // MARK: delete file
@@ -251,9 +488,81 @@
         }
     };
     cell.didEndEditingBlock = ^(UITextField *textField) {
-        NSMutableDictionary *mDict = [NSMutableDictionary dictionaryWithDictionary:[self.model.valueList objectAtIndex:indexPath.row]];
-        [mDict setValue:textField.text forKey:@"value"];
-        [self.model.valueList replaceObjectAtIndex:indexPath.row withObject:mDict];
+        cell.model.value = textField.text;
+    };
+    cell.didSelectedAtPrefixViewBlock = ^(id data) {
+        
+        self.prefixSingleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
+        if (!self->_prefixSingleSelectListView) {
+            if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(self.model.cpnConfig.prefixCustomSelector)]) {
+                self->_prefixSingleSelectListView = [self.form.uiDelegate customPrefixTextFieldCellSelectListViewWithFormModel:self.model];
+            }
+        }
+        [self.prefixSingleSelectListView setDataArray:cell.model.cpnConfig.prefixDataSource type:IMSPopupSingleSelectListViewCellType_Default];
+        
+        @weakify(self);
+        [self.prefixSingleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+            @strongify(self);
+            NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
+            
+            cell.model.cpnConfig.prefixDataSource = dataArray;
+            cell.selectedPrefixModel = selectedModel;
+            cell.prefixView.textLabel.text = selectedModel.label;
+            [self.model.valueList replaceObjectAtIndex:indexPath.row withObject:[cell.model yy_modelToJSONObject]];
+        }];
+        
+        [self.prefixSingleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
+            @strongify(self);
+            // update model value
+            cell.prefixView.selected = isShow;
+            
+            // call back
+            if (!isShow && self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
+        }];
+        
+        self.prefixSingleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+        
+        [self.prefixSingleSelectListView showView];
+        
+    };
+    cell.didSelectedAtSuffixViewBlock = ^(id data) {
+        
+        self.suffixSingleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
+        if (!self->_suffixSingleSelectListView) {
+            if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(self.model.cpnConfig.suffixCustomSelector)]) {
+                self->_suffixSingleSelectListView = [self.form.uiDelegate customSuffixTextFieldCellSelectListViewWithFormModel:self.model];
+            }
+        }
+        [self.suffixSingleSelectListView setDataArray:cell.model.cpnConfig.suffixDataSource type:IMSPopupSingleSelectListViewCellType_Default];
+        
+        @weakify(self);
+        [self.suffixSingleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+            @strongify(self);
+            NSLog(@"%@, %@", dataArray, [selectedModel yy_modelToJSONObject]);
+            
+            cell.model.cpnConfig.suffixDataSource = dataArray;
+            cell.selectedSuffixModel = selectedModel;
+            cell.suffixView.textLabel.text = selectedModel.label;
+            [self.model.valueList replaceObjectAtIndex:indexPath.row withObject:[cell.model yy_modelToJSONObject]];
+        }];
+        
+        [self.suffixSingleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
+            @strongify(self);
+            // update model value
+            cell.suffixView.selected = isShow;
+            
+            // call back
+            if (!isShow && self.didUpdateFormModelBlock) {
+                self.didUpdateFormModelBlock(self, self.model, nil);
+            }
+        }];
+        
+        self.suffixSingleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+        
+        [self.suffixSingleSelectListView showView];
+        
     };
     return cell;
 }
@@ -305,10 +614,14 @@
 {
     [self.listTableView endEditing:YES];
     
-    // MARK: add new files
+    // MARK: add new cell
     [self.model.valueList addObject:@{
         @"id" : [NSString stringWithFormat:@"%d", arc4random() % 100000000],
-        @"value" : @""
+        @"value" : @"",
+        @"cpnConfig" : @{
+            @"prefixDataSource" : self.model.cpnConfig.prefixDataSource?:@[],
+            @"suffixDataSource" : self.model.cpnConfig.suffixDataSource?:@[]
+        }
     }];
     self.model.valueList = [[self.model.valueList subarrayWithRange:NSMakeRange(0, MIN(self.model.valueList.count, self.model.cpnConfig.maxLimit))] mutableCopy];
     self.addButton.enabled = (self.model.valueList.count < self.model.cpnConfig.maxLimit);
@@ -334,8 +647,8 @@
         _listTableView.delegate = self;
         _listTableView.dataSource = self;
         _listTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _listTableView.layer.cornerRadius = 8.0;
-        _listTableView.layer.masksToBounds = YES;
+//        _listTableView.layer.cornerRadius = 8.0;
+//        _listTableView.layer.masksToBounds = YES;
         _listTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         _listTableView.scrollEnabled = NO;
         _listTableView.sectionFooterHeight = 0;
@@ -370,6 +683,20 @@
     }
     return _addButton;
 }
+
+//- (IMSPopupSingleSelectListView *)prefixSingleSelectListView {
+//    if (_prefixSingleSelectListView == nil) {
+//        _prefixSingleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
+//    }
+//    return _prefixSingleSelectListView;
+//}
+//
+//- (IMSPopupSingleSelectListView *)suffixSingleSelectListView {
+//    if (_suffixSingleSelectListView == nil) {
+//        _suffixSingleSelectListView = [[IMSPopupSingleSelectListView alloc] initWithFrame:CGRectZero];
+//    }
+//    return _suffixSingleSelectListView;
+//}
 
 
 @end
