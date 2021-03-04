@@ -17,7 +17,7 @@
     }
     IMSFormTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:type];
     if (!cell) {
-        [tableView registerClass:[[IMSFormTypeManager shared] getCellClassWithKey:type] forCellReuseIdentifier:type];
+        [tableView registerClass:[[IMSFormTypeManager shared] getCellClassWithCPNType:type] forCellReuseIdentifier:type];
         cell = [tableView dequeueReusableCellWithIdentifier:type];
         return cell ? : [[IMSFormTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([IMSFormTableViewCell class])];
     }

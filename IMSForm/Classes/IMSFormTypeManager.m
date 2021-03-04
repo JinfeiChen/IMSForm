@@ -35,26 +35,26 @@
 
 - (void)defaultRegist
 {
-    for (NSString *key in [IMSFormTypeManager formCellClassMapping]) {
-        [self registCellClass:NSClassFromString([[IMSFormTypeManager formCellClassMapping] valueForKey:key] ? : @"IMSFormTableViewCell") forKey:key];
+    for (NSString *cpnType in [IMSFormTypeManager formCellClassMapping]) {
+        [self registCellClass:NSClassFromString([[IMSFormTypeManager formCellClassMapping] valueForKey:cpnType] ? : @"IMSFormUnavailableCell") forCPNType:cpnType];
     }
 }
 
 #pragma mark - Public Methods
 
-- (void)registCellClass:(Class)cls forKey:(IMSFormComponentType)key
+- (void)registCellClass:(Class)cls forCPNType:(IMSFormComponentType)cpnType
 {
-    if (cls && key) {
-        [self.cellClassDict setObject:cls forKey:key];
+    if (cls && cpnType) {
+        [self.cellClassDict setObject:cls forKey:cpnType];
     }
 }
 
-- (Class)getCellClassWithKey:(IMSFormComponentType)key
+- (Class)getCellClassWithCPNType:(IMSFormComponentType)cpnType
 {
-    if (!key || ![key isKindOfClass:[NSString class]]) {
-        return [UITableViewCell class];
+    if (!cpnType || ![cpnType isKindOfClass:[NSString class]]) {
+        return NSClassFromString(IMSFormComponentType_Unavailable);
     }
-    return [self.cellClassDict objectForKey:key] ? : NSClassFromString(@"IMSFormTableViewCell");
+    return [self.cellClassDict objectForKey:cpnType] ? : NSClassFromString(@"IMSFormUnavailableCell");
 }
 
 + (Class)formModelClassWithCPNType:(IMSFormComponentType)cpnType
@@ -185,6 +185,7 @@
         IMSFormComponentType_MultiTextField : @"IMSFormMultiTextFieldCell",
         IMSFormComponentType_ImageControls : @"IMSFormImageControlsCell",
         IMSFormComponentType_Map : @"IMSFormMapCell",
+        IMSFormComponentType_Unavailable : @"IMSFormUnavailableCell",
         
         IMSFormComponentType_Radio : @"IMSFormRadioCell",
         IMSFormComponentType_Cascader : @"IMSFormCascaderCell",

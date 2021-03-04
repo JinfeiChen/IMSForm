@@ -12,7 +12,7 @@
 typedef NSString *IMSFormComponentType NS_STRING_ENUM;
 
 // Not available component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Unavailable;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Unavailable; // added
 
 #pragma mark - Edit
 

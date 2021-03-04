@@ -376,25 +376,25 @@
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
 {
-    NSLog(@"地图控件的显示区域将要发生改变！");
+//    NSLog(@"地图控件的显示区域将要发生改变！");
 }
 
 // MKMapViewDelegate协议中的方法，当MKMapView显示区域改变完成时激发该方法
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    NSLog(@"地图控件的显示区域完成了改变！");
+//    NSLog(@"地图控件的显示区域完成了改变！");
 }
 
 // MKMapViewDelegate协议中的方法，当MKMapView开始加载数据时激发该方法
 - (void)mapViewWillStartLoadingMap:(MKMapView *)mapView
 {
-    NSLog(@"地图控件开始加载地图数据！");
+//    NSLog(@"地图控件开始加载地图数据！");
 }
 
 // MKMapViewDelegate协议中的方法，当MKMapView加载数据完成时激发该方法
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
 {
-    NSLog(@"地图控件加载地图数据完成！");
+//    NSLog(@"地图控件加载地图数据完成！");
 }
 
 // MKMapViewDelegate协议中的方法，当MKMapView加载数据失败时激发该方法
@@ -407,14 +407,13 @@
 // MKMapViewDelegate协议中的方法，当MKMapView开始渲染地图时激发该方法
 - (void)mapViewWillStartRenderingMap:(MKMapView *)mapView
 {
-    NSLog(@"地图控件开始渲染地图！");
+//    NSLog(@"地图控件开始渲染地图！");
 }
 
 // MKMapViewDelegate协议中的方法，当MKMapView渲染地图完成时激发该方法
 - (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered
 {
-    NSLog(@"地图控件渲染地图完成！");
-    
+//    NSLog(@"地图控件渲染地图完成！");
     
     [self reLocationUserLocation];
 }
