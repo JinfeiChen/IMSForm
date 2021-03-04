@@ -223,23 +223,47 @@
     // prefix
     self.showPrefixView = (model.cpnConfig.prefixDataSource && model.cpnConfig.prefixDataSource.count > 0);
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
-    NSArray *resultArray = [model.cpnConfig.prefixDataSource filteredArrayUsingPredicate:predicate];
-    if (resultArray && resultArray.count > 0) {
-        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
-        self.selectedPrefixModel = selectedModel;
-        self.prefixView.textLabel.text = selectedModel.label;
+    if (self.showPrefixView) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
+        NSArray *resultArray = [model.cpnConfig.prefixDataSource filteredArrayUsingPredicate:predicate];
+        if (resultArray && resultArray.count > 0) {
+            IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
+            self.selectedPrefixModel = selectedModel;
+            self.prefixView.textLabel.text = selectedModel.label;
+        } else {
+            resultArray = model.cpnConfig.prefixDataSource;
+            NSMutableArray *mArr = [NSMutableArray arrayWithArray:model.cpnConfig.prefixDataSource];
+            NSMutableDictionary *mDict = [NSMutableDictionary dictionaryWithDictionary:mArr.firstObject];
+            [mDict setValue:@(YES) forKey:@"selected"];
+            [mArr replaceObjectAtIndex:0 withObject:mDict];
+            model.cpnConfig.prefixDataSource = mArr;
+            IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
+            self.selectedPrefixModel = selectedModel;
+            self.prefixView.textLabel.text = selectedModel.label;
+        }
     }
     
     // suffix
     self.showSuffixView = (model.cpnConfig.suffixDataSource && model.cpnConfig.suffixDataSource.count > 0);
     
-    predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
-    resultArray = [model.cpnConfig.suffixDataSource filteredArrayUsingPredicate:predicate];
-    if (resultArray && resultArray.count > 0) {
-        IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
-        self.selectedSuffixModel = selectedModel;
-        self.suffixView.textLabel.text = selectedModel.label;
+    if (self.showSuffixView) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
+        NSArray *resultArray = [model.cpnConfig.suffixDataSource filteredArrayUsingPredicate:predicate];
+        if (resultArray && resultArray.count > 0) {
+            IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
+            self.selectedSuffixModel = selectedModel;
+            self.suffixView.textLabel.text = selectedModel.label;
+        } else {
+            resultArray = model.cpnConfig.suffixDataSource;
+            NSMutableArray *mArr = [NSMutableArray arrayWithArray:model.cpnConfig.suffixDataSource];
+            NSMutableDictionary *mDict = [NSMutableDictionary dictionaryWithDictionary:mArr.firstObject];
+            [mDict setValue:@(YES) forKey:@"selected"];
+            [mArr replaceObjectAtIndex:0 withObject:mDict];
+            model.cpnConfig.suffixDataSource = mArr;
+            IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:resultArray.firstObject];
+            self.selectedSuffixModel = selectedModel;
+            self.suffixView.textLabel.text = selectedModel.label;
+        }
     }
     
     [self updateUI];
@@ -591,7 +615,7 @@
     contentL.textLayout = layout;
     CGFloat infoHeight = layout.textBoundingSize.height;
     
-    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.model.valueList.count > 0) ? 2 : 1) + 5;
+    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.model.valueList.count > 0) ? 2 : 1) + 10;
     CGFloat buttonHeight = kIMSFormDefaultHeight;
     NSInteger count = MIN(self.model.valueList.count, self.model.cpnConfig.maxLimit);
     CGFloat contentViewHeight = kFormTBMultiTextFieldItemHeight * count + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.listTableView.contentInset.top + self.listTableView.contentInset.bottom + spacingHeight + buttonHeight + infoHeight;
