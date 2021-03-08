@@ -22,7 +22,6 @@
     }
     self.cpnConfig.dataSource = newDataSource;
     
-    NSMutableArray *valueListM = [[NSMutableArray alloc]init];
     for (NSDictionary *modelDict in valueList) {
         IMSFormSelect *defaultSelect = [IMSFormSelect yy_modelWithDictionary:modelDict];
         NSMutableArray *newDataSource = [NSMutableArray array];
@@ -31,14 +30,13 @@
             IMSFormSelect *obj = [IMSFormSelect yy_modelWithDictionary:dict];
             if ([defaultSelect.identifier isEqualToString:obj.identifier]) {
                 [mDict setValue:@(YES) forKey:@"selected"];
-                [valueListM addObject:mDict];
             }
             [newDataSource addObject:mDict];
         }
         self.cpnConfig.dataSource = newDataSource;
     }
     
-    [super setValueList:valueListM.count ? valueListM : valueList];
+    [super setValueList:valueList];
 }
 
 @synthesize cpnConfig = _cpnConfig;

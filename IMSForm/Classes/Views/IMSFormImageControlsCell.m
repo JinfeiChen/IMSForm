@@ -84,6 +84,8 @@
 
 @property (strong, nonatomic) IMSFormImageControlsItemCell *movingCell; /**< <#property#> */
 
+@property (strong, nonatomic) UILabel *noDataLabel; /**< <#property#> */
+
 @end
 
 @implementation IMSFormImageControlsCell
@@ -169,10 +171,20 @@
     self.infoLabel.text = model.info;
     
     // update default valueList
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
-    self.model.valueList = [[self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate] mutableCopy];
+    if (self.model.cpnConfig.dataSource.count > 0) {
+        [self.noDataLabel removeFromSuperview];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
+        self.model.valueList = [[self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate] mutableCopy];
 
-    [self.collectionView reloadData];
+        [self.collectionView reloadData];
+    } else {
+        [self.bodyView addSubview:self.noDataLabel];
+        [self.noDataLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
+            make.height.mas_equalTo(kIMSFormDefaultHeight);
+        }];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate/UICollectionViewDataSource
@@ -277,7 +289,7 @@
 
     // 由于这里collection的高度是动态的，这里cell的高度我们根据collection来计算
     CGSize collectionSize = self.collectionView.collectionViewLayout.collectionViewContentSize;
-    CGFloat contentHeight = collectionSize.height + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom + infoHeight + self.model.cpnStyle.spacing + 10;
+    CGFloat contentHeight = (collectionSize.height > kIMSFormDefaultHeight ? collectionSize.height : kIMSFormDefaultHeight) + self.model.cpnStyle.contentInset.top + self.model.cpnStyle.contentInset.bottom + titleHeight + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom + infoHeight + self.model.cpnStyle.spacing + 10;
     return CGSizeMake(targetSize.width, contentHeight);
 }
 
@@ -390,6 +402,17 @@
         
     }
     return _collectionView;
+}
+
+- (UILabel *)noDataLabel {
+    if (_noDataLabel == nil) {
+        _noDataLabel = [[UILabel alloc] init];
+        _noDataLabel.font = [UIFont systemFontOfSize:12];
+        _noDataLabel.text = @"No Data";
+        _noDataLabel.textColor = [UIColor grayColor];
+        _noDataLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _noDataLabel;
 }
 
 @end
