@@ -379,7 +379,7 @@
         _tagView.tagItemfontSize = [UIFont systemFontOfSize:12];
         _tagView.tagItemHeight = 25.0;
         _tagView.contentInset = UIEdgeInsetsMake(7.5, 10, 7.5, 0);
-        _tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - 60;
+//        _tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - 60;
         _tagView.contentPadding = 5.0;
         _tagView.tagSuperviewMinHeight = 40.0;
         _tagView.deleteImage = [UIImage bundleImageWithNamed:@"search_close_tag"];

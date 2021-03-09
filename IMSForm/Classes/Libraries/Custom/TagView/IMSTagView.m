@@ -121,6 +121,12 @@
 
 - (void)dealFrameMethod {
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self layoutIfNeeded];
+        NSLog(@"%f",self.frame.size.width);
+        self.tagsFrame.tagSuperviewWidth = self.frame.size.width;
+    });
+    
     self.tagsFrame.imageViewWith = self.deleteImage ? self.deleteImage.size.width : 0.0;
     
     self.tagsFrame.tagsArray = self.dataArray;
@@ -229,7 +235,6 @@
         _tagsFrame.tagsMinPadding = self.tagsMinPadding;
         _tagsFrame.tagItemHeight = self.tagItemHeight;
         _tagsFrame.contentInset = self.contentInset;
-        _tagsFrame.tagSuperviewWidth = self.tagSuperviewWidth;
         _tagsFrame.contentPadding = self.contentPadding;
     }
     return _tagsFrame;

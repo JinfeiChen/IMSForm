@@ -81,7 +81,7 @@
         make.height.mas_equalTo(30);
     }];
     
-    self.tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right;
+//    self.tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right;
     [self.tagView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.textField.mas_bottom);
         make.right.left.bottom.equalTo(self.bodyView);
