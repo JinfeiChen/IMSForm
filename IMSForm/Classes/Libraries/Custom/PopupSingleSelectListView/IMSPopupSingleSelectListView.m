@@ -83,6 +83,11 @@
             self.dataArray = mArr;
         }
             break;
+        case IMSPopupSingleSelectListViewCellType_Location:
+        {
+            self.dataArray = [NSArray yy_modelArrayWithClass:[IMSPopupSingleSelectLocationModel class] json:dataArray];
+        }
+            break;
         case IMSPopupSingleSelectListViewCellType_Contact:
         {
             self.dataArray = [NSArray yy_modelArrayWithClass:[IMSPopupSingleSelectContactModel class] json:dataArray];
@@ -149,6 +154,15 @@
             return [self customTableView:tableView cellForRowAtIndexPath:indexPath];
         }
             break;
+        case IMSPopupSingleSelectListViewCellType_Location:
+        {
+            IMSPopupSingleSelectLocationModel *model = (IMSPopupSingleSelectLocationModel *)self.dataArray[indexPath.row];
+            IMSPopupSingleSelectLocationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IMSPopupSingleSelectLocationTableViewCell class])];
+            cell.tintColor = self.tintColor;
+            cell.model = model;
+            return cell;
+        }
+            break;
         case IMSPopupSingleSelectListViewCellType_Contact:
         {
             IMSPopupSingleSelectContactModel *model = (IMSPopupSingleSelectContactModel *)self.dataArray[indexPath.row];
@@ -188,6 +202,22 @@
             [dict setValue:@([self.lastIndexPath isEqual:indexPath] ? NO : YES) forKey:@"selected"];
             if (self.didSelectedBlock) {
                 self.didSelectedBlock(self.dataArray, [IMSFormSelect yy_modelWithDictionary:dict]);
+            }
+            self.lastIndexPath = [self.lastIndexPath isEqual:indexPath] ? nil : indexPath;
+
+            [tableView reloadData];
+            [self hiddenView];
+        }
+            break;
+        case IMSPopupSingleSelectListViewCellType_Location:
+        {
+            for (IMSFormSelect *obj in self.dataArray) {
+                obj.selected = NO;
+            }
+            IMSFormSelect *model = (IMSFormSelect *)self.dataArray[indexPath.row];
+            model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
+            if (self.didSelectedLocationBlock) {
+                self.didSelectedLocationBlock([self.dataArray yy_modelToJSONObject], model, indexPath);
             }
             self.lastIndexPath = [self.lastIndexPath isEqual:indexPath] ? nil : indexPath;
 
@@ -255,6 +285,7 @@
         _mainTableView.dataSource = self;
         _mainTableView.estimatedRowHeight = 70;
         _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_mainTableView registerClass:[IMSPopupSingleSelectLocationTableViewCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupSingleSelectLocationTableViewCell class])];
         [_mainTableView registerClass:[IMSPopupSingleSelectContactTableViewCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupSingleSelectContactTableViewCell class])];
         [_mainTableView registerClass:[IMSPopupSingleSelectDefaultTableViewCell class] forCellReuseIdentifier:NSStringFromClass([IMSPopupSingleSelectDefaultTableViewCell class])];
     }

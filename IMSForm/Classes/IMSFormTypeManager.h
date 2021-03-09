@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)shared;
 
 // 添加组件类型对应的类映射关系
-- (void)registCellClass:(Class)cls forKey:(IMSFormComponentType)key;
+- (void)registCellClass:(Class)cls forCPNType:(IMSFormComponentType)cpnType;
 
 // 根据组件类型获取对应的组件类
-- (Class)getCellClassWithKey:(IMSFormComponentType)key;
+- (Class)getCellClassWithCPNType:(IMSFormComponentType)cpnType;
 
 // 根据组件类型获取对应的数据模型类
 + (Class)formModelClassWithCPNType:(IMSFormComponentType)cpnType;

@@ -34,4 +34,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface UIView (Corner)
+
+@property (strong, nonatomic) CAShapeLayer *roundBorderLayer; /**< 圆角边框图层 */
+
+/**
+ CJF - 边框
+
+ @param corners 圆角位置
+ @param cornerRadii 圆角半径
+ @param borderWidth 边框大小
+ @param borderColor 边框颜色
+ */
+- (void)borderWithCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
+
+@end
+
 NS_ASSUME_NONNULL_END

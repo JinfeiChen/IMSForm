@@ -29,7 +29,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self buildView];
-        
+
         __weak __typeof__(self) weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidEndEditingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *_Nonnull note) {
             __typeof__(self) strongSelf = weakSelf;
@@ -54,30 +54,29 @@
     [self.bodyView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.bodyView addSubview:self.ctnView];
     [self.ctnView addSubview:self.textField];
-    
+
     [self updateUI];
 }
 
 - (void)updateUI
 {
     self.contentView.backgroundColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.backgroundHexColor]);
-    
+
     self.titleLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.titleHexColor]);
     self.titleLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.titleFontSize weight:UIFontWeightMedium];
-    
+
     self.infoLabel.font = [UIFont systemFontOfSize:self.model.cpnStyle.infoFontSize weight:UIFontWeightRegular];
     self.infoLabel.textColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.infoHexColor]);
-    
+
     self.bodyView.userInteractionEnabled = self.model.isEditable;
     self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
-    
+
 //    if (self.model.isEditable) {
 //        self.textField.keyboardType = [self keyboardWithTextType:IMSFormTextType_Phone];
 //    }
-    
+
     CGFloat spacing = self.model.cpnStyle.spacing;
     if ([self.model.cpnStyle.layout isEqualToString:IMSFormLayoutType_Horizontal]) {
-        
         [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(spacing);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
@@ -98,9 +97,7 @@
             make.left.right.mas_equalTo(self.bodyView);
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
-        
     } else {
-        
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
@@ -117,31 +114,30 @@
             make.left.right.mas_equalTo(self.bodyView);
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
-        
+
         [self buildBodyViewSubViews];
-        
     }
 }
 
 - (void)buildBodyViewSubViews
 {
     // prefixView
-        if (![self.bodyView.subviews containsObject:self.prefixView]) {
-            [self.bodyView addSubview:self.prefixView];
-        }
-        [self.prefixView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.bottom.mas_equalTo(self.bodyView);
-            make.width.mas_lessThanOrEqualTo(150);
-        }];
-        [self.prefixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-        self.prefixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
+    if (![self.bodyView.subviews containsObject:self.prefixView]) {
+        [self.bodyView addSubview:self.prefixView];
+    }
+    [self.prefixView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.mas_equalTo(self.bodyView);
+        make.width.mas_lessThanOrEqualTo(150);
+    }];
+    [self.prefixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    self.prefixView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
 
     [self.ctnView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.bodyView);
         make.left.mas_equalTo(self.model.cpnConfig.dataSource ? self.prefixView.mas_right : self.bodyView).offset(0);
         make.right.mas_equalTo(self.bodyView).offset(0);
     }];
-    
+
     if (![self.ctnView.subviews containsObject:self.prefixLabel]) {
         [self.ctnView addSubview:self.prefixLabel];
     }
@@ -167,7 +163,6 @@
     }];
     [self.textField setContentHuggingPriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
     [self.textField setContentCompressionResistancePriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
-    
 }
 
 #pragma mark - UITextFieldDelegate
@@ -177,28 +172,28 @@
     if (!self.model.isEditable) {
         return NO;
     }
-    
+
     // length limit
     NSUInteger oldLength = [textField.text length];
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;
     NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
-    
+    BOOL returnKey = [string rangeOfString:@"\n"].location != NSNotFound;
+
     // update model value
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
     self.model.value = str;
-    
+
     // call back
 //    if (self.didUpdateFormModelBlock) {
 //        self.didUpdateFormModelBlock(self, self.model, nil);
 //    }
-    
+
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
     }
-    
+
     return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 }
 
@@ -217,17 +212,17 @@
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     self.model.value = @"";
-    
+
     // call back
 //    if (self.didUpdateFormModelBlock) {
 //        self.didUpdateFormModelBlock(self, self.model, nil);
 //    }
-    
+
     // text type limit, change 触发校验
     if ([self.model.cpnRule.trigger isEqualToString:IMSFormTrigger_Change]) {
         [self validate];
     }
-    
+
     return YES;
 }
 
@@ -249,24 +244,24 @@
 - (void)setModel:(IMSFormModel *)model form:(nonnull IMSFormManager *)form
 {
     [super setModel:model form:form];
-    
+
     [self updateUI];
-    
+
     [self clearReuseData];
     [self setTitle:model.title required:model.isRequired];
-    
+
     // update default value
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.selected = YES"];
     NSArray *resultArray = [self.model.cpnConfig.dataSource filteredArrayUsingPredicate:predicate];
     if (resultArray && resultArray.count > 0) {
         self.model.valueList = [NSMutableArray arrayWithObjects:resultArray.firstObject, nil];
     }
-    
+
     self.textField.text = [model.value substringWithRange:NSMakeRange(0, MIN(model.value.length, self.model.cpnConfig.lengthLimit))];
     self.textField.placeholder = model.placeholder ? : @"Please enter";
-    
+
     self.infoLabel.text = model.info;
-    
+
     // 显示已选中值/默认值
     if (self.model.valueList && self.model.valueList.count > 0) {
         IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.valueList firstObject]];
@@ -280,14 +275,14 @@
             self.prefixView.textLabel.text = @"N/A";
         }
     }
-    
+
     if (self.model.cpnConfig.prefixUnit) {
         self.prefixLabel.text = self.model.cpnConfig.prefixUnit;
     } else {
         IMSFormSelect *selectedModel = [IMSFormSelect yy_modelWithDictionary:[self.model.valueList firstObject]];
         self.prefixLabel.text = selectedModel.value;
     }
-    
+
     if (self.model.cpnConfig.suffixUnit) {
         self.suffixLabel.text = self.model.cpnConfig.suffixUnit;
     }
@@ -313,10 +308,10 @@
     if (!_prefixView) {
         _prefixView = [[IMSFormSelectView alloc] init];
         @weakify(self);
-        _prefixView.didSelectBlock = ^(id  _Nonnull obj) {
+        _prefixView.didSelectBlock = ^(id _Nonnull obj) {
             @strongify(self);
             [self.textField endEditing:YES];
-            
+
             if (!self->_prefixSingleSelectListView) {
                 if (self.form.uiDelegate && [self.form.uiDelegate respondsToSelector:NSSelectorFromString(@"customPrefixTextFieldCellSelectListViewWithFormModel:")]) {
                     self->_prefixSingleSelectListView = [self.form.uiDelegate customPrefixTextFieldCellSelectListViewWithFormModel:self.model];
@@ -325,28 +320,28 @@
             if (!self.form || !self->_prefixSingleSelectListView) {
                 [self.prefixSingleSelectListView setDataArray:self.model.cpnConfig.dataSource type:IMSPopupSingleSelectListViewCellType_Default];
             }
-            
+
             @weakify(self);
-            [self.prefixSingleSelectListView setDidSelectedBlock:^(NSArray * _Nonnull dataArray, IMSFormSelect * _Nonnull selectedModel) {
+            [self.prefixSingleSelectListView setDidSelectedBlock:^(NSArray *_Nonnull dataArray, IMSFormSelect *_Nonnull selectedModel) {
                 @strongify(self);
                 self.prefixView.textLabel.text = selectedModel.label;
                 self.prefixLabel.text = self.model.cpnConfig.prefixUnit ? : selectedModel.value;
                 self.model.valueList = [@[[selectedModel yy_modelToJSONObject]] mutableCopy];
             }];
-            
+
             [self.prefixSingleSelectListView setDidFinishedShowAndHideBlock:^(BOOL isShow) {
                 @strongify(self);
                 // update model value
                 self.prefixView.selected = isShow;
-                
+
                 // call back
                 if (!isShow && self.didUpdateFormModelBlock) {
                     self.didUpdateFormModelBlock(self, self.model, nil);
                 }
             }];
-            
+
             self.prefixSingleSelectListView.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:self.model.cpnStyle.tintHexColor]);
-            
+
             [self.prefixSingleSelectListView showView];
         };
     }

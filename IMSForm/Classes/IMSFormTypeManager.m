@@ -35,26 +35,26 @@
 
 - (void)defaultRegist
 {
-    for (NSString *key in [IMSFormTypeManager formCellClassMapping]) {
-        [self registCellClass:NSClassFromString([[IMSFormTypeManager formCellClassMapping] valueForKey:key] ? : @"IMSFormTableViewCell") forKey:key];
+    for (NSString *cpnType in [IMSFormTypeManager formCellClassMapping]) {
+        [self registCellClass:NSClassFromString([[IMSFormTypeManager formCellClassMapping] valueForKey:cpnType] ? : @"IMSFormUnavailableCell") forCPNType:cpnType];
     }
 }
 
 #pragma mark - Public Methods
 
-- (void)registCellClass:(Class)cls forKey:(IMSFormComponentType)key
+- (void)registCellClass:(Class)cls forCPNType:(IMSFormComponentType)cpnType
 {
-    if (cls && key) {
-        [self.cellClassDict setObject:cls forKey:key];
+    if (cls && cpnType) {
+        [self.cellClassDict setObject:cls forKey:cpnType];
     }
 }
 
-- (Class)getCellClassWithKey:(IMSFormComponentType)key
+- (Class)getCellClassWithCPNType:(IMSFormComponentType)cpnType
 {
-    if (!key || ![key isKindOfClass:[NSString class]]) {
-        return [UITableViewCell class];
+    if (!cpnType || ![cpnType isKindOfClass:[NSString class]]) {
+        return NSClassFromString(IMSFormComponentType_Unavailable);
     }
-    return [self.cellClassDict objectForKey:key] ? : NSClassFromString(@"IMSFormTableViewCell");
+    return [self.cellClassDict objectForKey:cpnType] ? : NSClassFromString(@"IMSFormUnavailableCell");
 }
 
 + (Class)formModelClassWithCPNType:(IMSFormComponentType)cpnType
@@ -142,14 +142,19 @@
         IMSFormComponentType_InputSearch : @"IMSFormInputSearchModel",
         
         IMSFormComponentType_DatePicker : @"IMSFormDateTimeModel",
-        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeModel",
         IMSFormComponentType_TimePicker : @"IMSFormDateTimeModel",
+        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeModel",
+        IMSFormComponentType_DateTimeRangePicker : @"IMSFormDateTimeRangeModel",
         
         IMSFormComponentType_Radio : @"IMSFormRadioModel",
         IMSFormComponentType_Cascader : @"IMSFormCascaderModel",
         IMSFormComponentType_Currency : @"IMSFormCurrencyModel",
         IMSFormComponentType_Phone : @"IMSFormPhoneModel",
         IMSFormComponentType_InputTag : @"IMSFormInputTagModel",
+        
+        IMSFormComponentType_MultiTextField : @"IMSFormMultiTextFieldModel",
+        IMSFormComponentType_ImageControls : @"IMSFormImageControlsModel",
+        IMSFormComponentType_Map : @"IMSFormMapModel",
         
         IMSFormComponentType_SectionHeader : @"IMSFormSectionHeaderModel",
         IMSFormComponentType_SectionFooter : @"IMSFormSectionFooterModel"
@@ -173,8 +178,14 @@
         IMSFormComponentType_InputSearch : @"IMSFormInputSearchCell",
         
         IMSFormComponentType_DatePicker : @"IMSFormDateTimeCell",
-        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeCell",
         IMSFormComponentType_TimePicker : @"IMSFormDateTimeCell",
+        IMSFormComponentType_DateTimePicker : @"IMSFormDateTimeCell",
+        IMSFormComponentType_DateTimeRangePicker : @"IMSFormDateTimeRangeCell",
+        
+        IMSFormComponentType_MultiTextField : @"IMSFormMultiTextFieldCell",
+        IMSFormComponentType_ImageControls : @"IMSFormImageControlsCell",
+        IMSFormComponentType_Map : @"IMSFormMapCell",
+        IMSFormComponentType_Unavailable : @"IMSFormUnavailableCell",
         
         IMSFormComponentType_Radio : @"IMSFormRadioCell",
         IMSFormComponentType_Cascader : @"IMSFormCascaderCell",

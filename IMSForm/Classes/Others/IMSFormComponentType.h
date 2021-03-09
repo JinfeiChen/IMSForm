@@ -11,6 +11,9 @@
 // Custom string enumeration
 typedef NSString *IMSFormComponentType NS_STRING_ENUM;
 
+// Not available component
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Unavailable; // added
+
 #pragma mark - Edit
 
 // Single line text input component
@@ -32,7 +35,7 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Number; // add
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Range; // added
 
 // Map component
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map;
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Map; // added
 
 // Cascader component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Cascader;//added
@@ -66,8 +69,9 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ColorPicker;
 
 // Date and time picker component
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DatePicker; // added
-FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker; // added
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_TimePicker; // added
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimePicker; // added
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_DateTimeRangePicker; // added
 
 // Input Search
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputSearch; // added
@@ -80,6 +84,10 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_Phone; // adde
 
 // Phone
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputTag; // added
+
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_MultiTextField; // added
+
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageControls; // added
 
 #pragma mark - Readonly
 
