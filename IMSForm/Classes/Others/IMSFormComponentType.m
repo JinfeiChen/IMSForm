@@ -62,6 +62,8 @@ NSString *const IMSFormComponentType_MultiTextField = @"IMSFormComponentType_Mul
 
 NSString *const IMSFormComponentType_ImageControls = @"IMSFormComponentType_ImageControls";
 
+NSString *const IMSFormComponentType_InputListText = @"IMSFormComponentType_InputListText";
+
 #pragma mark - Readonly
 
 NSString *const IMSFormComponentType_Line = @"IMSFormComponentType_Line";
