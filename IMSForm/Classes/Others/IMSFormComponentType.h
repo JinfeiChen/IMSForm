@@ -89,6 +89,8 @@ FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_MultiTextField
 
 FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_ImageControls; // added
 
+FOUNDATION_EXPORT IMSFormComponentType const IMSFormComponentType_InputListText; // added
+
 #pragma mark - Readonly
 
 // Seperator component

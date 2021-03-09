@@ -155,6 +155,7 @@
         IMSFormComponentType_MultiTextField : @"IMSFormMultiTextFieldModel",
         IMSFormComponentType_ImageControls : @"IMSFormImageControlsModel",
         IMSFormComponentType_Map : @"IMSFormMapModel",
+        IMSFormComponentType_InputListText : @"IMSFormInputListTextModel",
         
         IMSFormComponentType_SectionHeader : @"IMSFormSectionHeaderModel",
         IMSFormComponentType_SectionFooter : @"IMSFormSectionFooterModel"
@@ -185,6 +186,7 @@
         IMSFormComponentType_MultiTextField : @"IMSFormMultiTextFieldCell",
         IMSFormComponentType_ImageControls : @"IMSFormImageControlsCell",
         IMSFormComponentType_Map : @"IMSFormMapCell",
+        IMSFormComponentType_InputListText : @"IMSFormInputListTextCell",
         IMSFormComponentType_Unavailable : @"IMSFormUnavailableCell",
         
         IMSFormComponentType_Radio : @"IMSFormRadioCell",

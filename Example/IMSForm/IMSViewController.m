@@ -169,7 +169,22 @@
                                    @{
                                        @"url": @"http://www.tupian.com/images/Pages2_1.jpg",
                                        @"name": @"Pages2_1.jpg",
-                                       @"id": @"image004"
+                                       @"id": @"image001"
+                                   }
+                               ] mutableCopy];
+        } else if ([model.field isEqualToString:@"InputListText"]) {
+            model.valueList = [@[
+                                   @{
+                                       @"value": @"Pages2_1.jpg",
+                                       @"id": @"image001"
+                                   },
+                                   @{
+                                       @"value": @"Pages2_2.jpg",
+                                       @"id": @"image002"
+                                   },
+                                   @{
+                                       @"value": @"Pages2_3.jpg",
+                                       @"id": @"image003"
                                    }
                                ] mutableCopy];
         } else {
