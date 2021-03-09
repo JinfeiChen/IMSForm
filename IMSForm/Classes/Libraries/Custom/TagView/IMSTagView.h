@@ -51,6 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIFont *tagItemfontSize;
 // 每个item 高度 默认20
 @property (nonatomic, assign) CGFloat tagItemHeight;
+// 装载view的宽度  默认屏幕宽度
+@property (nonatomic, assign) CGFloat tagSuperviewWidth;
 // 装载view最小的高度 默认为0
 @property (nonatomic, assign) CGFloat tagSuperviewMinHeight;
 

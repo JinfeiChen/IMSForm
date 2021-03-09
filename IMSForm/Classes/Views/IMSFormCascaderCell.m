@@ -79,7 +79,7 @@
         make.width.equalTo(self.model.isEditable ? @40 : @0);
     }];
     
-//    self.tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.model.isEditable ? 40 : 0);
+    self.tagView.tagSuperviewWidth = [UIScreen mainScreen].bounds.size.width - self.model.cpnStyle.contentInset.left - self.model.cpnStyle.contentInset.right - (self.model.isEditable ? 40 : 0);
     [self.tagView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(self.bodyView);
         make.right.equalTo(self.arrowButton.mas_left);
