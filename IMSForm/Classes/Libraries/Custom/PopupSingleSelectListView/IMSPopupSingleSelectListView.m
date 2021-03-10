@@ -215,6 +215,9 @@
                 obj.selected = NO;
             }
             IMSFormSelect *model = (IMSFormSelect *)self.dataArray[indexPath.row];
+            if (!model.isEnable) {
+                return;
+            }
             model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
             if (self.didSelectedLocationBlock) {
                 self.didSelectedLocationBlock([self.dataArray yy_modelToJSONObject], model, indexPath);
@@ -231,6 +234,9 @@
                 obj.selected = NO;
             }
             IMSFormSelect *model = (IMSFormSelect *)self.dataArray[indexPath.row];
+            if (!model.isEnable) {
+                return;
+            }
             model.selected = [self.lastIndexPath isEqual:indexPath] ? NO : YES;
             if (self.didSelectedBlock) {
                 self.didSelectedBlock([self.dataArray yy_modelToJSONObject], model);
