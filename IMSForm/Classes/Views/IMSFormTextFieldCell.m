@@ -176,7 +176,8 @@
         [self.prefixLabel removeFromSuperview];
     }
 
-    if (self.model.cpnConfig.suffixUnit) {
+    NSString *unit = self.model.cpnConfig.unit ? : self.model.cpnConfig.suffixUnit;
+    if (unit) {
         if (![self.ctnView.subviews containsObject:self.suffixLabel]) {
             [self.ctnView addSubview:self.suffixLabel];
         }
@@ -192,7 +193,7 @@
     [self.textField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.ctnView).offset(0);
         make.left.mas_equalTo(self.model.cpnConfig.prefixUnit ? self.prefixLabel.mas_right : self.ctnView).offset(5);
-        make.right.mas_equalTo(self.model.cpnConfig.suffixUnit ? self.suffixLabel.mas_left : self.ctnView).offset(-5);
+        make.right.mas_equalTo(unit ? self.suffixLabel.mas_left : self.ctnView).offset(-5);
         make.height.mas_equalTo(kIMSFormDefaultHeight);
     }];
     [self.textField setContentHuggingPriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
@@ -293,8 +294,9 @@
         self.prefixLabel.text = model.cpnConfig.prefixUnit;
     }
     
-    if (model.cpnConfig.suffixUnit) {
-        self.suffixLabel.text = model.cpnConfig.suffixUnit;
+    NSString *unit = model.cpnConfig.unit ? : model.cpnConfig.suffixUnit;
+    if (unit) {
+        self.suffixLabel.text = unit;
     }
     
     [self layoutIfNeeded];

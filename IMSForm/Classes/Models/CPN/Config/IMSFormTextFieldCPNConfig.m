@@ -15,6 +15,7 @@
         _textType = IMSFormTextType_Default;
         _lengthLimit = 100;
         _precision = 0;
+        _unit = @"";
         _prefixUnit = @"";
         _suffixUnit = @"";
     }
