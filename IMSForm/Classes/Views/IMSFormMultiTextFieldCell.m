@@ -489,7 +489,8 @@
     cell.model = [IMSFormMultiTextFieldModel yy_modelWithDictionary:modelDict];
     
     cell.textField.placeholder = self.model.placeholder ? : @"Please enter";
-    cell.deleteBtn.hidden = !self.model.isEditable;
+//    cell.deleteBtn.hidden = !self.model.isEditable;
+    cell.deleteBtn.enabled = !self.model.isEditable;
     cell.contentView.backgroundColor = self.bodyView.backgroundColor;
     cell.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     cell.deleteBtn.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;

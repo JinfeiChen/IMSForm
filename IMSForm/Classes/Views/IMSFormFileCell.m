@@ -342,6 +342,10 @@
         return;
     }
     
+    if (!self.model.isEnable || !self.model.isEditable) {
+        return;
+    }
+    
     [self.filePicker presentDocumentPicker];
     @weakify(self);
     self.filePicker.documentPickerFinishedBlock = ^(NSData * _Nonnull fileData, NSURL * _Nonnull fileURL, NSString * _Nonnull fileName, NSError * _Nullable error) {
