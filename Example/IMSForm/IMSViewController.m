@@ -383,6 +383,7 @@
 - (IBAction)changeEditableAction:(id)sender {
     for (IMSFormModel *obj in self.form.dataSource) {
         obj.editable = !obj.isEditable;
+        obj.enable = !obj.isEnable;
     }
     [self.tableView reloadData];
 }

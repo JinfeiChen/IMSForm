@@ -169,6 +169,7 @@
     [self setTitle:model.title required:model.isRequired];
 
     self.infoLabel.text = model.info;
+    self.bodyView.userInteractionEnabled = model.isEnable;
     
     // update default valueList
     if (self.model.cpnConfig.dataSource.count > 0) {

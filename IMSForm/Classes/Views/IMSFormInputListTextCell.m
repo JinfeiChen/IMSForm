@@ -258,7 +258,8 @@
     NSDictionary *modelDict = self.model.valueList[indexPath.row];
     cell.myTextLabel.text = [NSString stringWithFormat:@"%@", [modelDict valueForKey:@"value"]];
     
-    cell.deleteBtn.hidden = !self.model.isEditable;
+//    cell.deleteBtn.hidden = !self.model.isEditable;
+    cell.deleteBtn.enabled = self.model.isEnable;
     cell.contentView.backgroundColor = self.bodyView.backgroundColor;
     cell.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     cell.deleteBtn.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
@@ -346,9 +347,10 @@
 
 - (void)updateEnable
 {
-    self.addButton.enabled = (self.model.valueList.count < self.model.cpnConfig.maxLimit);
-    self.textField.enabled = self.addButton.enabled;
-    self.ctnView.backgroundColor = self.addButton.enabled ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    BOOL enable = self.model.isEnable ? (self.model.valueList.count < self.model.cpnConfig.maxLimit) : NO;
+    self.addButton.enabled = enable;
+    self.textField.enabled = enable;
+    self.ctnView.backgroundColor = enable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     self.addButton.backgroundColor = self.ctnView.backgroundColor;
 }
 

@@ -342,7 +342,7 @@
         return;
     }
     
-    if (!self.model.isEnable) {
+    if (!self.model.isEnable || !self.model.isEditable) {
         return;
     }
     
