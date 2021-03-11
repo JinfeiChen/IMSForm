@@ -104,7 +104,7 @@
     self.infoLabel.text = model.info;
     
     self.valueListM = [NSArray yy_modelArrayWithClass:[IMSFormSelect class] json:self.model.valueList].mutableCopy;
-
+    self.tagView.deleteImage = model.isEditable ? [UIImage bundleImageWithNamed:@"search_close_tag"] : nil;
     [self updateTagViewDataSource];
     
 }

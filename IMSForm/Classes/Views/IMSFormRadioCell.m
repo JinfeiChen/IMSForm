@@ -118,8 +118,10 @@
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
                 [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-normal"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
                 [button setImage:[[UIImage bundleImageWithNamed:@"ims-icon-radio-selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
-                button.tintColor = IMS_HEXCOLOR([NSString intRGBWithHex:model.cpnStyle.tintHexColor]);
+                button.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+                button.titleEdgeInsets = UIEdgeInsetsMake(0, button.imageView.width+10, 0, 0);
                 [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                [button setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
                 [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
                 button.backgroundColor = [UIColor whiteColor];
                 button.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -138,7 +140,7 @@
                     }else {
                         make.top.equalTo(lastView.mas_bottom);
                     }
-                    make.left.equalTo(self.bodyView).offset(10);
+                    make.left.equalTo(self.bodyView).offset(0);
                     make.right.equalTo(self.bodyView);
                     make.height.mas_equalTo(40);
                     if (i == self.buttonArrayM.count - 1) make.bottom.equalTo(self.bodyView);
@@ -152,11 +154,13 @@
         for (int i = 0; i < dataModelSource.count; ++i) {
             IMSFormSelect *selectModel = dataModelSource[i];
             UIButton *button = self.buttonArrayM[i];
-            [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateNormal];
-            [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateSelected];
-            button.backgroundColor = self.bodyView.backgroundColor;
-            button.selected = selectModel.selected;
+            [button setTitle:[NSString stringWithFormat:@"%@",selectModel.label ?: selectModel.value] forState:UIControlStateNormal];
+            [button setTitle:[NSString stringWithFormat:@"%@",selectModel.label ?: selectModel.value] forState:UIControlStateSelected];
             button.enabled = selectModel.enable;
+            button.selected = selectModel.selected;
+            
+            button.tintColor = button.enabled ? IMS_HEXCOLOR([NSString intRGBWithHex:model.cpnStyle.tintHexColor]) : [UIColor grayColor];
+           
             if (selectModel.selected) [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
         }
     }
