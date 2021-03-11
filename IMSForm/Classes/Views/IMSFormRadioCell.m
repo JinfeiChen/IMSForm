@@ -156,6 +156,7 @@
             [button setTitle:[NSString stringWithFormat:@"   %@",selectModel.label ?: selectModel.value] forState:UIControlStateSelected];
             button.backgroundColor = self.bodyView.backgroundColor;
             button.selected = selectModel.selected;
+            button.enabled = selectModel.enable;
             if (selectModel.selected) [self.model.valueList addObject:[selectModel yy_modelToJSONObject]];
         }
     }
