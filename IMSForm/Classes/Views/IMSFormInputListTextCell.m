@@ -325,7 +325,7 @@
     contentL.textLayout = layout;
     CGFloat infoHeight = layout.textBoundingSize.height;
     
-    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.model.valueList.count > 0) ? 2 : 1) + 5;
+    CGFloat spacingHeight = self.model.cpnStyle.spacing * ((self.model.valueList.count > 0) ? 2 : 1) + 10;
     
     CGFloat buttonHeight = kIMSFormDefaultHeight;
     

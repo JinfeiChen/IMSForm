@@ -25,7 +25,7 @@
 //#import <MobileCoreServices/MobileCoreServices.h>
 #import <CoreServices/CoreServices.h>
 
-@implementation CJFFormTBImageUpload001CollectionViewCell
+@implementation CJFFormImageItemCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -282,7 +282,7 @@
 {
     
     if (indexPath.item == _selectedPhotos.count) {
-        CJFFormTBImageUpload001CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AlbumAddBtn" forIndexPath:indexPath];
+        CJFFormImageItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AlbumAddBtn" forIndexPath:indexPath];
         cell.imageView.image = [UIImage bundleImageWithNamed:@"AlbumAddBtn.png"];
         cell.videoImageView.hidden = YES;
         cell.deleteBtn.hidden = YES;
@@ -290,7 +290,7 @@
         return cell;
     }
     else {
-        CJFFormTBImageUpload001CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CJFFormTBImageUpload001CollectionViewCell class]) forIndexPath:indexPath];
+        CJFFormImageItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([CJFFormImageItemCell class]) forIndexPath:indexPath];
         cell.videoImageView.image = nil;
         cell.videoImageView.hidden = YES;
         cell.videoURL = nil;
@@ -580,8 +580,8 @@
         _collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         _collectionView.scrollEnabled = NO;
 
-        [_collectionView registerClass:[CJFFormTBImageUpload001CollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([CJFFormTBImageUpload001CollectionViewCell class])];
-        [_collectionView registerClass:[CJFFormTBImageUpload001CollectionViewCell class] forCellWithReuseIdentifier:@"AlbumAddBtn"];
+        [_collectionView registerClass:[CJFFormImageItemCell class] forCellWithReuseIdentifier:NSStringFromClass([CJFFormImageItemCell class])];
+        [_collectionView registerClass:[CJFFormImageItemCell class] forCellWithReuseIdentifier:@"AlbumAddBtn"];
     }
     return _collectionView;
 }
