@@ -83,8 +83,8 @@
     
     self.infoLabel.text = model.info;
     
-    self.bodyView.userInteractionEnabled = model.isEditable;
-    self.bodyView.backgroundColor = self.model.isEditable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
+    self.bodyView.userInteractionEnabled = model.isEnable;
+    self.bodyView.backgroundColor = self.model.isEnable ? kEnabledCellBodyBackgroundColor : kDisabledCellBodyBackgroundColor;
     
     IMSFormRadioModel *radioModel = (IMSFormRadioModel *)model;
     
@@ -123,7 +123,7 @@
                 [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 [button setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
                 [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-                button.backgroundColor = [UIColor whiteColor];
+                button.backgroundColor = [UIColor clearColor];
                 button.titleLabel.font = [UIFont systemFontOfSize:12];
                 
                 [self.bodyView addSubview:button];

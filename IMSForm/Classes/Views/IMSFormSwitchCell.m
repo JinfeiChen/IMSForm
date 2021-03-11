@@ -115,6 +115,7 @@
     
     // update default value
     self.mySwitch.on = [model.value intValue];
+    self.mySwitch.enabled = model.isEnable;
 }
 
 #pragma mark - Actions

@@ -139,6 +139,7 @@
     CGFloat value = MAX(model.value.floatValue, self.model.cpnConfig.min);
     value = MIN(value, self.model.cpnConfig.max);
     self.sliderView.value = value;
+    self.sliderView.enabled = model.isEnable;
 }
 
 #pragma mark - Actions
