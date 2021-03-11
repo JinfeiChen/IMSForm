@@ -331,6 +331,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.item == _selectedPhotos.count) { // 添加新照片或视频
+        if (!self.model.isEnable) {
+            return;
+        }
         TZImagePickerController *imagePickerVc = [self createTZImagePickerController];
         imagePickerVc.maxImagesCount = self.model.cpnConfig.maxImagesLimit - _selectedPhotos.count;
         imagePickerVc.isSelectOriginalPhoto = NO;
