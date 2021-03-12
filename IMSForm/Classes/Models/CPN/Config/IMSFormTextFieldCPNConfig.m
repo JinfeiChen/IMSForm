@@ -18,6 +18,7 @@
         _unit = @"";
         _prefixUnit = @"";
         _suffixUnit = @"";
+        _localize = NO;
     }
     return self;
 }

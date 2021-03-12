@@ -9,6 +9,7 @@
 #import <IMSForm/IMSFormManager.h>
 #import <IMSForm/IMSFormSelectView.h>
 #import <IMSForm/IMSPopupSingleSelectListView.h>
+#import <IMSForm/IMSFormLocalizeInputViewController.h>
 
 @interface IMSFormTextFieldCell () <UITextFieldDelegate>
 
@@ -20,6 +21,8 @@
 @property (strong, nonatomic) UIView *ctnView; /**< <#property#> */
 @property (strong, nonatomic) UILabel *prefixLabel; /**< <#property#> */
 @property (strong, nonatomic) UILabel *suffixLabel; /**< <#property#> */
+
+@property (strong, nonatomic) UIButton *localizeButton; /**< <#property#> */
 
 @end
 
@@ -128,6 +131,21 @@
 
 - (void)buildBodyViewSubViews
 {
+    // localize button
+    if (self.model.cpnConfig.localize) {
+        
+        if (![self.bodyView.subviews containsObject:self.localizeButton]) {
+            [self.bodyView addSubview:self.localizeButton];
+        }
+        [self.localizeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(kIMSFormDefaultHeight);
+            make.top.right.bottom.mas_equalTo(self.bodyView).offset(0);
+        }];
+        
+    } else {
+        [self.localizeButton removeFromSuperview];
+    }
+    
     // prefixView
     if (self.model.prefixModel) {
         if (![self.bodyView.subviews containsObject:self.prefixView]) {
@@ -149,7 +167,8 @@
             [self.bodyView addSubview:self.suffixView];
         }
         [self.suffixView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.bottom.mas_equalTo(self.bodyView);
+            make.top.bottom.mas_equalTo(self.bodyView);
+            make.right.mas_equalTo(self.model.cpnConfig.localize ? self.localizeButton.mas_left : self.bodyView);
             make.width.mas_lessThanOrEqualTo(100);
         }];
         [self.suffixView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
@@ -161,7 +180,11 @@
     [self.ctnView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self.bodyView);
         make.left.mas_equalTo(self.model.prefixModel ? self.prefixView.mas_right : self.bodyView).offset(0);
-        make.right.mas_equalTo(self.model.suffixModel ? self.suffixView.mas_left : self.bodyView).offset(0);
+        if (self.model.cpnConfig.localize) {
+            make.right.mas_equalTo(self.model.suffixModel ? self.suffixView.mas_left : self.localizeButton.mas_left).offset(0);
+        } else {
+            make.right.mas_equalTo(self.model.suffixModel ? self.suffixView.mas_left : self.bodyView).offset(0);
+        }
     }];
     
     if (self.model.cpnConfig.prefixUnit) {
@@ -300,6 +323,23 @@
     }
     
     [self layoutIfNeeded];
+}
+
+#pragma mark - Actions
+
+- (void)localizeButtonAction:(id)sender
+{
+    [self.textField endEditing:YES];
+    
+    IMSFormLocalizeInputViewController *vc = [[IMSFormLocalizeInputViewController alloc] init];
+    vc.dataSource = self.model.cpnConfig.localizeDatasource;
+    vc.saveBlock = ^(NSArray * _Nonnull outputDataSource) {
+        NSLog(@"%@", outputDataSource);
+        self.model.cpnConfig.localizeDatasource = outputDataSource;
+    };
+    [self.viewController presentViewController:vc animated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - Getters
@@ -449,6 +489,17 @@
         _ctnView = [[UIView alloc] init];
     }
     return _ctnView;
+}
+
+- (UIButton *)localizeButton
+{
+    if (!_localizeButton) {
+        _localizeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_localizeButton addTarget:self action:@selector(localizeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_localizeButton setImage:[UIImage bundleImageWithNamed:@"ic-earth"] forState:UIControlStateNormal];
+        [_localizeButton setBackgroundColor:[UIColor colorWithRed:255/255.0 green:194/255.0 blue:76/255.0 alpha:1.0]];
+    }
+    return _localizeButton;
 }
 
 @end

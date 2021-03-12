@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSInteger lengthLimit; /**< 文本最大输入长度限制, default 100 */
 @property (assign, nonatomic) NSInteger maxRowsLimit; /**< 文本最大行数输入限制 */
 
+@property (assign, nonatomic) BOOL localize; /**< 是否允许输入多语言文字 */
+@property (strong, nonatomic) NSArray *localizeDatasource; /**< [{"en-US":""},{"zh-Hant":""},...]] */
+
 @end
 
 NS_ASSUME_NONNULL_END

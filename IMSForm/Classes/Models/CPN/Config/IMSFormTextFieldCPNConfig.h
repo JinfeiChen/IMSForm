@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *prefixUnit; /**< 前置符号, e.g. $ */
 @property (copy, nonatomic) NSString *suffixUnit; /**< 后置符号, e.g. % */
 
+@property (assign, nonatomic) BOOL localize; /**< 是否允许输入多语言文字 */
+@property (strong, nonatomic) NSArray *localizeDatasource; /**< [{"en-US":""},{"zh-Hant":""},...]] */
 
 @end
 

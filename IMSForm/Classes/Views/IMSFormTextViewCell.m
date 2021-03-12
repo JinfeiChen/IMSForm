@@ -7,8 +7,11 @@
 
 #import "IMSFormTextViewCell.h"
 #import <IMSForm/IMSFormManager.h>
+#import <IMSForm/IMSFormLocalizeInputViewController.h>
 
 @interface IMSFormTextViewCell () <YYTextViewDelegate>
+
+@property (strong, nonatomic) UIButton *localizeButton; /**< <#property#> */
 
 @end
 
@@ -90,8 +93,25 @@
             make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
             make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         }];
+        
+        // localize button
+        if (self.model.cpnConfig.localize) {
+            
+            if (![self.bodyView.subviews containsObject:self.localizeButton]) {
+                [self.bodyView addSubview:self.localizeButton];
+            }
+            [self.localizeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(kIMSFormDefaultHeight);
+                make.top.right.bottom.mas_equalTo(self.bodyView).offset(0);
+            }];
+            
+        } else {
+            [self.localizeButton removeFromSuperview];
+        }
+        
         [self.textView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.bodyView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+            make.top.left.bottom.mas_equalTo(self.bodyView).offset(0);
+            make.right.mas_equalTo(self.model.cpnConfig.localize ? self.localizeButton.mas_left : self.bodyView).offset(0);
             make.height.mas_equalTo(100);
         }];
         [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -100,6 +120,7 @@
             make.bottom.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.bottom);
         }];
     }
+    
 }
 
 #pragma mark - Public Methods
@@ -185,6 +206,23 @@
 //    return newLength <= self.model.cpnConfig.lengthLimit || returnKey;
 //}
 
+#pragma mark - Actions
+
+- (void)localizeButtonAction:(id)sender
+{
+    [self.textView endEditing:YES];
+    
+    IMSFormLocalizeInputViewController *vc = [[IMSFormLocalizeInputViewController alloc] init];
+    vc.dataSource = self.model.cpnConfig.localizeDatasource;
+    vc.saveBlock = ^(NSArray * _Nonnull outputDataSource) {
+        NSLog(@"%@", outputDataSource);
+        self.model.cpnConfig.localizeDatasource = outputDataSource;
+    };
+    [self.viewController presentViewController:vc animated:YES completion:^{
+        
+    }];
+}
+
 #pragma mark - Getters
 
 - (YYTextView *)textView {
@@ -200,6 +238,17 @@
         _textView.placeholderText = @"Please enter";
     }
     return _textView;
+}
+
+- (UIButton *)localizeButton
+{
+    if (!_localizeButton) {
+        _localizeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_localizeButton addTarget:self action:@selector(localizeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_localizeButton setImage:[UIImage bundleImageWithNamed:@"ic-earth"] forState:UIControlStateNormal];
+        [_localizeButton setBackgroundColor:[UIColor colorWithRed:255/255.0 green:194/255.0 blue:76/255.0 alpha:1.0]];
+    }
+    return _localizeButton;
 }
 
 @end
