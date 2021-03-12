@@ -169,7 +169,9 @@
             self.endTextField.text = selectValue;
         }
         // 转换时间戳
-        self.model.value = [NSString stringWithFormat:@"%f;%f", [[NSDate pv_getDate:self.startTextField.text format:dateFormatStr] timeIntervalSince1970], [[NSDate pv_getDate:self.endTextField.text format:dateFormatStr] timeIntervalSince1970]];
+        NSString *startDateStr = self.startTextField.text;
+        NSString *endDateStr = self.endTextField.text.length ? self.endTextField.text : startDateStr;
+        self.model.value = [NSString stringWithFormat:@"%f;%f", [[NSDate pv_getDate:startDateStr format:dateFormatStr] timeIntervalSince1970], [[NSDate pv_getDate:endDateStr format:dateFormatStr] timeIntervalSince1970]];
         NSLog(@"%@", self.model.value);
         // call back
         if (self.didUpdateFormModelBlock) {
