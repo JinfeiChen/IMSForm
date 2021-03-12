@@ -218,7 +218,7 @@
 {
     _model = model;
     
-    self.textField.text = [NSString stringWithFormat:@"%@", model.label ? : @""];
+    self.textField.text = [NSString stringWithFormat:@"%@", model.value ? : @""];
     
     // prefix
     self.showPrefixView = (model.cpnConfig.prefixDataSource && model.cpnConfig.prefixDataSource.count > 0);
@@ -516,7 +516,10 @@
         }
     };
     cell.didEndEditingBlock = ^(UITextField *textField) {
-        cell.model.value = textField.text;
+        @strongify(self);
+        NSMutableDictionary *mModelDict = [NSMutableDictionary dictionaryWithDictionary:self.model.valueList[indexPath.row]];
+        [mModelDict setValue:textField.text forKey:@"value"];
+        [self.model.valueList replaceObjectAtIndex:indexPath.row withObject:mModelDict];
     };
     cell.didSelectedAtPrefixViewBlock = ^(id data) {
         @strongify(self);
