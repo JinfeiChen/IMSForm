@@ -7,6 +7,10 @@
 
 #import "IMSFormCPNConfig.h"
 
+@implementation IMSFormCPNIOConfig
+
+@end
+
 @implementation IMSFormCPNConfig
 
 @end

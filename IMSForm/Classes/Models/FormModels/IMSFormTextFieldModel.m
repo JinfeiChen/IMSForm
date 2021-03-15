@@ -9,6 +9,8 @@
 
 @implementation IMSFormTextFieldModel
 
+#pragma mark - Getters
+
 @synthesize cpnConfig = _cpnConfig;
 
 - (IMSFormTextFieldCPNConfig *)cpnConfig
