@@ -39,7 +39,7 @@
 
 - (NSArray *)dealDefualValue:(NSArray *)dataSource andFormSelectModel:(IMSFormSelect *)selectModel andHaveDataSource:(NSArray *)haveDataSource andValueListM:(NSMutableArray *)valueListM andTitleArrayM:(NSMutableArray *)titleArrayM andSubTip:(BOOL)subTip {
     
-    NSLog(@"{ selectModel==>%@,\n titleArrayM ==> %@}",selectModel,titleArrayM);
+//    NSLog(@"{ selectModel==>%@,\n titleArrayM ==> %@}",selectModel,titleArrayM);
     
     if (subTip && titleArrayM.count > 1) {
         [titleArrayM removeLastObject];

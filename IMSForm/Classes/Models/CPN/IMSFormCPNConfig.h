@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *fieldAddress; /**< <#property#> */
 @property (copy, nonatomic) NSString *fieldLatitude; /**< <#property#> */
 @property (copy, nonatomic) NSString *fieldLongitude; /**< <#property#> */
+@property (copy, nonatomic) NSString *fieldStartDate; /**< <#property#> */
+@property (copy, nonatomic) NSString *fieldEndDate; /**< <#property#> */
 
 @property (copy, nonatomic) NSString *sep; /**< type = string 时，用于多个值的连接（分隔）符号 */
 

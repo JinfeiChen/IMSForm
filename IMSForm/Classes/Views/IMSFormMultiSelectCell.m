@@ -45,7 +45,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    NSLog(@"keyPath = %@, object = %@", keyPath, object);
+//    NSLog(@"keyPath = %@, object = %@", keyPath, object);
     
     // TEMP: Test
     IMSPopupMultipleSelectListViewCellType type = [IMSFormTypeManager selectItemTypeWithType:self.model.cpnConfig.selectItemType multiple:YES];
