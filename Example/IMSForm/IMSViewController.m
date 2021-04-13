@@ -32,7 +32,7 @@
     [super viewDidLoad];
 
     [self.view addSubview:self.tableView];
-
+    
     // MARK: regist cell class
 //    @weakify(self);
 //    [self.form.dataSource enumerateObjectsUsingBlock:^(IMSFormModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
