@@ -16,7 +16,7 @@
 
 @implementation IMSDropView
 
-- (instancetype)init {
+- (instancetype)init { 
     if (self = [super init]) {
         self.frame = CGRectMake(0, -IMS_NAVIGATIONBAR_HEIGHT, IMS_SCREEN_WIDTH, IMS_NAVIGATIONBAR_HEIGHT);
         self.userInteractionEnabled = YES;
