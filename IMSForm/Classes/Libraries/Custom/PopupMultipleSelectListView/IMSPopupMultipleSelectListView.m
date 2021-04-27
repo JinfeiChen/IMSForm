@@ -90,6 +90,29 @@
     
     self.mainTableView.placeholderStyle = CJFTableViewPlaceholderStyle_Default;
     _cellType = cellType;
+    
+    // 数据分组处理
+    NSMutableArray *groupTitles = [NSMutableArray array];
+    for (int i = 0; i < dataArray.count; i++) {
+        NSDictionary *dict = dataArray[i];
+        [groupTitles addObject:[dict valueForKey:@"groupTitle"]];
+    }
+    groupTitles = [[[groupTitles valueForKeyPath:@"@distinctUnionOfObjects.self"] sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return [obj1 compare:obj2 options:NSNumericSearch];
+    }] copy]; //去重
+    if (groupTitles.count > 0) {
+        NSMutableArray *newDataArray = [NSMutableArray array];
+        for (NSString *title in groupTitles) {
+            NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
+            [mDict setValue:title forKey:@"groupTitle"];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.groupTitle == %@", title];
+            NSArray *result = [dataArray filteredArrayUsingPredicate:predicate];
+            [mDict setValue:result forKey:@"child"];
+            [newDataArray addObject:mDict];
+        }
+        dataArray = newDataArray;
+    }
+    
     _isGroup = [self isTwoDimensionArray:dataArray];
     
     switch (cellType) {
