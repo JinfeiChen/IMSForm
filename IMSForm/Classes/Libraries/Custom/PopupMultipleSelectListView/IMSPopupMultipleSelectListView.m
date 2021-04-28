@@ -95,7 +95,10 @@
     NSMutableArray *groupTitles = [NSMutableArray array];
     for (int i = 0; i < dataArray.count; i++) {
         NSDictionary *dict = dataArray[i];
-        [groupTitles addObject:[dict valueForKey:@"groupTitle"]];
+        NSString *groupTitle = [dict valueForKey:@"groupTitle"];
+        if (groupTitle) {
+            [groupTitles addObject:groupTitle];
+        }
     }
     groupTitles = [[[groupTitles valueForKeyPath:@"@distinctUnionOfObjects.self"] sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         return [obj1 compare:obj2 options:NSNumericSearch];
