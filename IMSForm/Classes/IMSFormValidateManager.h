@@ -12,6 +12,7 @@
 #import <IMSForm/IMSFormType.h>
 #import <IMSForm/IMSFormModel.h>
 #import <IMSForm/IMSDropHUD.h>
+#import <IMSForm/IMSFormManager+HUD.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

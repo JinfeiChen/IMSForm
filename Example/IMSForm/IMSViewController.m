@@ -401,6 +401,7 @@
         NSLog(@"%@", self.form.dataSource);
         if (!error) {
             NSLog(@"校验通过");
+            
             [IMSDropHUD showAlertWithType:IMSFormMessageType_Success message:@"Success"];
         } else {
             NSLog(@"校验未通过");
