@@ -8,6 +8,7 @@
 #import "IMSFormInputListTextCell.h"
 
 #import <IMSForm/IMSFormManager.h>
+#import <IMSForm/IMSFormManager+HUD.h>
 
 #define kFormTBMultiTextFieldItemHeight 40.0
 
@@ -361,7 +362,7 @@
     [self endEditing:YES];
     
     if (!self.textField.text || self.textField.text.length == 0) {
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please enter something first"];
+        [self.form showWarning:@"Please enter something first"];
         return;
     }
     

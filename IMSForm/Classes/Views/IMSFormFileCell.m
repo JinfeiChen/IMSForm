@@ -9,6 +9,7 @@
 
 #import <IMSForm/IMSFormManager.h>
 #import <IMSForm/IMSFormNetworking.h>
+#import <IMSForm/IMSFormManager+HUD.h>
 
 #define kFormTBFileRowHeight 35.0
 
@@ -196,7 +197,7 @@
     // MARK: 获取上传结果数据
     SEL selector = NSSelectorFromString(self.model.cpnConfig.fileUploadSelectorString);
     if (!selector) {
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Undeclared file upload method"];
+        [self.form showWarning:@"Undeclared file upload method"];
         return;
     }
     if (self.form.dataDelegate && [self.form.dataDelegate respondsToSelector:selector]) {
@@ -233,7 +234,7 @@
         [self.form.dataDelegate performSelector:selector withObject:fileData withObject:uploadBlock];
 
     } else {
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data file upload method"];
+        [self.form showWarning:@"Please implement the data file upload method"];
     }
 }
 

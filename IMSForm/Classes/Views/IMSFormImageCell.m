@@ -25,6 +25,8 @@
 //#import <MobileCoreServices/MobileCoreServices.h>
 #import <CoreServices/CoreServices.h>
 
+#import <IMSForm/IMSFormManager+HUD.h>
+
 @implementation CJFFormImageItemCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -492,7 +494,7 @@
     // MARK: 获取上传结果数据
     SEL selector = NSSelectorFromString(self.model.cpnConfig.imageUploadSelectorString);
     if (!selector) {
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Undeclared image upload method"];
+        [self.form showWarning:@"Undeclared image upload method"];
         return;
     }
     if (self.form.dataDelegate && [self.form.dataDelegate respondsToSelector:selector]) {
@@ -531,7 +533,7 @@
         [self.form.dataDelegate performSelector:selector withObject:photos withObject:uploadBlock];
         
     } else {
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data image upload method"];
+        [self.form showWarning:@"Please implement the data image upload method"];
     }
 }
 
