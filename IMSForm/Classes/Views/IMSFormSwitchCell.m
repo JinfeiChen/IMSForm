@@ -31,7 +31,7 @@
 
 - (void)buildView
 {
-    [self.contentView addSubview:self.titleLabel];
+    [self.bodyView addSubview:self.titleLabel];
     [self.contentView addSubview:self.infoLabel];
     [self.contentView addSubview:self.bodyView];
     [self.bodyView addSubview:self.mySwitch];
@@ -58,16 +58,36 @@
     
     CGFloat spacing = self.model.cpnStyle.spacing;
     // 只支持横向布局 IMSFormLayoutType_Horizontal
+//    [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.contentView).mas_offset(spacing);
+//        make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
+//        make.height.mas_equalTo(kIMSFormDefaultHeight);
+//    }];
+//    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top + 8);
+//        make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
+//        make.right.mas_equalTo(self.bodyView.mas_left).mas_offset(-self.model.cpnStyle.spacing);
+////        make.width.mas_lessThanOrEqualTo(150);
+//    }];
+//    [self.mySwitch mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.mas_equalTo(self.bodyView);
+//        if ([self.model.cpnStyle.bodyAlign isEqualToString:IMSFormBodyAlign_Left]) {
+//            make.left.mas_equalTo(self.bodyView).offset(spacing);
+//        } else {
+//            make.right.mas_equalTo(self.bodyView).offset(-spacing);
+//        }
+//    }];
+    
     [self.bodyView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentView).mas_offset(spacing);
+        make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top);
         make.right.mas_equalTo(self.contentView).mas_offset(-self.model.cpnStyle.contentInset.right);
         make.height.mas_equalTo(kIMSFormDefaultHeight);
+        make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
     }];
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.top + 8);
-        make.left.mas_equalTo(self.contentView).mas_offset(self.model.cpnStyle.contentInset.left);
-        make.right.mas_equalTo(self.bodyView.mas_left).mas_offset(-self.model.cpnStyle.spacing);
-        make.width.mas_lessThanOrEqualTo(150);
+        make.centerY.mas_equalTo(self.bodyView);
+        make.left.mas_equalTo(self.bodyView).mas_offset(self.model.cpnStyle.contentInset.left);
+        make.right.mas_equalTo(self.mySwitch.mas_left).mas_offset(-self.model.cpnStyle.spacing);
     }];
     [self.mySwitch mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.bodyView);
@@ -77,6 +97,7 @@
             make.right.mas_equalTo(self.bodyView).offset(-spacing);
         }
     }];
+    
     [self.titleLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self.infoLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.bodyView.mas_bottom).mas_offset(5);
