@@ -11,6 +11,7 @@
 #import <MapKit/MapKit.h>
 
 #import <IMSForm/IMSPopupSingleSelectListView.h>
+#import <IMSForm/IMSFormManager+HUD.h>
 
 // MARK: 自定义大头针
 //自定义 LPAnnotation
@@ -246,7 +247,7 @@
 
     if (![CLLocationManager locationServicesEnabled]) {
         NSLog(@"定位服务当前可能尚未打开，请设置打开！");
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:@"Location services may not be turned on at this time".ims_localizable];
+        [self.form showError:@"Location services may not be turned on at this time".ims_localizable];
         return;
     }
 
@@ -278,7 +279,7 @@
     [geocoder reverseGeocodeLocation:currLocation completionHandler:^(NSArray *_Nullable placemarks, NSError *_Nullable error) {
         if (error) {
             NSLog(@"查询失败");
-            [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:@"Search error".ims_localizable];
+            [self.form showError:@"Search error".ims_localizable];
         } else if (placemarks && placemarks.count > 0) {
             [self issueLocalSearchLookup:self.textField.text usingPlacemarksArray:placemarks];
         }
@@ -290,7 +291,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error;
 {
-    [IMSDropHUD showAlertWithType:IMSFormMessageType_Error message:@"Locating error".ims_localizable];
+    [self.form showError:@"Locating error".ims_localizable];
     self.searchButton.enabled = YES;
 }
 
@@ -462,7 +463,7 @@
 
     if (self.textField.text.length <= 0) {
         NSLog(@"please input some text first");
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please input some text first"];
+        [self.form showWarning:@"Please input some text first"];
         self.selectedMapItem = nil;
         [self reLocationUserLocation];
         return;

@@ -15,6 +15,7 @@
 
 #import <IMSForm/IMSFormManagerUIDelegate.h>
 #import <IMSForm/IMSFormManagerDataDelegate.h>
+#import <IMSForm/IMSFormHUDDelegate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
  inputSearch/imageUpload/fileUpload 组件的代理方法 搜索/图片上传/文件上传 都在此对象中实现
  */
 @property (weak, nonatomic) id<IMSFormManagerDataDelegate> dataDelegate;
+
+@property (weak, nonatomic) id<IMSFormHUDDelegate> hudDelegate; /**< <#property#> */
 
 @property (strong, nonatomic) UITableView *tableView; /**< <#property#> */
 @property (strong, nonatomic) NSArray <IMSFormModel *> *dataSource; /**< 表单数据源 */

@@ -8,6 +8,7 @@
 #import "IMSFormInputSearchCell.h"
 #import <IMSForm/IMSFormManager.h>
 #import <IMSForm/IMSPopupSingleSelectListView.h>
+#import <IMSForm/IMSFormManager+HUD.h>
 
 @interface IMSFormInputSearchCell () <UITextFieldDelegate>
 
@@ -248,7 +249,7 @@
     
     if (self.textField.text.length <= 0) {
         NSLog(@"please input some text first");
-        [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please input some text first"];
+        [self.form showWarning:@"Please input some text first"];
         return;
     }
     
@@ -278,7 +279,7 @@
         // MARK: 获取搜索结果数据
         SEL searchSelector = NSSelectorFromString(self.model.cpnConfig.searchSelectorString);
         if (!searchSelector) {
-            [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Undeclared search method"];
+            [self.form showWarning:@"Undeclared search method"];
             return;
         }
         if (self.form.dataDelegate && [self.form.dataDelegate respondsToSelector:searchSelector]) {
@@ -329,7 +330,7 @@
             [self.form.dataDelegate performSelector:searchSelector withObject:self.textField.text withObject:searchCompletedBlock];
             
         } else {
-            [IMSDropHUD showAlertWithType:IMSFormMessageType_Warning message:@"Please implement the data search method"];
+            [self.form showWarning:@"Please implement the data search method"];
         }
         
     }
